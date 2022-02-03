@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "288381575345",
+    "project_id": "poam-a8327",
+    "storage_bucket": "poam-a8327.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:288381575345:android:f30d3f48d9664a485ec290",
+        "android_client_info": {
+          "package_name": "com.poam.poam"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "288381575345-dk3qf05ibfviq6h2iq8h61qnflejtpm7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC--V6nuUaKWSOOEHEYCv8RhAYuVZ_8B8I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "288381575345-dk3qf05ibfviq6h2iq8h61qnflejtpm7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
