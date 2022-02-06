@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class PoamItem extends StatefulWidget {
 
-  final List? item;
+  final Map? item;
   const PoamItem({ Key? key, this.item }) : super(key: key);
 
   @override
@@ -16,13 +15,13 @@ class _PoamItemState extends State<PoamItem> {
   Widget build(BuildContext context) {
 
     final size = MediaQuery.of(context).size;
-    DateTime now = DateTime.now();
-    String formattedDate = DateFormat('dd.MM. | kk:mm').format(now);
+
+    bool isChecked = false;
 
     return Container(
 
       width: size.width,
-      padding: const EdgeInsets.only(left: 6, right: 6, top: 6, bottom: 6),
+      padding: const EdgeInsets.only(left: 6, right: 6, top: 3, bottom: 3),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         color: Colors.white
@@ -31,16 +30,45 @@ class _PoamItemState extends State<PoamItem> {
         children: [
 
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(widget.item!.elementAt(0).toString()),
-              const SizedBox(width: 10,),
-              Text(
-                formattedDate.toString(),
-                style: const TextStyle(
-                  fontSize: 11,
-                  color: Colors.deepPurpleAccent
-                ),
-              )
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(widget.item!["Title"]),
+                  const SizedBox(height: 1,),
+                  if (widget.item!["Anzahl"] != null) Text("Anzahl: " + widget.item!["Anzahl"].toString()),
+                  ShaderMask(
+                    shaderCallback: (Rect bounds) {
+                      return const RadialGradient(
+                        center: Alignment.topLeft,
+                        radius: 5,
+                        colors: <Color>[Colors.red, Colors.blue],
+                        tileMode: TileMode.mirror,
+                      ).createShader(bounds);
+                    },
+                    child: Text(
+                      widget.item!["Created"],
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+
+              Checkbox(
+                value: isChecked,
+                onChanged: (bool? value) {
+                  setState(() {
+                    isChecked = value!;
+                  });
+                },
+              ),
+
             ],
           ),
 

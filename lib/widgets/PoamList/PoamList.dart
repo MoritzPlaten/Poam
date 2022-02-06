@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:poam/widgets/PoamItem/PoamItem.dart';
 import 'package:poam/widgets/PoamMenu/PoamMenu.dart';
+import 'package:intl/intl.dart';
 
 class PoamList extends StatefulWidget {
   const PoamList({ Key? key }) : super(key: key);
@@ -17,20 +18,24 @@ class _PoamListState extends State<PoamList> {
     final size = MediaQuery.of(context).size;
     final List items = ["Einkaufliste", "Aufgabenliste"];
     final List itemsIcons = [Icons.fastfood_outlined, Icons.task_alt];
-    final List<List<List>> list = [
+
+    DateTime now = DateTime.now();
+    String formattedDate = DateFormat('dd.MM. | kk:mm').format(now);
+
+    final List<List<Map>> list = [
       [
-        ['Tomaten einkaufen', 3],
-        ['Chips einkaufen', 2],
-        ['Paprika einkaufen', 1],
-        ['Klopapier einkaufen', 4],
-        ['Gurken einkaufen', 5],
-        ['Möhren einkaufen', 3],
+        {"Title": "Tomaten einkaufen", "Anzahl": 3, "Created": formattedDate},
+        {"Title": "Chips einkaufen", "Anzahl": 2, "Created": formattedDate},
+        {"Title": "Paprika einkaufen", "Anzahl": 1, "Created": formattedDate},
+        {"Title": "Klopapier einkaufen", "Anzahl": 4, "Created": formattedDate},
+        {"Title": "Gurken einkaufen", "Anzahl": 5, "Created": formattedDate},
+        {"Title": "Möhren einkaufen", "Anzahl": 3, "Created": formattedDate},
       ],
       [
-        ['Einkaufen gehen'],
-        ['Zimmer aufräumen'],
-        ['Hausaufgaben machen'],
-        ['Garage putzen'],
+        {"Title": "Einkaufen gehen", "Created": formattedDate},
+        {"Title": "Zimmer aufräumen", "Created": formattedDate},
+        {"Title": "Hausaufgaben machen", "Created": formattedDate},
+        {"Title": "Garage putzen", "Created": formattedDate},
       ]
     ];
 

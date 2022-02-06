@@ -26,21 +26,19 @@ class _PoamMenuState extends State<PoamMenu> {
       padding: const EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
       margin: const EdgeInsets.only(top: 4, right: 2, left: 2, bottom: 6),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(20),
         color: Colors.white,
         boxShadow: [
           BoxShadow(
             color: Colors.grey.withOpacity(0.5),
             spreadRadius: 1,
             blurRadius: 3,
-            offset: Offset(0, 3), // changes position of shadow
+            offset: const Offset(0, 3), // changes position of shadow
           ),
         ],
       ),
-      child: ListView(
+      child: Column(
 
-        shrinkWrap: true,
-        padding: const EdgeInsets.all(10),
         children: [
 
           Row(
