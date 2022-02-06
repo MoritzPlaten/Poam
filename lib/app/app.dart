@@ -14,11 +14,9 @@ class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
 
-    return Scaffold(
-      body: Container(
-        child: const PoamList(),
-      ),
-      bottomNavigationBar: const PoamNavigationBar(),
+    return const Scaffold(
+      body: PoamList(),
+      //bottomNavigationBar: PoamNavigationBar(),
     );
   }
 }
