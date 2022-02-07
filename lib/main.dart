@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:poam/app/app.dart';
+import 'package:poam/pages/app.dart';
+import 'package:poam/services/itemServices/MenuService.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,7 +20,14 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const App(),
+      home: MultiProvider(
+        providers: [
+          ChangeNotifierProvider(
+            create: (_) => MenuService(),
+          ),
+        ],
+        child: const App(),
+      ),
     );
   }
 }

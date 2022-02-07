@@ -5,7 +5,7 @@ class PoamMenu extends StatefulWidget {
 
   final String? title;
   final IconData? iconData;
-  final List? items;
+  final Iterable<dynamic>? items;
 
   const PoamMenu({Key? key, this.title, this.iconData, this.items }) : super(key: key);
 
@@ -67,7 +67,8 @@ class _PoamMenuState extends State<PoamMenu> {
 
           for (var i = 0; i < widget.items!.length; i++) Center(
             child: PoamItem(
-              item: widget.items!.elementAt(i),
+              itemIndex: i,
+              itemModel: widget.items!.elementAt(i),
             ),
           ),
 

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:poam/widgets/PoamItem/PoamItem.dart';
+import 'package:poam/services/itemServices/MenuService.dart';
+import 'package:poam/services/itemServices/Objects/Category.dart';
 import 'package:poam/widgets/PoamMenu/PoamMenu.dart';
-import 'package:intl/intl.dart';
+import 'package:provider/src/provider.dart';
 
 class PoamList extends StatefulWidget {
   const PoamList({ Key? key }) : super(key: key);
@@ -16,28 +17,8 @@ class _PoamListState extends State<PoamList> {
   Widget build(BuildContext context) {
 
     final size = MediaQuery.of(context).size;
-    final List items = ["Einkaufliste", "Aufgabenliste"];
-    final List itemsIcons = [Icons.fastfood_outlined, Icons.task_alt];
-
-    DateTime now = DateTime.now();
-    String formattedDate = DateFormat('dd.MM. | kk:mm').format(now);
-
-    final List<List<Map>> list = [
-      [
-        {"Title": "Tomaten einkaufen", "Anzahl": 3, "Created": formattedDate},
-        {"Title": "Chips einkaufen", "Anzahl": 2, "Created": formattedDate},
-        {"Title": "Paprika einkaufen", "Anzahl": 1, "Created": formattedDate},
-        {"Title": "Klopapier einkaufen", "Anzahl": 4, "Created": formattedDate},
-        {"Title": "Gurken einkaufen", "Anzahl": 5, "Created": formattedDate},
-        {"Title": "Möhren einkaufen", "Anzahl": 3, "Created": formattedDate},
-      ],
-      [
-        {"Title": "Einkaufen gehen", "Created": formattedDate},
-        {"Title": "Zimmer aufräumen", "Created": formattedDate},
-        {"Title": "Hausaufgaben machen", "Created": formattedDate},
-        {"Title": "Garage putzen", "Created": formattedDate},
-      ]
-    ];
+    //Item Lists
+    List<dynamic> items = Provider.of<MenuService>(context).items;
 
     return SizedBox(
 
@@ -49,12 +30,17 @@ class _PoamListState extends State<PoamList> {
         padding: const EdgeInsets.all(10),
         children: [
 
-          for (var i = 0; i < items.length; i++) PoamMenu(
-            title: items.elementAt(i),
-            iconData: itemsIcons.elementAt(i),
-            items: list.elementAt(i),
+          PoamMenu(
+            title: displayTextCategory(Categories.tasks),
+            iconData: displayIconCategory(Categories.tasks),
+            items: items.where((element) => element.categories == Categories.tasks),
           ),
 
+          PoamMenu(
+            title: displayTextCategory(Categories.shopping),
+            iconData: displayIconCategory(Categories.shopping),
+            items: items.where((element) => element.categories == Categories.shopping),
+          ),
 
         ],
       ),
