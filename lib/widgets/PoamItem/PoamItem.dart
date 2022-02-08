@@ -18,13 +18,15 @@ class PoamItem extends StatefulWidget {
 class _PoamItemState extends State<PoamItem> {
 
   late MenuService menuService;
-
+  
   @override
   Widget build(BuildContext context) {
 
+    menuService = MenuService();
+
+    final sizeOfItem = Size(0,0);
     final size = MediaQuery.of(context).size;
     final primaryColor = Theme.of(context).colorScheme.primary;
-    menuService = MenuService();
 
     return Container(
 

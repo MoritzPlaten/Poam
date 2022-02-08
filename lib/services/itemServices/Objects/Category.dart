@@ -34,3 +34,7 @@ IconData displayIconCategory(Categories categories) {
 int numberOfCategories() {
   return Categories.values.length;
 }
+
+void openWindowOfCategory(Categories categories) {
+  print(categories);
+}

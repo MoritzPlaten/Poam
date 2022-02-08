@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:poam/services/itemServices/MenuService.dart';
 import 'package:poam/services/itemServices/Objects/Category.dart';
+import 'package:poam/widgets/PoamItem/PoamItem.dart';
 import 'package:poam/widgets/PoamMenu/PoamMenu.dart';
 import 'package:provider/src/provider.dart';
 
@@ -13,9 +14,11 @@ class PoamList extends StatefulWidget {
 
 class _PoamListState extends State<PoamList> {
 
+
   @override
   Widget build(BuildContext context) {
 
+    //size of the screen
     final size = MediaQuery.of(context).size;
     //Item Lists
     List<dynamic> items = Provider.of<MenuService>(context).items;
@@ -33,13 +36,17 @@ class _PoamListState extends State<PoamList> {
           PoamMenu(
             title: displayTextCategory(Categories.tasks),
             iconData: displayIconCategory(Categories.tasks),
-            items: items.where((element) => element.categories == Categories.tasks),
+            items: items.where((element) => element.categories == Categories.tasks).take(5),
+            isExistsMoreItems: items.where((element) => element.categories == Categories.tasks).length > 5 ? true : false,
+            numberOfItems: items.where((element) => element.categories == Categories.tasks).length,
           ),
 
           PoamMenu(
             title: displayTextCategory(Categories.shopping),
             iconData: displayIconCategory(Categories.shopping),
-            items: items.where((element) => element.categories == Categories.shopping),
+            items: items.where((element) => element.categories == Categories.shopping).take(5),
+            isExistsMoreItems: items.where((element) => element.categories == Categories.shopping).length > 5 ? true : false,
+            numberOfItems: items.where((element) => element.categories == Categories.shopping).length,
           ),
 
         ],
