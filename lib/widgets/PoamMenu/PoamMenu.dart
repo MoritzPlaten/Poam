@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:poam/pages/listpage.dart';
 import 'package:poam/services/itemServices/Objects/Category.dart';
 import 'package:poam/widgets/PoamItem/PoamItem.dart';
 
@@ -6,11 +7,12 @@ class PoamMenu extends StatefulWidget {
 
   final String? title;
   final IconData? iconData;
-  final Iterable<dynamic>? items;
+  final Iterable<dynamic>? onlyFiveItems;
   final bool? isExistsMoreItems;
+  final List<dynamic>? allItems;
   final int? numberOfItems;
 
-  const PoamMenu({Key? key, this.title, this.iconData, this.items, this.isExistsMoreItems, this.numberOfItems }) : super(key: key);
+  const PoamMenu({Key? key, this.title, this.iconData, this.onlyFiveItems, this.isExistsMoreItems, this.allItems, this.numberOfItems }) : super(key: key);
 
   @override
   _PoamMenuState createState() => _PoamMenuState();
@@ -21,10 +23,29 @@ class _PoamMenuState extends State<PoamMenu> {
   @override
   Widget build(BuildContext context) {
 
+    Color primaryColor = Theme.of(context).primaryColor;
     final size = MediaQuery.of(context).size;
 
     return GestureDetector(
-      onTap: () => openWindowOfCategory(widget.items?.first.categories),
+      onTap: () => {
+        setState(() {
+          if (widget.allItems!.isEmpty == false) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ListPage(
+                itemsModel: widget.allItems!,
+                category: widget.onlyFiveItems!.first.categories,
+              )),
+            );
+          } else {
+            final snackBar = SnackBar(
+              content: Text("Ihre " + widget.title! + " ist leer!"),
+              backgroundColor: primaryColor,
+            );
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          }
+        })
+      },
       child: Container(
 
         width: size.width,
@@ -70,10 +91,10 @@ class _PoamMenuState extends State<PoamMenu> {
               height: 10,
             ),
 
-            for (var i = 0; i < widget.items!.length; i++) Center(
+            for (var i = 0; i < widget.onlyFiveItems!.length; i++) Center(
               child: PoamItem(
                 itemIndex: i,
-                itemModel: widget.items!.elementAt(i),
+                itemModel: widget.onlyFiveItems!.elementAt(i),
               ),
             ),
 

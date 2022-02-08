@@ -26,7 +26,7 @@ class _PoamItemState extends State<PoamItem> {
 
     final sizeOfItem = Size(0,0);
     final size = MediaQuery.of(context).size;
-    final primaryColor = Theme.of(context).colorScheme.primary;
+    Color primaryColor = Theme.of(context).primaryColor;
 
     return Container(
 
@@ -59,8 +59,8 @@ class _PoamItemState extends State<PoamItem> {
                   if (widget.itemModel!.categories == Categories.shopping)
                   Text(
                       "Anzahl: " + widget.itemModel!.count!.toString(),
-                      style: const TextStyle(
-                          color: Colors.blue,
+                      style: TextStyle(
+                          color: primaryColor,
                           fontSize: 12,
                           fontWeight: FontWeight.bold
                       ),
@@ -70,8 +70,8 @@ class _PoamItemState extends State<PoamItem> {
                   if (widget.itemModel!.categories == Categories.tasks)
                   Text(
                     "Bis zum: " + widget.itemModel!.date!,
-                    style: const TextStyle(
-                      color: Colors.blue,
+                    style: TextStyle(
+                      color: primaryColor,
                       fontSize: 12,
                       fontWeight: FontWeight.bold
                     ),
@@ -81,7 +81,7 @@ class _PoamItemState extends State<PoamItem> {
 
             Checkbox(
               checkColor: Colors.white,
-              fillColor: MaterialStateProperty.all(Colors.blue),
+              fillColor: MaterialStateProperty.all(primaryColor),
               value: widget.itemModel!.isChecked!,
               onChanged: (bool? value) {
                 setState(() {

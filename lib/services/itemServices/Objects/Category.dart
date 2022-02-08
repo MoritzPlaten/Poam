@@ -12,7 +12,7 @@ String displayTextCategory(Categories categories) {
       displayTest = "Einkaufsliste";
       break;
     case Categories.tasks:
-      displayTest = "Aufgaben";
+      displayTest = "Aufgabenliste";
       break;
   }
   return displayTest;
@@ -33,8 +33,4 @@ IconData displayIconCategory(Categories categories) {
 
 int numberOfCategories() {
   return Categories.values.length;
-}
-
-void openWindowOfCategory(Categories categories) {
-  print(categories);
 }
