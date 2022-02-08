@@ -15,6 +15,7 @@ class _PoamFloatingButtonState extends State<PoamFloatingButton> {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
+      backgroundColor: Colors.blue.shade400,
       onPressed: () => {
         setState(() {
           //Add Items to the List

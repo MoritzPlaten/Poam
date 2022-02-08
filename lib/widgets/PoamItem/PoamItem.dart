@@ -19,23 +19,11 @@ class _PoamItemState extends State<PoamItem> {
 
   late MenuService menuService;
 
-  bool isChecked = false;
-  Color getColor(Set<MaterialState> states) {
-    const Set<MaterialState> interactiveStates = <MaterialState>{
-      MaterialState.pressed,
-      MaterialState.hovered,
-      MaterialState.focused,
-    };
-    if (states.any(interactiveStates.contains)) {
-      return Colors.blue;
-    }
-    return Colors.red;
-  }
-
   @override
   Widget build(BuildContext context) {
 
     final size = MediaQuery.of(context).size;
+    final primaryColor = Theme.of(context).colorScheme.primary;
     menuService = MenuService();
 
     return Container(
@@ -60,24 +48,24 @@ class _PoamItemState extends State<PoamItem> {
                   Text(widget.itemModel!.title!),
                   const SizedBox(height: 1,),
                   //Count should only displayed on the Category Shopping
-                  if (widget.itemModel!.categories == Categories.shopping) Text("Anzahl: " + widget.itemModel!.count!.toString()),
-
-                  ShaderMask(
-                    shaderCallback: (Rect bounds) {
-                      return const RadialGradient(
-                        center: Alignment.topLeft,
-                        radius: 5,
-                        colors: <Color>[Colors.red, Colors.blue],
-                        tileMode: TileMode.mirror,
-                      ).createShader(bounds);
-                    },
-                    child: Text(
-                      widget.itemModel!.date!,
+                  if (widget.itemModel!.categories == Categories.shopping)
+                  Text(
+                      "Anzahl: " + widget.itemModel!.count!.toString(),
                       style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 10,
-                        fontWeight: FontWeight.bold
+                          color: Colors.blue,
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold
                       ),
+                    ),
+
+
+                  if (widget.itemModel!.categories == Categories.tasks)
+                  Text(
+                    "Bis zum: " + widget.itemModel!.date!,
+                    style: const TextStyle(
+                      color: Colors.blue,
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold
                     ),
                   ),
                 ],
@@ -85,7 +73,7 @@ class _PoamItemState extends State<PoamItem> {
 
             Checkbox(
               checkColor: Colors.white,
-              fillColor: MaterialStateProperty.resolveWith(getColor),
+              fillColor: MaterialStateProperty.all(Colors.blue),
               value: widget.itemModel!.isChecked!,
               onChanged: (bool? value) {
                 setState(() {
