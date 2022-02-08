@@ -45,7 +45,13 @@ class _PoamItemState extends State<PoamItem> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
 
-                  Text(widget.itemModel!.title!),
+                  Text(
+                      widget.itemModel!.title!,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 15
+                    ),
+                  ),
                   const SizedBox(height: 1,),
                   //Count should only displayed on the Category Shopping
                   if (widget.itemModel!.categories == Categories.shopping)
