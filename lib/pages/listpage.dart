@@ -7,26 +7,31 @@ import 'package:provider/provider.dart';
 
 class ListPage extends StatefulWidget {
 
-  final List<dynamic>? itemsModel;
   final Categories? category;
 
-  const ListPage({Key? key, this.itemsModel, this.category }) : super(key: key);
+  const ListPage({Key? key, this.category }) : super(key: key);
 
   @override
   _ListPageState createState() => _ListPageState();
 }
 
 class _ListPageState extends State<ListPage> {
+
+
   @override
   Widget build(BuildContext context) {
+
+    List<dynamic> items = Provider.of<MenuService>(context).getItems;
+    Iterable categoryItems = items.where((element) => element.categories == widget.category!);
+
     return Scaffold(
       body: ListView(
         children: [
 
-          ///TODO: Items remove and add (At the moment there are problems)
-          for (int i = 0; i < widget.itemsModel!.length;i++) PoamItem(
+          ///TODO: Items are not the Same with the items from the start screen => because of the db
+          for (int i = 0; i < categoryItems.length;i++) PoamItem(
             itemIndex: i,
-            itemModel: widget.itemsModel![i],
+            itemModel: categoryItems.elementAt(i),
           ),
 
         ],

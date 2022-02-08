@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:poam/pages/listpage.dart';
+import 'package:poam/services/itemServices/MenuService.dart';
 import 'package:poam/services/itemServices/Objects/Category.dart';
 import 'package:poam/widgets/PoamItem/PoamItem.dart';
+import 'package:provider/provider.dart';
 
 class PoamMenu extends StatefulWidget {
 
@@ -32,10 +34,17 @@ class _PoamMenuState extends State<PoamMenu> {
           if (widget.allItems!.isEmpty == false) {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => ListPage(
-                itemsModel: widget.allItems!,
-                category: widget.onlyFiveItems!.first.categories,
-              )),
+              MaterialPageRoute(builder: (context) => MultiProvider(
+                providers: [
+                  ChangeNotifierProvider(
+                    create: (_) => MenuService(),
+                  ),
+                ],
+                child: ListPage(
+                  category: widget.onlyFiveItems!.first.categories,
+                ),
+              ),
+              ),
             );
           } else {
             final snackBar = SnackBar(

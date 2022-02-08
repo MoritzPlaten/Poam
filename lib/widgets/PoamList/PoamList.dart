@@ -21,7 +21,7 @@ class _PoamListState extends State<PoamList> {
     //size of the screen
     final size = MediaQuery.of(context).size;
     //Item Lists
-    List<dynamic> items = Provider.of<MenuService>(context).items;
+    List<dynamic> items = Provider.of<MenuService>(context).getItems;
 
     return SizedBox(
 
