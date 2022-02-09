@@ -13,10 +13,14 @@ class PoamFloatingButton extends StatefulWidget {
 }
 
 class _PoamFloatingButtonState extends State<PoamFloatingButton> {
+
   @override
   Widget build(BuildContext context) {
+
+    Color primaryColor = Theme.of(context).primaryColor;
+
     return FloatingActionButton(
-      backgroundColor: Colors.blue.shade400,
+      //backgroundColor: primaryColor,
       onPressed: () => {
         setState(() {
           //Add Items to the List
@@ -24,7 +28,23 @@ class _PoamFloatingButtonState extends State<PoamFloatingButton> {
           Provider.of<MenuService>(context, listen: false).addItem(ItemModel().setItemModel("Gurken holen", 1, false, Person(), Categories.shopping, "07/02/2022"));
         })
       },
-      child: const Icon(Icons.add),
+      child: Container(
+        width: 60,
+        height: 60,
+        child: const Icon(
+          Icons.add,
+          size: 25,
+        ),
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          gradient: RadialGradient(
+            radius: 0.8,
+            center: const Alignment(0.7, -0.6),
+            colors: [primaryColor, primaryColor.withRed(180).withBlue(140)],
+            stops: const [0.0, 0.9],
+          ),
+        ),
+      ),
     );
   }
 }

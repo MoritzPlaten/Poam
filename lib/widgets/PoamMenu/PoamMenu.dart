@@ -74,6 +74,8 @@ class _PoamMenuState extends State<PoamMenu> {
         ),
         child: Column(
 
+          ///TODO: Ein PoamDateItem erzeugen und alle Items die die gleichen Daten haben sollen in einer Liste
+
           children: [
 
             Row(
@@ -107,7 +109,33 @@ class _PoamMenuState extends State<PoamMenu> {
               ),
             ),
 
-            if (widget.isExistsMoreItems == true) Text("Und weitere " + (widget.numberOfItems! - 5).toString() + " Items"),
+            if (widget.isExistsMoreItems == true) Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+
+                Flexible(
+                  child: Divider(
+                    thickness: 1,
+                    color: Colors.grey.shade400,
+                    indent: 10,
+                    endIndent: 10,
+                  ),
+                ),
+
+                Text("Und weitere Elemente: " + (widget.numberOfItems! - 5).toString()),
+
+                Flexible(
+                  child: Divider(
+                    thickness: 1,
+                    color: Colors.grey.shade400,
+                    indent: 10,
+                    endIndent: 10,
+                  ),
+                ),
+
+              ],
+            ),
+            if (widget.allItems!.isEmpty == true) const Text("Es sind keine Items vorhanden!"),
 
           ],
         ),
