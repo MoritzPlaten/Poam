@@ -79,18 +79,28 @@ class _PoamItemState extends State<PoamItem> {
                 ],
               ),
 
-            Checkbox(
-              checkColor: Colors.white,
-              fillColor: MaterialStateProperty.all(primaryColor),
-              value: widget.itemModel!.isChecked!,
-              onChanged: (bool? value) {
-                setState(() {
-                  ///TODO: Remove Item
-                  widget.itemModel!.isChecked = value!;
-                  Provider.of<MenuService>(context, listen: false).removeItem(widget.itemModel!);
-                });
-              },
-            ),
+              ShaderMask(
+                shaderCallback: (Rect bounds) {
+                  return RadialGradient(
+                    center: Alignment.topLeft,
+                    radius: 1.0,
+                    colors: <Color>[primaryColor, primaryColor.withRed(180).withBlue(140)],
+                    tileMode: TileMode.mirror,
+                  ).createShader(bounds);
+                },
+                child: Checkbox(
+                  checkColor: Colors.white,
+                  fillColor: MaterialStateProperty.all(Colors.white),
+                  value: widget.itemModel!.isChecked!,
+                  onChanged: (bool? value) {
+                    setState(() {
+                      ///TODO: Remove Item
+                      widget.itemModel!.isChecked = value!;
+                      Provider.of<MenuService>(context, listen: false).removeItem(widget.itemModel!);
+                    });
+                  },
+                ),
+              ),
 
             ],
           ),
