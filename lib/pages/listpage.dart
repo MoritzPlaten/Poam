@@ -21,10 +21,19 @@ class _ListPageState extends State<ListPage> {
   @override
   Widget build(BuildContext context) {
 
+    Color primaryColor = Theme.of(context).primaryColor;
+    final size = MediaQuery.of(context).size;
+
     List<dynamic> items = Provider.of<MenuService>(context).getItems;
     Iterable categoryItems = items.where((element) => element.categories == widget.category!);
 
     return Scaffold(
+      appBar: AppBar(
+        title: Text(displayTextCategory(widget.category!)),
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
+        shadowColor: Colors.white,
+      ),
       body: ListView(
         padding: const EdgeInsets.all(15),
         children: [
@@ -33,6 +42,18 @@ class _ListPageState extends State<ListPage> {
           for (int i = 0; i < categoryItems.length;i++) PoamItem(
             itemIndex: i,
             itemModel: categoryItems.elementAt(i),
+          ),
+
+          if (categoryItems.isEmpty == true) Container(
+            width: size.width,
+            alignment: Alignment.center,
+            height: 50,
+            child: const Text(
+              "Die Liste ist leer!",
+              style: TextStyle(
+                fontSize: 16
+              ),
+            ),
           ),
 
         ],

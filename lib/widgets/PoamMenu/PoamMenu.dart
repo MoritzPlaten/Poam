@@ -138,7 +138,7 @@ class _PoamMenuState extends State<PoamMenu> {
             ),
             if (widget.allItems!.isEmpty == true) Container(
               padding: EdgeInsets.all(10),
-              child: const Text("Es sind keine Items vorhanden!"),
+              child: const Text("Die Liste ist leer!"),
             ),
 
           ],
