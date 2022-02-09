@@ -75,6 +75,7 @@ class _PoamMenuState extends State<PoamMenu> {
         child: Column(
 
           ///TODO: Ein PoamDateItem erzeugen und alle Items die die gleichen Daten haben sollen in einer Liste
+          ///TODO: Ein PoamPersonItem erzeugen und alle Items die indem PoamDateItem sind und diese dann nochmal in Personen aufteilt
 
           children: [
 
@@ -135,7 +136,10 @@ class _PoamMenuState extends State<PoamMenu> {
 
               ],
             ),
-            if (widget.allItems!.isEmpty == true) const Text("Es sind keine Items vorhanden!"),
+            if (widget.allItems!.isEmpty == true) Container(
+              padding: EdgeInsets.all(10),
+              child: const Text("Es sind keine Items vorhanden!"),
+            ),
 
           ],
         ),

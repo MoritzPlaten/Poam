@@ -26,6 +26,7 @@ class _ListPageState extends State<ListPage> {
 
     return Scaffold(
       body: ListView(
+        padding: const EdgeInsets.all(15),
         children: [
 
           ///TODO: Items are not the Same with the items from the start screen => because of the db
