@@ -10,7 +10,7 @@ class MenuService extends ChangeNotifier {
     ItemModel("Obst einkaufen", 2, false, Person(""), Categories.shopping, ""),
     ItemModel("Wäsche aufhängen", 0, false, Person("Moritz Platen"), Categories.tasks, "2021-12-12"),
     ItemModel("Kleider einkaufen", 1, false, Person(""), Categories.shopping, ""),
-    ItemModel("Zimmer aufräumen", 0, false, Person("Vivien Konderla"), Categories.tasks, "2021-12-11"),
+    ItemModel("Zimmer aufräumen", 0, false, Person("Peter Moritz"), Categories.tasks, "2021-12-11"),
   ];
 
   ///Remove the ItemModel from our db
