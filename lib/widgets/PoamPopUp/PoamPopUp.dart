@@ -98,7 +98,7 @@ class _PoamPopUpState extends State<PoamPopUp> {
                         onTap: () => {
                           setState(() {
                             if (titleTextFieldController.text != "") {
-                              Provider.of<MenuService>(context, listen: false).addItem(ItemModel().setItemModel(titleTextFieldController.text, 1, false, Person().setPersonModel("Moritz Platen"), Categories.tasks, "07/02/2022"));
+                              Provider.of<MenuService>(context, listen: false).addItem(ItemModel(titleTextFieldController.text, 1, false, Person("Moritz Platen"), Categories.tasks, "07/02/2022"));
                             }
                           })
                         },

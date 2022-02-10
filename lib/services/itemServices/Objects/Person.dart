@@ -1,11 +1,7 @@
 class Person {
 
-  String? Name;
+  String? name;
 
-  Person setPersonModel (String Name) {
-    Person itemModel = Person();
-    itemModel.Name = Name;
-    return itemModel;
-  }
+  Person(this.name);
 
 }

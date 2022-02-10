@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:poam/services/itemServices/MenuService.dart';
 import 'package:poam/services/itemServices/Objects/Category.dart';
-import 'package:poam/widgets/PoamItem/PoamItem.dart';
 import 'package:poam/widgets/PoamMenu/PoamMenu.dart';
 import 'package:provider/src/provider.dart';
 

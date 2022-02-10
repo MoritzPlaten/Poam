@@ -48,7 +48,7 @@ class _PoamItemState extends State<PoamItem> {
                 children: [
 
                   Text(
-                      widget.itemModel!.title!,
+                      widget.itemModel!.title,
                     style: const TextStyle(
                       fontWeight: FontWeight.w400,
                       fontSize: 15
@@ -58,7 +58,7 @@ class _PoamItemState extends State<PoamItem> {
                   //Count should only displayed on the Category Shopping
                   if (widget.itemModel!.categories == Categories.shopping)
                   Text(
-                      "Anzahl: " + widget.itemModel!.count!.toString(),
+                      "Anzahl: " + widget.itemModel!.count.toString(),
                       style: TextStyle(
                           color: primaryColor,
                           fontSize: 12,
@@ -69,7 +69,7 @@ class _PoamItemState extends State<PoamItem> {
 
                   if (widget.itemModel!.categories == Categories.tasks)
                   Text(
-                    "Bis zum: " + widget.itemModel!.date!,
+                    "Person: " + widget.itemModel!.person.name.toString(),
                     style: TextStyle(
                       color: primaryColor,
                       fontSize: 12,
@@ -91,7 +91,7 @@ class _PoamItemState extends State<PoamItem> {
                 child: Checkbox(
                   checkColor: Colors.white,
                   fillColor: MaterialStateProperty.all(Colors.white),
-                  value: widget.itemModel!.isChecked!,
+                  value: widget.itemModel!.isChecked,
                   onChanged: (bool? value) {
                     setState(() {
                       ///TODO: Remove Item

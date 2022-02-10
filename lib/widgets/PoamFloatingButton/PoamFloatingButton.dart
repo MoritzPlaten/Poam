@@ -26,8 +26,8 @@ class _PoamFloatingButtonState extends State<PoamFloatingButton> {
         setState(() {
 
           //####################### Its only for demonstrate, when the db is integrated this will be deleted
-          Provider.of<MenuService>(context, listen: false).addItem(ItemModel().setItemModel("Zimmer aufräumen", 1, false, Person().setPersonModel("Moritz Platen"), Categories.tasks, "07/02/2022"));
-          Provider.of<MenuService>(context, listen: false).addItem(ItemModel().setItemModel("Gurken holen", 1, false, Person(), Categories.shopping, "07/02/2022"));
+          Provider.of<MenuService>(context, listen: false).addItem(ItemModel("Zimmer aufräumen", 1, false, Person("Moritz Platen"), Categories.tasks, "2021-12-12"));
+          Provider.of<MenuService>(context, listen: false).addItem(ItemModel("Gurken holen", 1, false, Person(""), Categories.shopping, "2021-12-12"));
           //#######################
 
           Navigator.push(
