@@ -5,6 +5,7 @@ enum Categories {
   tasks
 }
 
+///Display the Category as String
 String displayTextCategory(Categories categories) {
   String displayTest = "";
   switch(categories) {
@@ -18,6 +19,7 @@ String displayTextCategory(Categories categories) {
   return displayTest;
 }
 
+///Display all Categories as List<String>
 List<String> displayAllCategories() {
   List<String> list = List.generate(Categories.values.length, (index) => "");
 
@@ -27,6 +29,7 @@ List<String> displayAllCategories() {
   return list;
 }
 
+///Display the Icon of every Category
 IconData displayIconCategory(Categories categories) {
   IconData iconData;
   switch(categories) {

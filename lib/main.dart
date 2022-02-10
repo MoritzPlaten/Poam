@@ -13,6 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    ///### MAIN APP ####
 
     return MaterialApp(
 
@@ -21,6 +22,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: Colors.lightBlue.shade800,
       ),
+      ///A Provider that refresh the Widgets
       home: MultiProvider(
         providers: [
           ChangeNotifierProvider(

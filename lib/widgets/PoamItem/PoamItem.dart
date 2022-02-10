@@ -18,16 +18,14 @@ class PoamItem extends StatefulWidget {
 
 class _PoamItemState extends State<PoamItem> {
 
-  late MenuService menuService;
+  late Color primaryColor;
   
   @override
   Widget build(BuildContext context) {
 
-    menuService = MenuService();
-
-    final sizeOfItem = Size(0,0);
+    ///initialize
     final size = MediaQuery.of(context).size;
-    Color primaryColor = Theme.of(context).primaryColor;
+    primaryColor = Theme.of(context).primaryColor;
 
     return Container(
 
@@ -37,10 +35,7 @@ class _PoamItemState extends State<PoamItem> {
         borderRadius: BorderRadius.circular(10),
         color: Colors.white
       ),
-      child: Column(
-        children: [
-
-          Row(
+      child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Column(
@@ -48,6 +43,7 @@ class _PoamItemState extends State<PoamItem> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
 
+                  ///Display the Item Title
                   Text(
                       widget.itemModel!.title,
                     style: GoogleFonts.ubuntu(
@@ -56,7 +52,8 @@ class _PoamItemState extends State<PoamItem> {
                     ),
                   ),
                   const SizedBox(height: 1,),
-                  //Count should only displayed on the Category Shopping
+
+                  ///Count should only displayed on the Category Shopping
                   if (widget.itemModel!.categories == Categories.shopping)
                   Text(
                       "Anzahl: " + widget.itemModel!.count.toString(),
@@ -67,7 +64,7 @@ class _PoamItemState extends State<PoamItem> {
                       ),
                     ),
 
-
+                  ///Person should only displayed when the Category Tasks is active
                   if (widget.itemModel!.categories == Categories.tasks)
                   Text(
                     "Person: " + widget.itemModel!.person.name.toString(),
@@ -80,6 +77,7 @@ class _PoamItemState extends State<PoamItem> {
                 ],
               ),
 
+              ///ShaderMask for the look
               ShaderMask(
                 shaderCallback: (Rect bounds) {
                   return RadialGradient(
@@ -105,10 +103,6 @@ class _PoamItemState extends State<PoamItem> {
 
             ],
           ),
-
-
-        ],
-      ),
 
     );
   }

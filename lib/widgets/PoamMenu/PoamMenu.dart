@@ -23,16 +23,22 @@ class PoamMenu extends StatefulWidget {
 
 class _PoamMenuState extends State<PoamMenu> {
 
+  late Color primaryColor;
+
   @override
   Widget build(BuildContext context) {
 
-    Color primaryColor = Theme.of(context).primaryColor;
+    ///initialize
+    primaryColor = Theme.of(context).primaryColor;
     final size = MediaQuery.of(context).size;
 
+    ///You can click on the PoamMenu, if it is empty it will show you a snack bar
     return GestureDetector(
       onTap: () => {
         setState(() {
+          ///It must exists Items
           if (widget.allItems!.isEmpty == false) {
+            ///Navigate
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => MultiProvider(
@@ -48,8 +54,14 @@ class _PoamMenuState extends State<PoamMenu> {
               ),
             );
           } else {
+            ///The Snackbar
             final snackBar = SnackBar(
-              content: Text("Ihre " + displayTextCategory(widget.categories!) + " ist leer!"),
+              content: Text(
+                "Ihre " + displayTextCategory(widget.categories!) + " ist leer!",
+                style: GoogleFonts.novaMono(
+                    fontSize: 12.5
+                ),
+              ),
               backgroundColor: primaryColor,
             );
             ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -82,6 +94,7 @@ class _PoamMenuState extends State<PoamMenu> {
             Row(
               children: [
 
+                ///The title of the menu
                 Text(
                   displayTextCategory(widget.categories!),
                   style: GoogleFonts.novaMono(
@@ -91,6 +104,7 @@ class _PoamMenuState extends State<PoamMenu> {
                 const SizedBox(
                   width: 10,
                 ),
+                ///The icon of the menu
                 Icon(
                   displayIconCategory(widget.categories!),
                   size: 18,
@@ -103,11 +117,13 @@ class _PoamMenuState extends State<PoamMenu> {
               height: 10,
             ),
 
+            ///All Items will packed in a PoamDateItem, which display the Date
             PoamDateItem(
               allItems: widget.onlyFiveItems!,
               category: widget.categories!,
             ),
 
+            ///When it exists more than the Items, than this will shows
             if (widget.isExistsMoreItems == true) Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -121,7 +137,12 @@ class _PoamMenuState extends State<PoamMenu> {
                   ),
                 ),
 
-                Text("Und weitere Elemente: " + (widget.numberOfItems! - 5).toString()),
+                Text(
+                  "Und weitere " + (widget.numberOfItems! - 5).toString() + " Elemente",
+                  style: GoogleFonts.novaMono(
+                    fontSize: 12.5
+                  ),
+                ),
 
                 Flexible(
                   child: Divider(
@@ -134,9 +155,15 @@ class _PoamMenuState extends State<PoamMenu> {
 
               ],
             ),
+            ///When the no items are there, this will shows
             if (widget.allItems!.isEmpty == true) Container(
-              padding: EdgeInsets.all(10),
-              child: Text("Die " + displayTextCategory(widget.categories!) + " ist leer!"),
+              padding: const EdgeInsets.all(10),
+              child: Text(
+                "Die " + displayTextCategory(widget.categories!) + " ist leer!",
+                style: GoogleFonts.novaMono(
+                  fontSize: 12.5
+                ),
+              ),
             ),
 
           ],

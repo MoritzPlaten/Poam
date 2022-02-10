@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:poam/services/itemServices/MenuService.dart';
+import 'package:poam/services/dateServices/DateService.dart';
 import 'package:poam/services/itemServices/Objects/Category.dart';
 import 'package:poam/widgets/PoamItem/PoamItem.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -17,18 +17,22 @@ class PoamDateItem extends StatefulWidget {
 
 class _PoamDateItemState extends State<PoamDateItem> {
 
-  late MenuService menuService;
+  late DateService dateService;
+  late List<String> dates;
+  late Color primaryColor;
 
   @override
   Widget build(BuildContext context) {
 
-    menuService = MenuService();
-    List<String> dates = menuService.getListOfAllDates(widget.allItems!);
-    Color primaryColor = Theme.of(context).primaryColor;
+    ///initialize
+    dateService = DateService();
+    dates = dateService.getListOfAllDates(widget.allItems!);
+    primaryColor = Theme.of(context).primaryColor;
 
     return Column(
       children: [
 
+        ///Display a Column, when the Category shopping is
         (widget.category! == Categories.shopping) ?
             Column(
               children: [
@@ -40,6 +44,7 @@ class _PoamDateItemState extends State<PoamDateItem> {
               ],
             )
             :
+            ///Display the Items with the Date
             Column(
               children: [
                 for(int k = 0;k < dates.length;k++)

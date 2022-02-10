@@ -15,8 +15,10 @@ class PoamLogin extends StatefulWidget {
 }
 
 class _PoamLoginState extends State<PoamLogin> {
+
   @override
   Widget build(BuildContext context) {
+
     return Center(
       child: Container(
 
@@ -26,6 +28,7 @@ class _PoamLoginState extends State<PoamLogin> {
         child: Column(
           children: [
 
+            ///Display the title
             Text(
               widget.Title!,
               style: const TextStyle(

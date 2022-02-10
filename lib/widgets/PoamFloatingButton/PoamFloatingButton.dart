@@ -7,7 +7,8 @@ import 'package:poam/widgets/PoamPopUp/PoamPopUp.dart';
 import 'package:provider/provider.dart';
 
 class PoamFloatingButton extends StatefulWidget {
-  const PoamFloatingButton({Key? key}) : super(key: key);
+
+  const PoamFloatingButton({Key? key }) : super(key: key);
 
   @override
   _PoamFloatingButtonState createState() => _PoamFloatingButtonState();
@@ -15,21 +16,24 @@ class PoamFloatingButton extends StatefulWidget {
 
 class _PoamFloatingButtonState extends State<PoamFloatingButton> {
 
+  late Color primaryColor;
+
   @override
   Widget build(BuildContext context) {
 
-    Color primaryColor = Theme.of(context).primaryColor;
+    ///initialize
+    primaryColor = Theme.of(context).primaryColor;
 
     return FloatingActionButton(
-      //backgroundColor: primaryColor,
       onPressed: () => {
         setState(() {
 
-          //####################### Its only for demonstrate, when the db is integrated this will be deleted
+          ///####################### Its only for demonstrate, when the db is integrated this will be deleted
           Provider.of<MenuService>(context, listen: false).addItem(ItemModel("Zimmer aufräumen", 1, false, Person("Moritz Platen"), Categories.tasks, "2021-12-12"));
           Provider.of<MenuService>(context, listen: false).addItem(ItemModel("Gurken holen", 1, false, Person(""), Categories.shopping, "2021-12-12"));
-          //#######################
+          ///#######################
 
+          ///Navigate to PoamPopUp and add a Provider
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => MultiProvider(

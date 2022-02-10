@@ -23,15 +23,16 @@ class _ListPageState extends State<ListPage> {
   @override
   Widget build(BuildContext context) {
 
-    Color primaryColor = Theme.of(context).primaryColor;
     final size = MediaQuery.of(context).size;
 
     List<dynamic> items = Provider.of<MenuService>(context).getItems;
     Iterable categoryItems = items.where((element) => element.categories == widget.category!);
 
     return Scaffold(
+
       appBar: AppBar(
         title: Text(
+          ///Display the Category
           displayTextCategory(widget.category!),
           style: GoogleFonts.novaMono(),
         ),
@@ -39,21 +40,21 @@ class _ListPageState extends State<ListPage> {
         foregroundColor: Colors.black,
         shadowColor: Colors.white,
       ),
+
       body: ListView(
         padding: const EdgeInsets.all(15),
         children: [
 
           ///TODO: Items are not the Same with the items from the start screen => because of the db
-          /*for (int i = 0; i < categoryItems.length;i++) PoamItem(
-            itemIndex: i,
-            itemModel: categoryItems.elementAt(i),
-          ), */
+          ///TODO: When you click on the FloatButton the DropdownButton should be display the correct value
 
+          ///All Items will packed in a PoamDateItem, which display the Date
           PoamDateItem(
             allItems: categoryItems,
             category: widget.category,
           ),
 
+          ///When no items are there
           if (categoryItems.isEmpty == true) Container(
             width: size.width,
             alignment: Alignment.center,

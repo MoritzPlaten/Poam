@@ -11,7 +11,7 @@ class LoginService {
 
   LoginService () {
 
-    //intialize
+    ///intialize
     auth = FirebaseAuth.instance;
   }
 

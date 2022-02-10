@@ -1,7 +1,3 @@
-import 'dart:convert';
-import 'dart:io';
-import 'package:path_provider/path_provider.dart';
-
 import 'package:flutter/cupertino.dart';
 import 'package:poam/services/itemServices/Objects/Category.dart';
 import 'package:poam/services/itemServices/Objects/ItemModel.dart';
@@ -17,42 +13,27 @@ class MenuService extends ChangeNotifier {
     ItemModel("Zimmer aufräumen", 0, false, Person("Vivien Konderla"), Categories.tasks, "2021-12-11"),
   ];
 
+  ///Remove the ItemModel from our db
   void removeItem(ItemModel item) {
 
     getItems.remove(item);
     notifyListeners();
   }
 
+  ///Add the ItemModel from our db
   void addItem(ItemModel item) {
 
     getItems.add(item);
     notifyListeners();
   }
 
+  ///Get the ItemModel by an index from the db
   ItemModel getItemByIndex(int index){
     return getItems.elementAt(index);
   }
 
+  ///Get the ItemModel by an title from our db
   Iterable getItemByTitle(String title){
     return getItems.where((element) => element.title == title);
-  }
-
-  List<String> getListOfAllDates(Iterable<dynamic> getItems) {
-    List<String> dates = List.generate(getItems.length, (index) => "");
-    for (int i = 0;i < dates.length; i++) {
-
-      if (!dates.contains(getItems.elementAt(i).date)) {
-        dates[i] = getItems.elementAt(i).date;
-      }
-    }
-    for (int i = 0;i < getItems.length; i++) {
-      dates.remove("");
-    }
-
-    dates.sort((a, b){ //sorting in ascending order
-      return DateTime.parse(a).compareTo(DateTime.parse(b));
-    });
-
-    return dates;
   }
 }

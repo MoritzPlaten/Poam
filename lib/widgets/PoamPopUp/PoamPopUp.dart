@@ -7,6 +7,7 @@ import 'package:poam/services/itemServices/Objects/Person.dart';
 import 'package:provider/provider.dart';
 
 class PoamPopUp extends StatefulWidget {
+
   const PoamPopUp({Key? key}) : super(key: key);
 
   @override
@@ -15,14 +16,17 @@ class PoamPopUp extends StatefulWidget {
 
 class _PoamPopUpState extends State<PoamPopUp> {
 
+  late Color primaryColor;
+  late TextEditingController titleTextFieldController;
   String dropdownValue = displayTextCategory(Categories.values.first);
 
   @override
   Widget build(BuildContext context) {
 
+    ///initialize
     final size = MediaQuery.of(context).size;
-    Color primaryColor = Theme.of(context).primaryColor;
-    TextEditingController titleTextFieldController = TextEditingController();
+    primaryColor = Theme.of(context).primaryColor;
+    titleTextFieldController = TextEditingController();
 
     return Scaffold(
       body: SizedBox(
@@ -40,6 +44,7 @@ class _PoamPopUpState extends State<PoamPopUp> {
                   child: Row(
                     children: [
 
+                      ///The close button
                       GestureDetector(
                         child: CircleAvatar(
                           backgroundColor: primaryColor,
@@ -72,6 +77,7 @@ class _PoamPopUpState extends State<PoamPopUp> {
 
                       const SizedBox(width: 20,),
 
+                      ///The check button
                       GestureDetector(
                         child: CircleAvatar(
                           backgroundColor: primaryColor,
@@ -108,6 +114,7 @@ class _PoamPopUpState extends State<PoamPopUp> {
                 )
             ),
 
+            ///The Form
             ListView(
               padding: const EdgeInsets.only(top: 60, right: 10, left: 10, bottom: 10),
               shrinkWrap: true,
@@ -135,7 +142,7 @@ class _PoamPopUpState extends State<PoamPopUp> {
                     isExpanded: true,
 
                     // The list of options
-                    items: displayAllCategories()
+                    items: displayAllCategories() /// Gets all Categories in a List<String>
                         .map((e) => DropdownMenuItem(
                       child: Container(
                         alignment: Alignment.centerLeft,
