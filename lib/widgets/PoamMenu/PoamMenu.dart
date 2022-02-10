@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:poam/pages/listpage.dart';
 import 'package:poam/services/itemServices/MenuService.dart';
@@ -7,14 +8,13 @@ import 'package:provider/provider.dart';
 
 class PoamMenu extends StatefulWidget {
 
-  final String? title;
-  final IconData? iconData;
   final Iterable<dynamic>? onlyFiveItems;
   final bool? isExistsMoreItems;
   final List<dynamic>? allItems;
   final int? numberOfItems;
+  final Categories? categories;
 
-  const PoamMenu({Key? key, this.title, this.iconData, this.onlyFiveItems, this.isExistsMoreItems, this.allItems, this.numberOfItems }) : super(key: key);
+  const PoamMenu({Key? key, this.onlyFiveItems, this.isExistsMoreItems, this.allItems, this.numberOfItems, this.categories }) : super(key: key);
 
   @override
   _PoamMenuState createState() => _PoamMenuState();
@@ -48,7 +48,7 @@ class _PoamMenuState extends State<PoamMenu> {
             );
           } else {
             final snackBar = SnackBar(
-              content: Text("Ihre " + widget.title! + " ist leer!"),
+              content: Text("Ihre " + displayTextCategory(widget.categories!) + " ist leer!"),
               backgroundColor: primaryColor,
             );
             ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -83,7 +83,7 @@ class _PoamMenuState extends State<PoamMenu> {
               children: [
 
                 Text(
-                  widget.title!,
+                  displayTextCategory(widget.categories!),
                   style: const TextStyle(
                       fontSize: 18
                   ),
@@ -92,7 +92,7 @@ class _PoamMenuState extends State<PoamMenu> {
                   width: 10,
                 ),
                 Icon(
-                  widget.iconData,
+                  displayIconCategory(widget.categories!),
                   size: 18,
                 ),
 
@@ -138,7 +138,7 @@ class _PoamMenuState extends State<PoamMenu> {
             ),
             if (widget.allItems!.isEmpty == true) Container(
               padding: EdgeInsets.all(10),
-              child: const Text("Die Liste ist leer!"),
+              child: Text("Die " + displayTextCategory(widget.categories!) + " ist leer!"),
             ),
 
           ],

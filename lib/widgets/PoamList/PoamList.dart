@@ -34,8 +34,7 @@ class _PoamListState extends State<PoamList> {
         children: [
 
           PoamMenu(
-            title: displayTextCategory(Categories.tasks),
-            iconData: displayIconCategory(Categories.tasks),
+            categories: Categories.tasks,
             onlyFiveItems: items.where((element) => element.categories == Categories.tasks).take(5),
             isExistsMoreItems: items.where((element) => element.categories == Categories.tasks).length > 5 ? true : false,
             allItems: items.where((element) => element.categories == Categories.tasks).toList(),
@@ -43,8 +42,7 @@ class _PoamListState extends State<PoamList> {
           ),
 
           PoamMenu(
-            title: displayTextCategory(Categories.shopping),
-            iconData: displayIconCategory(Categories.shopping),
+            categories: Categories.shopping,
             onlyFiveItems: items.where((element) => element.categories == Categories.shopping).take(5),
             isExistsMoreItems: items.where((element) => element.categories == Categories.shopping).length > 5 ? true : false,
             allItems: items.where((element) => element.categories == Categories.shopping).toList(),

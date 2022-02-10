@@ -30,19 +30,17 @@ class _PoamFloatingButtonState extends State<PoamFloatingButton> {
           Provider.of<MenuService>(context, listen: false).addItem(ItemModel().setItemModel("Gurken holen", 1, false, Person(), Categories.shopping, "07/02/2022"));
           //#######################
 
-          //Show Dialog to add items
-          showDialog(
-              context: context,
-              builder: (builder) {
-                return MultiProvider(
-                  providers: [
-                    ChangeNotifierProvider(
-                      create: (_) => MenuService(),
-                    ),
-                  ],
-                  child: const PoamPopUp(),
-                );
-              }
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => MultiProvider(
+              providers: [
+                ChangeNotifierProvider(
+                  create: (_) => MenuService(),
+                ),
+              ],
+              child: const PoamPopUp(),
+            )
+            ),
           );
 
         })

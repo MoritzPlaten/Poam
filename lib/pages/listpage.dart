@@ -48,9 +48,9 @@ class _ListPageState extends State<ListPage> {
             width: size.width,
             alignment: Alignment.center,
             height: 50,
-            child: const Text(
-              "Die Liste ist leer!",
-              style: TextStyle(
+            child: Text(
+              "Die " + displayTextCategory(widget.category!) + " ist leer!",
+              style: const TextStyle(
                 fontSize: 16
               ),
             ),

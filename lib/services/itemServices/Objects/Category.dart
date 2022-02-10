@@ -18,6 +18,15 @@ String displayTextCategory(Categories categories) {
   return displayTest;
 }
 
+List<String> displayAllCategories() {
+  List<String> list = List.generate(Categories.values.length, (index) => "");
+
+  for (int i = 0;i < list.length; i++) {
+    list[i] = displayTextCategory(Categories.values.elementAt(i));
+  }
+  return list;
+}
+
 IconData displayIconCategory(Categories categories) {
   IconData iconData;
   switch(categories) {
