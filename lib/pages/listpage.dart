@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:poam/services/itemServices/MenuService.dart';
 import 'package:poam/services/itemServices/Objects/Category.dart';
 import 'package:poam/widgets/PoamDateItem/PoamDateItem.dart';
@@ -30,7 +31,10 @@ class _ListPageState extends State<ListPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(displayTextCategory(widget.category!)),
+        title: Text(
+          displayTextCategory(widget.category!),
+          style: GoogleFonts.novaMono(),
+        ),
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
         shadowColor: Colors.white,

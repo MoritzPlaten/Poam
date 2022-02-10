@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:poam/services/itemServices/Objects/Category.dart';
 import 'package:poam/services/itemServices/Objects/ItemModel.dart';
 import 'package:poam/services/itemServices/MenuService.dart';
@@ -49,9 +50,9 @@ class _PoamItemState extends State<PoamItem> {
 
                   Text(
                       widget.itemModel!.title,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 15
+                    style: GoogleFonts.ubuntu(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 16.5
                     ),
                   ),
                   const SizedBox(height: 1,),
@@ -59,7 +60,7 @@ class _PoamItemState extends State<PoamItem> {
                   if (widget.itemModel!.categories == Categories.shopping)
                   Text(
                       "Anzahl: " + widget.itemModel!.count.toString(),
-                      style: TextStyle(
+                      style: GoogleFonts.kreon(
                           color: primaryColor,
                           fontSize: 12,
                           fontWeight: FontWeight.bold
@@ -70,10 +71,10 @@ class _PoamItemState extends State<PoamItem> {
                   if (widget.itemModel!.categories == Categories.tasks)
                   Text(
                     "Person: " + widget.itemModel!.person.name.toString(),
-                    style: TextStyle(
-                      color: primaryColor,
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold
+                    style: GoogleFonts.kreon(
+                        color: primaryColor,
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold
                     ),
                   ),
                 ],

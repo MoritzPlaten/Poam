@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:poam/services/itemServices/MenuService.dart';
 import 'package:poam/services/itemServices/Objects/Category.dart';
 import 'package:poam/widgets/PoamItem/PoamItem.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class PoamDateItem extends StatefulWidget {
 
@@ -60,11 +61,11 @@ class _PoamDateItemState extends State<PoamDateItem> {
 
                           Text(
                             "Datum: " + dates[k],
-                            style: TextStyle(
+                            style: GoogleFonts.novaMono(
                               fontSize: 11,
                               color: primaryColor,
                               fontWeight: FontWeight.bold,
-                            ),
+                            )
                           ),
 
                           Flexible(

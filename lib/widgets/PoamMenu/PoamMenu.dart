@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:poam/pages/listpage.dart';
 import 'package:poam/services/itemServices/MenuService.dart';
 import 'package:poam/services/itemServices/Objects/Category.dart';
@@ -83,7 +84,7 @@ class _PoamMenuState extends State<PoamMenu> {
 
                 Text(
                   displayTextCategory(widget.categories!),
-                  style: const TextStyle(
+                  style: GoogleFonts.novaMono(
                       fontSize: 18
                   ),
                 ),
