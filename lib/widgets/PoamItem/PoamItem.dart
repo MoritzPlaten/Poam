@@ -93,7 +93,6 @@ class _PoamItemState extends State<PoamItem> {
                   value: widget.itemModel!.isChecked,
                   onChanged: (bool? value) {
                     setState(() {
-                      ///TODO: Remove Item
                       widget.itemModel!.isChecked = value!;
                       Provider.of<MenuService>(context, listen: false).removeItem(widget.itemModel!);
                     });

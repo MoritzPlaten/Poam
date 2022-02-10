@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:poam/services/dateServices/DateService.dart';
 import 'package:poam/services/itemServices/Objects/Category.dart';
 import 'package:poam/widgets/PoamItem/PoamItem.dart';
@@ -65,7 +66,7 @@ class _PoamDateItemState extends State<PoamDateItem> {
                           ),
 
                           Text(
-                            "Datum: " + dates[k],
+                              DateFormat('dd.MM.yyyy').format(DateTime.parse(dates[k])),
                             style: GoogleFonts.novaMono(
                               fontSize: 11,
                               color: primaryColor,
