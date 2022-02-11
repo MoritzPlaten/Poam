@@ -3,9 +3,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:poam/pages/listpage.dart';
 import 'package:poam/services/itemServices/MenuService.dart';
 import 'package:poam/services/itemServices/Objects/Category.dart';
+import 'package:poam/widgets/PoamChart/PoamChart.dart';
 import 'package:poam/widgets/PoamDateItem/PoamDateItem.dart';
 import 'package:provider/provider.dart';
-import 'package:charts_flutter/flutter.dart' as charts;
 
 class PoamMenu extends StatefulWidget {
 
@@ -112,7 +112,7 @@ class _PoamMenuState extends State<PoamMenu> {
               ],
             ),
 
-
+            if (widget.categories! == Categories.tasks) const PoamChart(),
 
             const SizedBox(
               height: 10,
