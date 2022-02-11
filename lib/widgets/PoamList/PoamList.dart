@@ -34,22 +34,14 @@ class _PoamListState extends State<PoamList> {
 
           PoamMenu(
             categories: Categories.tasks,
-            ///the Items which will be display on start screen
-            onlyFiveItems: items.where((element) => element.categories == Categories.tasks).take(5),
-            isExistsMoreItems: items.where((element) => element.categories == Categories.tasks).length > 5 ? true : false,
             ///All items
             allItems: items.where((element) => element.categories == Categories.tasks).toList(),
-            numberOfItems: items.where((element) => element.categories == Categories.tasks).length,
           ),
 
           PoamMenu(
             categories: Categories.shopping,
-            ///the Items which will be display on start screen
-            onlyFiveItems: items.where((element) => element.categories == Categories.shopping).take(5),
-            isExistsMoreItems: items.where((element) => element.categories == Categories.shopping).length > 5 ? true : false,
             ///All items
             allItems: items.where((element) => element.categories == Categories.shopping).toList(),
-            numberOfItems: items.where((element) => element.categories == Categories.shopping).length,
           ),
 
         ],

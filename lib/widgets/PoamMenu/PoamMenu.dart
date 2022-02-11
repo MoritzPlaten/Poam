@@ -4,18 +4,15 @@ import 'package:poam/pages/listpage.dart';
 import 'package:poam/services/itemServices/MenuService.dart';
 import 'package:poam/services/itemServices/Objects/Category.dart';
 import 'package:poam/widgets/PoamDateItem/PoamDateItem.dart';
-import 'package:poam/widgets/PoamItem/PoamItem.dart';
 import 'package:provider/provider.dart';
+import 'package:charts_flutter/flutter.dart' as charts;
 
 class PoamMenu extends StatefulWidget {
 
-  final Iterable<dynamic>? onlyFiveItems;
-  final bool? isExistsMoreItems;
   final List<dynamic>? allItems;
-  final int? numberOfItems;
   final Categories? categories;
 
-  const PoamMenu({Key? key, this.onlyFiveItems, this.isExistsMoreItems, this.allItems, this.numberOfItems, this.categories }) : super(key: key);
+  const PoamMenu({Key? key, this.allItems, this.categories }) : super(key: key);
 
   @override
   _PoamMenuState createState() => _PoamMenuState();
@@ -31,6 +28,7 @@ class _PoamMenuState extends State<PoamMenu> {
     ///initialize
     primaryColor = Theme.of(context).primaryColor;
     final size = MediaQuery.of(context).size;
+    final numberOfItemsOnStartScreen = widget.categories == Categories.tasks ? 3 : 5;
 
     ///You can click on the PoamMenu, if it is empty it will show you a snack bar
     return GestureDetector(
@@ -48,7 +46,7 @@ class _PoamMenuState extends State<PoamMenu> {
                   ),
                 ],
                 child: ListPage(
-                  category: widget.onlyFiveItems!.first.categories,
+                  category: widget.allItems!.first.categories,
                 ),
               ),
               ),
@@ -88,6 +86,7 @@ class _PoamMenuState extends State<PoamMenu> {
         child: Column(
 
           ///TODO: Ein PoamPersonItem erzeugen und alle Items die indem PoamDateItem sind und diese dann nochmal in Personen aufteilt
+          ///TODO: Add Chart
 
           children: [
 
@@ -113,18 +112,20 @@ class _PoamMenuState extends State<PoamMenu> {
               ],
             ),
 
+
+
             const SizedBox(
               height: 10,
             ),
 
             ///All Items will packed in a PoamDateItem, which display the Date
             PoamDateItem(
-              allItems: widget.onlyFiveItems!,
+              allItems: widget.allItems!.take(numberOfItemsOnStartScreen),
               category: widget.categories!,
             ),
 
             ///When it exists more than the Items, than this will shows
-            if (widget.isExistsMoreItems == true) Row(
+            if ((widget.allItems!.length > numberOfItemsOnStartScreen) == true) Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
 
@@ -138,7 +139,7 @@ class _PoamMenuState extends State<PoamMenu> {
                 ),
 
                 Text(
-                  "Und weitere " + (widget.numberOfItems! - 5).toString() + " Elemente",
+                  "Und weitere " + (widget.allItems!.length - numberOfItemsOnStartScreen).toString() + " Elemente",
                   style: GoogleFonts.novaMono(
                     fontSize: 12.5
                   ),
