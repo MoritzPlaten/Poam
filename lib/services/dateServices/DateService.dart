@@ -1,4 +1,60 @@
+import 'package:flutter/material.dart';
+import 'package:charts_flutter/flutter.dart' as charts;
+import 'Objects/BartChartModel.dart';
+
 class DateService {
+
+  final List<BarChartModel> data = [
+    BarChartModel(
+      day: "Mon",
+      tasks: 3,
+      finishedTasks: 1,
+      color: charts.ColorUtil.fromDartColor
+        (const Color(0xFF47505F)),
+    ),
+    BarChartModel(
+      day: "Tue",
+      tasks: 2,
+      finishedTasks: 0,
+      color: charts.ColorUtil.fromDartColor
+        (Colors.red),
+    ),
+    BarChartModel(
+      day: "Wed",
+      tasks: 5,
+      finishedTasks: 1,
+      color: charts.ColorUtil.fromDartColor
+        (Colors.green),
+    ),
+    BarChartModel(
+      day: "Thurs",
+      tasks: 1,
+      finishedTasks: 0,
+      color: charts.ColorUtil.fromDartColor
+        (Colors.yellow),
+    ),
+    BarChartModel(
+      day: "Fr",
+      tasks: 0,
+      finishedTasks: 1,
+      color: charts.ColorUtil.fromDartColor
+        (Colors.lightBlueAccent),
+    ),
+    BarChartModel(
+      day: "Sat",
+      tasks: 3,
+      finishedTasks: 0,
+      color: charts.ColorUtil.fromDartColor
+        (Colors.pink),
+    ),
+    BarChartModel(
+      day: "Sun",
+      tasks: 1,
+      finishedTasks: 1,
+      color: charts.ColorUtil.fromDartColor
+        (Colors.purple),
+    ),
+  ];
 
   ///Gets the Date of the Monday in this week
   DateTime getMondayDate() {
