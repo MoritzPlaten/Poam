@@ -14,8 +14,13 @@ class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
 
-    return const Scaffold(
-      body: PoamList(),
+    double padding = MediaQuery.of(context).padding.top;
+
+    return Scaffold(
+      body: Padding(
+        padding: EdgeInsets.only(top: padding),
+        child: PoamList(),
+      ),
       floatingActionButton: PoamFloatingButton(),
     );
   }

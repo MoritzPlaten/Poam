@@ -87,10 +87,11 @@ class _PoamDateItemState extends State<PoamDateItem> {
                       ),
                       ///Adds all Items with the correct date to the element
                       for (int i = 0; i < widget.allItems!.length;i++)
-                        if (widget.allItems!.elementAt(i).date == dates[k]) PoamItem(
-                          itemIndex: i,
-                          itemModel: widget.allItems!.elementAt(i),
-                        ),
+                          if (widget.allItems!.elementAt(i).date == dates[k])
+                            PoamItem(
+                            itemIndex: i,
+                            itemModel: widget.allItems!.elementAt(i),
+                          ),
                     ],
                   )
               ],

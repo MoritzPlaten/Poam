@@ -38,7 +38,6 @@ class ChartService extends ChangeNotifier {
           measureFn: (BarChartModel series, _) => series.tasks,
           colorFn: (BarChartModel series, _) => charts.ColorUtil.fromDartColor(primaryColor.withGreen(240))),
     ]);
-    notifyListeners();
     return chartSeries.series;
   }
 

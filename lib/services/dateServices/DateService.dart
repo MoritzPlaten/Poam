@@ -42,7 +42,10 @@ class DateService {
 
   List<dynamic> sortItemsByDate(List<dynamic> items) {
     items.sort((a, b){
-      return a.date.compareTo(b.date);
+      var aDate = a.date;
+      var bDate = b.date;
+
+      return -aDate.compareTo(bDate);
     });
 
     return items;

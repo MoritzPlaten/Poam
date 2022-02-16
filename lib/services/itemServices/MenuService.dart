@@ -15,7 +15,7 @@ class MenuService extends ChangeNotifier {
     ItemModel("Zimmer aufräumen", 0, false, Person("Peter Moritz"), Categories.tasks, DateTime(2022, 2, 17)),
     ItemModel("Garage aufräumen", 0, false, Person("Moritz Platen"), Categories.tasks, DateTime(2022, 2, 19)),
     ItemModel("App programmieren", 0, false, Person("Moritz Platen"), Categories.tasks, DateTime(2022, 2, 17)),
-  ];
+  ].toList();
 
   ///Remove the ItemModel from our db
   void removeItem(ItemModel item) {
