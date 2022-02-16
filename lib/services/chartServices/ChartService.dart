@@ -21,8 +21,6 @@ class ChartService extends ChangeNotifier {
           ).length,
 
           finishedTasks: 1,
-          color: charts.ColorUtil.fromDartColor
-            (primaryColor),
         ),
     ]);
 
@@ -32,7 +30,13 @@ class ChartService extends ChangeNotifier {
           data: chartModel.barChartModels,
           domainFn: (BarChartModel series, _) => series.day!,
           measureFn: (BarChartModel series, _) => series.tasks,
-          colorFn: (BarChartModel series, _) => series.color!),
+          colorFn: (BarChartModel series, _) => charts.ColorUtil.fromDartColor(primaryColor)),
+      charts.Series(
+          id: "Tasks Done",
+          data: chartModel.barChartModels,
+          domainFn: (BarChartModel series, _) => series.day!,
+          measureFn: (BarChartModel series, _) => series.tasks,
+          colorFn: (BarChartModel series, _) => charts.ColorUtil.fromDartColor(primaryColor.withGreen(240))),
     ]);
     notifyListeners();
     return chartSeries.series;

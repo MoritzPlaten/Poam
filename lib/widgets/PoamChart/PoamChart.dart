@@ -36,7 +36,15 @@ class _PoamChartState extends State<PoamChart> {
 
     ///TODO: The chart should update
 
-    /*ChartModel chartModel = ChartModel([
+    return SizedBox(
+      width: size.width,
+      height: 250,
+      child: charts.BarChart(Provider.of<ChartService>(context, listen: false).getSeries(items, dateService, datesBetween, primaryColor), animate: true,),
+    );
+  }
+}
+
+/*ChartModel chartModel = ChartModel([
       for(int i = 0;i < datesBetween.length;i++)
         BarChartModel(
           day: dateService.displayDate(datesBetween.elementAt(i)),
@@ -60,11 +68,3 @@ class _PoamChartState extends State<PoamChart> {
           measureFn: (BarChartModel series, _) => series.tasks,
           colorFn: (BarChartModel series, _) => series.color!),
     ]);*/
-
-    return SizedBox(
-      width: size.width,
-      height: 250,
-      child: charts.BarChart(Provider.of<ChartService>(context, listen: false).getSeries(items, dateService, datesBetween, primaryColor), animate: true,),
-    );
-  }
-}
