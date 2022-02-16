@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:poam/services/itemServices/MenuService.dart';
 import 'package:poam/services/itemServices/Objects/Category.dart';
 import 'package:poam/services/itemServices/Objects/ItemModel.dart';
@@ -29,8 +30,8 @@ class _PoamFloatingButtonState extends State<PoamFloatingButton> {
         setState(() {
 
           ///####################### Its only for demonstrate, when the db is integrated this will be deleted
-          Provider.of<MenuService>(context, listen: false).addItem(ItemModel("Zimmer aufräumen", 1, false, Person("Moritz Platen"), Categories.tasks, "2021-12-12"));
-          Provider.of<MenuService>(context, listen: false).addItem(ItemModel("Gurken holen", 1, false, Person(""), Categories.shopping, "2021-12-12"));
+          Provider.of<MenuService>(context, listen: false).addItem(ItemModel("Zimmer aufräumen", 1, false, Person("Moritz Platen"), Categories.tasks, DateTime(0)));
+          Provider.of<MenuService>(context, listen: false).addItem(ItemModel("Gurken holen", 1, false, Person(""), Categories.shopping, DateTime(2022, 2, 12)));
           ///#######################
 
           ///Navigate to PoamPopUp and add a Provider

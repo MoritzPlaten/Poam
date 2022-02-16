@@ -112,7 +112,15 @@ class _PoamMenuState extends State<PoamMenu> {
               ],
             ),
 
-            if (widget.categories! == Categories.tasks) const PoamChart(),
+            if (widget.categories! == Categories.tasks)
+              MultiProvider(
+                providers: [
+                  ChangeNotifierProvider(
+                    create: (_) => MenuService(),
+                  ),
+                ],
+                child: const PoamChart(),
+              ),
 
             const SizedBox(
               height: 10,

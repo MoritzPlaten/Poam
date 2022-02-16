@@ -9,7 +9,7 @@ class ItemModel {
   bool isChecked;
   Person person;
   Categories categories;
-  String date;
+  DateTime date;
 
   ItemModel (this.title, this.count, this.isChecked, this.person, this.categories, this.date);
 

@@ -1,60 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
-import 'Objects/BartChartModel.dart';
+import 'package:intl/intl.dart';
+import '../chartServices/Objects/BartChartModel.dart';
 
 class DateService {
-
-  final List<BarChartModel> data = [
-    BarChartModel(
-      day: "Mon",
-      tasks: 3,
-      finishedTasks: 1,
-      color: charts.ColorUtil.fromDartColor
-        (const Color(0xFF47505F)),
-    ),
-    BarChartModel(
-      day: "Tue",
-      tasks: 2,
-      finishedTasks: 0,
-      color: charts.ColorUtil.fromDartColor
-        (Colors.red),
-    ),
-    BarChartModel(
-      day: "Wed",
-      tasks: 5,
-      finishedTasks: 1,
-      color: charts.ColorUtil.fromDartColor
-        (Colors.green),
-    ),
-    BarChartModel(
-      day: "Thurs",
-      tasks: 1,
-      finishedTasks: 0,
-      color: charts.ColorUtil.fromDartColor
-        (Colors.yellow),
-    ),
-    BarChartModel(
-      day: "Fr",
-      tasks: 0,
-      finishedTasks: 1,
-      color: charts.ColorUtil.fromDartColor
-        (Colors.lightBlueAccent),
-    ),
-    BarChartModel(
-      day: "Sat",
-      tasks: 3,
-      finishedTasks: 0,
-      color: charts.ColorUtil.fromDartColor
-        (Colors.pink),
-    ),
-    BarChartModel(
-      day: "Sun",
-      tasks: 1,
-      finishedTasks: 1,
-      color: charts.ColorUtil.fromDartColor
-        (Colors.purple),
-    ),
-  ];
 
   ///Gets the Date of the Monday in this week
   DateTime getMondayDate() {
@@ -71,8 +20,8 @@ class DateService {
   }
 
   ///Get a List of all dates
-  List<String> getListOfAllDates(Iterable<dynamic> getItems) {
-    List<String> dates = List.generate(getItems.length, (index) => "");
+  List<DateTime> getListOfAllDates(Iterable<dynamic> getItems) {
+    List<DateTime> dates = List.generate(getItems.length, (index) => DateTime(0));
     for (int i = 0;i < dates.length; i++) {
 
       if (!dates.contains(getItems.elementAt(i).date)) {
@@ -80,11 +29,11 @@ class DateService {
       }
     }
     for (int i = 0;i < getItems.length; i++) {
-      dates.remove("");
+      dates.remove(DateTime(0));
     }
 
     dates.sort((a, b){ //sorting in ascending order
-      return DateTime.parse(a).compareTo(DateTime.parse(b));
+      return a.compareTo(b);
     });
 
     return dates;
@@ -98,4 +47,7 @@ class DateService {
     return days;
   }
 
+  String displayDate(DateTime dateTime) {
+    return DateFormat.E().format(dateTime);
+  }
 }

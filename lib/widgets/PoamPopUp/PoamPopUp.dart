@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:poam/services/itemServices/MenuService.dart';
 import 'package:poam/services/itemServices/Objects/Category.dart';
 import 'package:poam/services/itemServices/Objects/ItemModel.dart';
@@ -104,7 +105,7 @@ class _PoamPopUpState extends State<PoamPopUp> {
                         onTap: () => {
                           setState(() {
                             if (titleTextFieldController.text != "") {
-                              Provider.of<MenuService>(context, listen: false).addItem(ItemModel(titleTextFieldController.text, 1, false, Person("Moritz Platen"), Categories.tasks, "07/02/2022"));
+                              Provider.of<MenuService>(context, listen: false).addItem(ItemModel(titleTextFieldController.text, 1, false, Person("Moritz Platen"), Categories.tasks, DateTime(2022, 2, 12)));
                             }
                           })
                         },

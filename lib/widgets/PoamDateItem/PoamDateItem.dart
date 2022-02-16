@@ -19,7 +19,7 @@ class PoamDateItem extends StatefulWidget {
 class _PoamDateItemState extends State<PoamDateItem> {
 
   late DateService dateService;
-  late List<String> dates;
+  late List<DateTime> dates;
   late Color primaryColor;
 
   @override
@@ -66,7 +66,7 @@ class _PoamDateItemState extends State<PoamDateItem> {
                           ),
 
                           Text(
-                              DateFormat('dd.MM.yyyy').format(DateTime.parse(dates[k])),
+                              DateFormat("dd.MM.yyyy").format(dates[k]),
                             style: GoogleFonts.novaMono(
                               fontSize: 11,
                               color: primaryColor,
