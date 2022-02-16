@@ -30,6 +30,14 @@ class _PoamDateItemState extends State<PoamDateItem> {
     dates = dateService.getListOfAllDates(widget.allItems!);
     primaryColor = Theme.of(context).primaryColor;
 
+    for (int k = 0; k < dates.length;k++) {
+      /*for (int i = 0; i < widget.allItems!.length;i++) {
+        if (widget.allItems!.elementAt(i).date == dates[k]) {
+          print(widget.allItems!.elementAt(i).date);
+        }
+      }*/
+    }
+
     return Column(
       children: [
 

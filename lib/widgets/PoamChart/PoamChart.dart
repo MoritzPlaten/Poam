@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:poam/services/chartServices/ChartService.dart';
 import 'package:poam/services/chartServices/Objects/ChartModel.dart';
 import 'package:poam/services/chartServices/Objects/ChartSeries.dart';
 import 'package:poam/services/dateServices/DateService.dart';
@@ -35,7 +36,7 @@ class _PoamChartState extends State<PoamChart> {
 
     ///TODO: The chart should update
 
-    ChartModel chartModel = ChartModel([
+    /*ChartModel chartModel = ChartModel([
       for(int i = 0;i < datesBetween.length;i++)
         BarChartModel(
           day: dateService.displayDate(datesBetween.elementAt(i)),
@@ -58,12 +59,12 @@ class _PoamChartState extends State<PoamChart> {
           domainFn: (BarChartModel series, _) => series.day!,
           measureFn: (BarChartModel series, _) => series.tasks,
           colorFn: (BarChartModel series, _) => series.color!),
-    ]);
+    ]);*/
 
     return SizedBox(
       width: size.width,
       height: 250,
-      child: charts.BarChart(chartSeries.series, animate: true,),
+      child: charts.BarChart(Provider.of<ChartService>(context, listen: false).getSeries(items, dateService, datesBetween, primaryColor), animate: true,),
     );
   }
 }

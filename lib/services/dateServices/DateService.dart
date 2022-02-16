@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:intl/intl.dart';
+import 'package:poam/services/itemServices/Objects/ItemModel.dart';
 import '../chartServices/Objects/BartChartModel.dart';
 
 class DateService {
@@ -37,6 +38,14 @@ class DateService {
     });
 
     return dates;
+  }
+
+  List<dynamic> sortItemsByDate(List<dynamic> items) {
+    items.sort((a, b){
+      return a.date.compareTo(b.date);
+    });
+
+    return items;
   }
 
   List<DateTime> getDaysInBetween(DateTime startDate, DateTime endDate) {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:poam/services/chartServices/ChartService.dart';
 import 'package:poam/services/itemServices/MenuService.dart';
 import 'package:poam/services/itemServices/Objects/Category.dart';
 import 'package:poam/services/itemServices/Objects/ItemModel.dart';
@@ -41,6 +42,9 @@ class _PoamFloatingButtonState extends State<PoamFloatingButton> {
               providers: [
                 ChangeNotifierProvider(
                   create: (_) => MenuService(),
+                ),
+                ChangeNotifierProvider(
+                  create: (_) => ChartService(),
                 ),
               ],
               child: const PoamPopUp(),

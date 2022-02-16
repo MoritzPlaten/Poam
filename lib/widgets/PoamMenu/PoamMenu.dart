@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:poam/pages/listpage.dart';
+import 'package:poam/services/chartServices/ChartService.dart';
 import 'package:poam/services/itemServices/MenuService.dart';
 import 'package:poam/services/itemServices/Objects/Category.dart';
 import 'package:poam/widgets/PoamChart/PoamChart.dart';
 import 'package:poam/widgets/PoamDateItem/PoamDateItem.dart';
 import 'package:provider/provider.dart';
+
+import '../../services/dateServices/DateService.dart';
 
 class PoamMenu extends StatefulWidget {
 
@@ -21,11 +24,13 @@ class PoamMenu extends StatefulWidget {
 class _PoamMenuState extends State<PoamMenu> {
 
   late Color primaryColor;
+  late DateService dateService;
 
   @override
   Widget build(BuildContext context) {
 
     ///initialize
+    dateService = DateService();
     primaryColor = Theme.of(context).primaryColor;
     final size = MediaQuery.of(context).size;
     final numberOfItemsOnStartScreen = widget.categories == Categories.tasks ? 3 : 5;
@@ -116,7 +121,7 @@ class _PoamMenuState extends State<PoamMenu> {
               MultiProvider(
                 providers: [
                   ChangeNotifierProvider(
-                    create: (_) => MenuService(),
+                    create: (_) => ChartService(),
                   ),
                 ],
                 child: const PoamChart(),
@@ -126,9 +131,9 @@ class _PoamMenuState extends State<PoamMenu> {
               height: 10,
             ),
 
-            ///All Items will packed in a PoamDateItem, which display the Date
+            ///All Items, which are sorted by date, will packed in a PoamDateItem, which display the Date
             PoamDateItem(
-              allItems: widget.allItems!.take(numberOfItemsOnStartScreen),
+              allItems: dateService.sortItemsByDate(widget.allItems!.toList()).take(numberOfItemsOnStartScreen),
               category: widget.categories!,
             ),
 
