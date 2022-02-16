@@ -91,7 +91,6 @@ class _PoamMenuState extends State<PoamMenu> {
         child: Column(
 
           ///TODO: Ein PoamPersonItem erzeugen und alle Items die indem PoamDateItem sind und diese dann nochmal in Personen aufteilt
-          ///TODO: Add Chart
 
           children: [
 
@@ -134,7 +133,6 @@ class _PoamMenuState extends State<PoamMenu> {
             ///All Items, which are sorted by date, will packed in a PoamDateItem, which display the Date
             PoamDateItem(
               allItems: dateService.sortItemsByDate(widget.allItems!.toList()).take(numberOfItemsOnStartScreen),
-              //allItems: widget.allItems!.toList().take(numberOfItemsOnStartScreen),
               category: widget.categories!,
             ),
 

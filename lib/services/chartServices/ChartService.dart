@@ -8,6 +8,9 @@ import 'Objects/ChartModel.dart';
 
 class ChartService extends ChangeNotifier {
 
+  ///TODO: rewrite
+  ///TODO: The chart should update
+
   List<charts.Series<dynamic, String>> getSeries(List<dynamic> items, DateService dateService, List<DateTime> datesBetween, Color primaryColor) {
 
     ChartModel chartModel = ChartModel([
@@ -40,5 +43,29 @@ class ChartService extends ChangeNotifier {
     ]);
     return chartSeries.series;
   }
-
 }
+
+/*ChartModel chartModel = ChartModel([
+      for(int i = 0;i < datesBetween.length;i++)
+        BarChartModel(
+          day: dateService.displayDate(datesBetween.elementAt(i)),
+
+          tasks: items.where((element) => (element.date.day == datesBetween.elementAt(i).day)
+              && (element.date.month == datesBetween.elementAt(i).month)
+              && (element.date.year == datesBetween.elementAt(i).year)
+          ).length,
+
+          finishedTasks: 1,
+          color: charts.ColorUtil.fromDartColor
+            (primaryColor),
+        ),
+    ]);
+
+    ChartSeries chartSeries = ChartSeries([
+      charts.Series(
+          id: "Tasks",
+          data: chartModel.barChartModels,
+          domainFn: (BarChartModel series, _) => series.day!,
+          measureFn: (BarChartModel series, _) => series.tasks,
+          colorFn: (BarChartModel series, _) => series.color!),
+    ]);*/

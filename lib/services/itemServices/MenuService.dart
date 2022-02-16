@@ -6,6 +6,7 @@ import 'package:poam/services/itemServices/Objects/Person.dart';
 
 class MenuService extends ChangeNotifier {
 
+  ///TODO: Make a hive db
   ///At the Moment the local db
   List<dynamic> getItems = [
     ItemModel("Obst einkaufen", 2, false, Person(""), Categories.shopping, DateTime(0)),
