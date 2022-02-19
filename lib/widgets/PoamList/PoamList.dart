@@ -16,15 +16,14 @@ class PoamList extends StatefulWidget {
 
 class _PoamListState extends State<PoamList> {
 
-  //late var items;
-
   @override
   Widget build(BuildContext context) {
 
     ///initialize
-    //context.watch<ItemModel>().getItems();
     final size = MediaQuery.of(context).size;
-    //items = Provider.of<ItemModel>(context, listen: false).itemModelList;
+
+    ///Update Items
+    context.watch<ItemModel>().getItems();
 
     return ValueListenableBuilder(
       valueListenable: Hive.box<ItemModel>("items_db").listenable(),

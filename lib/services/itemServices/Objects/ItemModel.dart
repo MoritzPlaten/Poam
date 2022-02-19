@@ -5,7 +5,6 @@ import 'package:hive/hive.dart';
 
 part 'ItemModel.g.dart';
 
-
 @HiveType(typeId: 0)
 class ItemModel extends ChangeNotifier {
 
@@ -37,7 +36,7 @@ class ItemModel extends ChangeNotifier {
   ///Remove the ItemModel from our db
   void removeItem(ItemModel item) async {
     var box = await Hive.openBox<ItemModel>('items_db');
-    box.deleteAt(_itemModelList.indexOf(item));
+    box.deleteAt(itemModelList.indexOf(item));
     notifyListeners();
   }
 
