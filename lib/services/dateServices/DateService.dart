@@ -40,13 +40,27 @@ class DateService {
     return dates;
   }
 
-  List<dynamic> sortItemsByDate(List<dynamic> items) {
+  List<dynamic> sortItemsByDate(List<ItemModel> items) {
     items.sort((a, b){
       var aDate = a.date;
       var bDate = b.date;
 
       return -aDate.compareTo(bDate);
     });
+
+    return items;
+  }
+
+  List<dynamic> sortItemsByDate2(List<ItemModel> items) {
+
+    for (int i = 0;i < items.length;i++) {
+      for (int k = 1; k < items.length - 1;k++) {
+        if (items.elementAt(i).date.compareTo(items.elementAt(k).date) > 0) {
+          items.insert(items.indexOf(items.elementAt(k)), items.elementAt(i));
+          items.insert(items.indexOf(items.elementAt(i)), items.elementAt(k));
+        }
+      }
+    }
 
     return items;
   }

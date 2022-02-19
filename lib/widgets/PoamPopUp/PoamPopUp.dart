@@ -1,7 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:poam/services/itemServices/MenuService.dart';
 import 'package:poam/services/itemServices/Objects/Category.dart';
 import 'package:poam/services/itemServices/Objects/ItemModel.dart';
 import 'package:poam/services/itemServices/Objects/Person.dart';
@@ -18,16 +15,19 @@ class PoamPopUp extends StatefulWidget {
 class _PoamPopUpState extends State<PoamPopUp> {
 
   late Color primaryColor;
-  late TextEditingController titleTextFieldController;
+  late TextEditingController titleTextFieldController = TextEditingController();
+  late TextEditingController numberTextFieldController = TextEditingController();
+  late TextEditingController personTextFieldController = TextEditingController();
+  late TextEditingController dateTextFieldController = TextEditingController();
   String dropdownValue = displayTextCategory(Categories.values.first);
 
   @override
   Widget build(BuildContext context) {
 
     ///initialize
+    context.watch<ItemModel>().getItems();
     final size = MediaQuery.of(context).size;
     primaryColor = Theme.of(context).primaryColor;
-    titleTextFieldController = TextEditingController();
 
     return Scaffold(
       body: SizedBox(
@@ -104,8 +104,12 @@ class _PoamPopUpState extends State<PoamPopUp> {
                         ),
                         onTap: () => {
                           setState(() {
+                            ///Add Item
                             if (titleTextFieldController.text != "") {
-                              Provider.of<MenuService>(context, listen: false).addItem(ItemModel(titleTextFieldController.text, 1, false, Person("Moritz Platen"), Categories.tasks, DateTime(2022, 2, 12)));
+                              Provider.of<ItemModel>(context, listen: false).addItem(ItemModel(titleTextFieldController.text, numberTextFieldController.text != "" ? int.parse(numberTextFieldController.text) : 0, false, personTextFieldController.text != "" ? Person(personTextFieldController.text) : Person(""), dropdownValue == "Aufgabenliste" ? Categories.tasks : Categories.shopping, DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)));
+                              Navigator.pop(context);
+                            } else {
+
                             }
                           })
                         },
@@ -186,7 +190,7 @@ class _PoamPopUpState extends State<PoamPopUp> {
 
                 if (dropdownValue == displayTextCategory(Categories.shopping))
                   TextField(
-                  controller: titleTextFieldController,
+                  controller: numberTextFieldController,
                   decoration: const InputDecoration(
                       labelText: 'Number',
                       contentPadding: EdgeInsets.all(10)
@@ -195,7 +199,7 @@ class _PoamPopUpState extends State<PoamPopUp> {
 
                 if (dropdownValue == displayTextCategory(Categories.tasks))
                   TextField(
-                    controller: titleTextFieldController,
+                    controller: personTextFieldController,
                     decoration: const InputDecoration(
                         labelText: 'Person',
                         contentPadding: EdgeInsets.all(10)
@@ -204,7 +208,7 @@ class _PoamPopUpState extends State<PoamPopUp> {
 
                 if (dropdownValue == displayTextCategory(Categories.tasks))
                   TextField(
-                    controller: titleTextFieldController,
+                    controller: dateTextFieldController,
                     decoration: const InputDecoration(
                         labelText: 'Datum',
                         contentPadding: EdgeInsets.all(10)

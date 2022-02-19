@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:poam/services/itemServices/MenuService.dart';
 import 'package:poam/services/itemServices/Objects/Category.dart';
+import 'package:poam/services/itemServices/Objects/ItemModel.dart';
 import 'package:poam/widgets/PoamDateItem/PoamDateItem.dart';
 import 'package:poam/widgets/PoamFloatingButton/PoamFloatingButton.dart';
-import 'package:poam/widgets/PoamItem/PoamItem.dart';
 import 'package:provider/provider.dart';
 
 class ListPage extends StatefulWidget {
@@ -24,8 +23,9 @@ class _ListPageState extends State<ListPage> {
   Widget build(BuildContext context) {
 
     final size = MediaQuery.of(context).size;
+    context.watch<ItemModel>().getItems();
 
-    List<dynamic> items = Provider.of<MenuService>(context).getItems;
+    List<ItemModel> items = Provider.of<ItemModel>(context).itemModelList as List<ItemModel>;
     Iterable categoryItems = items.where((element) => element.categories == widget.category!);
 
     return Scaffold(
@@ -50,8 +50,8 @@ class _ListPageState extends State<ListPage> {
 
           ///All Items will packed in a PoamDateItem, which display the Date
           PoamDateItem(
-            allItems: categoryItems,
-            category: widget.category,
+            allItems: categoryItems as Iterable<ItemModel>,
+            categories: widget.category,
           ),
 
           ///When no items are there

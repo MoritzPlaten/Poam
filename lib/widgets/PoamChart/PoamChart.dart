@@ -1,14 +1,12 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:poam/services/chartServices/ChartService.dart';
-import 'package:poam/services/chartServices/Objects/ChartModel.dart';
-import 'package:poam/services/chartServices/Objects/ChartSeries.dart';
 import 'package:poam/services/dateServices/DateService.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:poam/services/itemServices/Objects/Category.dart';
+import 'package:poam/services/itemServices/Objects/ItemModel.dart';
 import 'package:provider/provider.dart';
-import '../../services/chartServices/Objects/BartChartModel.dart';
-import '../../services/itemServices/MenuService.dart';
 
 class PoamChart extends StatefulWidget {
 
@@ -23,7 +21,6 @@ class _PoamChartState extends State<PoamChart> {
   late Color primaryColor;
   late DateService dateService;
   late List<DateTime> datesBetween;
-  late List<dynamic> items;
 
   @override
   Widget build(BuildContext context) {
@@ -32,12 +29,16 @@ class _PoamChartState extends State<PoamChart> {
     dateService = DateService();
     primaryColor = Theme.of(context).primaryColor;
     datesBetween = dateService.getDaysInBetween(dateService.getMondayDate(), dateService.getSundayDate());
-    items = Provider.of<MenuService>(context).getItems;
 
-    return SizedBox(
-      width: size.width,
-      height: 250,
-      child: charts.BarChart(Provider.of<ChartService>(context, listen: false).getSeries(items, dateService, datesBetween, primaryColor), animate: true,),
+    return ValueListenableBuilder(
+        valueListenable: Hive.box<ItemModel>("items_db").listenable(),
+        builder: (context, Box box, widget) {
+          return SizedBox(
+            width: size.width,
+            height: 250,
+            child: charts.BarChart(Provider.of<ChartService>(context, listen: false).getSeries(box.values.where((element) => element.categories == Categories.tasks).toList(), dateService, datesBetween, primaryColor), animate: true,),
+          );
+        }
     );
   }
 }

@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:poam/services/dateServices/DateService.dart';
 import 'package:poam/services/itemServices/Objects/Category.dart';
+import 'package:poam/services/itemServices/Objects/ItemModel.dart';
 import 'package:poam/widgets/PoamItem/PoamItem.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class PoamDateItem extends StatefulWidget {
 
-  final Iterable<dynamic>? allItems;
-  final Categories? category;
+  final Iterable<ItemModel>? allItems;
+  final Categories? categories;
 
-  const PoamDateItem({Key? key, this.allItems, this.category }) : super(key: key);
+  const PoamDateItem({Key? key, this.allItems, this.categories }) : super(key: key);
 
   @override
   _PoamDateItemState createState() => _PoamDateItemState();
@@ -34,7 +35,7 @@ class _PoamDateItemState extends State<PoamDateItem> {
       children: [
 
         ///Display a Column, when the Category shopping is
-        (widget.category! == Categories.shopping) ?
+        (widget.categories! == Categories.shopping) ?
             Column(
               children: [
                 for (int i = 0; i < widget.allItems!.length;i++)

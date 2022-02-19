@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:poam/pages/listpage.dart';
 import 'package:poam/services/chartServices/ChartService.dart';
-import 'package:poam/services/itemServices/MenuService.dart';
 import 'package:poam/services/itemServices/Objects/Category.dart';
+import 'package:poam/services/itemServices/Objects/ItemModel.dart';
+import 'package:poam/services/itemServices/Objects/Person.dart';
 import 'package:poam/widgets/PoamChart/PoamChart.dart';
 import 'package:poam/widgets/PoamDateItem/PoamDateItem.dart';
 import 'package:provider/provider.dart';
-
 import '../../services/dateServices/DateService.dart';
 
 class PoamMenu extends StatefulWidget {
 
-  final List<dynamic>? allItems;
+  final List<ItemModel>? allItems;
   final Categories? categories;
 
   const PoamMenu({Key? key, this.allItems, this.categories }) : super(key: key);
@@ -47,7 +47,7 @@ class _PoamMenuState extends State<PoamMenu> {
               MaterialPageRoute(builder: (context) => MultiProvider(
                 providers: [
                   ChangeNotifierProvider(
-                    create: (_) => MenuService(),
+                    create: (_) => ItemModel("", 0, false, Person(""), Categories.tasks, DateTime(0)),
                   ),
                 ],
                 child: ListPage(
@@ -130,10 +130,11 @@ class _PoamMenuState extends State<PoamMenu> {
               height: 10,
             ),
 
+            ///TODO: Sort items
             ///All Items, which are sorted by date, will packed in a PoamDateItem, which display the Date
             PoamDateItem(
-              allItems: dateService.sortItemsByDate(widget.allItems!.toList()).take(numberOfItemsOnStartScreen),
-              category: widget.categories!,
+              allItems: dateService.sortItemsByDate(widget.allItems!.toList()).take(numberOfItemsOnStartScreen) as Iterable<ItemModel>,
+              categories: widget.categories!,
             ),
 
             ///When it exists more than the Items, than this will shows

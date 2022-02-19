@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 
+part 'Category.g.dart';
+
+@HiveType(typeId: 2)
 enum Categories {
+  @HiveField(0)
   shopping,
+  @HiveField(1)
   tasks
 }
 

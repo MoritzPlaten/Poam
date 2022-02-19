@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:poam/services/itemServices/Objects/Category.dart';
 import 'package:poam/services/itemServices/Objects/ItemModel.dart';
-import 'package:poam/services/itemServices/MenuService.dart';
 import 'package:provider/provider.dart';
 
 class PoamItem extends StatefulWidget {
@@ -94,7 +93,7 @@ class _PoamItemState extends State<PoamItem> {
                   onChanged: (bool? value) {
                     setState(() {
                       widget.itemModel!.isChecked = value!;
-                      Provider.of<MenuService>(context, listen: false).removeItem(widget.itemModel!);
+                      Provider.of<ItemModel>(context, listen: false).removeItem(widget.itemModel!);
                     });
                   },
                 ),
