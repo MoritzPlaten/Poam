@@ -46,8 +46,6 @@ class _ListPageState extends State<ListPage> {
               padding: const EdgeInsets.all(15),
               children: [
 
-                ///TODO: Items are not the Same with the items from the start screen => because of the db
-
                 ///All Items will packed in a PoamDateItem, which display the Date
                 PoamDateItem(
                   allItems: box.values.where((element) => element.categories == widget.categories).toList() as List<ItemModel>,

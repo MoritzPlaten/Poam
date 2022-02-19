@@ -9,7 +9,6 @@ import 'Objects/ChartModel.dart';
 class ChartService extends ChangeNotifier {
 
   ///TODO: rewrite
-  ///TODO: The chart should update
 
   List<charts.Series<dynamic, String>> getSeries(List<dynamic> items, DateService dateService, List<DateTime> datesBetween, Color primaryColor) {
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:poam/services/itemServices/Objects/Category.dart';
 import 'package:poam/services/itemServices/Objects/ItemModel.dart';
 import 'package:poam/services/itemServices/Objects/Person.dart';
@@ -20,6 +21,7 @@ class _PoamPopUpState extends State<PoamPopUp> {
   late TextEditingController personTextFieldController = TextEditingController();
   late TextEditingController dateTextFieldController = TextEditingController();
   String dropdownValue = displayTextCategory(Categories.values.first);
+  int selectedDay = 0, selectedMonth = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -106,7 +108,7 @@ class _PoamPopUpState extends State<PoamPopUp> {
                           setState(() {
                             ///Add Item
                             if (titleTextFieldController.text != "") {
-                              Provider.of<ItemModel>(context, listen: false).addItem(ItemModel(titleTextFieldController.text, numberTextFieldController.text != "" ? int.parse(numberTextFieldController.text) : 0, false, personTextFieldController.text != "" ? Person(personTextFieldController.text) : Person(""), dropdownValue == "Aufgabenliste" ? Categories.tasks : Categories.shopping, DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)));
+                              Provider.of<ItemModel>(context, listen: false).addItem(ItemModel(titleTextFieldController.text, numberTextFieldController.text != "" ? int.parse(numberTextFieldController.text) : 0, false, personTextFieldController.text != "" ? Person(personTextFieldController.text) : Person(""), dropdownValue == "Aufgabenliste" ? Categories.tasks : Categories.shopping, DateTime(DateTime.now().year, selectedMonth, selectedDay)));
                               Navigator.pop(context);
                             } else {
 
@@ -128,11 +130,8 @@ class _PoamPopUpState extends State<PoamPopUp> {
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 15),
                   decoration: BoxDecoration(
-                    border: Border.all(
-                        width: 1,
-                        color: Colors.grey
-                    ),
-                    borderRadius: BorderRadius.circular(20),
+                    color: primaryColor.withGreen(140),
+                    borderRadius: BorderRadius.circular(10),
                   ),
                   child: DropdownButton<String>(
                     onChanged: (value) {
@@ -146,9 +145,8 @@ class _PoamPopUpState extends State<PoamPopUp> {
                     underline: Container(),
                     isExpanded: true,
 
-                    // The list of options
-                    items: displayAllCategories() /// Gets all Categories in a List<String>
-                        .map((e) => DropdownMenuItem(
+                    /// Gets all Categories in a List<String>
+                    items: displayAllCategories().map((e) => DropdownMenuItem(
                       child: Container(
                         alignment: Alignment.centerLeft,
                         child: Text(
@@ -157,22 +155,20 @@ class _PoamPopUpState extends State<PoamPopUp> {
                         ),
                       ),
                       value: e,
-                    ))
-                        .toList(),
+                    )).toList(),
 
                     // Customize the selected item
                     selectedItemBuilder: (BuildContext context) => displayAllCategories()
                         .map((e) => Center(
                       child: Text(
                         e,
-                        style: const TextStyle(
+                        style: GoogleFonts.kreon(
                             fontSize: 18,
-                            color: Colors.black,
-                            fontStyle: FontStyle.italic,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ))
-                        .toList(),
+                            color: Colors.white,
+                            fontWeight: FontWeight.w400
+                        ),
+                        ),
+                    )).toList(),
                   ),
                 ),
 
@@ -207,13 +203,46 @@ class _PoamPopUpState extends State<PoamPopUp> {
                   ),
 
                 if (dropdownValue == displayTextCategory(Categories.tasks))
-                  TextField(
-                    controller: dateTextFieldController,
-                    decoration: const InputDecoration(
-                        labelText: 'Datum',
-                        contentPadding: EdgeInsets.all(10)
-                    ),
-                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+
+                      Text("Day: "),
+
+                      DropdownButton(
+                        value: selectedDay,
+                        items: [
+                          for(int i = 0;i < 32;i++)
+                          DropdownMenuItem(
+                            child: Text(i.toString()),
+                            value: i,
+                          ),
+                        ],
+                        onChanged: (int? value) {
+                          setState(() {
+                            selectedDay = value!;
+                          });
+                        }),
+
+                      Text("Month: "),
+
+                      DropdownButton(
+                        value: selectedMonth,
+                        items: [
+                          for(int i = 0;i < 13;i++)
+                            DropdownMenuItem(
+                              child: Text(i.toString()),
+                              value: i,
+                            ),
+                        ],
+                        onChanged: (int? value) {
+                          setState(() {
+                            selectedMonth = value!;
+                          });
+                        }),
+
+                    ],
+                  )
 
               ],
             ),
