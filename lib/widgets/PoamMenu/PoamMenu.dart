@@ -47,7 +47,7 @@ class _PoamMenuState extends State<PoamMenu> {
               MaterialPageRoute(builder: (context) => MultiProvider(
                 providers: [
                   ChangeNotifierProvider(
-                    create: (_) => ItemModel("", 0, false, Person(""), Categories.tasks, DateTime(0)),
+                    create: (_) => ItemModel("", 0, false, Person(""), Categories.tasks, "#FFFFFF", DateTime(0)),
                   ),
                 ],
                 child: ListPage(
@@ -132,7 +132,7 @@ class _PoamMenuState extends State<PoamMenu> {
 
             ///All Items, which are sorted by date, will packed in a PoamDateItem, which display the Date
             PoamDateItem(
-              allItems: dateService.sortItemsByDate2(widget.allItems!.toList()).take(numberOfItemsOnStartScreen) as Iterable<ItemModel>,
+              allItems: dateService.sortItemsByDate(widget.allItems!.toList()).take(numberOfItemsOnStartScreen) as Iterable<ItemModel>,
               categories: widget.categories!,
             ),
 

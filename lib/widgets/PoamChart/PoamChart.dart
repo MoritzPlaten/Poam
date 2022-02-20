@@ -31,7 +31,7 @@ class _PoamChartState extends State<PoamChart> {
     datesBetween = dateService.getDaysInBetween(dateService.getMondayDate(), dateService.getSundayDate());
 
     return ValueListenableBuilder(
-        valueListenable: Hive.box<ItemModel>("items_db").listenable(),
+        valueListenable: Hive.box<ItemModel>("items_database").listenable(),
         builder: (context, Box box, widget) {
           return SizedBox(
             width: size.width,

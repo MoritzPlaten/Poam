@@ -24,6 +24,7 @@ class _ListPageState extends State<ListPage> {
   @override
   Widget build(BuildContext context) {
 
+    context.watch<ItemModel>().getItems();
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
@@ -40,7 +41,7 @@ class _ListPageState extends State<ListPage> {
       ),
 
       body: ValueListenableBuilder(
-          valueListenable: Hive.box<ItemModel>("items_db").listenable(),
+          valueListenable: Hive.box<ItemModel>("items_database").listenable(),
           builder: (context, Box box, _) {
             return ListView(
               padding: const EdgeInsets.all(15),

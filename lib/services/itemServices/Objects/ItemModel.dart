@@ -5,6 +5,7 @@ import 'package:hive/hive.dart';
 
 part 'ItemModel.g.dart';
 
+///TODO: Add Color for the PoamItem, for the decoration. the user can choose a color
 @HiveType(typeId: 0)
 class ItemModel extends ChangeNotifier {
 
@@ -19,15 +20,17 @@ class ItemModel extends ChangeNotifier {
   @HiveField(4)
   Categories categories;
   @HiveField(5)
+  String hex;
+  @HiveField(6)
   DateTime date;
 
-  ItemModel (this.title, this.count, this.isChecked, this.person, this.categories, this.date);
+  ItemModel (this.title, this.count, this.isChecked, this.person, this.categories, this.hex, this.date);
 
   List _itemModelList = <ItemModel>[];
   List get itemModelList => _itemModelList;
 
   void getItems() async {
-    final box = await Hive.openBox<ItemModel>('items_db');
+    final box = await Hive.openBox<ItemModel>('items_database');
 
     _itemModelList = box.values.toList();
     notifyListeners();
@@ -35,14 +38,14 @@ class ItemModel extends ChangeNotifier {
 
   ///Remove the ItemModel from our db
   void removeItem(ItemModel item) async {
-    var box = await Hive.openBox<ItemModel>('items_db');
+    var box = await Hive.openBox<ItemModel>('items_database');
     box.deleteAt(itemModelList.indexOf(item));
     notifyListeners();
   }
 
   ///Add the ItemModel from our db
   void addItem(ItemModel item) async {
-    var box = await Hive.openBox<ItemModel>('items_db');
+    var box = await Hive.openBox<ItemModel>('items_database');
 
     box.add(item);
     notifyListeners();

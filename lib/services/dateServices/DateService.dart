@@ -45,18 +45,6 @@ class DateService {
       var aDate = a.date;
       var bDate = b.date;
 
-      return -aDate.compareTo(bDate);
-    });
-
-    return items;
-  }
-
-  List<dynamic> sortItemsByDate2(List<ItemModel> items) {
-
-    items.sort((a, b){
-      var aDate = a.date;
-      var bDate = b.date;
-
       return aDate.compareTo(bDate);
     });
 

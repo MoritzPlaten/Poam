@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:poam/services/itemServices/Objects/Category.dart';
 import 'package:poam/services/itemServices/Objects/ItemModel.dart';
 import 'package:poam/services/itemServices/Objects/Person.dart';
 import 'package:provider/provider.dart';
+import 'package:flex_color_picker/flex_color_picker.dart';
 
 class PoamPopUp extends StatefulWidget {
 
@@ -31,95 +33,16 @@ class _PoamPopUpState extends State<PoamPopUp> {
     final size = MediaQuery.of(context).size;
     primaryColor = Theme.of(context).primaryColor;
 
+    Color screenPickerColor = Color(0xff443a49);
+
+    print(ColorToHex(screenPickerColor).hex);
+
     return Scaffold(
       body: SizedBox(
         height: size.height,
         child: Stack(
 
           children: [
-
-            Positioned(
-
-                bottom: 50,
-                right: size.width - (size.width / 2) -50,
-
-                child: Center(
-                  child: Row(
-                    children: [
-
-                      ///The close button
-                      GestureDetector(
-                        child: CircleAvatar(
-                          backgroundColor: primaryColor,
-                          child: Container(
-                            width: 60,
-                            height: 60,
-                            child: const Icon(
-                              Icons.close,
-                              color: Colors.white,
-                              size: 25,
-                            ),
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              boxShadow: const [BoxShadow(blurRadius: 10, color: Colors.grey, spreadRadius: 1)],
-                              gradient: RadialGradient(
-                                  radius: 0.9,
-                                  center: const Alignment(0.7, -0.6),
-                                  colors: [primaryColor, primaryColor.withRed(180).withBlue(140)],
-                                  stops: const [0.1, 0.8]
-                              ),
-                            ),
-                          ),
-                        ),
-                        onTap: () => {
-                          setState(() {
-                            Navigator.pop(context);
-                          })
-                        },
-                      ),
-
-                      const SizedBox(width: 20,),
-
-                      ///The check button
-                      GestureDetector(
-                        child: CircleAvatar(
-                          backgroundColor: primaryColor,
-                          child: Container(
-                            width: 60,
-                            height: 60,
-                            child: const Icon(
-                              Icons.check,
-                              color: Colors.white,
-                              size: 25,
-                            ),
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              boxShadow: const [BoxShadow(blurRadius: 10, color: Colors.grey, spreadRadius: 1)],
-                              gradient: RadialGradient(
-                                  radius: 0.9,
-                                  center: const Alignment(0.7, -0.6),
-                                  colors: [primaryColor, primaryColor.withRed(180).withBlue(140)],
-                                  stops: const [0.1, 0.8]
-                              ),
-                            ),
-                          ),
-                        ),
-                        onTap: () => {
-                          setState(() {
-                            ///Add Item
-                            if (titleTextFieldController.text != "") {
-                              Provider.of<ItemModel>(context, listen: false).addItem(ItemModel(titleTextFieldController.text, numberTextFieldController.text != "" ? int.parse(numberTextFieldController.text) : 0, false, personTextFieldController.text != "" ? Person(personTextFieldController.text) : Person(""), dropdownValue == "Aufgabenliste" ? Categories.tasks : Categories.shopping, DateTime(DateTime.now().year, selectedMonth, selectedDay)));
-                              Navigator.pop(context);
-                            } else {
-
-                            }
-                          })
-                        },
-                      ),
-                    ],
-                  ),
-                )
-            ),
 
             ///The Form
             ListView(
@@ -242,9 +165,148 @@ class _PoamPopUpState extends State<PoamPopUp> {
                         }),
 
                     ],
-                  )
+                  ),
+
+                ///TODO: Select Color, Change Color
+                if (dropdownValue == displayTextCategory(Categories.tasks))
+                  SizedBox(
+                    width: double.infinity,
+                    child: Padding(
+                      padding: const EdgeInsets.all(6),
+                      child: Card(
+                        elevation: 2,
+                        child: ColorPicker(
+                          // Use the screenPickerColor as start color.
+                          color: screenPickerColor,
+                          // Update the screenPickerColor using the callback.
+                          onColorChanged: (Color color) =>
+                              setState(() => screenPickerColor = color),
+                          width: 44,
+                          height: 44,
+                          borderRadius: 22,
+                          heading: Text(
+                            'Select color',
+                            style: Theme.of(context).textTheme.headline5,
+                          ),
+                          subheading: Text(
+                            'Select color shade',
+                            style: Theme.of(context).textTheme.subtitle1,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
 
               ],
+            ),
+
+
+            Positioned(
+
+                bottom: 50,
+                right: size.width - (size.width / 2) -50,
+
+                child: Center(
+                  child: Row(
+                    children: [
+
+                      ///The close button
+                      GestureDetector(
+                        child: CircleAvatar(
+                          backgroundColor: primaryColor,
+                          child: Container(
+                            width: 60,
+                            height: 60,
+                            child: const Icon(
+                              Icons.close,
+                              color: Colors.white,
+                              size: 25,
+                            ),
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              boxShadow: const [BoxShadow(blurRadius: 10, color: Colors.grey, spreadRadius: 1)],
+                              gradient: RadialGradient(
+                                  radius: 0.9,
+                                  center: const Alignment(0.7, -0.6),
+                                  colors: [primaryColor, primaryColor.withRed(180).withBlue(140)],
+                                  stops: const [0.1, 0.8]
+                              ),
+                            ),
+                          ),
+                        ),
+                        onTap: () => {
+                          setState(() {
+                            Navigator.pop(context);
+                          })
+                        },
+                      ),
+
+                      const SizedBox(width: 20,),
+
+                      ///The check button
+                      GestureDetector(
+                        child: CircleAvatar(
+                          backgroundColor: primaryColor,
+                          child: Container(
+                            width: 60,
+                            height: 60,
+                            child: const Icon(
+                              Icons.check,
+                              color: Colors.white,
+                              size: 25,
+                            ),
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              boxShadow: const [BoxShadow(blurRadius: 10, color: Colors.grey, spreadRadius: 1)],
+                              gradient: RadialGradient(
+                                  radius: 0.9,
+                                  center: const Alignment(0.7, -0.6),
+                                  colors: [primaryColor, primaryColor.withRed(180).withBlue(140)],
+                                  stops: const [0.1, 0.8]
+                              ),
+                            ),
+                          ),
+                        ),
+                        onTap: () => {
+                          setState(() {
+                            ///Add Item
+                            if (titleTextFieldController.text != "") {
+                              ///TODO: can add task today
+                              if (DateTime(DateTime.now().year, selectedMonth, selectedDay, DateTime.now().hour, DateTime.now().minute, DateTime.now().second).compareTo(DateTime.now()) >= 0) {
+                                Provider.of<ItemModel>(context, listen: false).addItem(ItemModel(titleTextFieldController.text, numberTextFieldController.text != "" ? int.parse(numberTextFieldController.text) : 0, false, personTextFieldController.text != "" ? Person(personTextFieldController.text) : Person(""), dropdownValue == "Aufgabenliste" ? Categories.tasks : Categories.shopping, ColorToHex(screenPickerColor).hex, DateTime(DateTime.now().year, selectedMonth, selectedDay)));
+                                Navigator.pop(context);
+                              } else {
+
+                                final snackBar = SnackBar(
+                                  content: Text(
+                                    "Sie keine Aufgaben erstellen in der Vergangenheit!",
+                                    style: GoogleFonts.novaMono(
+                                        fontSize: 12.5
+                                    ),
+                                  ),
+                                  backgroundColor: primaryColor,
+                                );
+                                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                              }
+                            } else {
+
+                              final snackBar = SnackBar(
+                                content: Text(
+                                  "Geben Sie ein Title ein!",
+                                  style: GoogleFonts.novaMono(
+                                      fontSize: 12.5
+                                  ),
+                                ),
+                                backgroundColor: primaryColor,
+                              );
+                              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                            }
+                          })
+                        },
+                      ),
+                    ],
+                  ),
+                )
             ),
 
           ],

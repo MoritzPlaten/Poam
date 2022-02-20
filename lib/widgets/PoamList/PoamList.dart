@@ -26,7 +26,7 @@ class _PoamListState extends State<PoamList> {
     context.watch<ItemModel>().getItems();
 
     return ValueListenableBuilder(
-      valueListenable: Hive.box<ItemModel>("items_db").listenable(),
+      valueListenable: Hive.box<ItemModel>("items_database").listenable(),
       builder: (context, Box box, widget) {
         return SizedBox(
 

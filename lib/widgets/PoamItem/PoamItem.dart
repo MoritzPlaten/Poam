@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:poam/services/itemServices/Objects/Category.dart';
 import 'package:poam/services/itemServices/Objects/ItemModel.dart';
 import 'package:provider/provider.dart';
+import 'package:hexcolor/hexcolor.dart';
 
 class PoamItem extends StatefulWidget {
 
@@ -37,42 +38,61 @@ class _PoamItemState extends State<PoamItem> {
       child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
+              Row(
                 children: [
 
-                  ///Display the Item Title
-                  Text(
-                      widget.itemModel!.title,
-                    style: GoogleFonts.ubuntu(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 16.5
+                  Container(
+                    width: 5,
+                    height: 25,
+                    decoration: BoxDecoration(
+                      color: HexColor(widget.itemModel!.hex),
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
                     ),
                   ),
-                  const SizedBox(height: 1,),
 
-                  ///Count should only displayed on the Category Shopping
-                  if (widget.itemModel!.categories == Categories.shopping)
-                  Text(
-                      "Anzahl: " + widget.itemModel!.count.toString(),
-                      style: GoogleFonts.kreon(
-                          color: primaryColor,
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold
+                  SizedBox(
+                    width: 10,
+                  ),
+
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+
+                      ///Display the Item Title
+                      Text(
+                        widget.itemModel!.title,
+                        style: GoogleFonts.ubuntu(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 16.5
+                        ),
                       ),
-                    ),
+                      const SizedBox(height: 1,),
 
-                  ///Person should only displayed when the Category Tasks is active
-                  if (widget.itemModel!.categories == Categories.tasks)
-                  Text(
-                    "Person: " + widget.itemModel!.person.name.toString(),
-                    style: GoogleFonts.kreon(
-                        color: primaryColor,
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold
-                    ),
+                      ///Count should only displayed on the Category Shopping
+                      if (widget.itemModel!.categories == Categories.shopping)
+                        Text(
+                          "Anzahl: " + widget.itemModel!.count.toString(),
+                          style: GoogleFonts.kreon(
+                              color: primaryColor,
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold
+                          ),
+                        ),
+
+                      ///Person should only displayed when the Category Tasks is active
+                      if (widget.itemModel!.categories == Categories.tasks)
+                        Text(
+                          "Person: " + widget.itemModel!.person.name.toString(),
+                          style: GoogleFonts.kreon(
+                              color: primaryColor,
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold
+                          ),
+                        ),
+                    ],
                   ),
+
                 ],
               ),
 
