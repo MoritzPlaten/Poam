@@ -5,7 +5,6 @@ import 'package:poam/services/itemServices/Objects/Category.dart';
 import 'package:poam/services/itemServices/Objects/ItemModel.dart';
 import 'package:poam/services/itemServices/Objects/Person.dart';
 import 'package:provider/provider.dart';
-import 'package:flex_color_picker/flex_color_picker.dart';
 
 class PoamPopUp extends StatefulWidget {
 
@@ -24,6 +23,7 @@ class _PoamPopUpState extends State<PoamPopUp> {
   late TextEditingController dateTextFieldController = TextEditingController();
   String dropdownValue = displayTextCategory(Categories.values.first);
   int selectedDay = 1, selectedMonth = 1;
+  Color screenPickerColor = Color(0xff443a49);
 
   @override
   Widget build(BuildContext context) {
@@ -32,10 +32,6 @@ class _PoamPopUpState extends State<PoamPopUp> {
     context.watch<ItemModel>().getItems();
     final size = MediaQuery.of(context).size;
     primaryColor = Theme.of(context).primaryColor;
-
-    Color screenPickerColor = Color(0xff443a49);
-
-    print(ColorToHex(screenPickerColor).hex);
 
     return Scaffold(
       body: SizedBox(
@@ -169,33 +165,8 @@ class _PoamPopUpState extends State<PoamPopUp> {
 
                 ///TODO: Select Color, Change Color
                 if (dropdownValue == displayTextCategory(Categories.tasks))
-                  SizedBox(
-                    width: double.infinity,
-                    child: Padding(
-                      padding: const EdgeInsets.all(6),
-                      child: Card(
-                        elevation: 2,
-                        child: ColorPicker(
-                          // Use the screenPickerColor as start color.
-                          color: screenPickerColor,
-                          // Update the screenPickerColor using the callback.
-                          onColorChanged: (Color color) =>
-                              setState(() => screenPickerColor = color),
-                          width: 44,
-                          height: 44,
-                          borderRadius: 22,
-                          heading: Text(
-                            'Select color',
-                            style: Theme.of(context).textTheme.headline5,
-                          ),
-                          subheading: Text(
-                            'Select color shade',
-                            style: Theme.of(context).textTheme.subtitle1,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
+                  ///TODO: Colorpicker
+                  Text("f"),
 
               ],
             ),
@@ -272,8 +243,11 @@ class _PoamPopUpState extends State<PoamPopUp> {
                             ///Add Item
                             if (titleTextFieldController.text != "") {
                               ///TODO: can add task today
-                              if (DateTime(DateTime.now().year, selectedMonth, selectedDay, DateTime.now().hour, DateTime.now().minute, DateTime.now().second).compareTo(DateTime.now()) >= 0) {
-                                Provider.of<ItemModel>(context, listen: false).addItem(ItemModel(titleTextFieldController.text, numberTextFieldController.text != "" ? int.parse(numberTextFieldController.text) : 0, false, personTextFieldController.text != "" ? Person(personTextFieldController.text) : Person(""), dropdownValue == "Aufgabenliste" ? Categories.tasks : Categories.shopping, ColorToHex(screenPickerColor).hex, DateTime(DateTime.now().year, selectedMonth, selectedDay)));
+                              ///if select Category task, then you can add only tasks for the future
+                              if (dropdownValue == displayTextCategory(Categories.tasks)?
+                              DateTime(DateTime.now().year, selectedMonth, selectedDay, DateTime.now().hour, DateTime.now().minute, DateTime.now().second).compareTo(DateTime.now()) >= 0 : true) {
+
+                                Provider.of<ItemModel>(context, listen: false).addItem(ItemModel(titleTextFieldController.text, numberTextFieldController.text != "" ? int.parse(numberTextFieldController.text) : 0, false, personTextFieldController.text != "" ? Person(personTextFieldController.text) : Person(""), dropdownValue == "Aufgabenliste" ? Categories.tasks : Categories.shopping, ColorToHex(screenPickerColor).toString(), DateTime(DateTime.now().year, selectedMonth, selectedDay)));
                                 Navigator.pop(context);
                               } else {
 
