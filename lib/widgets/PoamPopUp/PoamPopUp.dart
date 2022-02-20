@@ -21,7 +21,7 @@ class _PoamPopUpState extends State<PoamPopUp> {
   late TextEditingController personTextFieldController = TextEditingController();
   late TextEditingController dateTextFieldController = TextEditingController();
   String dropdownValue = displayTextCategory(Categories.values.first);
-  int selectedDay = 0, selectedMonth = 0;
+  int selectedDay = 1, selectedMonth = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -212,7 +212,7 @@ class _PoamPopUpState extends State<PoamPopUp> {
                       DropdownButton(
                         value: selectedDay,
                         items: [
-                          for(int i = 0;i < 32;i++)
+                          for(int i = 1;i < 32;i++)
                           DropdownMenuItem(
                             child: Text(i.toString()),
                             value: i,
@@ -229,7 +229,7 @@ class _PoamPopUpState extends State<PoamPopUp> {
                       DropdownButton(
                         value: selectedMonth,
                         items: [
-                          for(int i = 0;i < 13;i++)
+                          for(int i = 1;i < 13;i++)
                             DropdownMenuItem(
                               child: Text(i.toString()),
                               value: i,

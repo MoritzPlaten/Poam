@@ -130,10 +130,9 @@ class _PoamMenuState extends State<PoamMenu> {
               height: 10,
             ),
 
-            ///TODO: Sort items
             ///All Items, which are sorted by date, will packed in a PoamDateItem, which display the Date
             PoamDateItem(
-              allItems: dateService.sortItemsByDate(widget.allItems!.toList()).take(numberOfItemsOnStartScreen) as Iterable<ItemModel>,
+              allItems: dateService.sortItemsByDate2(widget.allItems!.toList()).take(numberOfItemsOnStartScreen) as Iterable<ItemModel>,
               categories: widget.categories!,
             ),
 
