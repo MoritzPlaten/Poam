@@ -3,7 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:poam/services/itemServices/Objects/Category.dart';
-import 'package:poam/services/itemServices/Objects/ItemModel.dart';
+import 'package:poam/services/itemServices/ItemModel.dart';
+import 'package:poam/services/itemServices/Objects/Database.dart';
 import 'package:poam/widgets/PoamDateItem/PoamDateItem.dart';
 import 'package:poam/widgets/PoamFloatingButton/PoamFloatingButton.dart';
 import 'package:provider/provider.dart';
@@ -20,12 +21,16 @@ class ListPage extends StatefulWidget {
 
 class _ListPageState extends State<ListPage> {
 
+  late Size size;
 
   @override
   Widget build(BuildContext context) {
 
+    ///Refresh Items
     context.watch<ItemModel>().getItems();
-    final size = MediaQuery.of(context).size;
+
+    ///Initialize
+    size = MediaQuery.of(context).size;
 
     return Scaffold(
 
@@ -41,7 +46,7 @@ class _ListPageState extends State<ListPage> {
       ),
 
       body: ValueListenableBuilder(
-          valueListenable: Hive.box<ItemModel>("items_database").listenable(),
+          valueListenable: Hive.box<ItemModel>(Database.Name).listenable(),
           builder: (context, Box box, _) {
             return ListView(
               padding: const EdgeInsets.all(15),

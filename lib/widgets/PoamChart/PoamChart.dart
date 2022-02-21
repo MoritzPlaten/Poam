@@ -5,7 +5,8 @@ import 'package:poam/services/chartServices/ChartService.dart';
 import 'package:poam/services/dateServices/DateService.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:poam/services/itemServices/Objects/Category.dart';
-import 'package:poam/services/itemServices/Objects/ItemModel.dart';
+import 'package:poam/services/itemServices/ItemModel.dart';
+import 'package:poam/services/itemServices/Objects/Database.dart';
 import 'package:provider/provider.dart';
 
 class PoamChart extends StatefulWidget {
@@ -18,6 +19,7 @@ class PoamChart extends StatefulWidget {
 
 class _PoamChartState extends State<PoamChart> {
 
+  late Size size;
   late Color primaryColor;
   late DateService dateService;
   late List<DateTime> datesBetween;
@@ -25,13 +27,13 @@ class _PoamChartState extends State<PoamChart> {
   @override
   Widget build(BuildContext context) {
 
-    final size = MediaQuery.of(context).size;
+    size = MediaQuery.of(context).size;
     dateService = DateService();
     primaryColor = Theme.of(context).primaryColor;
     datesBetween = dateService.getDaysInBetween(dateService.getMondayDate(), dateService.getSundayDate());
 
     return ValueListenableBuilder(
-        valueListenable: Hive.box<ItemModel>("items_database").listenable(),
+        valueListenable: Hive.box<ItemModel>(Database.Name).listenable(),
         builder: (context, Box box, widget) {
           return SizedBox(
             width: size.width,

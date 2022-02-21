@@ -3,10 +3,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:poam/pages/listpage.dart';
 import 'package:poam/services/chartServices/ChartService.dart';
 import 'package:poam/services/itemServices/Objects/Category.dart';
-import 'package:poam/services/itemServices/Objects/ItemModel.dart';
+import 'package:poam/services/itemServices/ItemModel.dart';
 import 'package:poam/services/itemServices/Objects/Person.dart';
 import 'package:poam/widgets/PoamChart/PoamChart.dart';
 import 'package:poam/widgets/PoamDateItem/PoamDateItem.dart';
+import 'package:poam/widgets/PoamSnackbar/PoamSnackbar.dart';
 import 'package:provider/provider.dart';
 import '../../services/dateServices/DateService.dart';
 
@@ -23,17 +24,21 @@ class PoamMenu extends StatefulWidget {
 
 class _PoamMenuState extends State<PoamMenu> {
 
+  late Size size;
   late Color primaryColor;
   late DateService dateService;
+  late PoamSnackbar poamSnackbar;
+  late int numberOfItemsOnStartScreen;
 
   @override
   Widget build(BuildContext context) {
 
     ///initialize
     dateService = DateService();
+    poamSnackbar = PoamSnackbar();
+    size = MediaQuery.of(context).size;
     primaryColor = Theme.of(context).primaryColor;
-    final size = MediaQuery.of(context).size;
-    final numberOfItemsOnStartScreen = widget.categories == Categories.tasks ? 3 : 5;
+    numberOfItemsOnStartScreen = widget.categories == Categories.tasks ? 3 : 5;
 
     ///You can click on the PoamMenu, if it is empty it will show you a snack bar
     return GestureDetector(
@@ -57,17 +62,9 @@ class _PoamMenuState extends State<PoamMenu> {
               ),
             );
           } else {
+
             ///The Snackbar
-            final snackBar = SnackBar(
-              content: Text(
-                "Ihre " + displayTextCategory(widget.categories!) + " ist leer!",
-                style: GoogleFonts.novaMono(
-                    fontSize: 12.5
-                ),
-              ),
-              backgroundColor: primaryColor,
-            );
-            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+            poamSnackbar.showSnackBar(context, "Ihre " + displayTextCategory(widget.categories!) + " ist leer!", primaryColor);
           }
         })
       },

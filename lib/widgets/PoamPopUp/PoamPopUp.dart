@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'package:poam/services/itemServices/Objects/Category.dart';
-import 'package:poam/services/itemServices/Objects/ItemModel.dart';
+import 'package:poam/services/itemServices/ItemModel.dart';
 import 'package:poam/services/itemServices/Objects/Person.dart';
+import 'package:poam/widgets/PoamColorPicker/PoamColorPicker.dart';
+import 'package:poam/widgets/PoamDatePicker/PoamDatePicker.dart';
+import 'package:poam/widgets/PoamDropDown/PoamDropDown.dart';
+import 'package:poam/widgets/PoamSnackbar/PoamSnackbar.dart';
+import 'package:poam/widgets/PoamTextField/PoamTextField.dart';
 import 'package:provider/provider.dart';
 
 class PoamPopUp extends StatefulWidget {
@@ -17,21 +20,26 @@ class PoamPopUp extends StatefulWidget {
 class _PoamPopUpState extends State<PoamPopUp> {
 
   late Color primaryColor;
+  late PoamSnackbar poamSnackbar;
+  late Size size;
   late TextEditingController titleTextFieldController = TextEditingController();
   late TextEditingController numberTextFieldController = TextEditingController();
   late TextEditingController personTextFieldController = TextEditingController();
   late TextEditingController dateTextFieldController = TextEditingController();
-  String dropdownValue = displayTextCategory(Categories.values.first);
+  String categoryDropDownValue = displayTextCategory(Categories.values.first);
   int selectedDay = 1, selectedMonth = 1;
   Color screenPickerColor = Color(0xff443a49);
 
   @override
   Widget build(BuildContext context) {
 
-    ///initialize
+    ///Refresh Items
     context.watch<ItemModel>().getItems();
-    final size = MediaQuery.of(context).size;
+
+    ///initialize
+    size = MediaQuery.of(context).size;
     primaryColor = Theme.of(context).primaryColor;
+    poamSnackbar = PoamSnackbar();
 
     return Scaffold(
       body: SizedBox(
@@ -46,82 +54,40 @@ class _PoamPopUpState extends State<PoamPopUp> {
               shrinkWrap: true,
               children: [
 
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
-                  decoration: BoxDecoration(
-                    color: primaryColor.withGreen(140),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: DropdownButton<String>(
-                    onChanged: (value) {
-                      setState(() {
-                        dropdownValue = value!;
-                      });
-                    },
-                    value: dropdownValue,
-
-                    // Hide the default underline
-                    underline: Container(),
-                    isExpanded: true,
-
-                    /// Gets all Categories in a List<String>
-                    items: displayAllCategories().map((e) => DropdownMenuItem(
-                      child: Container(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          e,
-                          style: const TextStyle(fontSize: 18),
-                        ),
-                      ),
-                      value: e,
-                    )).toList(),
-
-                    // Customize the selected item
-                    selectedItemBuilder: (BuildContext context) => displayAllCategories()
-                        .map((e) => Center(
-                      child: Text(
-                        e,
-                        style: GoogleFonts.kreon(
-                            fontSize: 18,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w400
-                        ),
-                        ),
-                    )).toList(),
-                  ),
+                PoamDropDown(
+                  dropdownValue: categoryDropDownValue,
+                  onChanged: (value) {
+                    setState(() {
+                      categoryDropDownValue = value!;
+                    });
+                  },
+                  items: displayAllCategories(),
+                  color: primaryColor,
+                  iconData: Icons.arrow_drop_down_outlined,
                 ),
 
                 const SizedBox(height: 10,),
 
-                TextField(
-                  controller: titleTextFieldController,
-                  decoration: const InputDecoration(
-                      labelText: 'Title',
-                      contentPadding: EdgeInsets.all(10)
-                  ),
+                PoamTextField(
+                  controllerCallback: titleTextFieldController,
+                  label: "Title",
                 ),
 
                 const SizedBox(height: 10,),
 
-                if (dropdownValue == displayTextCategory(Categories.shopping))
-                  TextField(
-                  controller: numberTextFieldController,
-                  decoration: const InputDecoration(
-                      labelText: 'Number',
-                      contentPadding: EdgeInsets.all(10)
-                  ),
-                ),
-
-                if (dropdownValue == displayTextCategory(Categories.tasks))
-                  TextField(
-                    controller: personTextFieldController,
-                    decoration: const InputDecoration(
-                        labelText: 'Person',
-                        contentPadding: EdgeInsets.all(10)
-                    ),
+                if (categoryDropDownValue == displayTextCategory(Categories.shopping))
+                  PoamTextField(
+                    controllerCallback: numberTextFieldController,
+                    label: "Number",
                   ),
 
-                if (dropdownValue == displayTextCategory(Categories.tasks))
+                if (categoryDropDownValue == displayTextCategory(Categories.tasks))
+                  PoamTextField(
+                    controllerCallback: personTextFieldController,
+                    label: "Person",
+                  ),
+
+                if (categoryDropDownValue == displayTextCategory(Categories.tasks))
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -162,11 +128,25 @@ class _PoamPopUpState extends State<PoamPopUp> {
 
                     ],
                   ),
+                /*
+                PoamDatePicker(
+                    dateValue: selectedDay,
+                    onDateChanged: (String? value) {
+                      setState(() {
+                        selectedDay = int.parse(value!);
+                      });
+                    },
+                    monthValue: selectedMonth,
+                    onMonthChanged: (String? value) {
+                      setState(() {
+                        selectedDay = int.parse(value!);
+                      });
+                    },
+                  ),
+                */
 
-                ///TODO: Select Color, Change Color
-                if (dropdownValue == displayTextCategory(Categories.tasks))
-                  ///TODO: Colorpicker
-                  Text("f"),
+                if (categoryDropDownValue == displayTextCategory(Categories.tasks))
+                  PoamColorPicker(),
 
               ],
             ),
@@ -244,36 +224,18 @@ class _PoamPopUpState extends State<PoamPopUp> {
                             if (titleTextFieldController.text != "") {
                               ///TODO: can add task today
                               ///if select Category task, then you can add only tasks for the future
-                              if (dropdownValue == displayTextCategory(Categories.tasks)?
+                              if (categoryDropDownValue == displayTextCategory(Categories.tasks)?
                               DateTime(DateTime.now().year, selectedMonth, selectedDay, DateTime.now().hour, DateTime.now().minute, DateTime.now().second).compareTo(DateTime.now()) >= 0 : true) {
 
-                                Provider.of<ItemModel>(context, listen: false).addItem(ItemModel(titleTextFieldController.text, numberTextFieldController.text != "" ? int.parse(numberTextFieldController.text) : 0, false, personTextFieldController.text != "" ? Person(personTextFieldController.text) : Person(""), dropdownValue == "Aufgabenliste" ? Categories.tasks : Categories.shopping, ColorToHex(screenPickerColor).toString(), DateTime(DateTime.now().year, selectedMonth, selectedDay)));
+                                Provider.of<ItemModel>(context, listen: false).addItem(ItemModel(titleTextFieldController.text, numberTextFieldController.text != "" ? int.parse(numberTextFieldController.text) : 0, false, personTextFieldController.text != "" ? Person(personTextFieldController.text) : Person(""), categoryDropDownValue == "Aufgabenliste" ? Categories.tasks : Categories.shopping, /*ColorToHex(screenPickerColor).hex*/"#ff0000", DateTime(DateTime.now().year, selectedMonth, selectedDay)));
                                 Navigator.pop(context);
                               } else {
 
-                                final snackBar = SnackBar(
-                                  content: Text(
-                                    "Sie keine Aufgaben erstellen in der Vergangenheit!",
-                                    style: GoogleFonts.novaMono(
-                                        fontSize: 12.5
-                                    ),
-                                  ),
-                                  backgroundColor: primaryColor,
-                                );
-                                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                poamSnackbar.showSnackBar(context, "Sie keine Aufgaben erstellen in der Vergangenheit!", primaryColor);
                               }
                             } else {
 
-                              final snackBar = SnackBar(
-                                content: Text(
-                                  "Geben Sie ein Title ein!",
-                                  style: GoogleFonts.novaMono(
-                                      fontSize: 12.5
-                                  ),
-                                ),
-                                backgroundColor: primaryColor,
-                              );
-                              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                              poamSnackbar.showSnackBar(context, "Geben Sie ein Title ein!", primaryColor);
                             }
                           })
                         },

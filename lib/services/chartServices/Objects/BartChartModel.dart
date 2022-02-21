@@ -1,5 +1,3 @@
-import 'package:charts_flutter/flutter.dart' as charts;
-
 class BarChartModel {
   String? day;
   int? tasks;

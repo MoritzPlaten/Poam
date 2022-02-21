@@ -11,10 +11,13 @@ class App extends StatefulWidget {
 
 class _AppState extends State<App> {
 
+  late double padding;
+
   @override
   Widget build(BuildContext context) {
 
-    double padding = MediaQuery.of(context).padding.top;
+    ///Initialize
+    padding = MediaQuery.of(context).padding.top;
 
     return Scaffold(
       body: Padding(

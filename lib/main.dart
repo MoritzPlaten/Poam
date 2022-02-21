@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:poam/pages/app.dart';
 import 'package:poam/services/itemServices/Objects/Category.dart';
-import 'package:poam/services/itemServices/Objects/ItemModel.dart';
+import 'package:poam/services/itemServices/ItemModel.dart';
+import 'package:poam/services/itemServices/Objects/Database.dart';
 import 'package:poam/services/itemServices/Objects/Person.dart';
 import 'package:provider/provider.dart';
 import 'package:path_provider/path_provider.dart' as pathProvider;
@@ -18,7 +19,7 @@ Future<void> main() async {
   Hive.registerAdapter(CategoriesAdapter());
 
   ///Open our Box(DB)
-  await Hive.openBox<ItemModel>('items_database');
+  await Hive.openBox<ItemModel>(Database.Name);
 
   runApp(const MyApp());
 }

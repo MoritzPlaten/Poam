@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import 'package:poam/services/dateServices/DateService.dart';
 import 'package:poam/services/itemServices/Objects/Category.dart';
-import 'package:poam/services/itemServices/Objects/ItemModel.dart';
+import 'package:poam/services/itemServices/ItemModel.dart';
 import 'package:poam/widgets/PoamMenu/PoamMenu.dart';
 import 'package:provider/src/provider.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+
+import '../../services/itemServices/Objects/Database.dart';
 
 class PoamList extends StatefulWidget {
   const PoamList({ Key? key }) : super(key: key);
@@ -26,7 +27,7 @@ class _PoamListState extends State<PoamList> {
     context.watch<ItemModel>().getItems();
 
     return ValueListenableBuilder(
-      valueListenable: Hive.box<ItemModel>("items_database").listenable(),
+      valueListenable: Hive.box<ItemModel>(Database.Name).listenable(),
       builder: (context, Box box, widget) {
         return SizedBox(
 

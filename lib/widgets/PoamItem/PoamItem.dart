@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:poam/services/itemServices/Objects/Category.dart';
-import 'package:poam/services/itemServices/Objects/ItemModel.dart';
+import 'package:poam/services/itemServices/ItemModel.dart';
 import 'package:provider/provider.dart';
 import 'package:hexcolor/hexcolor.dart';
 
@@ -18,13 +18,14 @@ class PoamItem extends StatefulWidget {
 
 class _PoamItemState extends State<PoamItem> {
 
+  late Size size;
   late Color primaryColor;
   
   @override
   Widget build(BuildContext context) {
 
     ///initialize
-    final size = MediaQuery.of(context).size;
+    size = MediaQuery.of(context).size;
     primaryColor = Theme.of(context).primaryColor;
 
     return Container(
