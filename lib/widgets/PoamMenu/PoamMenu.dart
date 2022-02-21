@@ -52,7 +52,7 @@ class _PoamMenuState extends State<PoamMenu> {
               MaterialPageRoute(builder: (context) => MultiProvider(
                 providers: [
                   ChangeNotifierProvider(
-                    create: (_) => ItemModel("", 0, false, Person(""), Categories.tasks, "#FFFFFF", DateTime(0)),
+                    create: (_) => ItemModel("", 0, false, Person(""), Categories.tasks, "#FFFFFF", DateTime(0), DateTime(0)),
                   ),
                 ],
                 child: ListPage(
@@ -116,6 +116,9 @@ class _PoamMenuState extends State<PoamMenu> {
             if (widget.categories! == Categories.tasks)
               MultiProvider(
                 providers: [
+                  ChangeNotifierProvider(
+                    create: (_) => DateService(),
+                  ),
                   ChangeNotifierProvider(
                     create: (_) => ChartService(),
                   ),

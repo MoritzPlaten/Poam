@@ -42,7 +42,8 @@ class _PoamItemState extends State<PoamItem> {
               Row(
                 children: [
 
-                  Container(
+                  ///Displays if Categories == Tasks is. Displays the color
+                  if (widget.itemModel!.categories == Categories.tasks) Container(
                     width: 5,
                     height: 25,
                     decoration: BoxDecoration(
@@ -69,6 +70,16 @@ class _PoamItemState extends State<PoamItem> {
                         ),
                       ),
                       const SizedBox(height: 1,),
+
+                      if (widget.itemModel!.categories == Categories.tasks)
+                        Text(
+                          "Um " + widget.itemModel!.time.hour.toString() + ":" + widget.itemModel!.time.minute.toString(),
+                          style: GoogleFonts.kreon(
+                              color: primaryColor,
+                              fontSize: 13,
+                              fontWeight: FontWeight.bold
+                          ),
+                        ),
 
                       ///Count should only displayed on the Category Shopping
                       if (widget.itemModel!.categories == Categories.shopping)

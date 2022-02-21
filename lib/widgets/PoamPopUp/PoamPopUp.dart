@@ -3,11 +3,12 @@ import 'package:poam/services/itemServices/Objects/Category.dart';
 import 'package:poam/services/itemServices/ItemModel.dart';
 import 'package:poam/services/itemServices/Objects/Person.dart';
 import 'package:poam/widgets/PoamColorPicker/PoamColorPicker.dart';
-import 'package:poam/widgets/PoamDatePicker/PoamDatePicker.dart';
 import 'package:poam/widgets/PoamDropDown/PoamDropDown.dart';
 import 'package:poam/widgets/PoamSnackbar/PoamSnackbar.dart';
 import 'package:poam/widgets/PoamTextField/PoamTextField.dart';
 import 'package:provider/provider.dart';
+
+import '../PoamDatePicker/PoamDatePicker.dart';
 
 class PoamPopUp extends StatefulWidget {
 
@@ -27,7 +28,8 @@ class _PoamPopUpState extends State<PoamPopUp> {
   late TextEditingController personTextFieldController = TextEditingController();
   late TextEditingController dateTextFieldController = TextEditingController();
   String categoryDropDownValue = displayTextCategory(Categories.values.first);
-  int selectedDay = 1, selectedMonth = 1;
+  TextEditingController _dateController = TextEditingController();
+  TextEditingController _timeController = TextEditingController();
   Color screenPickerColor = Color(0xff443a49);
 
   @override
@@ -88,62 +90,11 @@ class _PoamPopUpState extends State<PoamPopUp> {
                   ),
 
                 if (categoryDropDownValue == displayTextCategory(Categories.tasks))
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-
-                      Text("Day: "),
-
-                      DropdownButton(
-                        value: selectedDay,
-                        items: [
-                          for(int i = 1;i < 32;i++)
-                          DropdownMenuItem(
-                            child: Text(i.toString()),
-                            value: i,
-                          ),
-                        ],
-                        onChanged: (int? value) {
-                          setState(() {
-                            selectedDay = value!;
-                          });
-                        }),
-
-                      Text("Month: "),
-
-                      DropdownButton(
-                        value: selectedMonth,
-                        items: [
-                          for(int i = 1;i < 13;i++)
-                            DropdownMenuItem(
-                              child: Text(i.toString()),
-                              value: i,
-                            ),
-                        ],
-                        onChanged: (int? value) {
-                          setState(() {
-                            selectedMonth = value!;
-                          });
-                        }),
-
-                    ],
-                  ),
-                /*
                 PoamDatePicker(
-                    dateValue: selectedDay,
-                    onDateChanged: (String? value) {
-                      setState(() {
-                        selectedDay = int.parse(value!);
-                      });
-                    },
-                    monthValue: selectedMonth,
-                    onMonthChanged: (String? value) {
-                      setState(() {
-                        selectedDay = int.parse(value!);
-                      });
-                    },
-                  ),
-                */
+                  dateController: _dateController,
+                  timeController: _timeController,
+                ),
+
 
                 if (categoryDropDownValue == displayTextCategory(Categories.tasks))
                   PoamColorPicker(),
@@ -224,10 +175,10 @@ class _PoamPopUpState extends State<PoamPopUp> {
                             if (titleTextFieldController.text != "") {
                               ///TODO: can add task today
                               ///if select Category task, then you can add only tasks for the future
-                              if (categoryDropDownValue == displayTextCategory(Categories.tasks)?
-                              DateTime(DateTime.now().year, selectedMonth, selectedDay, DateTime.now().hour, DateTime.now().minute, DateTime.now().second).compareTo(DateTime.now()) >= 0 : true) {
+                              if (categoryDropDownValue == displayTextCategory(Categories.tasks)?///TODO: Hier hab ich was geändert
+                              DateTime(DateTime.now().year, /*selectedMonth*/2, /*selectedDay*/24, DateTime.now().hour, DateTime.now().minute, DateTime.now().second).compareTo(DateTime.now()) >= 0 : true) {
 
-                                Provider.of<ItemModel>(context, listen: false).addItem(ItemModel(titleTextFieldController.text, numberTextFieldController.text != "" ? int.parse(numberTextFieldController.text) : 0, false, personTextFieldController.text != "" ? Person(personTextFieldController.text) : Person(""), categoryDropDownValue == "Aufgabenliste" ? Categories.tasks : Categories.shopping, /*ColorToHex(screenPickerColor).hex*/"#ff0000", DateTime(DateTime.now().year, selectedMonth, selectedDay)));
+                                Provider.of<ItemModel>(context, listen: false).addItem(ItemModel(titleTextFieldController.text, numberTextFieldController.text != "" ? int.parse(numberTextFieldController.text) : 0, false, personTextFieldController.text != "" ? Person(personTextFieldController.text) : Person(""), categoryDropDownValue == "Aufgabenliste" ? Categories.tasks : Categories.shopping, /*ColorToHex(screenPickerColor).hex*/"#ff0000", DateTime(0, 0, 0, int.parse(_timeController.text.split(":").first), int.parse(_timeController.text.split(":").last)), DateTime(int.parse(_dateController.text.split("/").last), int.parse(_dateController.text.split("/").first), int.parse(_dateController.text.split("/").elementAt(1)))));///TODO: Hier hab ich was geändert
                                 Navigator.pop(context);
                               } else {
 

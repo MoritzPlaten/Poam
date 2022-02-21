@@ -26,11 +26,14 @@ class _PoamChartState extends State<PoamChart> {
 
   @override
   Widget build(BuildContext context) {
-
+    
+    ///initialize
     size = MediaQuery.of(context).size;
     dateService = DateService();
+    ///TODO: look if it works
+    datesBetween = context.watch<DateService>().getDaysInBetween(dateService.getMondayDate(), dateService.getSundayDate());
     primaryColor = Theme.of(context).primaryColor;
-    datesBetween = dateService.getDaysInBetween(dateService.getMondayDate(), dateService.getSundayDate());
+    //datesBetween = dateService.getDaysInBetween(dateService.getMondayDate(), dateService.getSundayDate());
 
     return ValueListenableBuilder(
         valueListenable: Hive.box<ItemModel>(Database.Name).listenable(),

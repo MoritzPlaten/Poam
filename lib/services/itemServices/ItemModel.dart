@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:poam/services/itemServices/Objects/Category.dart';
 import 'package:poam/services/itemServices/Objects/Person.dart';
 import 'package:hive/hive.dart';
@@ -24,9 +25,11 @@ class ItemModel extends ChangeNotifier {
   @HiveField(5)
   String hex;
   @HiveField(6)
+  DateTime time;
+  @HiveField(7)
   DateTime date;
 
-  ItemModel (this.title, this.count, this.isChecked, this.person, this.categories, this.hex, this.date);
+  ItemModel (this.title, this.count, this.isChecked, this.person, this.categories, this.hex, this.time, this.date);
 
   List _itemModelList = <ItemModel>[];
   List get itemModelList => _itemModelList;

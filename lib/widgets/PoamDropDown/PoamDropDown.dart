@@ -24,7 +24,7 @@ class _PoamDropDownState extends State<PoamDropDown> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 15),
       decoration: BoxDecoration(
-        color: widget.color!.withGreen(140),
+        color: widget.color!,
         borderRadius: BorderRadius.circular(10),
       ),
       child: DropdownButton<String>(
@@ -36,7 +36,7 @@ class _PoamDropDownState extends State<PoamDropDown> {
         isExpanded: true,
 
         /// Gets all Items from a List<String>
-        items: widget.items!.map((e) => DropdownMenuItem(
+        items: widget.items!.map((e) => DropdownMenuItem<String>(
           child: Container(
             alignment: Alignment.centerLeft,
             child: Text(
@@ -50,7 +50,7 @@ class _PoamDropDownState extends State<PoamDropDown> {
         // Customize the selected item
         selectedItemBuilder: (BuildContext context) => widget.items!.map((e) => Center(
           child: Text(
-            e,
+            e.toString(),
             style: GoogleFonts.kreon(
                 fontSize: 18,
                 color: Colors.white,

@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:poam/widgets/PoamDropDown/PoamDropDown.dart';
+import 'package:intl/intl.dart';
 
 class PoamDatePicker extends StatefulWidget {
 
-  final int? dateValue;
-  final dynamic Function(String?)? onDateChanged;
-  final int? monthValue;
-  final dynamic Function(String?)? onMonthChanged;
+  final TextEditingController? dateController;
+  final TextEditingController? timeController;
 
-  const PoamDatePicker({Key? key, this.dateValue, this.onDateChanged, this.monthValue, this.onMonthChanged }) : super(key: key);
+  const PoamDatePicker({ Key? key, this.dateController, this.timeController }) : super(key: key);
 
   @override
   _PoamDatePickerState createState() => _PoamDatePickerState();
@@ -17,6 +15,14 @@ class PoamDatePicker extends StatefulWidget {
 class _PoamDatePickerState extends State<PoamDatePicker> {
 
   late Color primaryColor;
+  late Size size;
+  late String _hour, _minute, _time;
+  late String _setTime, _setDate;
+  DateTime selectedDate = DateTime.now();
+  TimeOfDay selectedTime = TimeOfDay(hour: 00, minute: 00);
+  late String dateTime;
+  //TextEditingController _dateController = TextEditingController();
+  //TextEditingController _timeController = TextEditingController();
   ///TODO: Make it working
 
   @override
@@ -24,33 +30,108 @@ class _PoamDatePickerState extends State<PoamDatePicker> {
 
     ///initialize
     primaryColor = Theme.of(context).primaryColor;
+    size = MediaQuery.of(context).size;
+
+    Future<Null> _selectDate(BuildContext context) async {
+      final DateTime? picked = await showDatePicker(
+          context: context,
+          initialDate: selectedDate,
+          initialDatePickerMode: DatePickerMode.day,
+          firstDate: DateTime(2015),
+          lastDate: DateTime(2101));
+      if (picked != null)
+        setState(() {
+          selectedDate = picked;
+          widget.dateController!.text = DateFormat.yMd().format(selectedDate);
+        });
+    }
+
+    Future<Null> _selectTime(BuildContext context) async {
+      final TimeOfDay? picked = await showTimePicker(
+        context: context,
+        initialTime: selectedTime,
+      );
+      if (picked != null)
+        setState(() {
+          selectedTime = picked;
+          _hour = selectedTime.hour.toString();
+          _minute = selectedTime.minute.toString();
+          _time = _hour + ' : ' + _minute;
+          widget.timeController!.text = _time;
+          /*_timeController.text = formatDate(
+              DateTime(2019, 08, 1, selectedTime.hour, selectedTime.minute),
+              [hh, ':', nn, " ", am]).toString();*/
+        });
+    }
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
 
-        Text("Day: "),
-
-        PoamDropDown(
-          dropdownValue: widget.dateValue.toString(),
-          onChanged: widget.onDateChanged,
-          color: primaryColor,
-          iconData: Icons.view_day,
-          items: [
-            for(int i = 1;i < 32;i++) i.toString(),
-          ]
+        InkWell(
+          onTap: () {
+            _selectDate(context);
+          },
+          child: Container(
+            width: 150,
+            margin: EdgeInsets.only(top: 10),
+            alignment: Alignment.center,
+            child: Card(
+              shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+              ),
+              child: TextFormField(
+                style: TextStyle(fontSize: 14, color: Colors.black),
+                textAlign: TextAlign.center,
+                enabled: false,
+                keyboardType: TextInputType.text,
+                controller: widget.dateController,
+                onChanged: ((String? value) {
+                  setState(() {
+                    _setDate = value!;
+                    print(value);
+                  });
+                }),
+                decoration: InputDecoration(
+                  hintText: "Datum: " + DateFormat.yMd().format(selectedDate),
+                    disabledBorder: UnderlineInputBorder(borderSide: BorderSide.none),
+                    contentPadding: EdgeInsets.only(top: 0.0)),
+              ),
+            )
+          ),
         ),
 
-        Text("Month: "),
-
-        PoamDropDown(
-            dropdownValue: widget.monthValue.toString(),
-            onChanged: widget.onMonthChanged,
-            color: primaryColor,
-            iconData: Icons.calendar_view_month,
-            items: [
-              for(int i = 1;i < 13;i++) i.toString(),
-            ]
+        InkWell(
+          onTap: () {
+            _selectTime(context);
+          },
+          child: Container(
+              width: 100,
+              margin: EdgeInsets.only(top: 10),
+              alignment: Alignment.center,
+              child: Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: TextFormField(
+                  style: TextStyle(fontSize: 14, color: Colors.black),
+                  textAlign: TextAlign.center,
+                  enabled: false,
+                  keyboardType: TextInputType.text,
+                  controller: widget.timeController,
+                  onChanged: ((String? value) {
+                    setState(() {
+                      _setTime = value!;
+                      print(value);
+                    });
+                  }),
+                  decoration: InputDecoration(
+                      hintText: "Zeit: " + selectedTime.hour.toString() + ":" + selectedTime.minute.toString(),
+                      disabledBorder: UnderlineInputBorder(borderSide: BorderSide.none),
+                      contentPadding: EdgeInsets.only(top: 0.0)),
+                ),
+              )
+          ),
         ),
 
       ],

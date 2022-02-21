@@ -1,7 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:poam/services/itemServices/ItemModel.dart';
 
-class DateService {
+class DateService extends ChangeNotifier {
 
   ///Gets the Date of the Monday in this week
   DateTime getMondayDate() {
