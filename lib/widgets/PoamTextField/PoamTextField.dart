@@ -16,11 +16,13 @@ class PoamTextField extends StatefulWidget {
 class _PoamTextFieldState extends State<PoamTextField> {
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      controller: widget.controllerCallback,
-      decoration: InputDecoration(
-          labelText: widget.label,
-          contentPadding: EdgeInsets.all(10)
+    return Card(
+      child: TextField(
+        controller: widget.controllerCallback,
+        decoration: InputDecoration(
+            labelText: widget.label,
+            contentPadding: EdgeInsets.all(10)
+        ),
       ),
     );
   }

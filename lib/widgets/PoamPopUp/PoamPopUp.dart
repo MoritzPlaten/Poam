@@ -50,9 +50,10 @@ class _PoamPopUpState extends State<PoamPopUp> {
 
           children: [
 
+            ///TODO: Sort Time
             ///The Form
             ListView(
-              padding: const EdgeInsets.only(top: 60, right: 10, left: 10, bottom: 10),
+              padding: const EdgeInsets.only(top: 60, right: 30, left: 30, bottom: 10),
               shrinkWrap: true,
               children: [
 

@@ -21,8 +21,6 @@ class _PoamDatePickerState extends State<PoamDatePicker> {
   DateTime selectedDate = DateTime.now();
   TimeOfDay selectedTime = TimeOfDay(hour: 00, minute: 00);
   late String dateTime;
-  //TextEditingController _dateController = TextEditingController();
-  //TextEditingController _timeController = TextEditingController();
   ///TODO: Make it working
 
   @override
@@ -58,9 +56,6 @@ class _PoamDatePickerState extends State<PoamDatePicker> {
           _minute = selectedTime.minute.toString();
           _time = _hour + ' : ' + _minute;
           widget.timeController!.text = _time;
-          /*_timeController.text = formatDate(
-              DateTime(2019, 08, 1, selectedTime.hour, selectedTime.minute),
-              [hh, ':', nn, " ", am]).toString();*/
         });
     }
 
