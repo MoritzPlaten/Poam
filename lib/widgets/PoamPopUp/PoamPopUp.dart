@@ -29,6 +29,8 @@ class _PoamPopUpState extends State<PoamPopUp> {
   TextEditingController personTextFieldController = TextEditingController();
   TextEditingController dateTextFieldController = TextEditingController();
   String categoryDropDownValue = displayTextCategory(Categories.values.first);
+  ///TODO: Frequency is not working
+  String frequencyDropDownValue = displayFrequency(Frequency.values.first);
   TextEditingController _dateController = TextEditingController();
   TextEditingController _timeController = TextEditingController();
   Color selectedColor = Colors.blueAccent;
@@ -68,6 +70,7 @@ class _PoamPopUpState extends State<PoamPopUp> {
                   items: displayAllCategories(),
                   color: primaryColor,
                   iconData: Icons.arrow_drop_down,
+                  foregroundColor: Colors.white,
                 ),
 
                 const SizedBox(height: 10,),
@@ -97,6 +100,19 @@ class _PoamPopUpState extends State<PoamPopUp> {
                   timeController: _timeController,
                 ),
 
+                if (categoryDropDownValue == displayTextCategory(Categories.tasks))
+                  PoamDropDown(
+                    dropdownValue: frequencyDropDownValue,
+                    onChanged: (value) {
+                      setState(() {
+                        frequencyDropDownValue = value!;
+                      });
+                    },
+                    items: displayAllFrequency(),
+                    color: Colors.white,
+                    iconData: Icons.arrow_drop_down,
+                    foregroundColor: Colors.black,
+                  ),
 
                 if (categoryDropDownValue == displayTextCategory(Categories.tasks))
                   PoamColorPicker(
@@ -195,7 +211,7 @@ class _PoamPopUpState extends State<PoamPopUp> {
                                     ///Set Date
                                     categoryDropDownValue == displayTextCategory(Categories.tasks) ? DateTime(int.parse(_dateController.text.split("/").last), int.parse(_dateController.text.split("/").first), int.parse(_dateController.text.split("/").elementAt(1))) : DateTime(0),
                                     ///Set Frequency
-                                    Frequency.single)
+                                    getFrequency(frequencyDropDownValue))
                                 );
 
                                 Navigator.pop(context);

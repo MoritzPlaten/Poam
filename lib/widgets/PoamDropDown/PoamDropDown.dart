@@ -6,10 +6,11 @@ class PoamDropDown extends StatefulWidget {
   final String? dropdownValue;
   final Function(String?)? onChanged;
   final Color? color;
+  final Color? foregroundColor;
   final List<String>? items;
   final IconData? iconData;
 
-  const PoamDropDown({Key? key, this.dropdownValue, this.onChanged, this.color, this.items, this.iconData }) : super(key: key);
+  const PoamDropDown({Key? key, this.dropdownValue, this.onChanged, this.color, this.foregroundColor, this.items, this.iconData }) : super(key: key);
 
   @override
   _PoamDropDownState createState() => _PoamDropDownState();
@@ -56,13 +57,13 @@ class _PoamDropDownState extends State<PoamDropDown> {
               e,
               style: GoogleFonts.novaMono(
                   fontSize: 14,
-                  color: Colors.white,
+                  color: widget.foregroundColor,
                   fontWeight: FontWeight.bold
               ),
             ),
           )).toList(),
 
-          icon: Icon(widget.iconData, color: Colors.white,),
+          icon: Icon(widget.iconData, color: widget.foregroundColor,),
         ),
       )
     );
