@@ -176,10 +176,19 @@ class _PoamPopUpState extends State<PoamPopUp> {
                             if (titleTextFieldController.text != "") {
                               ///TODO: can add task today
                               ///if select Category task, then you can add only tasks for the future
-                              if (categoryDropDownValue == displayTextCategory(Categories.tasks)?///TODO: Hier hab ich was geändert
-                              DateTime(DateTime.now().year, /*selectedMonth*/2, /*selectedDay*/24, DateTime.now().hour, DateTime.now().minute, DateTime.now().second).compareTo(DateTime.now()) >= 0 : true) {
+                              if (categoryDropDownValue == displayTextCategory(Categories.tasks)?
+                              DateTime(int.parse(_dateController.text.split("/").last), int.parse(_dateController.text.split("/").first), int.parse(_dateController.text.split("/").elementAt(1)), DateTime.now().hour, DateTime.now().minute, DateTime.now().second).compareTo(DateTime.now()) >= 0 : true) {
 
-                                Provider.of<ItemModel>(context, listen: false).addItem(ItemModel(titleTextFieldController.text, numberTextFieldController.text != "" ? int.parse(numberTextFieldController.text) : 0, false, personTextFieldController.text != "" ? Person(personTextFieldController.text) : Person(""), categoryDropDownValue == "Aufgabenliste" ? Categories.tasks : Categories.shopping, /*ColorToHex(screenPickerColor).hex*/"#ff0000", DateTime(0, 0, 0, int.parse(_timeController.text.split(":").first), int.parse(_timeController.text.split(":").last)), DateTime(int.parse(_dateController.text.split("/").last), int.parse(_dateController.text.split("/").first), int.parse(_dateController.text.split("/").elementAt(1)))));///TODO: Hier hab ich was geändert
+                                Provider.of<ItemModel>(context, listen: false)
+                                    .addItem(ItemModel(titleTextFieldController.text,
+                                    numberTextFieldController.text != "" ? int.parse(numberTextFieldController.text) : 0,
+                                    false,
+                                    personTextFieldController.text != "" ? Person(personTextFieldController.text) : Person(""),
+                                    categoryDropDownValue == "Aufgabenliste" ? Categories.tasks : Categories.shopping,
+                                    /*ColorToHex(screenPickerColor).hex*/"#ff0000",
+                                    DateTime(0, 0, 0, categoryDropDownValue == displayTextCategory(Categories.tasks) ? int.parse(_timeController.text.split(":").first) : 0, categoryDropDownValue == displayTextCategory(Categories.tasks) ? int.parse(_timeController.text.split(":").last) : 0),
+                                    categoryDropDownValue == displayTextCategory(Categories.tasks) ? DateTime(int.parse(_dateController.text.split("/").last), int.parse(_dateController.text.split("/").first), int.parse(_dateController.text.split("/").elementAt(1))) : DateTime(0))
+                                );
                                 Navigator.pop(context);
                               } else {
 

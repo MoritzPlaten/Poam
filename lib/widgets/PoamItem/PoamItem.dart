@@ -31,7 +31,7 @@ class _PoamItemState extends State<PoamItem> {
     return Container(
 
       width: size.width,
-      padding: const EdgeInsets.only(left: 6, right: 6, top: 3, bottom: 3),
+      padding: const EdgeInsets.only(left: 10, right: 10, top: 6, bottom: 6),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         color: Colors.white

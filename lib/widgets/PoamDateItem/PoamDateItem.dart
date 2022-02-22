@@ -52,7 +52,7 @@ class _PoamDateItemState extends State<PoamDateItem> {
                 for(int k = 0;k < dates.length;k++)
                   Column(
                     children: [
-                      const SizedBox(height: 6,),
+                      const SizedBox(height: 2,),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
