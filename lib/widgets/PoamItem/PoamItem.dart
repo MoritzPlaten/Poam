@@ -73,7 +73,7 @@ class _PoamItemState extends State<PoamItem> {
 
                       if (widget.itemModel!.categories == Categories.tasks)
                         Text(
-                          "Um " + widget.itemModel!.time.hour.toString() + ":" + widget.itemModel!.time.minute.toString(),
+                          "Um " + widget.itemModel!.time.hour.toString() + ":" + widget.itemModel!.time.minute.toString() + " Uhr",
                           style: GoogleFonts.kreon(
                               color: primaryColor,
                               fontSize: 13,
@@ -109,26 +109,16 @@ class _PoamItemState extends State<PoamItem> {
               ),
 
               ///ShaderMask for the look
-              ShaderMask(
-                shaderCallback: (Rect bounds) {
-                  return RadialGradient(
-                    center: Alignment.topLeft,
-                    radius: 1.0,
-                    colors: <Color>[primaryColor, primaryColor.withRed(180).withBlue(140)],
-                    tileMode: TileMode.mirror,
-                  ).createShader(bounds);
+              Checkbox(
+                checkColor: primaryColor,
+                fillColor: MaterialStateProperty.all(primaryColor),
+                value: widget.itemModel!.isChecked,
+                onChanged: (bool? value) {
+                  setState(() {
+                    widget.itemModel!.isChecked = value!;
+                    Provider.of<ItemModel>(context, listen: false).removeItem(widget.itemModel!);
+                  });
                 },
-                child: Checkbox(
-                  checkColor: Colors.white,
-                  fillColor: MaterialStateProperty.all(Colors.white),
-                  value: widget.itemModel!.isChecked,
-                  onChanged: (bool? value) {
-                    setState(() {
-                      widget.itemModel!.isChecked = value!;
-                      Provider.of<ItemModel>(context, listen: false).removeItem(widget.itemModel!);
-                    });
-                  },
-                ),
               ),
 
             ],

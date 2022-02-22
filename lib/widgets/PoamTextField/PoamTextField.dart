@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class PoamTextField extends StatefulWidget {
 
@@ -18,6 +19,7 @@ class _PoamTextFieldState extends State<PoamTextField> {
   Widget build(BuildContext context) {
     return Card(
       child: TextField(
+        style: GoogleFonts.kreon(),
         controller: widget.controllerCallback,
         decoration: InputDecoration(
             labelText: widget.label,

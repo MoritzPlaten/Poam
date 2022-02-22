@@ -41,7 +41,9 @@ class _PoamDropDownState extends State<PoamDropDown> {
             alignment: Alignment.centerLeft,
             child: Text(
               e,
-              style: const TextStyle(fontSize: 18),
+              style: GoogleFonts.novaMono(
+                fontWeight: FontWeight.w500
+              ),
             ),
           ),
           value: e,
@@ -51,10 +53,10 @@ class _PoamDropDownState extends State<PoamDropDown> {
         selectedItemBuilder: (BuildContext context) => widget.items!.map((e) => Center(
           child: Text(
             e.toString(),
-            style: GoogleFonts.kreon(
-                fontSize: 18,
+            style: GoogleFonts.novaMono(
+                fontSize: 16,
                 color: Colors.white,
-                fontWeight: FontWeight.w400
+                fontWeight: FontWeight.bold
             ),
           ),
         )).toList(),

@@ -31,7 +31,7 @@ class _PoamPopUpState extends State<PoamPopUp> {
   String categoryDropDownValue = displayTextCategory(Categories.values.first);
   TextEditingController _dateController = TextEditingController();
   TextEditingController _timeController = TextEditingController();
-  Color selectedColor = Colors.black;
+  Color selectedColor = Colors.blueAccent;
 
   @override
   Widget build(BuildContext context) {
@@ -115,7 +115,7 @@ class _PoamPopUpState extends State<PoamPopUp> {
             Positioned(
 
                 bottom: 50,
-                right: size.width - (size.width / 2) -50,
+                right: size.width - (size.width / 2) - 50,
 
                 child: Center(
                   child: Row(
@@ -134,14 +134,9 @@ class _PoamPopUpState extends State<PoamPopUp> {
                               size: 25,
                             ),
                             decoration: BoxDecoration(
+                              color: primaryColor,
                               shape: BoxShape.circle,
                               boxShadow: const [BoxShadow(blurRadius: 10, color: Colors.grey, spreadRadius: 1)],
-                              gradient: RadialGradient(
-                                  radius: 0.9,
-                                  center: const Alignment(0.7, -0.6),
-                                  colors: [primaryColor, primaryColor.withRed(180).withBlue(140)],
-                                  stops: const [0.1, 0.8]
-                              ),
                             ),
                           ),
                         ),
@@ -167,14 +162,9 @@ class _PoamPopUpState extends State<PoamPopUp> {
                               size: 25,
                             ),
                             decoration: BoxDecoration(
+                              color: primaryColor,
                               shape: BoxShape.circle,
                               boxShadow: const [BoxShadow(blurRadius: 10, color: Colors.grey, spreadRadius: 1)],
-                              gradient: RadialGradient(
-                                  radius: 0.9,
-                                  center: const Alignment(0.7, -0.6),
-                                  colors: [primaryColor, primaryColor.withRed(180).withBlue(140)],
-                                  stops: const [0.1, 0.8]
-                              ),
                             ),
                           ),
                         ),
@@ -201,7 +191,7 @@ class _PoamPopUpState extends State<PoamPopUp> {
                                 Navigator.pop(context);
                               } else {
 
-                                poamSnackbar.showSnackBar(context, "Sie keine Aufgaben erstellen in der Vergangenheit!", primaryColor);
+                                poamSnackbar.showSnackBar(context, "Sie können keine Aufgaben erstellen in der Vergangenheit!", primaryColor);
                               }
                             } else {
 

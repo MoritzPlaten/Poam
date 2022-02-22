@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 class PoamDatePicker extends StatefulWidget {
@@ -76,7 +77,9 @@ class _PoamDatePickerState extends State<PoamDatePicker> {
               borderRadius: BorderRadius.circular(10),
               ),
               child: TextFormField(
-                style: TextStyle(fontSize: 14, color: Colors.black),
+                style: GoogleFonts.novaMono(
+                    fontSize: 13, color: Colors.black, fontWeight: FontWeight.bold
+                ),
                 textAlign: TextAlign.center,
                 enabled: false,
                 keyboardType: TextInputType.text,
@@ -109,7 +112,9 @@ class _PoamDatePickerState extends State<PoamDatePicker> {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: TextFormField(
-                  style: TextStyle(fontSize: 14, color: Colors.black),
+                  style: GoogleFonts.novaMono(
+                    fontSize: 13, color: Colors.black, fontWeight: FontWeight.bold
+                  ),
                   textAlign: TextAlign.center,
                   enabled: false,
                   keyboardType: TextInputType.text,
