@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:poam/services/itemServices/Objects/Category.dart';
 import 'package:poam/services/itemServices/ItemModel.dart';
 import 'package:poam/services/itemServices/Objects/Person.dart';
@@ -30,7 +31,7 @@ class _PoamPopUpState extends State<PoamPopUp> {
   String categoryDropDownValue = displayTextCategory(Categories.values.first);
   TextEditingController _dateController = TextEditingController();
   TextEditingController _timeController = TextEditingController();
-  Color screenPickerColor = Color(0xff443a49);
+  Color selectedColor = Colors.black;
 
   @override
   Widget build(BuildContext context) {
@@ -98,7 +99,14 @@ class _PoamPopUpState extends State<PoamPopUp> {
 
 
                 if (categoryDropDownValue == displayTextCategory(Categories.tasks))
-                  PoamColorPicker(),
+                  PoamColorPicker(
+                    pickedColor: selectedColor,
+                    onChangeColor: (Color? color){ //on color picked
+                      setState(() {
+                        selectedColor = color!;
+                      });
+                    },
+                  ),
 
               ],
             ),
@@ -185,10 +193,11 @@ class _PoamPopUpState extends State<PoamPopUp> {
                                     false,
                                     personTextFieldController.text != "" ? Person(personTextFieldController.text) : Person(""),
                                     categoryDropDownValue == "Aufgabenliste" ? Categories.tasks : Categories.shopping,
-                                    /*ColorToHex(screenPickerColor).hex*/"#ff0000",
+                                    selectedColor.value.toRadixString(16),
                                     DateTime(0, 0, 0, categoryDropDownValue == displayTextCategory(Categories.tasks) ? int.parse(_timeController.text.split(":").first) : 0, categoryDropDownValue == displayTextCategory(Categories.tasks) ? int.parse(_timeController.text.split(":").last) : 0),
                                     categoryDropDownValue == displayTextCategory(Categories.tasks) ? DateTime(int.parse(_dateController.text.split("/").last), int.parse(_dateController.text.split("/").first), int.parse(_dateController.text.split("/").elementAt(1))) : DateTime(0))
                                 );
+
                                 Navigator.pop(context);
                               } else {
 

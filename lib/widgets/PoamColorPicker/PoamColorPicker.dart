@@ -3,7 +3,10 @@ import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
 class PoamColorPicker extends StatefulWidget {
 
-  const PoamColorPicker({ Key? key }) : super(key: key);
+  final Color? pickedColor;
+  final Function(Color?)? onChangeColor;
+
+  const PoamColorPicker({ Key? key, this.pickedColor, this.onChangeColor }) : super(key: key);
 
   @override
   _PoamColorPickerState createState() => _PoamColorPickerState();
@@ -29,12 +32,8 @@ class _PoamColorPickerState extends State<PoamColorPicker> {
                   title: Text('Pick a color!'),
                   content: SingleChildScrollView(
                     child: MaterialPicker(
-                      pickerColor: mycolor, //default color
-                      onColorChanged: (Color? color){ //on color picked
-                        setState(() {
-                          mycolor = color!;
-                        });
-                      },
+                      pickerColor: widget.pickedColor!, //default color
+                      onColorChanged: widget.onChangeColor!,
                     ),
                   ),
                   actions: <Widget>[
