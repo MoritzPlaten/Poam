@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hexcolor/hexcolor.dart';
+import 'package:poam/services/dateServices/Objects/Frequency.dart';
 import 'package:poam/services/itemServices/Objects/Category.dart';
 import 'package:poam/services/itemServices/ItemModel.dart';
 import 'package:poam/services/itemServices/Objects/Person.dart';
@@ -24,10 +24,10 @@ class _PoamPopUpState extends State<PoamPopUp> {
   late Color primaryColor;
   late PoamSnackbar poamSnackbar;
   late Size size;
-  late TextEditingController titleTextFieldController = TextEditingController();
-  late TextEditingController numberTextFieldController = TextEditingController();
-  late TextEditingController personTextFieldController = TextEditingController();
-  late TextEditingController dateTextFieldController = TextEditingController();
+  TextEditingController titleTextFieldController = TextEditingController();
+  TextEditingController numberTextFieldController = TextEditingController();
+  TextEditingController personTextFieldController = TextEditingController();
+  TextEditingController dateTextFieldController = TextEditingController();
   String categoryDropDownValue = displayTextCategory(Categories.values.first);
   TextEditingController _dateController = TextEditingController();
   TextEditingController _timeController = TextEditingController();
@@ -67,7 +67,7 @@ class _PoamPopUpState extends State<PoamPopUp> {
                   },
                   items: displayAllCategories(),
                   color: primaryColor,
-                  iconData: Icons.arrow_drop_down_outlined,
+                  iconData: Icons.arrow_drop_down,
                 ),
 
                 const SizedBox(height: 10,),
@@ -172,20 +172,30 @@ class _PoamPopUpState extends State<PoamPopUp> {
                           setState(() {
                             ///Add Item
                             if (titleTextFieldController.text != "") {
-                              ///TODO: can add task today
                               ///if select Category task, then you can add only tasks for the future
                               if (categoryDropDownValue == displayTextCategory(Categories.tasks)?
-                              DateTime(int.parse(_dateController.text.split("/").last), int.parse(_dateController.text.split("/").first), int.parse(_dateController.text.split("/").elementAt(1)), DateTime.now().hour, DateTime.now().minute, DateTime.now().second).compareTo(DateTime.now()) >= 0 : true) {
+                              DateTime(int.parse(_dateController.text.split("/").last), int.parse(_dateController.text.split("/").first), int.parse(_dateController.text.split("/").elementAt(1)), int.parse(_timeController.text.split(":").first), int.parse(_timeController.text.split(":").last), DateTime.now().second).compareTo(DateTime.now()) >= 0 : true) {
 
                                 Provider.of<ItemModel>(context, listen: false)
-                                    .addItem(ItemModel(titleTextFieldController.text,
+                                    .addItem(ItemModel(
+                                    ///Set Title
+                                    titleTextFieldController.text,
+                                    ///Set the number. if number == "", then set number to 0
                                     numberTextFieldController.text != "" ? int.parse(numberTextFieldController.text) : 0,
+                                    ///isChecked == false
                                     false,
+                                    ///Person
                                     personTextFieldController.text != "" ? Person(personTextFieldController.text) : Person(""),
+                                    ///Set Category
                                     categoryDropDownValue == "Aufgabenliste" ? Categories.tasks : Categories.shopping,
+                                    ///Set Color
                                     selectedColor.value.toRadixString(16),
+                                    ///Set Time
                                     DateTime(0, 0, 0, categoryDropDownValue == displayTextCategory(Categories.tasks) ? int.parse(_timeController.text.split(":").first) : 0, categoryDropDownValue == displayTextCategory(Categories.tasks) ? int.parse(_timeController.text.split(":").last) : 0),
-                                    categoryDropDownValue == displayTextCategory(Categories.tasks) ? DateTime(int.parse(_dateController.text.split("/").last), int.parse(_dateController.text.split("/").first), int.parse(_dateController.text.split("/").elementAt(1))) : DateTime(0))
+                                    ///Set Date
+                                    categoryDropDownValue == displayTextCategory(Categories.tasks) ? DateTime(int.parse(_dateController.text.split("/").last), int.parse(_dateController.text.split("/").first), int.parse(_dateController.text.split("/").elementAt(1))) : DateTime(0),
+                                    ///Set Frequency
+                                    Frequency.single)
                                 );
 
                                 Navigator.pop(context);

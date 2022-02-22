@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:poam/services/chartServices/ChartService.dart';
+import 'package:poam/services/dateServices/Objects/Frequency.dart';
 import 'package:poam/services/itemServices/Objects/Category.dart';
 import 'package:poam/services/itemServices/ItemModel.dart';
 import 'package:poam/services/itemServices/Objects/Person.dart';
@@ -34,7 +35,7 @@ class _PoamFloatingButtonState extends State<PoamFloatingButton> {
             MaterialPageRoute(builder: (context) => MultiProvider(
               providers: [
                 ChangeNotifierProvider(
-                  create: (_) => ItemModel("", 0, false, Person(""), Categories.tasks, "0xFFFFFF", DateTime(0), DateTime(0)),
+                  create: (_) => ItemModel("", 0, false, Person(""), Categories.tasks, "0xFFFFFF", DateTime(0), DateTime(0), Frequency.single),
                 ),
                 ChangeNotifierProvider(
                   create: (_) => ChartService(),

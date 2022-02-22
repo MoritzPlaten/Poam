@@ -67,7 +67,7 @@ class _PoamDateItemState extends State<PoamDateItem> {
                           ),
 
                           Text(
-                              DateFormat("dd.MM.yyyy").format(dates[k]),
+                              DateFormat("EEEE - dd.MM.yyyy").format(dates[k]),
                             style: GoogleFonts.novaMono(
                               fontSize: 11,
                               color: primaryColor,

@@ -4,6 +4,7 @@ import 'package:poam/services/itemServices/Objects/Category.dart';
 import 'package:poam/services/itemServices/Objects/Person.dart';
 import 'package:hive/hive.dart';
 
+import '../dateServices/Objects/Frequency.dart';
 import 'Objects/Database.dart';
 
 part 'ItemModel.g.dart';
@@ -28,8 +29,10 @@ class ItemModel extends ChangeNotifier {
   DateTime time;
   @HiveField(7)
   DateTime date;
+  @HiveField(8)
+  Frequency frequency;
 
-  ItemModel (this.title, this.count, this.isChecked, this.person, this.categories, this.hex, this.time, this.date);
+  ItemModel (this.title, this.count, this.isChecked, this.person, this.categories, this.hex, this.time, this.date, this.frequency);
 
   List _itemModelList = <ItemModel>[];
   List get itemModelList => _itemModelList;

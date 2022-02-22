@@ -19,7 +19,7 @@ class DateService extends ChangeNotifier {
   }
 
   ///Get a List of all dates
-  List<DateTime> getListOfAllDates(Iterable<dynamic> getItems) {
+  List<DateTime> getListOfAllDates(Iterable<ItemModel> getItems) {
     List<DateTime> dates = List.generate(getItems.length, (index) => DateTime(0));
     for (int i = 0;i < dates.length; i++) {
 
@@ -40,10 +40,10 @@ class DateService extends ChangeNotifier {
 
   List<dynamic> sortItemsByDate(List<ItemModel> items) {
     items.sort((a, b){
-      var aDate = a.date;
-      var bDate = b.date;
+      DateTime getDateTime_A = DateTime(a.date.year, a.date.month, a.date.day, a.time.hour, a.time.minute);
+      DateTime getDateTime_B = DateTime(b.date.year, b.date.month, b.date.day, b.time.hour, b.time.minute);
 
-      return aDate.compareTo(bDate);
+      return getDateTime_A.compareTo(getDateTime_B);
     });
 
     return items;

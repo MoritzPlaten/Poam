@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
+import 'package:poam/services/dateServices/DateService.dart';
 import 'package:poam/services/itemServices/Objects/Category.dart';
 import 'package:poam/services/itemServices/ItemModel.dart';
 import 'package:poam/services/itemServices/Objects/Database.dart';
@@ -22,6 +23,7 @@ class ListPage extends StatefulWidget {
 class _ListPageState extends State<ListPage> {
 
   late Size size;
+  late DateService dateService;
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +33,7 @@ class _ListPageState extends State<ListPage> {
 
     ///Initialize
     size = MediaQuery.of(context).size;
+    dateService = DateService();
 
     return Scaffold(
 
@@ -54,7 +57,7 @@ class _ListPageState extends State<ListPage> {
 
                 ///All Items will packed in a PoamDateItem, which display the Date
                 PoamDateItem(
-                  allItems: box.values.where((element) => element.categories == widget.categories).toList() as List<ItemModel>,
+                  allItems: dateService.sortItemsByDate(box.values.where((element) => element.categories == widget.categories).toList() as List<ItemModel>) as List<ItemModel>,
                   categories: widget.categories,
                 ),
 

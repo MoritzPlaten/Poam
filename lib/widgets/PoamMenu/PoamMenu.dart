@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:poam/pages/listpage.dart';
 import 'package:poam/services/chartServices/ChartService.dart';
+import 'package:poam/services/dateServices/Objects/Frequency.dart';
 import 'package:poam/services/itemServices/Objects/Category.dart';
 import 'package:poam/services/itemServices/ItemModel.dart';
 import 'package:poam/services/itemServices/Objects/Person.dart';
@@ -52,7 +53,7 @@ class _PoamMenuState extends State<PoamMenu> {
               MaterialPageRoute(builder: (context) => MultiProvider(
                 providers: [
                   ChangeNotifierProvider(
-                    create: (_) => ItemModel("", 0, false, Person(""), Categories.tasks, "#FFFFFF", DateTime(0), DateTime(0)),
+                    create: (_) => ItemModel("", 0, false, Person(""), Categories.tasks, "#FFFFFF", DateTime(0), DateTime(0), Frequency.single),
                   ),
                 ],
                 child: ListPage(
@@ -86,8 +87,6 @@ class _PoamMenuState extends State<PoamMenu> {
           ],
         ),
         child: Column(
-
-          ///TODO: Ein PoamPersonItem erzeugen und alle Items die indem PoamDateItem sind und diese dann nochmal in Personen aufteilt
 
           children: [
 

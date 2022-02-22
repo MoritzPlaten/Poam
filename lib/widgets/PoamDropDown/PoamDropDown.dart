@@ -21,48 +21,50 @@ class _PoamDropDownState extends State<PoamDropDown> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 15),
-      decoration: BoxDecoration(
-        color: widget.color!,
-        borderRadius: BorderRadius.circular(10),
+    return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(10)),
       ),
-      child: DropdownButton<String>(
-        onChanged: widget.onChanged,
-        value: widget.dropdownValue,
+      color: widget.color!,
+      child: Padding(
+        padding: EdgeInsets.only(left: 10, right: 10),
+        child: DropdownButton<String>(
+          onChanged: widget.onChanged,
+          value: widget.dropdownValue,
 
-        // Hide the default underline
-        underline: Container(),
-        isExpanded: true,
+          // Hide the default underline
+          underline: Container(),
+          isExpanded: true,
 
-        /// Gets all Items from a List<String>
-        items: widget.items!.map((e) => DropdownMenuItem<String>(
-          child: Container(
-            alignment: Alignment.centerLeft,
+          /// Gets all Items from a List<String>
+          items: widget.items!.map((e) => DropdownMenuItem<String>(
+            child: Container(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                e,
+                style: GoogleFonts.novaMono(
+                    fontWeight: FontWeight.w500
+                ),
+              ),
+            ),
+            value: e,
+          )).toList(),
+
+          // Customize the selected item
+          selectedItemBuilder: (BuildContext context) => widget.items!.map((e) => Center(
             child: Text(
               e,
               style: GoogleFonts.novaMono(
-                fontWeight: FontWeight.w500
+                  fontSize: 14,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold
               ),
             ),
-          ),
-          value: e,
-        )).toList(),
+          )).toList(),
 
-        // Customize the selected item
-        selectedItemBuilder: (BuildContext context) => widget.items!.map((e) => Center(
-          child: Text(
-            e.toString(),
-            style: GoogleFonts.novaMono(
-                fontSize: 16,
-                color: Colors.white,
-                fontWeight: FontWeight.bold
-            ),
-          ),
-        )).toList(),
-
-        icon: Icon(widget.iconData, color: Colors.white,),
-      ),
+          icon: Icon(widget.iconData, color: Colors.white,),
+        ),
+      )
     );
   }
 }

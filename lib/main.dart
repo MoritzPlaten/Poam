@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:poam/pages/app.dart';
+import 'package:poam/services/dateServices/Objects/Frequency.dart';
 import 'package:poam/services/itemServices/Objects/Category.dart';
 import 'package:poam/services/itemServices/ItemModel.dart';
 import 'package:poam/services/itemServices/Objects/Database.dart';
@@ -17,6 +18,7 @@ Future<void> main() async {
   Hive.registerAdapter(ItemModelAdapter());
   Hive.registerAdapter(PersonAdapter());
   Hive.registerAdapter(CategoriesAdapter());
+  Hive.registerAdapter(FrequencyAdapter());
 
   ///Open our Box(DB)
   await Hive.openBox<ItemModel>(Database.Name);
@@ -43,7 +45,7 @@ class MyApp extends StatelessWidget {
       home: MultiProvider(
         providers: [
           ChangeNotifierProvider(
-            create: (_) => ItemModel("", 0, false, Person(""), Categories.tasks, "0xFFFFFF", DateTime(0), DateTime(0)),
+            create: (_) => ItemModel("", 0, false, Person(""), Categories.tasks, "0xFFFFFF", DateTime(0), DateTime(0), Frequency.single),
           ),
         ],
         child: const App(),

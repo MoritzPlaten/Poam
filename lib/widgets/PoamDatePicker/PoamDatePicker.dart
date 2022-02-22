@@ -74,7 +74,7 @@ class _PoamDatePickerState extends State<PoamDatePicker> {
             alignment: Alignment.center,
             child: Card(
               shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(10),
               ),
               child: TextFormField(
                 style: GoogleFonts.novaMono(
