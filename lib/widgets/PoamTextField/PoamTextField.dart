@@ -4,24 +4,27 @@ import 'package:google_fonts/google_fonts.dart';
 class PoamTextField extends StatefulWidget {
 
   final String? label;
-  final TextEditingController? controllerCallback;
+  final String? Function(String?)? validator;
 
-  const PoamTextField({Key? key, this.label, this.controllerCallback }) : super(key: key);
+  const PoamTextField({Key? key, this.label, this.validator }) : super(key: key);
 
   @override
   _PoamTextFieldState createState() => _PoamTextFieldState();
 }
 
 class _PoamTextFieldState extends State<PoamTextField> {
+
+  ///TODO: Fix the Error message
+
   @override
   Widget build(BuildContext context) {
     return Card(
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(10)),
       ),
-      child: TextField(
+      child: TextFormField(
         style: GoogleFonts.kreon(),
-        controller: widget.controllerCallback,
+        validator: widget.validator,
         decoration: InputDecoration(
           labelText: widget.label,
           contentPadding: EdgeInsets.only(top: 10, bottom: 10, right: 15, left: 15),

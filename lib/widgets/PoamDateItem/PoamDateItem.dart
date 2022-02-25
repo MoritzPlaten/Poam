@@ -57,10 +57,10 @@ class _PoamDateItemState extends State<PoamDateItem> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
 
-                          Flexible(
+                          const Flexible(
                             child: Divider(
                               thickness: 1,
-                              color: Colors.grey.shade400,
+                              color: Colors.grey,
                               indent: 10,
                               endIndent: 10,
                             ),
@@ -75,10 +75,10 @@ class _PoamDateItemState extends State<PoamDateItem> {
                             )
                           ),
 
-                          Flexible(
+                          const Flexible(
                             child: Divider(
                               thickness: 1,
-                              color: Colors.grey.shade400,
+                              color: Colors.grey,
                               indent: 10,
                               endIndent: 10,
                             ),

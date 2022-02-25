@@ -70,7 +70,7 @@ class _PoamDatePickerState extends State<PoamDatePicker> {
           },
           child: Container(
             width: 150,
-            margin: EdgeInsets.only(top: 10),
+            margin: const EdgeInsets.only(top: 10),
             alignment: Alignment.center,
             child: Card(
               shape: RoundedRectangleBorder(

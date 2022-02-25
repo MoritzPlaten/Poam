@@ -140,10 +140,10 @@ class _PoamMenuState extends State<PoamMenu> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
 
-                Flexible(
-                  child: Divider(
+                const Flexible(
+                  child: const Divider(
                     thickness: 1,
-                    color: Colors.grey.shade400,
+                    color: Colors.grey,
                     indent: 10,
                     endIndent: 10,
                   ),
@@ -156,10 +156,10 @@ class _PoamMenuState extends State<PoamMenu> {
                   ),
                 ),
 
-                Flexible(
-                  child: Divider(
+                const Flexible(
+                  child: const Divider(
                     thickness: 1,
-                    color: Colors.grey.shade400,
+                    color: Colors.grey,
                     indent: 10,
                     endIndent: 10,
                   ),

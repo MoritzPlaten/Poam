@@ -24,16 +24,15 @@ class _PoamPopUpState extends State<PoamPopUp> {
   late Color primaryColor;
   late PoamSnackbar poamSnackbar;
   late Size size;
-  TextEditingController titleTextFieldController = TextEditingController();
-  TextEditingController numberTextFieldController = TextEditingController();
-  TextEditingController personTextFieldController = TextEditingController();
-  TextEditingController dateTextFieldController = TextEditingController();
   String categoryDropDownValue = displayTextCategory(Categories.values.first);
   ///TODO: Frequency is not working
   String frequencyDropDownValue = displayFrequency(Frequency.values.first);
   TextEditingController _dateController = TextEditingController();
   TextEditingController _timeController = TextEditingController();
   Color selectedColor = Colors.blueAccent;
+
+  String titleValue = "", numberValue = "", personValue = "";
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -55,76 +54,97 @@ class _PoamPopUpState extends State<PoamPopUp> {
 
             ///TODO: Sort Time
             ///The Form
-            ListView(
-              padding: const EdgeInsets.only(top: 60, right: 30, left: 30, bottom: 10),
-              shrinkWrap: true,
-              children: [
+            Form(
+              key: _formKey,
+                child: ListView(
+                  padding: const EdgeInsets.only(top: 60, right: 30, left: 30, bottom: 10),
+                  shrinkWrap: true,
+                  children: [
 
-                PoamDropDown(
-                  dropdownValue: categoryDropDownValue,
-                  onChanged: (value) {
-                    setState(() {
-                      categoryDropDownValue = value!;
-                    });
-                  },
-                  items: displayAllCategories(),
-                  color: primaryColor,
-                  iconData: Icons.arrow_drop_down,
-                  foregroundColor: Colors.white,
+                    PoamDropDown(
+                      dropdownValue: categoryDropDownValue,
+                      onChanged: (value) {
+                        setState(() {
+                          categoryDropDownValue = value!;
+                        });
+                      },
+                      items: displayAllCategories(),
+                      color: primaryColor,
+                      iconData: Icons.arrow_drop_down,
+                      foregroundColor: Colors.white,
+                    ),
+
+                    const SizedBox(height: 10,),
+
+                    PoamTextField(
+                      validator: ((value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Bitte geben Sie den Titel an!';
+                        }
+                        titleValue = value;
+                        return null;
+                      }),
+                      label: "Titel",
+                    ),
+
+                    const SizedBox(height: 10,),
+
+                    if (categoryDropDownValue == displayTextCategory(Categories.shopping))
+                      PoamTextField(
+                        validator: ((value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Bitte geben Sie die Anzahl an!';
+                          }
+                          numberValue = value;
+                          return null;
+                        }),
+                        label: "Anzahl",
+                      ),
+
+                    if (categoryDropDownValue == displayTextCategory(Categories.tasks))
+                      PoamTextField(
+                        validator: ((value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Bitte geben Sie eine Person an!';
+                          }
+                          personValue = value;
+                          return null;
+                        }),
+                        label: "Person",
+                      ),
+
+                    if (categoryDropDownValue == displayTextCategory(Categories.tasks))
+                      PoamDatePicker(
+                        dateController: _dateController,
+                        timeController: _timeController,
+                      ),
+
+                    if (categoryDropDownValue == displayTextCategory(Categories.tasks))
+                      PoamDropDown(
+                        dropdownValue: frequencyDropDownValue,
+                        onChanged: (value) {
+                          setState(() {
+                            frequencyDropDownValue = value!;
+                          });
+                        },
+                        items: displayAllFrequency(),
+                        color: Colors.white,
+                        iconData: Icons.arrow_drop_down,
+                        foregroundColor: Colors.black,
+                      ),
+
+                    if (categoryDropDownValue == displayTextCategory(Categories.tasks))
+                      PoamColorPicker(
+                        pickedColor: selectedColor,
+                        onChangeColor: (Color? color){ //on color picked
+                          setState(() {
+                            selectedColor = color!;
+                          });
+                        },
+                      ),
+
+                  ],
                 ),
-
-                const SizedBox(height: 10,),
-
-                PoamTextField(
-                  controllerCallback: titleTextFieldController,
-                  label: "Title",
-                ),
-
-                const SizedBox(height: 10,),
-
-                if (categoryDropDownValue == displayTextCategory(Categories.shopping))
-                  PoamTextField(
-                    controllerCallback: numberTextFieldController,
-                    label: "Number",
-                  ),
-
-                if (categoryDropDownValue == displayTextCategory(Categories.tasks))
-                  PoamTextField(
-                    controllerCallback: personTextFieldController,
-                    label: "Person",
-                  ),
-
-                if (categoryDropDownValue == displayTextCategory(Categories.tasks))
-                PoamDatePicker(
-                  dateController: _dateController,
-                  timeController: _timeController,
-                ),
-
-                if (categoryDropDownValue == displayTextCategory(Categories.tasks))
-                  PoamDropDown(
-                    dropdownValue: frequencyDropDownValue,
-                    onChanged: (value) {
-                      setState(() {
-                        frequencyDropDownValue = value!;
-                      });
-                    },
-                    items: displayAllFrequency(),
-                    color: Colors.white,
-                    iconData: Icons.arrow_drop_down,
-                    foregroundColor: Colors.black,
-                  ),
-
-                if (categoryDropDownValue == displayTextCategory(Categories.tasks))
-                  PoamColorPicker(
-                    pickedColor: selectedColor,
-                    onChangeColor: (Color? color){ //on color picked
-                      setState(() {
-                        selectedColor = color!;
-                      });
-                    },
-                  ),
-
-              ],
             ),
 
 
@@ -187,41 +207,123 @@ class _PoamPopUpState extends State<PoamPopUp> {
                         onTap: () => {
                           setState(() {
                             ///Add Item
-                            if (titleTextFieldController.text != "") {
-                              ///if select Category task, then you can add only tasks for the future
-                              if (categoryDropDownValue == displayTextCategory(Categories.tasks)?
-                              DateTime(int.parse(_dateController.text.split("/").last), int.parse(_dateController.text.split("/").first), int.parse(_dateController.text.split("/").elementAt(1)), int.parse(_timeController.text.split(":").first), int.parse(_timeController.text.split(":").last), DateTime.now().second).compareTo(DateTime.now()) >= 0 : true) {
+                            if (_formKey.currentState!.validate()) {
+                              bool isProblem = false;
 
+                              ///if select Category task, then you can add only tasks for the future
+                              if (categoryDropDownValue ==
+                                  displayTextCategory(Categories.tasks) &&
+                                  _dateController.text != "" &&
+                                  _timeController.text != "" ?
+                              DateTime(int.parse(_dateController.text
+                                  .split("/")
+                                  .last),
+                                  int.parse(_dateController.text
+                                      .split("/")
+                                      .first),
+                                  int.parse(
+                                      _dateController.text.split("/").elementAt(
+                                          1)),
+                                  int.parse(_timeController.text
+                                      .split(":")
+                                      .first),
+                                  int.parse(_timeController.text
+                                      .split(":")
+                                      .last), DateTime
+                                      .now()
+                                      .second).compareTo(
+                                  DateTime.now()) /*>=*/ < 0 : false) {
+                                poamSnackbar.showSnackBar(context,
+                                    "Sie können keine Aufgaben erstellen in der Vergangenheit!",
+                                    primaryColor);
+                                isProblem = true;
+                              }
+
+                              RegExp regExp = new RegExp(r'^[0-9]+$');
+                              if (categoryDropDownValue ==
+                                  displayTextCategory(Categories.shopping) &&
+                                  regExp.hasMatch(numberValue) == false) {
+                                poamSnackbar.showSnackBar(context,
+                                    "Geben Sie eine Zahl ein, keine Buchstaben!",
+                                    primaryColor);
+                                isProblem = true;
+                              }
+
+                              ///If there are no problems then add ItemModel
+                              if (isProblem == false) {
                                 Provider.of<ItemModel>(context, listen: false)
                                     .addItem(ItemModel(
-                                    ///Set Title
-                                    titleTextFieldController.text,
+
+                                  ///Set Title
+                                    titleValue,
+
                                     ///Set the number. if number == "", then set number to 0
-                                    numberTextFieldController.text != "" ? int.parse(numberTextFieldController.text) : 0,
+                                    categoryDropDownValue ==
+                                        displayTextCategory(Categories.shopping)
+                                        ? int.parse(numberValue)
+                                        : 0,
+
                                     ///isChecked == false
                                     false,
+
                                     ///Person
-                                    personTextFieldController.text != "" ? Person(personTextFieldController.text) : Person(""),
+                                    Person(personValue),
+
                                     ///Set Category
-                                    categoryDropDownValue == "Aufgabenliste" ? Categories.tasks : Categories.shopping,
+                                    categoryDropDownValue == "Aufgabenliste"
+                                        ? Categories.tasks
+                                        : Categories.shopping,
+
                                     ///Set Color
                                     selectedColor.value.toRadixString(16),
+
                                     ///Set Time
-                                    DateTime(0, 0, 0, categoryDropDownValue == displayTextCategory(Categories.tasks) ? int.parse(_timeController.text.split(":").first) : 0, categoryDropDownValue == displayTextCategory(Categories.tasks) ? int.parse(_timeController.text.split(":").last) : 0),
+                                    DateTime(0, 0, 0,
+                                        categoryDropDownValue ==
+                                            displayTextCategory(
+                                                Categories.tasks) &&
+                                            _timeController.text != "" ?
+                                        int.parse(_timeController.text
+                                            .split(":")
+                                            .first)
+                                            :
+                                        DateTime
+                                            .now()
+                                            .hour,
+                                        categoryDropDownValue ==
+                                            displayTextCategory(
+                                                Categories.tasks) &&
+                                            _timeController.text != "" ?
+                                        int.parse(_timeController.text
+                                            .split(":")
+                                            .last)
+                                            :
+                                        DateTime
+                                            .now()
+                                            .minute + 1),
+
                                     ///Set Date
-                                    categoryDropDownValue == displayTextCategory(Categories.tasks) ? DateTime(int.parse(_dateController.text.split("/").last), int.parse(_dateController.text.split("/").first), int.parse(_dateController.text.split("/").elementAt(1))) : DateTime(0),
+                                    categoryDropDownValue ==
+                                        displayTextCategory(Categories.tasks) &&
+                                        _dateController.text != "" ?
+                                    DateTime(
+                                        int.parse(_dateController.text
+                                            .split("/")
+                                            .last),
+                                        int.parse(_dateController.text
+                                            .split("/")
+                                            .first),
+                                        int.parse(
+                                            _dateController.text.split("/")
+                                                .elementAt(1)))
+                                        : DateTime.now(),
+
                                     ///Set Frequency
                                     getFrequency(frequencyDropDownValue))
                                 );
 
                                 Navigator.pop(context);
-                              } else {
-
-                                poamSnackbar.showSnackBar(context, "Sie können keine Aufgaben erstellen in der Vergangenheit!", primaryColor);
                               }
-                            } else {
-
-                              poamSnackbar.showSnackBar(context, "Geben Sie ein Title ein!", primaryColor);
                             }
                           })
                         },

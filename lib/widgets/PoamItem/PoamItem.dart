@@ -52,7 +52,7 @@ class _PoamItemState extends State<PoamItem> {
                     ),
                   ),
 
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
 

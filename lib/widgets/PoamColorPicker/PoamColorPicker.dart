@@ -56,7 +56,7 @@ class _PoamColorPickerState extends State<PoamColorPicker> {
           ),
           color: widget.pickedColor!,
           child: Container(
-            padding: EdgeInsets.only(left: 10, right: 10, top: 15, bottom: 15),
+            padding: const EdgeInsets.only(left: 10, right: 10, top: 15, bottom: 15),
             child: Center(
               child: Text(
                 "Farbe auswählen",
