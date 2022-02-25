@@ -22,6 +22,7 @@ Future<void> main() async {
 
   ///Open our Box(DB)
   await Hive.openBox<ItemModel>(Database.Name);
+  await Hive.openBox<Person>(Database.PersonName);
 
   runApp(const MyApp());
 }
