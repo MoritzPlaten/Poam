@@ -31,8 +31,10 @@ class ItemModel extends ChangeNotifier {
   DateTime date;
   @HiveField(8)
   Frequency frequency;
+  @HiveField(9)
+  String description;
 
-  ItemModel (this.title, this.count, this.isChecked, this.person, this.categories, this.hex, this.time, this.date, this.frequency);
+  ItemModel (this.title, this.count, this.isChecked, this.person, this.categories, this.hex, this.time, this.date, this.frequency, this.description);
 
   List _itemModelList = <ItemModel>[];
   List get itemModelList => _itemModelList;

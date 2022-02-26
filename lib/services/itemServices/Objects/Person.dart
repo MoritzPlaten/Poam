@@ -17,7 +17,7 @@ class Person extends ChangeNotifier {
   List _personList = <Person>[];
   List get PersonList => _personList;
 
-  void getPersons(Person person) async {
+  void getPersons() async {
 
     final box = await Hive.openBox<Person>(Database.PersonName);
     _personList = box.values.toList();

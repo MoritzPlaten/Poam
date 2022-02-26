@@ -4,9 +4,11 @@ import 'package:google_fonts/google_fonts.dart';
 class PoamTextField extends StatefulWidget {
 
   final String? label;
+  final TextInputType? keyboardType;
+  final int? maxLines;
   final String? Function(String?)? validator;
 
-  const PoamTextField({Key? key, this.label, this.validator }) : super(key: key);
+  const PoamTextField({Key? key, this.label, this.keyboardType, this.maxLines, this.validator }) : super(key: key);
 
   @override
   _PoamTextFieldState createState() => _PoamTextFieldState();
@@ -23,6 +25,8 @@ class _PoamTextFieldState extends State<PoamTextField> {
         borderRadius: BorderRadius.all(Radius.circular(10)),
       ),
       child: TextFormField(
+        keyboardType: widget.keyboardType,
+        maxLines: widget.maxLines,
         style: GoogleFonts.kreon(),
         validator: widget.validator,
         decoration: InputDecoration(

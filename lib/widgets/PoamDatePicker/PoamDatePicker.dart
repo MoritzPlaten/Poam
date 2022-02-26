@@ -4,10 +4,11 @@ import 'package:intl/intl.dart';
 
 class PoamDatePicker extends StatefulWidget {
 
+  final String? title;
   final TextEditingController? dateController;
   final TextEditingController? timeController;
 
-  const PoamDatePicker({ Key? key, this.dateController, this.timeController }) : super(key: key);
+  const PoamDatePicker({ Key? key, this.title, this.dateController, this.timeController }) : super(key: key);
 
   @override
   _PoamDatePickerState createState() => _PoamDatePickerState();
@@ -63,6 +64,11 @@ class _PoamDatePickerState extends State<PoamDatePicker> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
+
+        Text(
+          widget.title!,
+          style: GoogleFonts.novaMono(),
+        ),
 
         InkWell(
           onTap: () {
