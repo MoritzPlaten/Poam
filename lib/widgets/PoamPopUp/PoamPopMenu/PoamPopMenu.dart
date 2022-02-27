@@ -128,6 +128,8 @@ class _PoamPopMenuState extends State<PoamPopMenu> {
                         isProblem = true;
                       }
 
+                      ///TODO: if toDate > fromDate && toTime > fromDate then error
+
                       ///If there are no problems then add ItemModel
                       if (isProblem == false) {
                         Provider.of<ItemModel>(context, listen: false).addItem(ItemModel(

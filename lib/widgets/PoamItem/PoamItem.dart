@@ -81,7 +81,20 @@ class _PoamItemState extends State<PoamItem> {
                         ),
                         const SizedBox(height: 1,),
 
-                        if (widget.itemModel!.categories == Categories.tasks)
+                        ///if fromTime != toTime, then display "fromTime - toTime Uhr"
+                        if (widget.itemModel!.categories == Categories.tasks && widget.itemModel!.fromTime != widget.itemModel!.toTime)
+                          Text(
+                            "Um " + widget.itemModel!.fromTime.hour.toString() + ":" + widget.itemModel!.fromTime.minute.toString() +
+                                " - " + widget.itemModel!.toTime.hour.toString() + ":" + widget.itemModel!.fromTime.minute.toString() + " Uhr",
+                            style: GoogleFonts.kreon(
+                                color: primaryColor,
+                                fontSize: 13,
+                                fontWeight: FontWeight.bold
+                            ),
+                          ),
+
+                        ///if fromTime == toTime, then display "fromTime"
+                        if (widget.itemModel!.categories == Categories.tasks && widget.itemModel!.fromTime == widget.itemModel!.toTime)
                           Text(
                             "Um " + widget.itemModel!.fromTime.hour.toString() + ":" + widget.itemModel!.fromTime.minute.toString() + " Uhr",
                             style: GoogleFonts.kreon(
