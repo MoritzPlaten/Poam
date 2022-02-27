@@ -28,6 +28,8 @@ class _PoamItemState extends State<PoamItem> {
     size = MediaQuery.of(context).size;
     primaryColor = Theme.of(context).primaryColor;
 
+    ///TODO: if you click on the item, you can change the data of it
+
     return Container(
 
       width: size.width,
@@ -39,73 +41,82 @@ class _PoamItemState extends State<PoamItem> {
       child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
-                children: [
+              GestureDetector(
+                onLongPress: () {
+                  setState(() {
 
-                  ///Displays if Categories == Tasks is. Displays the color
-                  if (widget.itemModel!.categories == Categories.tasks) Container(
-                    width: 5,
-                    height: 25,
-                    decoration: BoxDecoration(
-                      color: HexColor(widget.itemModel!.hex),
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                    ),
-                  ),
+                    print("Hallo");
+                  });
+                },
 
-                  const SizedBox(
-                    width: 10,
-                  ),
+                child: Row(
+                  children: [
 
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-
-                      ///Display the Item Title
-                      Text(
-                        widget.itemModel!.title,
-                        style: GoogleFonts.ubuntu(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 16.5
-                        ),
+                    ///Displays if Categories == Tasks is. Displays the color
+                    if (widget.itemModel!.categories == Categories.tasks) Container(
+                      width: 5,
+                      height: 25,
+                      decoration: BoxDecoration(
+                        color: HexColor(widget.itemModel!.hex),
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
                       ),
-                      const SizedBox(height: 1,),
+                    ),
 
-                      if (widget.itemModel!.categories == Categories.tasks)
+                    const SizedBox(
+                      width: 10,
+                    ),
+
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+
+                        ///Display the Item Title
                         Text(
-                          "Um " + widget.itemModel!.time.hour.toString() + ":" + widget.itemModel!.time.minute.toString() + " Uhr",
-                          style: GoogleFonts.kreon(
-                              color: primaryColor,
-                              fontSize: 13,
-                              fontWeight: FontWeight.bold
+                          widget.itemModel!.title,
+                          style: GoogleFonts.ubuntu(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 16.5
                           ),
                         ),
+                        const SizedBox(height: 1,),
 
-                      ///Count should only displayed on the Category Shopping
-                      if (widget.itemModel!.categories == Categories.shopping)
-                        Text(
-                          "Anzahl: " + widget.itemModel!.count.toString(),
-                          style: GoogleFonts.kreon(
-                              color: primaryColor,
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold
+                        if (widget.itemModel!.categories == Categories.tasks)
+                          Text(
+                            "Um " + widget.itemModel!.fromTime.hour.toString() + ":" + widget.itemModel!.fromTime.minute.toString() + " Uhr",
+                            style: GoogleFonts.kreon(
+                                color: primaryColor,
+                                fontSize: 13,
+                                fontWeight: FontWeight.bold
+                            ),
                           ),
-                        ),
 
-                      ///Person should only displayed when the Category Tasks is active
-                      if (widget.itemModel!.categories == Categories.tasks)
-                        Text(
-                          "Person: " + widget.itemModel!.person.name.toString(),
-                          style: GoogleFonts.kreon(
-                              color: primaryColor,
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold
+                        ///Count should only displayed on the Category Shopping
+                        if (widget.itemModel!.categories == Categories.shopping)
+                          Text(
+                            "Anzahl: " + widget.itemModel!.count.toString(),
+                            style: GoogleFonts.kreon(
+                                color: primaryColor,
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold
+                            ),
                           ),
-                        ),
-                    ],
-                  ),
 
-                ],
+                        ///Person should only displayed when the Category Tasks is active
+                        if (widget.itemModel!.categories == Categories.tasks)
+                          Text(
+                            "Person: " + widget.itemModel!.person.name.toString(),
+                            style: GoogleFonts.kreon(
+                                color: primaryColor,
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold
+                            ),
+                          ),
+                      ],
+                    ),
+
+                  ],
+                ),
               ),
 
               ///ShaderMask for the look

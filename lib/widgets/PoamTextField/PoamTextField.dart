@@ -7,8 +7,9 @@ class PoamTextField extends StatefulWidget {
   final TextInputType? keyboardType;
   final int? maxLines;
   final String? Function(String?)? validator;
+  final TextEditingController? controller;
 
-  const PoamTextField({Key? key, this.label, this.keyboardType, this.maxLines, this.validator }) : super(key: key);
+  const PoamTextField({Key? key, this.label, this.keyboardType, this.maxLines, this.validator, this.controller }) : super(key: key);
 
   @override
   _PoamTextFieldState createState() => _PoamTextFieldState();
@@ -25,6 +26,7 @@ class _PoamTextFieldState extends State<PoamTextField> {
         borderRadius: BorderRadius.all(Radius.circular(10)),
       ),
       child: TextFormField(
+        controller: widget.controller,
         keyboardType: widget.keyboardType,
         maxLines: widget.maxLines,
         style: GoogleFonts.kreon(),

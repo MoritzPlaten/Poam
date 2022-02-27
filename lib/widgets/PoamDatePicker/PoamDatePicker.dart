@@ -23,7 +23,6 @@ class _PoamDatePickerState extends State<PoamDatePicker> {
   DateTime selectedDate = DateTime.now();
   TimeOfDay selectedTime = TimeOfDay(hour: 00, minute: 00);
   late String dateTime;
-  ///TODO: Make it working
 
   @override
   Widget build(BuildContext context) {

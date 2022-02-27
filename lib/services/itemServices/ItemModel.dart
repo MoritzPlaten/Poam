@@ -9,7 +9,6 @@ import 'Objects/Database.dart';
 
 part 'ItemModel.g.dart';
 
-///TODO: Add Color for the PoamItem, for the decoration. the user can choose a color
 @HiveType(typeId: 0)
 class ItemModel extends ChangeNotifier {
 
@@ -26,15 +25,21 @@ class ItemModel extends ChangeNotifier {
   @HiveField(5)
   String hex;
   @HiveField(6)
-  DateTime time;
+  DateTime fromTime;
   @HiveField(7)
-  DateTime date;
+  DateTime fromDate;
   @HiveField(8)
-  Frequency frequency;
+  DateTime toTime;
   @HiveField(9)
+  DateTime toDate;
+  @HiveField(10)
+  Frequency frequency;
+  @HiveField(11)
   String description;
+  @HiveField(12)
+  bool expanded;
 
-  ItemModel (this.title, this.count, this.isChecked, this.person, this.categories, this.hex, this.time, this.date, this.frequency, this.description);
+  ItemModel (this.title, this.count, this.isChecked, this.person, this.categories, this.hex, this.fromTime, this.fromDate, this.toTime, this.toDate,this.frequency, this.description, this.expanded);
 
   List _itemModelList = <ItemModel>[];
   List get itemModelList => _itemModelList;
@@ -60,5 +65,7 @@ class ItemModel extends ChangeNotifier {
     box.add(item);
     notifyListeners();
   }
+
+  ///TODO: If an item has expired, then it should be put it for today
 
 }

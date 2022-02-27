@@ -23,8 +23,11 @@ class DateService extends ChangeNotifier {
     List<DateTime> dates = List.generate(getItems.length, (index) => DateTime(0));
     for (int i = 0;i < dates.length; i++) {
 
-      if (!dates.contains(getItems.elementAt(i).date)) {
-        dates[i] = getItems.elementAt(i).date;
+      DateTime getDate = getItems.elementAt(i).fromDate;
+      DateTime YMD = DateTime(getDate.year, getDate.month, getDate.day);
+
+      if (!dates.contains(/*getItems.elementAt(i).date*/ YMD)) {
+        dates[i] = YMD;
       }
     }
     for (int i = 0;i < getItems.length; i++) {
@@ -40,8 +43,8 @@ class DateService extends ChangeNotifier {
 
   List<dynamic> sortItemsByDate(List<ItemModel> items) {
     items.sort((a, b){
-      DateTime getDateTime_A = DateTime(a.date.year, a.date.month, a.date.day, a.time.hour, a.time.minute);
-      DateTime getDateTime_B = DateTime(b.date.year, b.date.month, b.date.day, b.time.hour, b.time.minute);
+      DateTime getDateTime_A = DateTime(a.fromDate.year, a.fromDate.month, a.fromDate.day, a.fromTime.hour, a.fromTime.minute);
+      DateTime getDateTime_B = DateTime(b.fromDate.year, b.fromDate.month, b.fromDate.day, b.fromTime.hour, b.fromTime.minute);
 
       return getDateTime_A.compareTo(getDateTime_B);
     });

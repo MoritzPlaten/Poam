@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:poam/services/chartServices/Objects/ChartSeries.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:poam/services/itemServices/ItemModel.dart';
 import '../dateServices/DateService.dart';
 import 'Objects/BartChartModel.dart';
 import 'Objects/ChartModel.dart';
@@ -9,16 +10,16 @@ class ChartService extends ChangeNotifier {
 
   ///TODO: rewrite
 
-  List<charts.Series<dynamic, String>> getSeries(List<dynamic> items, DateService dateService, List<DateTime> datesBetween, Color primaryColor) {
+  List<charts.Series<dynamic, String>> getSeries(List<ItemModel> items, DateService dateService, List<DateTime> datesBetween, Color primaryColor) {
 
     ChartModel chartModel = ChartModel([
       for(int i = 0;i < datesBetween.length;i++)
         BarChartModel(
           day: dateService.displayDate(datesBetween.elementAt(i)),
 
-          tasks: items.where((element) => (element.date.day == datesBetween.elementAt(i).day)
-              && (element.date.month == datesBetween.elementAt(i).month)
-              && (element.date.year == datesBetween.elementAt(i).year)
+          tasks: items.where((element) => (element.fromDate.day == datesBetween.elementAt(i).day)
+              && (element.fromDate.month == datesBetween.elementAt(i).month)
+              && (element.fromDate.year == datesBetween.elementAt(i).year)
           ).length,
 
           finishedTasks: 1,

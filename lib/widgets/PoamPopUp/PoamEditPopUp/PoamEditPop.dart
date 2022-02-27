@@ -11,6 +11,7 @@ import 'package:poam/widgets/PoamTextField/PoamTextField.dart';
 import 'package:provider/provider.dart';
 
 import '../../PoamDatePicker/PoamDatePicker.dart';
+import '../PoamPopMenu/PoamPopMenu.dart';
 
 class PoamEditPop extends StatefulWidget {
   const PoamEditPop({Key? key}) : super(key: key);
@@ -24,18 +25,23 @@ class _PoamEditPopState extends State<PoamEditPop> {
   late Color primaryColor;
   late PoamSnackbar poamSnackbar;
   late Size size;
-  String categoryDropDownValue = displayTextCategory(Categories.values.first);
+
   ///TODO: Frequency is not working
   String frequencyDropDownValue = displayFrequency(Frequency.values.first);
-  TextEditingController _dateController = TextEditingController();
-  TextEditingController _timeController = TextEditingController();
-  ///TODO: Add DatePicker "Bis" to the ItemModel, ...
-  TextEditingController _date2Controller = TextEditingController();
-  TextEditingController _time2Controller = TextEditingController();
+  String categoryDropDownValue = displayTextCategory(Categories.values.first);
+
   Color selectedColor = Colors.blueAccent;
 
-  String titleValue = "", numberValue = "", personValue = "", descriptionValue = "";
-  final _formKey = GlobalKey<FormState>();
+  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  ///TODO: Add DatePicker "Bis" to the ItemModel, ...
+  TextEditingController _fromDateController = TextEditingController();
+  TextEditingController _fromTimeController = TextEditingController();
+  TextEditingController _toDateController = TextEditingController();
+  TextEditingController _toTimeController = TextEditingController();
+  TextEditingController _titleController = TextEditingController();
+  TextEditingController _numberController = TextEditingController();
+  TextEditingController _personController = TextEditingController();
+  TextEditingController _descriptionController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -52,15 +58,16 @@ class _PoamEditPopState extends State<PoamEditPop> {
     return Scaffold(
         body: SizedBox(
           height: size.height,
-          child: Stack(
+          child:
 
-            children: [
+          ///The Form
+          Form(
+            key: _formKey,
+            child: Stack(
 
-              ///TODO: Sort Time
-              ///The Form
-              Form(
-                key: _formKey,
-                child: ListView(
+              children: [
+
+                ListView(
                   padding: const EdgeInsets.only(top: 60, right: 30, left: 30, bottom: 10),
                   shrinkWrap: true,
                   children: [
@@ -85,9 +92,9 @@ class _PoamEditPopState extends State<PoamEditPop> {
                         if (value == null || value.isEmpty) {
                           return 'Bitte geben Sie den Titel an!';
                         }
-                        titleValue = value;
                         return null;
                       }),
+                      controller: _titleController,
                       label: "Titel",
                       keyboardType: TextInputType.text,
                       maxLines: 1,
@@ -101,9 +108,9 @@ class _PoamEditPopState extends State<PoamEditPop> {
                           if (value == null || value.isEmpty) {
                             return 'Bitte geben Sie die Anzahl an!';
                           }
-                          numberValue = value;
                           return null;
                         }),
+                        controller: _numberController,
                         label: "Anzahl",
                         keyboardType: TextInputType.number,
                         maxLines: 1,
@@ -115,10 +122,10 @@ class _PoamEditPopState extends State<PoamEditPop> {
                           if (value == null || value.isEmpty) {
                             return 'Bitte geben Sie eine Person an!';
                           }
-                          personValue = value;
                           return null;
                         }),
                         label: "Person",
+                        controller: _personController,
                         keyboardType: TextInputType.text,
                         maxLines: 1,
                       ),
@@ -126,15 +133,15 @@ class _PoamEditPopState extends State<PoamEditPop> {
                     if (categoryDropDownValue == displayTextCategory(Categories.tasks))
                       PoamDatePicker(
                         title: "Von: ",
-                        dateController: _dateController,
-                        timeController: _timeController,
+                        dateController: _fromDateController,
+                        timeController: _fromTimeController,
                       ),
 
                     if (categoryDropDownValue == displayTextCategory(Categories.tasks))
                       PoamDatePicker(
                         title: "Bis: ",
-                        dateController: _date2Controller,
-                        timeController: _time2Controller,
+                        dateController: _toDateController,
+                        timeController: _toTimeController,
                       ),
 
                     if (categoryDropDownValue == displayTextCategory(Categories.tasks))
@@ -163,9 +170,9 @@ class _PoamEditPopState extends State<PoamEditPop> {
 
                     PoamTextField(
                       validator: ((value) {
-                        descriptionValue = value!;
                         return null;
                       }),
+                      controller: _descriptionController,
                       label: "Beschreibung",
                       keyboardType: TextInputType.multiline,
                       maxLines: 5,
@@ -173,198 +180,22 @@ class _PoamEditPopState extends State<PoamEditPop> {
 
                   ],
                 ),
-              ),
 
+                PoamPopMenu(
+                  formKey: _formKey,
+                  categoryDropDownValue: categoryDropDownValue,
+                  numberController: _numberController,
+                  titleController: _titleController,
+                  personController: _personController,
+                  selectedColor: selectedColor,
+                  frequencyDropDownValue: frequencyDropDownValue,
+                  descriptionController: _descriptionController,
+                  fromDateController: _fromDateController,
+                  fromTimeController: _fromTimeController,
+                ),
 
-              Positioned(
-
-                  bottom: 50,
-                  right: size.width - (size.width / 2) - 50,
-
-                  child: Center(
-                    child: Row(
-                      children: [
-
-                        ///The close button
-                        GestureDetector(
-                          child: CircleAvatar(
-                            backgroundColor: primaryColor,
-                            child: Container(
-                              width: 60,
-                              height: 60,
-                              child: const Icon(
-                                Icons.close,
-                                color: Colors.white,
-                                size: 25,
-                              ),
-                              decoration: BoxDecoration(
-                                color: primaryColor,
-                                shape: BoxShape.circle,
-                                boxShadow: const [BoxShadow(blurRadius: 10, color: Colors.grey, spreadRadius: 1)],
-                              ),
-                            ),
-                          ),
-                          onTap: () => {
-                            setState(() {
-                              Navigator.pop(context);
-                            })
-                          },
-                        ),
-
-                        const SizedBox(width: 20,),
-
-                        ///The check button
-                        GestureDetector(
-                          child: CircleAvatar(
-                            backgroundColor: primaryColor,
-                            child: Container(
-                              width: 60,
-                              height: 60,
-                              child: const Icon(
-                                Icons.check,
-                                color: Colors.white,
-                                size: 25,
-                              ),
-                              decoration: BoxDecoration(
-                                color: primaryColor,
-                                shape: BoxShape.circle,
-                                boxShadow: const [BoxShadow(blurRadius: 10, color: Colors.grey, spreadRadius: 1)],
-                              ),
-                            ),
-                          ),
-                          onTap: () => {
-                            setState(() {
-                              ///Add Item
-                              if (_formKey.currentState!.validate()) {
-                                bool isProblem = false;
-
-                                ///if select Category task, then you can add only tasks for the future
-                                if (categoryDropDownValue ==
-                                    displayTextCategory(Categories.tasks) &&
-                                    _dateController.text != "" &&
-                                    _timeController.text != "" ?
-                                DateTime(int.parse(_dateController.text
-                                    .split("/")
-                                    .last),
-                                    int.parse(_dateController.text
-                                        .split("/")
-                                        .first),
-                                    int.parse(
-                                        _dateController.text.split("/").elementAt(
-                                            1)),
-                                    int.parse(_timeController.text
-                                        .split(":")
-                                        .first),
-                                    int.parse(_timeController.text
-                                        .split(":")
-                                        .last), DateTime
-                                        .now()
-                                        .second).compareTo(
-                                    DateTime.now()) /*>=*/ < 0 : false) {
-                                  poamSnackbar.showSnackBar(context,
-                                      "Sie können keine Aufgaben erstellen in der Vergangenheit!",
-                                      primaryColor);
-                                  isProblem = true;
-                                }
-
-                                RegExp regExp = new RegExp(r'^[0-9]+$');
-                                if (categoryDropDownValue ==
-                                    displayTextCategory(Categories.shopping) &&
-                                    regExp.hasMatch(numberValue) == false) {
-                                  poamSnackbar.showSnackBar(context,
-                                      "Geben Sie eine Zahl ein, keine Buchstaben!",
-                                      primaryColor);
-                                  isProblem = true;
-                                }
-
-                                ///If there are no problems then add ItemModel
-                                if (isProblem == false) {
-                                  Provider.of<ItemModel>(context, listen: false)
-                                      .addItem(ItemModel(
-
-                                    ///Set Title
-                                      titleValue,
-
-                                      ///Set the number. if number == "", then set number to 0
-                                      categoryDropDownValue ==
-                                          displayTextCategory(Categories.shopping)
-                                          ? int.parse(numberValue)
-                                          : 0,
-
-                                      ///isChecked == false
-                                      false,
-
-                                      ///Person
-                                      Person(personValue),
-
-                                      ///Set Category
-                                      categoryDropDownValue == "Aufgabenliste"
-                                          ? Categories.tasks
-                                          : Categories.shopping,
-
-                                      ///Set Color
-                                      selectedColor.value.toRadixString(16),
-
-                                      ///Set Time
-                                      DateTime(0, 0, 0,
-                                          categoryDropDownValue ==
-                                              displayTextCategory(
-                                                  Categories.tasks) &&
-                                              _timeController.text != "" ?
-                                          int.parse(_timeController.text
-                                              .split(":")
-                                              .first)
-                                              :
-                                          DateTime
-                                              .now()
-                                              .hour,
-                                          categoryDropDownValue ==
-                                              displayTextCategory(
-                                                  Categories.tasks) &&
-                                              _timeController.text != "" ?
-                                          int.parse(_timeController.text
-                                              .split(":")
-                                              .last)
-                                              :
-                                          DateTime
-                                              .now()
-                                              .minute + 1),
-
-                                      ///Set Date
-                                      categoryDropDownValue ==
-                                          displayTextCategory(Categories.tasks) &&
-                                          _dateController.text != "" ?
-                                      DateTime(
-                                          int.parse(_dateController.text
-                                              .split("/")
-                                              .last),
-                                          int.parse(_dateController.text
-                                              .split("/")
-                                              .first),
-                                          int.parse(
-                                              _dateController.text.split("/")
-                                                  .elementAt(1)))
-                                          : DateTime.now(),
-
-                                      ///Set Frequency
-                                      getFrequency(frequencyDropDownValue),
-                                      ///Description
-                                      descriptionValue
-                                  )
-                                  );
-
-                                  Navigator.pop(context);
-                                }
-                              }
-                            })
-                          },
-                        ),
-                      ],
-                    ),
-                  )
-              ),
-
-            ],
+              ],
+            ),
           ),
         )
     );

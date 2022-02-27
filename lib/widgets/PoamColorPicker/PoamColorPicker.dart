@@ -20,8 +20,6 @@ class _PoamColorPickerState extends State<PoamColorPicker> {
   @override
   Widget build(BuildContext context) {
 
-    ///TODO: Change the Color of the Item
-
     return Container(
       margin: EdgeInsets.only(top: 10),
       child: GestureDetector(

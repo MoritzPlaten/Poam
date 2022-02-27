@@ -11,18 +11,20 @@ class PoamPopMenu extends StatefulWidget {
 
   final GlobalKey<FormState>? formKey;
   final String? categoryDropDownValue;
-  final String? numberValue;
-  final String? titleValue;
-  final String? personValue;
+  final TextEditingController? numberController;
+  final TextEditingController? titleController;
+  final TextEditingController? personController;
+  final TextEditingController? descriptionController;
   final Color? selectedColor;
   final String? frequencyDropDownValue;
-  final String? descriptionValue;
-  final TextEditingController? dateController;
-  final TextEditingController? timeController;
+  final TextEditingController? fromDateController;
+  final TextEditingController? fromTimeController;
+  final TextEditingController? toDateController;
+  final TextEditingController? toTimeController;
 
-  const PoamPopMenu({Key? key, this.formKey, this.categoryDropDownValue, this.numberValue, this.titleValue,
-    this.personValue, this.selectedColor, this.frequencyDropDownValue, this.descriptionValue, this.dateController,
-    this.timeController}) : super(key: key);
+  const PoamPopMenu({Key? key, this.formKey, this.categoryDropDownValue, this.numberController, this.titleController,
+    this.personController, this.selectedColor, this.frequencyDropDownValue, this.descriptionController, this.fromDateController,
+    this.fromTimeController, this.toDateController, this.toTimeController }) : super(key: key);
 
   @override
   _PoamPopMenuState createState() => _PoamPopMenuState();
@@ -101,32 +103,17 @@ class _PoamPopMenuState extends State<PoamPopMenu> {
                 onTap: () => {
                   setState(() {
                     ///Add Item
-                    if (widget.formKey!.currentState!.validate()) {
+                    if (widget.formKey!.currentState!.validate() && widget.titleController!.text != "") {
                       bool isProblem = false;
 
                       ///if select Category task, then you can add only tasks for the future
-                      if (widget.categoryDropDownValue ==
-                          displayTextCategory(Categories.tasks) &&
-                          widget.dateController!.text != "" &&
-                          widget.timeController!.text != "" ?
-                      DateTime(int.parse(widget.dateController!.text
-                          .split("/")
-                          .last),
-                          int.parse(widget.dateController!.text
-                              .split("/")
-                              .first),
-                          int.parse(
-                              widget.dateController!.text.split("/").elementAt(
-                                  1)),
-                          int.parse(widget.timeController!.text
-                              .split(":")
-                              .first),
-                          int.parse(widget.timeController!.text
-                              .split(":")
-                              .last), DateTime
-                              .now()
-                              .second).compareTo(
-                          DateTime.now()) /*>=*/ < 0 : false) {
+                      if (widget.categoryDropDownValue == displayTextCategory(Categories.tasks) && widget.fromDateController!.text != "" && widget.fromTimeController!.text != "" ?
+                      DateTime(int.parse(widget.fromDateController!.text.split("/").last),
+                          int.parse(widget.fromDateController!.text.split("/").first),
+                          int.parse(widget.fromDateController!.text.split("/").elementAt(1)),
+                          int.parse(widget.fromTimeController!.text.split(":").first),
+                          int.parse(widget.fromTimeController!.text.split(":").last),
+                          DateTime.now().second).compareTo(DateTime.now()) /*>=*/ < 0 : false) {
                         poamSnackbar.showSnackBar(context,
                             "Sie können keine Aufgaben erstellen in der Vergangenheit!",
                             primaryColor);
@@ -134,9 +121,7 @@ class _PoamPopMenuState extends State<PoamPopMenu> {
                       }
 
                       RegExp regExp = new RegExp(r'^[0-9]+$');
-                      if (widget.categoryDropDownValue ==
-                          displayTextCategory(Categories.shopping) &&
-                          regExp.hasMatch(widget.numberValue!) == false) {
+                      if (widget.categoryDropDownValue == displayTextCategory(Categories.shopping) && regExp.hasMatch(widget.numberController!.text) == false) {
                         poamSnackbar.showSnackBar(context,
                             "Geben Sie eine Zahl ein, keine Buchstaben!",
                             primaryColor);
@@ -145,23 +130,19 @@ class _PoamPopMenuState extends State<PoamPopMenu> {
 
                       ///If there are no problems then add ItemModel
                       if (isProblem == false) {
-                        Provider.of<ItemModel>(context, listen: false)
-                            .addItem(ItemModel(
+                        Provider.of<ItemModel>(context, listen: false).addItem(ItemModel(
 
                           ///Set Title
-                            widget.titleValue!,
+                            widget.titleController!.text,
 
                             ///Set the number. if number == "", then set number to 0
-                            widget.categoryDropDownValue ==
-                                displayTextCategory(Categories.shopping)
-                                ? int.parse(widget.numberValue!)
-                                : 0,
+                            widget.categoryDropDownValue == displayTextCategory(Categories.shopping) ? int.parse(widget.numberController!.text) : 0,
 
                             ///isChecked == false
                             false,
 
                             ///Person
-                            Person(widget.personValue),
+                            Person(widget.personController!.text),
 
                             ///Set Category
                             widget.categoryDropDownValue == "Aufgabenliste"
@@ -171,51 +152,48 @@ class _PoamPopMenuState extends State<PoamPopMenu> {
                             ///Set Color
                             widget.selectedColor!.value.toRadixString(16),
 
-                            ///Set Time
+                            ///Set From Time
                             DateTime(0, 0, 0,
-                                widget.categoryDropDownValue ==
-                                    displayTextCategory(
-                                        Categories.tasks) &&
-                                    widget.timeController!.text != "" ?
-                                int.parse(widget.timeController!.text
-                                    .split(":")
-                                    .first)
+                                widget.categoryDropDownValue == displayTextCategory(Categories.tasks) && widget.fromTimeController!.text != "" ?
+                                int.parse(widget.fromTimeController!.text.split(":").first)
                                     :
-                                DateTime
-                                    .now()
-                                    .hour,
-                                widget.categoryDropDownValue ==
-                                    displayTextCategory(
-                                        Categories.tasks) &&
-                                    widget.timeController!.text != "" ?
-                                int.parse(widget.timeController!.text
-                                    .split(":")
-                                    .last)
+                                DateTime.now().hour,
+                                widget.categoryDropDownValue == displayTextCategory(Categories.tasks) && widget.fromTimeController!.text != "" ?
+                                int.parse(widget.fromTimeController!.text.split(":").last)
                                     :
-                                DateTime
-                                    .now()
-                                    .minute + 1),
+                                DateTime.now().minute),
 
-                            ///Set Date
-                            widget.categoryDropDownValue ==
-                                displayTextCategory(Categories.tasks) &&
-                                widget.dateController!.text != "" ?
+                            ///Set From Date
+                            widget.categoryDropDownValue == displayTextCategory(Categories.tasks) && widget.fromDateController!.text != "" ?
                             DateTime(
-                                int.parse(widget.dateController!.text
-                                    .split("/")
-                                    .last),
-                                int.parse(widget.dateController!.text
-                                    .split("/")
-                                    .first),
-                                int.parse(
-                                    widget.dateController!.text.split("/")
-                                        .elementAt(1)))
-                                : DateTime.now(),
+                                int.parse(widget.fromDateController!.text.split("/").last),
+                                int.parse(widget.fromDateController!.text.split("/").first),
+                                int.parse(widget.fromDateController!.text.split("/").elementAt(1))) : DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day),
+
+                            ///Set to Time
+                            DateTime(0, 0, 0,
+                                widget.categoryDropDownValue == displayTextCategory(Categories.tasks) && widget.fromTimeController!.text != "" ?
+                                int.parse(widget.toTimeController!.text.split(":").first)
+                                    :
+                                DateTime.now().hour,
+                                widget.categoryDropDownValue == displayTextCategory(Categories.tasks) && widget.toTimeController!.text != "" ?
+                                int.parse(widget.toTimeController!.text.split(":").last)
+                                    :
+                                DateTime.now().minute),
+
+                            ///Set to Date
+                            widget.categoryDropDownValue == displayTextCategory(Categories.tasks) && widget.toDateController!.text != "" ?
+                            DateTime(
+                                int.parse(widget.toDateController!.text.split("/").last),
+                                int.parse(widget.toDateController!.text.split("/").first),
+                                int.parse(widget.toDateController!.text.split("/").elementAt(1))) : DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day),
 
                             ///Set Frequency
                             getFrequency(widget.frequencyDropDownValue!),
                             ///Description
-                            widget.descriptionValue!
+                            widget.descriptionController!.text,
+                            ///Set Expanded
+                            false
                         )
                         );
 

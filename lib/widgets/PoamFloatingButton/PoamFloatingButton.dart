@@ -35,7 +35,7 @@ class _PoamFloatingButtonState extends State<PoamFloatingButton> {
             MaterialPageRoute(builder: (context) => MultiProvider(
               providers: [
                 ChangeNotifierProvider(
-                  create: (_) => ItemModel("", 0, false, Person(""), Categories.tasks, "0xFFFFFF", DateTime(0), DateTime(0), Frequency.single, ""),
+                  create: (_) => ItemModel("", 0, false, Person(""), Categories.tasks, "0xFFFFFF", DateTime(0), DateTime(0), DateTime(0), DateTime(0), Frequency.single, "", false),
                 ),
                 ChangeNotifierProvider(
                   create: (_) => ChartService(),

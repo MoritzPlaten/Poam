@@ -25,18 +25,23 @@ class _PoamPopUpState extends State<PoamPopUp> {
   late Color primaryColor;
   late PoamSnackbar poamSnackbar;
   late Size size;
-  String categoryDropDownValue = displayTextCategory(Categories.values.first);
+
   ///TODO: Frequency is not working
   String frequencyDropDownValue = displayFrequency(Frequency.values.first);
-  TextEditingController _dateController = TextEditingController();
-  TextEditingController _timeController = TextEditingController();
-  ///TODO: Add DatePicker "Bis" to the ItemModel, ...
-  TextEditingController _date2Controller = TextEditingController();
-  TextEditingController _time2Controller = TextEditingController();
+  String categoryDropDownValue = displayTextCategory(Categories.values.first);
+
   Color selectedColor = Colors.blueAccent;
 
-  String titleValue = "", numberValue = "", personValue = "", descriptionValue = "";
-  final _formKey = GlobalKey<FormState>();
+  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  ///TODO: Add DatePicker "Bis" to the ItemModel, ...
+  TextEditingController _fromDateController = TextEditingController();
+  TextEditingController _fromTimeController = TextEditingController();
+  TextEditingController _toDateController = TextEditingController();
+  TextEditingController _toTimeController = TextEditingController();
+  TextEditingController _titleController = TextEditingController();
+  TextEditingController _numberController = TextEditingController();
+  TextEditingController _personController = TextEditingController();
+  TextEditingController _descriptionController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -53,66 +58,67 @@ class _PoamPopUpState extends State<PoamPopUp> {
     return Scaffold(
       body: SizedBox(
         height: size.height,
-        child: Stack(
+        child:
 
-          children: [
-
-            ///TODO: Sort Time
             ///The Form
             Form(
               key: _formKey,
-                child: ListView(
-                  padding: const EdgeInsets.only(top: 60, right: 30, left: 30, bottom: 10),
-                  shrinkWrap: true,
-                  children: [
+                child: Stack(
 
-                    PoamDropDown(
-                      dropdownValue: categoryDropDownValue,
-                      onChanged: (value) {
-                        setState(() {
-                          categoryDropDownValue = value!;
-                        });
-                      },
-                      items: displayAllCategories(),
-                      color: primaryColor,
-                      iconData: Icons.arrow_drop_down,
-                      foregroundColor: Colors.white,
-                    ),
+                    children: [
 
-                    const SizedBox(height: 10,),
+                      ListView(
+                        padding: const EdgeInsets.only(top: 60, right: 30, left: 30, bottom: 10),
+                        shrinkWrap: true,
+                        children: [
 
-                    PoamTextField(
-                      validator: ((value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Bitte geben Sie den Titel an!';
-                        }
-                        titleValue = value;
-                        return null;
-                      }),
-                      label: "Titel",
-                      keyboardType: TextInputType.text,
-                      maxLines: 1,
-                    ),
+                          PoamDropDown(
+                            dropdownValue: categoryDropDownValue,
+                            onChanged: (value) {
+                              setState(() {
+                                categoryDropDownValue = value!;
+                              });
+                            },
+                            items: displayAllCategories(),
+                            color: primaryColor,
+                            iconData: Icons.arrow_drop_down,
+                            foregroundColor: Colors.white,
+                          ),
 
-                    const SizedBox(height: 10,),
+                          const SizedBox(height: 10,),
 
-                    if (categoryDropDownValue == displayTextCategory(Categories.shopping))
-                      PoamTextField(
-                        validator: ((value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Bitte geben Sie die Anzahl an!';
-                          }
-                          numberValue = value;
-                          return null;
-                        }),
-                        label: "Anzahl",
-                        keyboardType: TextInputType.number,
-                        maxLines: 1,
-                      ),
+                          PoamTextField(
+                            validator: ((value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Bitte geben Sie den Titel an!';
+                              }
+                              return null;
+                            }),
+                            controller: _titleController,
+                            label: "Titel",
+                            keyboardType: TextInputType.text,
+                            maxLines: 1,
+                          ),
 
-                    ///TODO: Set an DropDown, where the persons would be display => with an Add Person Button
+                          const SizedBox(height: 10,),
 
-                    /*ValueListenableBuilder(
+                          if (categoryDropDownValue == displayTextCategory(Categories.shopping))
+                            PoamTextField(
+                              validator: ((value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Bitte geben Sie die Anzahl an!';
+                                }
+                                return null;
+                              }),
+                              controller: _numberController,
+                              label: "Anzahl",
+                              keyboardType: TextInputType.number,
+                              maxLines: 1,
+                            ),
+
+                          ///TODO: Set an DropDown, where the persons would be display => with an Add Person Button
+
+                          /*ValueListenableBuilder(
                           valueListenable: Hive.box<Person>(Database.PersonName).listenable(),
                           builder: (context, Box box, widget) {
 
@@ -153,87 +159,89 @@ class _PoamPopUpState extends State<PoamPopUp> {
                           }
                     ),*/
 
-                    if (categoryDropDownValue == displayTextCategory(Categories.tasks))
-                      PoamTextField(
-                        validator: ((value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Bitte geben Sie eine Person an!';
-                          }
-                          personValue = value;
-                          return null;
-                        }),
-                        label: "Person",
-                        keyboardType: TextInputType.text,
-                        maxLines: 1,
+                          if (categoryDropDownValue == displayTextCategory(Categories.tasks))
+                            PoamTextField(
+                              validator: ((value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Bitte geben Sie eine Person an!';
+                                }
+                                return null;
+                              }),
+                              label: "Person",
+                              controller: _personController,
+                              keyboardType: TextInputType.text,
+                              maxLines: 1,
+                            ),
+
+                          if (categoryDropDownValue == displayTextCategory(Categories.tasks))
+                            PoamDatePicker(
+                              title: "Von: ",
+                              dateController: _fromDateController,
+                              timeController: _fromTimeController,
+                            ),
+
+                          if (categoryDropDownValue == displayTextCategory(Categories.tasks))
+                            PoamDatePicker(
+                              title: "Bis: ",
+                              dateController: _toDateController,
+                              timeController: _toTimeController,
+                            ),
+
+                          if (categoryDropDownValue == displayTextCategory(Categories.tasks))
+                            PoamDropDown(
+                              dropdownValue: frequencyDropDownValue,
+                              onChanged: (value) {
+                                setState(() {
+                                  frequencyDropDownValue = value!;
+                                });
+                              },
+                              items: displayAllFrequency(),
+                              color: Colors.white,
+                              iconData: Icons.arrow_drop_down,
+                              foregroundColor: Colors.black,
+                            ),
+
+                          if (categoryDropDownValue == displayTextCategory(Categories.tasks))
+                            PoamColorPicker(
+                              pickedColor: selectedColor,
+                              onChangeColor: (Color? color){ //on color picked
+                                setState(() {
+                                  selectedColor = color!;
+                                });
+                              },
+                            ),
+
+                          PoamTextField(
+                            validator: ((value) {
+                              return null;
+                            }),
+                            controller: _descriptionController,
+                            label: "Beschreibung",
+                            keyboardType: TextInputType.multiline,
+                            maxLines: 5,
+                          ),
+
+                        ],
                       ),
 
-                    if (categoryDropDownValue == displayTextCategory(Categories.tasks))
-                      PoamDatePicker(
-                        title: "Von: ",
-                        dateController: _dateController,
-                        timeController: _timeController,
+                      PoamPopMenu(
+                        formKey: _formKey,
+                        categoryDropDownValue: categoryDropDownValue,
+                        numberController: _numberController,
+                        titleController: _titleController,
+                        personController: _personController,
+                        selectedColor: selectedColor,
+                        frequencyDropDownValue: frequencyDropDownValue,
+                        descriptionController: _descriptionController,
+                        fromDateController: _fromDateController,
+                        fromTimeController: _fromTimeController,
+                        toDateController: _toDateController,
+                        toTimeController: _toTimeController,
                       ),
 
-                    if (categoryDropDownValue == displayTextCategory(Categories.tasks))
-                      PoamDatePicker(
-                        title: "Bis: ",
-                        dateController: _date2Controller,
-                        timeController: _time2Controller,
-                      ),
-
-                    if (categoryDropDownValue == displayTextCategory(Categories.tasks))
-                      PoamDropDown(
-                        dropdownValue: frequencyDropDownValue,
-                        onChanged: (value) {
-                          setState(() {
-                            frequencyDropDownValue = value!;
-                          });
-                        },
-                        items: displayAllFrequency(),
-                        color: Colors.white,
-                        iconData: Icons.arrow_drop_down,
-                        foregroundColor: Colors.black,
-                      ),
-
-                    if (categoryDropDownValue == displayTextCategory(Categories.tasks))
-                      PoamColorPicker(
-                        pickedColor: selectedColor,
-                        onChangeColor: (Color? color){ //on color picked
-                          setState(() {
-                            selectedColor = color!;
-                          });
-                        },
-                      ),
-
-                      PoamTextField(
-                        validator: ((value) {
-                          descriptionValue = value!;
-                          return null;
-                        }),
-                        label: "Beschreibung",
-                        keyboardType: TextInputType.multiline,
-                        maxLines: 5,
-                      ),
-
-                  ],
+                    ],
                 ),
             ),
-
-            PoamPopMenu(
-              formKey: _formKey,
-              categoryDropDownValue: categoryDropDownValue,
-              numberValue: numberValue,
-              titleValue: titleValue,
-              personValue: personValue,
-              selectedColor: selectedColor,
-              frequencyDropDownValue: frequencyDropDownValue,
-              descriptionValue: descriptionValue,
-              dateController: _dateController,
-              timeController: _timeController,
-            ),
-
-          ],
-        ),
       )
     );
   }

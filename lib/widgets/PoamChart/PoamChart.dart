@@ -40,7 +40,7 @@ class _PoamChartState extends State<PoamChart> {
           return SizedBox(
             width: size.width,
             height: 250,
-            child: charts.BarChart(Provider.of<ChartService>(context, listen: false).getSeries(box.values.where((element) => element.categories == Categories.tasks).toList(), dateService, datesBetween, primaryColor), animate: true,),
+            child: charts.BarChart(Provider.of<ChartService>(context, listen: false).getSeries(box.values.where((element) => element.categories == Categories.tasks).toList() as List<ItemModel>, dateService, datesBetween, primaryColor), animate: true,),
           );
         }
     );
