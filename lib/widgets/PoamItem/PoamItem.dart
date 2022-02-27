@@ -45,7 +45,8 @@ class _PoamItemState extends State<PoamItem> {
                 onLongPress: () {
                   setState(() {
 
-                    print("Hallo");
+                    ///TODO: Edit Item
+                    print("Item wird hier geändert!");
                   });
                 },
 

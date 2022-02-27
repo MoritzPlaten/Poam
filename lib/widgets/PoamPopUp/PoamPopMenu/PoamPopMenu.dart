@@ -106,14 +106,25 @@ class _PoamPopMenuState extends State<PoamPopMenu> {
                     if (widget.formKey!.currentState!.validate() && widget.titleController!.text != "") {
                       bool isProblem = false;
 
+                      DateTime fromDateTime = widget.categoryDropDownValue == displayTextCategory(Categories.tasks) ? DateTime(
+                          widget.fromDateController!.text != "" ? int.parse(widget.fromDateController!.text.split("/").last) : DateTime.now().year,
+                          widget.fromDateController!.text != "" ? int.parse(widget.fromDateController!.text.split("/").first) : DateTime.now().month,
+                          widget.fromDateController!.text != "" ? int.parse(widget.fromDateController!.text.split("/").elementAt(1)) : DateTime.now().day,
+                          widget.fromTimeController!.text != "" ? int.parse(widget.fromTimeController!.text.split(":").first) : DateTime.now().hour,
+                          widget.fromTimeController!.text != "" ? int.parse(widget.fromTimeController!.text.split(":").last) : DateTime.now().minute,
+                          DateTime.now().second) : DateTime.now();
+
+                      DateTime toDateTime = widget.categoryDropDownValue == displayTextCategory(Categories.tasks) ? DateTime(
+                          widget.toDateController!.text != "" ? int.parse(widget.toDateController!.text.split("/").last) : DateTime.now().year,
+                          widget.toDateController!.text != "" ? int.parse(widget.toDateController!.text.split("/").first) : DateTime.now().month,
+                          widget.toDateController!.text != "" ? int.parse(widget.toDateController!.text.split("/").elementAt(1)) : DateTime.now().day,
+                          widget.toTimeController!.text != "" ? int.parse(widget.toTimeController!.text.split(":").first) : DateTime.now().hour,
+                          widget.toTimeController!.text != "" ? int.parse(widget.toTimeController!.text.split(":").last) : DateTime.now().minute,
+                          DateTime.now().second) : DateTime.now();
+
                       ///if select Category task, then you can add only tasks for the future
                       if (widget.categoryDropDownValue == displayTextCategory(Categories.tasks) && widget.fromDateController!.text != "" && widget.fromTimeController!.text != "" ?
-                      DateTime(int.parse(widget.fromDateController!.text.split("/").last),
-                          int.parse(widget.fromDateController!.text.split("/").first),
-                          int.parse(widget.fromDateController!.text.split("/").elementAt(1)),
-                          int.parse(widget.fromTimeController!.text.split(":").first),
-                          int.parse(widget.fromTimeController!.text.split(":").last),
-                          DateTime.now().second).compareTo(DateTime.now()) /*>=*/ < 0 : false) {
+                      fromDateTime.compareTo(DateTime.now()) /*>=*/ < 0 : false) {
                         poamSnackbar.showSnackBar(context,
                             "Sie können keine Aufgaben erstellen in der Vergangenheit!",
                             primaryColor);
@@ -128,7 +139,13 @@ class _PoamPopMenuState extends State<PoamPopMenu> {
                         isProblem = true;
                       }
 
-                      ///TODO: if toDate > fromDate && toTime > fromDate then error
+                      if (fromDateTime.compareTo(toDateTime) > 0) {
+                        poamSnackbar.showSnackBar(context,
+                            "Die 'von Time' darf nicht kleiner als die 'bis Time' sein!",
+                            primaryColor);
+
+                        isProblem = true;
+                      }
 
                       ///If there are no problems then add ItemModel
                       if (isProblem == false) {
@@ -155,40 +172,16 @@ class _PoamPopMenuState extends State<PoamPopMenu> {
                             widget.selectedColor!.value.toRadixString(16),
 
                             ///Set From Time
-                            DateTime(0, 0, 0,
-                                widget.categoryDropDownValue == displayTextCategory(Categories.tasks) && widget.fromTimeController!.text != "" ?
-                                int.parse(widget.fromTimeController!.text.split(":").first)
-                                    :
-                                DateTime.now().hour,
-                                widget.categoryDropDownValue == displayTextCategory(Categories.tasks) && widget.fromTimeController!.text != "" ?
-                                int.parse(widget.fromTimeController!.text.split(":").last)
-                                    :
-                                DateTime.now().minute),
+                            DateTime(0, 0, 0, fromDateTime.hour, fromDateTime.minute),
 
                             ///Set From Date
-                            widget.categoryDropDownValue == displayTextCategory(Categories.tasks) && widget.fromDateController!.text != "" ?
-                            DateTime(
-                                int.parse(widget.fromDateController!.text.split("/").last),
-                                int.parse(widget.fromDateController!.text.split("/").first),
-                                int.parse(widget.fromDateController!.text.split("/").elementAt(1))) : DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day),
+                            DateTime(fromDateTime.year, fromDateTime.month, fromDateTime.day),
 
                             ///Set to Time
-                            DateTime(0, 0, 0,
-                                widget.categoryDropDownValue == displayTextCategory(Categories.tasks) && widget.fromTimeController!.text != "" ?
-                                int.parse(widget.toTimeController!.text.split(":").first)
-                                    :
-                                DateTime.now().hour,
-                                widget.categoryDropDownValue == displayTextCategory(Categories.tasks) && widget.toTimeController!.text != "" ?
-                                int.parse(widget.toTimeController!.text.split(":").last)
-                                    :
-                                DateTime.now().minute),
+                            DateTime(0, 0, 0, toDateTime.hour, toDateTime.minute),
 
                             ///Set to Date
-                            widget.categoryDropDownValue == displayTextCategory(Categories.tasks) && widget.toDateController!.text != "" ?
-                            DateTime(
-                                int.parse(widget.toDateController!.text.split("/").last),
-                                int.parse(widget.toDateController!.text.split("/").first),
-                                int.parse(widget.toDateController!.text.split("/").elementAt(1))) : DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day),
+                            DateTime(toDateTime.year, toDateTime.month, toDateTime.day),
 
                             ///Set Frequency
                             getFrequency(widget.frequencyDropDownValue!),

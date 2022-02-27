@@ -31,16 +31,11 @@ class _PoamDateItemState extends State<PoamDateItem> {
     dates = dateService.getListOfAllDates(widget.allItems!.where((element) => element.categories == Categories.tasks));
     primaryColor = Theme.of(context).primaryColor;
 
-    //print(widget.allItems!.where((element) => element.categories == Categories.tasks));
-    //print(itemsState);
-    //print(dates.length);
-
     return Column(
       children: [
 
         ///Display a Column, when the Category shopping is
         (widget.categories! == Categories.shopping) ?
-            ///TODO: Fix Problem
             ExpansionPanelList(
               elevation: 0,
               children: [
@@ -116,15 +111,7 @@ class _PoamDateItemState extends State<PoamDateItem> {
                         ],
                       ),
                       ///Adds all Items with the correct date to the element
-                      /*for (int i = 0; i < widget.allItems!.length;i++)
-                        if (DateTime(widget.allItems!.elementAt(i).date.year,
-                            widget.allItems!.elementAt(i).date.month,
-                            widget.allItems!.elementAt(i).date.day) == dates[k])
-                          PoamItem(
-                          itemIndex: i,
-                          itemModel: widget.allItems!.elementAt(i),
-                          ),*/
-                      ///TODO: Fix Problem
+
                       ExpansionPanelList(
                         elevation: 0,
                         children: [
