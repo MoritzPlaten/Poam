@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:poam/services/dateServices/DateService.dart';
+import 'package:poam/services/dateServices/Objects/Frequency.dart';
 import 'package:poam/services/itemServices/Objects/Category.dart';
 import 'package:poam/services/itemServices/ItemModel.dart';
 import 'package:poam/widgets/PoamItem/PoamItem.dart';
@@ -25,6 +26,8 @@ class _PoamDateItemState extends State<PoamDateItem> {
 
   @override
   Widget build(BuildContext context) {
+
+    ///TODO: if the surface of the item is removed, then add a new surface of the item: if is it weekly then add a new DateTime, ...
 
     ///initialize
     dateService = DateService();
@@ -51,12 +54,25 @@ class _PoamDateItemState extends State<PoamDateItem> {
                         children: [
                           if (widget.allItems!.where((element) =>
                           element.categories == Categories.shopping).elementAt(i).description != "")
-                            Text(
-                              "Beschreibung: " + widget.allItems!.where((element) =>
-                              element.categories == Categories.shopping).elementAt(i).description,
-                              style: GoogleFonts.novaMono(
-                                  fontSize: 12
-                              ),
+                            Row(
+                              children: [
+
+                                Text(
+                                  "Beschreibung: ",
+                                  style: GoogleFonts.kreon(
+                                    color: primaryColor,
+                                  ),
+                                ),
+
+                                Text(
+                                  widget.allItems!.where((element) =>
+                                  element.categories == Categories.shopping).elementAt(i).description,
+                                  style: GoogleFonts.kreon(
+                                      fontSize: 12
+                                  ),
+                                ),
+
+                              ],
                             ),
                         ],
                       ),
@@ -127,16 +143,56 @@ class _PoamDateItemState extends State<PoamDateItem> {
                                     itemModel: widget.allItems!.elementAt(i),
                                   );
                                 },
-                                body: Column(
+                                body: Padding(
+                                padding: const EdgeInsets.only(left: 10, bottom: 2),
+                                child: Column(
                                   children: [
-                                    if (widget.allItems!.elementAt(i).description != "")
-                                      Text(
-                                        "Beschreibung: " + widget.allItems!.elementAt(i).description,
-                                        style: GoogleFonts.novaMono(
-                                          fontSize: 12
+
+                                    if (widget.allItems!.elementAt(i).frequency != "") Row(
+                                      children: [
+
+                                        Text(
+                                          "Wiederholung: ",
+                                          style: GoogleFonts.kreon(
+                                              color: primaryColor,
+                                              fontSize: 13
+                                          ),
                                         ),
-                                      ),
-                                  ],
+
+                                        Text(
+                                          displayFrequency(widget.allItems!.elementAt(i).frequency),
+                                          style: GoogleFonts.kreon(
+                                              fontSize: 13
+                                          ),
+                                        ),
+
+                                      ],
+                                    ),
+
+                                    if (widget.allItems!.elementAt(i).description != "")
+                                      Row(
+                                          children: [
+
+                                            Text(
+                                              "Beschreibung: ",
+                                              style: GoogleFonts.kreon(
+                                                  color: primaryColor,
+                                                  fontSize: 13
+                                              ),
+                                            ),
+
+                                            Text(
+                                              widget.allItems!.elementAt(i).description,
+                                              style: GoogleFonts.kreon(
+                                                  fontSize: 13
+                                              ),
+                                            ),
+
+                                          ],
+                                        ),
+
+                                    ],
+                                  ),
                                 ),
                                 isExpanded: widget.allItems!.elementAt(i).expanded,
                                 //canTapOnHeader: true,

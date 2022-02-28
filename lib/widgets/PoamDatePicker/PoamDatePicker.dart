@@ -21,7 +21,7 @@ class _PoamDatePickerState extends State<PoamDatePicker> {
   late String _hour, _minute, _time;
   late String _setTime, _setDate;
   DateTime selectedDate = DateTime.now();
-  TimeOfDay selectedTime = TimeOfDay(hour: 00, minute: 00);
+  TimeOfDay selectedTime = TimeOfDay(hour: DateTime.now().hour, minute: DateTime.now().minute);
   late String dateTime;
 
   @override
@@ -69,25 +69,29 @@ class _PoamDatePickerState extends State<PoamDatePicker> {
           style: GoogleFonts.novaMono(),
         ),
 
+        const SizedBox(
+          width: 8,
+        ),
+
         InkWell(
           onTap: () {
             _selectDate(context);
           },
           child: Container(
             width: 150,
-            margin: const EdgeInsets.only(top: 10),
+            margin: const EdgeInsets.only(top: 10, bottom: 10),
             alignment: Alignment.center,
-            child: Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
+            child: Container(
+              decoration: const BoxDecoration(
+                color: Colors.blueAccent,
+                borderRadius: BorderRadius.all(Radius.circular(20)),
               ),
               child: TextFormField(
                 style: GoogleFonts.novaMono(
-                    fontSize: 13, color: Colors.black, fontWeight: FontWeight.bold
+                    fontSize: 13, color: Colors.white, fontWeight: FontWeight.bold
                 ),
                 textAlign: TextAlign.center,
                 enabled: false,
-                keyboardType: TextInputType.text,
                 controller: widget.dateController,
                 onChanged: ((String? value) {
                   setState(() {
@@ -96,12 +100,18 @@ class _PoamDatePickerState extends State<PoamDatePicker> {
                   });
                 }),
                 decoration: InputDecoration(
-                  hintText: "Datum: " + DateFormat.yMd().format(selectedDate),
+                  hintText: DateFormat.yMd().format(selectedDate),
+                    hintStyle: const TextStyle(color: Colors.white),
                     disabledBorder: UnderlineInputBorder(borderSide: BorderSide.none),
                     contentPadding: EdgeInsets.only(top: 0.0)),
               ),
-            )
+
           ),
+          ),
+        ),
+
+        const SizedBox(
+          width: 5,
         ),
 
         InkWell(
@@ -110,19 +120,19 @@ class _PoamDatePickerState extends State<PoamDatePicker> {
           },
           child: Container(
               width: 100,
-              margin: EdgeInsets.only(top: 10),
+              margin: const EdgeInsets.only(top: 10, bottom: 10),
               alignment: Alignment.center,
-              child: Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
+              child: Container(
+                decoration: const BoxDecoration(
+                  color: Colors.blueAccent,
+                  borderRadius: BorderRadius.all(Radius.circular(20)),
                 ),
                 child: TextFormField(
                   style: GoogleFonts.novaMono(
-                    fontSize: 13, color: Colors.black, fontWeight: FontWeight.bold
+                    fontSize: 13, color: Colors.white, fontWeight: FontWeight.bold,
                   ),
                   textAlign: TextAlign.center,
                   enabled: false,
-                  keyboardType: TextInputType.text,
                   controller: widget.timeController,
                   onChanged: ((String? value) {
                     setState(() {
@@ -131,14 +141,14 @@ class _PoamDatePickerState extends State<PoamDatePicker> {
                     });
                   }),
                   decoration: InputDecoration(
-                      hintText: "Zeit: " + selectedTime.hour.toString() + ":" + selectedTime.minute.toString(),
+                      hintText: selectedTime.hour.toString() + ":" + selectedTime.minute.toString(),
+                      hintStyle: const TextStyle(color: Colors.white),
                       disabledBorder: UnderlineInputBorder(borderSide: BorderSide.none),
                       contentPadding: EdgeInsets.only(top: 0.0)),
                 ),
               )
           ),
         ),
-
       ],
     );
   }

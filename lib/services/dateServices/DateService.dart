@@ -26,7 +26,7 @@ class DateService extends ChangeNotifier {
       DateTime getDate = getItems.elementAt(i).fromDate;
       DateTime YMD = DateTime(getDate.year, getDate.month, getDate.day);
 
-      if (!dates.contains(/*getItems.elementAt(i).date*/ YMD)) {
+      if (!dates.contains(YMD)) {
         dates[i] = YMD;
       }
     }
@@ -41,7 +41,7 @@ class DateService extends ChangeNotifier {
     return dates;
   }
 
-  List<dynamic> sortItemsByDate(List<ItemModel> items) {
+  List<ItemModel> sortItemsByDate(List<ItemModel> items) {
     items.sort((a, b){
       DateTime getDateTime_A = DateTime(a.fromDate.year, a.fromDate.month, a.fromDate.day, a.fromTime.hour, a.fromTime.minute);
       DateTime getDateTime_B = DateTime(b.fromDate.year, b.fromDate.month, b.fromDate.day, b.fromTime.hour, b.fromTime.minute);

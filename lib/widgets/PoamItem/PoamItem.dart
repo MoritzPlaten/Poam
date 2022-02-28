@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:poam/services/dateServices/Objects/Frequency.dart';
 import 'package:poam/services/itemServices/Objects/Category.dart';
 import 'package:poam/services/itemServices/ItemModel.dart';
+import 'package:poam/widgets/PoamSnackbar/PoamSnackbar.dart';
 import 'package:provider/provider.dart';
 import 'package:hexcolor/hexcolor.dart';
 
@@ -20,6 +22,7 @@ class _PoamItemState extends State<PoamItem> {
 
   late Size size;
   late Color primaryColor;
+  late PoamSnackbar poamSnackbar;
   
   @override
   Widget build(BuildContext context) {
@@ -27,6 +30,7 @@ class _PoamItemState extends State<PoamItem> {
     ///initialize
     size = MediaQuery.of(context).size;
     primaryColor = Theme.of(context).primaryColor;
+    poamSnackbar = PoamSnackbar();
 
     ///TODO: if you click on the item, you can change the data of it
 
@@ -140,8 +144,16 @@ class _PoamItemState extends State<PoamItem> {
                 value: widget.itemModel!.isChecked,
                 onChanged: (bool? value) {
                   setState(() {
-                    widget.itemModel!.isChecked = value!;
-                    Provider.of<ItemModel>(context, listen: false).removeItem(widget.itemModel!);
+                    ///TODO: if Frequency != Single then don't remove the Item from db, but remove only the surface and for this week
+                    if (widget.itemModel!.frequency == Frequency.single) {
+                      widget.itemModel!.isChecked = value!;
+                      Provider.of<ItemModel>(context, listen: false).removeItem(widget.itemModel!);
+                    } else {
+                      ///TODO: Remove surface and for this day but not
+                      poamSnackbar.showSnackBar(context,
+                          "Item soll nicht entfernt werden von der Datenbank, sondern nur die Oberfläche für den Tag!",
+                          primaryColor);
+                    }
                   });
                 },
               ),

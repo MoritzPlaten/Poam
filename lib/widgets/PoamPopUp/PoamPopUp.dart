@@ -173,19 +173,30 @@ class _PoamPopUpState extends State<PoamPopUp> {
                               maxLines: 1,
                             ),
 
-                          if (categoryDropDownValue == displayTextCategory(Categories.tasks))
-                            PoamDatePicker(
-                              title: "Von: ",
-                              dateController: _fromDateController,
-                              timeController: _fromTimeController,
+                          Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
                             ),
+                            child: Column(
+                              children: [
 
-                          if (categoryDropDownValue == displayTextCategory(Categories.tasks))
-                            PoamDatePicker(
-                              title: "Bis: ",
-                              dateController: _toDateController,
-                              timeController: _toTimeController,
+                                if (categoryDropDownValue == displayTextCategory(Categories.tasks))
+                                  PoamDatePicker(
+                                    title: "Von: ",
+                                    dateController: _fromDateController,
+                                    timeController: _fromTimeController,
+                                  ),
+
+                                if (categoryDropDownValue == displayTextCategory(Categories.tasks))
+                                  PoamDatePicker(
+                                    title: "Bis: ",
+                                    dateController: _toDateController,
+                                    timeController: _toTimeController,
+                                  ),
+
+                              ],
                             ),
+                          ),
 
                           if (categoryDropDownValue == displayTextCategory(Categories.tasks))
                             PoamDropDown(

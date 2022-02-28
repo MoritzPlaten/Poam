@@ -25,11 +25,13 @@ class _PoamChartState extends State<PoamChart> {
 
   @override
   Widget build(BuildContext context) {
-    
+
+    ///TODO: if Frequency is not single, but weekly or ..., then display the item weekly or ...
+
     ///initialize
     size = MediaQuery.of(context).size;
     dateService = DateService();
-    ///TODO: look if it works
+    ///TODO: Doesn't work
     datesBetween = context.watch<DateService>().getDaysInBetween(dateService.getMondayDate(), dateService.getSundayDate());
     primaryColor = Theme.of(context).primaryColor;
     //datesBetween = dateService.getDaysInBetween(dateService.getMondayDate(), dateService.getSundayDate());
