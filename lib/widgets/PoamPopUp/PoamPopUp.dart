@@ -33,6 +33,7 @@ class _PoamPopUpState extends State<PoamPopUp> {
   ///TODO: Frequency is not working
   String frequencyDropDownValue = displayFrequency(Frequency.values.first);
   String categoryDropDownValue = displayTextCategory(Categories.values.first);
+  String personDropDownValue = "";
 
   Color selectedColor = Colors.blueAccent;
 
@@ -43,7 +44,6 @@ class _PoamPopUpState extends State<PoamPopUp> {
   TextEditingController _toTimeController = TextEditingController();
   TextEditingController _titleController = TextEditingController();
   TextEditingController _numberController = TextEditingController();
-  TextEditingController _personController = TextEditingController();
   TextEditingController _descriptionController = TextEditingController();
 
   @override
@@ -60,9 +60,9 @@ class _PoamPopUpState extends State<PoamPopUp> {
 
     return ValueListenableBuilder(
         valueListenable: Hive.box<Person>(Database.PersonName).listenable(),
-        builder: (context, Box box, widget) {
+        builder: (context, Box<Person> box, widget) {
 
-          List<Person> persons = box.values.toList() as List<Person>;
+          List<Person> persons = box.values.toList();
           List<String> personNames = List.generate(persons.length, (index) => "");
 
           int i = 0;
@@ -137,6 +137,12 @@ class _PoamPopUpState extends State<PoamPopUp> {
                         if (categoryDropDownValue == displayTextCategory(Categories.tasks))
                           PoamPersonPicker(
                             personNames: personNames,
+                            pickedPerson: personDropDownValue,
+                            onChange: (value) {
+                              setState(() {
+                                personDropDownValue = value!;
+                              });
+                            },
                           ),
 
 
@@ -208,7 +214,7 @@ class _PoamPopUpState extends State<PoamPopUp> {
                     categoryDropDownValue: categoryDropDownValue,
                     numberController: _numberController,
                     titleController: _titleController,
-                    personController: _personController,
+                    personValue: personDropDownValue,
                     selectedColor: selectedColor,
                     frequencyDropDownValue: frequencyDropDownValue,
                     descriptionController: _descriptionController,

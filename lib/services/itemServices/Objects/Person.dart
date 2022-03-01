@@ -32,10 +32,23 @@ class Person extends ChangeNotifier {
     notifyListeners();
   }
 
-  void removePerson(Person person) async {
+  Future<bool> isExists(Person person) async {
+    bool isExists = false;
 
     final box = await Hive.openBox<Person>(Database.PersonName);
-    box.deleteAt(_personList.indexOf(person));
+    List<Person> items = box.values.where((element) => element.name == person.name).toList();
+
+    if (items.length != 0) {
+      isExists = true;
+    }
+
+    return isExists;
+  }
+
+  void removePerson(int Index) async {
+
+    final box = await Hive.openBox<Person>(Database.PersonName);
+    box.deleteAt(Index);
     notifyListeners();
   }
 

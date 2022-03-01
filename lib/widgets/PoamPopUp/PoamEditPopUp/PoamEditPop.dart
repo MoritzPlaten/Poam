@@ -186,7 +186,7 @@ class _PoamEditPopState extends State<PoamEditPop> {
                   categoryDropDownValue: categoryDropDownValue,
                   numberController: _numberController,
                   titleController: _titleController,
-                  personController: _personController,
+                  personValue: "",
                   selectedColor: selectedColor,
                   frequencyDropDownValue: frequencyDropDownValue,
                   descriptionController: _descriptionController,

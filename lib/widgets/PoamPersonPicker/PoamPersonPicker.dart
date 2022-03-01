@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:poam/services/itemServices/Objects/Person.dart';
+import 'package:poam/widgets/PoamSnackbar/PoamSnackbar.dart';
 import 'package:poam/widgets/PoamTextField/PoamTextField.dart';
 import 'package:provider/provider.dart';
 
@@ -9,8 +10,10 @@ import '../PoamDropDown/PoamDropDown.dart';
 class PoamPersonPicker extends StatefulWidget {
 
   final List<String>? personNames;
+  final String? pickedPerson;
+  final Function(String?)? onChange;
 
-  const PoamPersonPicker({ Key? key, this.personNames }) : super(key: key);
+  const PoamPersonPicker({ Key? key, this.personNames, this.pickedPerson, this.onChange }) : super(key: key);
 
   @override
   _PoamPersonPickerState createState() => _PoamPersonPickerState();
@@ -20,29 +23,29 @@ class _PoamPersonPickerState extends State<PoamPersonPicker> {
 
   late Size size;
   late Color primaryColor;
+  late PoamSnackbar poamSnackbar;
   TextEditingController personController = TextEditingController();
 
   @override
-  Widget build(BuildContext context) {
+  Row build(BuildContext context) {
 
     size = MediaQuery.of(context).size;
     primaryColor = Theme.of(context).primaryColor;
+    poamSnackbar = PoamSnackbar();
+
+    ///TODO: personValue ist == "", das heißt man muss ein vorher auswählen, damit es übernommen wird
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
 
         SizedBox(
-          width: size.width - size.width / 3.5,
+          width: size.width - size.width / 3,
           height: 55,
 
           child: PoamDropDown(
-            dropdownValue: widget.personNames!.length != 0 ? widget.personNames!.first : "Personen",
-            onChanged: (value) {
-              setState(() {
-                //categoryDropDownValue = value!;
-              });
-            },
+            dropdownValue: widget.pickedPerson == "" && widget.personNames!.length != 0 ? widget.personNames!.first : widget.pickedPerson,
+            onChanged: widget.onChange,
             items: widget.personNames,
             color: primaryColor,
             iconData: Icons.arrow_drop_down,
@@ -76,15 +79,42 @@ class _PoamPersonPickerState extends State<PoamPersonPicker> {
                           controller: personController,
                         ),
                         actions: [
+
                           TextButton(
-                            onPressed: () {
+                            onPressed: () async {
+                              Person person = Provider.of<Person>(context, listen: false);
+                              bool s = await person.isExists(new Person(personController.text));
+
                               setState(() {
-                                Provider.of<Person>(context, listen: false).addPerson(new Person(personController.text));
-                                Navigator.pop(context);
+                                bool isProblem = false;
+
+                                if (s == true) {
+                                  poamSnackbar.showSnackBar(context,
+                                      "Diese Person existiert bereits!",
+                                      primaryColor);
+                                  isProblem = true;
+                                }
+
+                                if (isProblem == false) {
+
+                                  person.addPerson(new Person(personController.text));
+                                  Navigator.pop(context);
+                                }
                               });
                             },
                             child: Text('Add'),
                           ),
+
+                          /*TextButton(
+                            onPressed: () {
+                              setState(() {
+                                Person person = Provider.of<Person>(context, listen: false);
+                                person.removePerson(person.PersonList.indexOf(new Person(personController.text)));
+                                Navigator.pop(context);
+                              });
+                            },
+                            child: Text('Remove'),
+                          ),*/
 
                         TextButton(
                           onPressed: () {

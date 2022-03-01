@@ -174,6 +174,7 @@ class _PoamDateItemState extends State<PoamDateItem> {
                                             ],
                                           ),
 
+                                          ///TODO: Alignment isn't correct displayed
                                           if (widget.allItems!.elementAt(i).description != "")
                                             Row(
                                               children: [

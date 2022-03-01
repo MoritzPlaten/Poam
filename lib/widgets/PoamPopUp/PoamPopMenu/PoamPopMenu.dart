@@ -13,7 +13,7 @@ class PoamPopMenu extends StatefulWidget {
   final String? categoryDropDownValue;
   final TextEditingController? numberController;
   final TextEditingController? titleController;
-  final TextEditingController? personController;
+  final String? personValue;
   final TextEditingController? descriptionController;
   final Color? selectedColor;
   final String? frequencyDropDownValue;
@@ -23,7 +23,7 @@ class PoamPopMenu extends StatefulWidget {
   final TextEditingController? toTimeController;
 
   const PoamPopMenu({Key? key, this.formKey, this.categoryDropDownValue, this.numberController, this.titleController,
-    this.personController, this.selectedColor, this.frequencyDropDownValue, this.descriptionController, this.fromDateController,
+    this.personValue, this.selectedColor, this.frequencyDropDownValue, this.descriptionController, this.fromDateController,
     this.fromTimeController, this.toDateController, this.toTimeController }) : super(key: key);
 
   @override
@@ -161,7 +161,7 @@ class _PoamPopMenuState extends State<PoamPopMenu> {
                             false,
 
                             ///Person
-                            Person(widget.personController!.text),
+                            Person(widget.personValue),
 
                             ///Set Category
                             widget.categoryDropDownValue == "Aufgabenliste"
