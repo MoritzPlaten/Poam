@@ -78,7 +78,7 @@ class _PoamDatePickerState extends State<PoamDatePicker> {
             _selectDate(context);
           },
           child: Container(
-            width: 150,
+            width: 100,
             margin: const EdgeInsets.only(top: 10, bottom: 10),
             alignment: Alignment.center,
             child: Container(
@@ -119,7 +119,7 @@ class _PoamDatePickerState extends State<PoamDatePicker> {
             _selectTime(context);
           },
           child: Container(
-              width: 100,
+              width: 80,
               margin: const EdgeInsets.only(top: 10, bottom: 10),
               alignment: Alignment.center,
               child: Container(

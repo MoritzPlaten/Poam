@@ -6,6 +6,7 @@ import 'package:poam/services/itemServices/Objects/Category.dart';
 import 'package:poam/services/itemServices/ItemModel.dart';
 import 'package:poam/widgets/PoamItem/PoamItem.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class PoamDateItem extends StatefulWidget {
 
@@ -144,52 +145,72 @@ class _PoamDateItemState extends State<PoamDateItem> {
                                   );
                                 },
                                 body: Padding(
-                                padding: const EdgeInsets.only(left: 10, bottom: 2),
-                                child: Column(
-                                  children: [
+                                  padding: const EdgeInsets.only(left: 10, bottom: 2),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
 
-                                    if (widget.allItems!.elementAt(i).frequency != "") Row(
-                                      children: [
+                                      Column(
+                                        children: [
 
-                                        Text(
-                                          "Wiederholung: ",
-                                          style: GoogleFonts.kreon(
-                                              color: primaryColor,
-                                              fontSize: 13
-                                          ),
-                                        ),
+                                          if (widget.allItems!.elementAt(i).frequency != "") Row(
+                                            children: [
 
-                                        Text(
-                                          displayFrequency(widget.allItems!.elementAt(i).frequency),
-                                          style: GoogleFonts.kreon(
-                                              fontSize: 13
-                                          ),
-                                        ),
-
-                                      ],
-                                    ),
-
-                                    if (widget.allItems!.elementAt(i).description != "")
-                                      Row(
-                                          children: [
-
-                                            Text(
-                                              "Beschreibung: ",
-                                              style: GoogleFonts.kreon(
-                                                  color: primaryColor,
-                                                  fontSize: 13
+                                              Text(
+                                                "Wiederholung: ",
+                                                style: GoogleFonts.kreon(
+                                                    color: primaryColor,
+                                                    fontSize: 13
+                                                ),
                                               ),
+
+                                              Text(
+                                                displayFrequency(widget.allItems!.elementAt(i).frequency),
+                                                style: GoogleFonts.kreon(
+                                                    fontSize: 13
+                                                ),
+                                              ),
+
+                                            ],
+                                          ),
+
+                                          if (widget.allItems!.elementAt(i).description != "")
+                                            Row(
+                                              children: [
+
+                                                Text(
+                                                  "Beschreibung: ",
+                                                  style: GoogleFonts.kreon(
+                                                      color: primaryColor,
+                                                      fontSize: 13
+                                                  ),
+                                                ),
+
+                                                Text(
+                                                  widget.allItems!.elementAt(i).description,
+                                                  style: GoogleFonts.kreon(
+                                                      fontSize: 13
+                                                  ),
+                                                ),
+
+                                              ],
                                             ),
 
-                                            Text(
-                                              widget.allItems!.elementAt(i).description,
-                                              style: GoogleFonts.kreon(
-                                                  fontSize: 13
-                                              ),
-                                            ),
+                                        ],
+                                      ),
 
-                                          ],
-                                        ),
+                                      if (widget.allItems!.elementAt(i).frequency != Frequency.single) IconButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              widget.allItems!.elementAt(i).isChecked = !widget.allItems!.elementAt(i).isChecked;
+                                              Provider.of<ItemModel>(context, listen: false).removeItem(widget.allItems!.elementAt(i));
+                                            });
+                                          },
+                                          icon: Icon(
+                                            Icons.delete,
+                                            color: Colors.red,
+                                          ),
+                                      ),
 
                                     ],
                                   ),
