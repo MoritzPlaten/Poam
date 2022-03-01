@@ -33,8 +33,6 @@ class _PoamPersonPickerState extends State<PoamPersonPicker> {
     primaryColor = Theme.of(context).primaryColor;
     poamSnackbar = PoamSnackbar();
 
-    ///TODO: personValue ist == "", das heißt man muss ein vorher auswählen, damit es übernommen wird
-
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -47,9 +45,9 @@ class _PoamPersonPickerState extends State<PoamPersonPicker> {
             dropdownValue: widget.pickedPerson == "" && widget.personNames!.length != 0 ? widget.personNames!.first : widget.pickedPerson,
             onChanged: widget.onChange,
             items: widget.personNames,
-            color: primaryColor,
+            color: Colors.white,
             iconData: Icons.arrow_drop_down,
-            foregroundColor: Colors.white,
+            foregroundColor: Colors.black,
           ),
         ),
 
@@ -68,8 +66,8 @@ class _PoamPersonPickerState extends State<PoamPersonPicker> {
                     ],
                     builder: (context, widget) {
                       return AlertDialog(
-                          title: Text('Add Person'),
-                          content: PoamTextField(
+                        title: Text('Person'),
+                        content: PoamTextField(
                           label: "Name",
                           keyboardType: TextInputType.text,
                           maxLines: 1,
@@ -105,16 +103,20 @@ class _PoamPersonPickerState extends State<PoamPersonPicker> {
                             child: Text('Add'),
                           ),
 
-                          /*TextButton(
-                            onPressed: () {
+                          ///TODO: Person Remove: doesn't work
+                          TextButton(
+                            onPressed: () async {
+                              Person person = Provider.of<Person>(context, listen: false);
+                              int index = person.PersonList.indexOf(new Person(personController.text));
+
+                              print(personController.text);
                               setState(() {
-                                Person person = Provider.of<Person>(context, listen: false);
-                                person.removePerson(person.PersonList.indexOf(new Person(personController.text)));
+                                person.removePerson(index);
                                 Navigator.pop(context);
                               });
                             },
                             child: Text('Remove'),
-                          ),*/
+                          ),
 
                         TextButton(
                           onPressed: () {

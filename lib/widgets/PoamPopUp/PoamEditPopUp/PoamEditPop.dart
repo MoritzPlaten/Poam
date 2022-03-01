@@ -33,7 +33,6 @@ class _PoamEditPopState extends State<PoamEditPop> {
   Color selectedColor = Colors.blueAccent;
 
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  ///TODO: Add DatePicker "Bis" to the ItemModel, ...
   TextEditingController _fromDateController = TextEditingController();
   TextEditingController _fromTimeController = TextEditingController();
   TextEditingController _toDateController = TextEditingController();

@@ -151,9 +151,11 @@ class _PoamDateItemState extends State<PoamDateItem> {
                                     children: [
 
                                       Column(
+
                                         children: [
 
-                                          if (widget.allItems!.elementAt(i).frequency != "") Row(
+                                          if (widget.allItems!.elementAt(i).frequency != "")
+                                            Row(
                                             children: [
 
                                               Text(
@@ -174,7 +176,6 @@ class _PoamDateItemState extends State<PoamDateItem> {
                                             ],
                                           ),
 
-                                          ///TODO: Alignment isn't correct displayed
                                           if (widget.allItems!.elementAt(i).description != "")
                                             Row(
                                               children: [

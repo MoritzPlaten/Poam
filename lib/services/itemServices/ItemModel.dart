@@ -41,8 +41,8 @@ class ItemModel extends ChangeNotifier {
 
   ItemModel (this.title, this.count, this.isChecked, this.person, this.categories, this.hex, this.fromTime, this.fromDate, this.toTime, this.toDate,this.frequency, this.description, this.expanded);
 
-  List _itemModelList = <ItemModel>[];
-  List get itemModelList => _itemModelList;
+  List<ItemModel> _itemModelList = <ItemModel>[];
+  List<ItemModel> get itemModelList => _itemModelList;
 
   void getItems() async {
     final box = await Hive.openBox<ItemModel>(Database.Name);
@@ -67,5 +67,21 @@ class ItemModel extends ChangeNotifier {
   }
 
   ///TODO: If an item has expired, then it should be put it for today
+  ///Provider.of<ItemModel>(context, listen: false).changeItems();
+  void changeItems() async {
+
+    DateTime now = DateTime.now();
+
+    final box = await Hive.openBox<ItemModel>(Database.Name);
+    _itemModelList.where((element) =>
+    element.fromDate.compareTo(DateTime(now.year, now.month, now.day)) > 0)
+        .forEach((element) {
+          ItemModel model = element;
+
+          model.fromDate = DateTime(now.year, now.month, now.day);
+          box.putAt(_itemModelList.indexOf(element), model);
+    });
+
+  }
 
 }

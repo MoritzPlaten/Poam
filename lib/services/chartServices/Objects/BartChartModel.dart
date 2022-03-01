@@ -6,6 +6,6 @@ class BarChartModel {
   BarChartModel({
     this.day,
     this.tasks,
-    this.finishedTasks,}
-      );
+    this.finishedTasks,
+  });
 }

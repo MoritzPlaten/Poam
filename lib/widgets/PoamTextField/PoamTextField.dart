@@ -17,8 +17,6 @@ class PoamTextField extends StatefulWidget {
 
 class _PoamTextFieldState extends State<PoamTextField> {
 
-  ///TODO: Fix the Error message
-
   @override
   Widget build(BuildContext context) {
     return Card(

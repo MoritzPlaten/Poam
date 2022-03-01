@@ -90,7 +90,7 @@ class _PoamItemState extends State<PoamItem> {
                         if (widget.itemModel!.categories == Categories.tasks && widget.itemModel!.fromTime != widget.itemModel!.toTime)
                           Text(
                             "Um " + widget.itemModel!.fromTime.hour.toString() + ":" + widget.itemModel!.fromTime.minute.toString() +
-                                " - " + widget.itemModel!.toTime.hour.toString() + ":" + widget.itemModel!.fromTime.minute.toString() + " Uhr",
+                                " - " + widget.itemModel!.toTime.hour.toString() + ":" + widget.itemModel!.toTime.minute.toString() + " Uhr",
                             style: GoogleFonts.kreon(
                                 color: primaryColor,
                                 fontSize: 13,

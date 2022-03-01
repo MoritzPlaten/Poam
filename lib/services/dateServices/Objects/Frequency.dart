@@ -17,6 +17,7 @@ enum Frequency {
   yearly
 }
 
+///Display the Frequency
 String displayFrequency(Frequency frequency) {
   String value;
   switch(frequency) {
@@ -39,6 +40,7 @@ String displayFrequency(Frequency frequency) {
   return value;
 }
 
+///Get the Frequency object from text
 Frequency getFrequency(String frequencyName) {
   Frequency value = Frequency.single;
   switch(frequencyName) {
@@ -61,6 +63,7 @@ Frequency getFrequency(String frequencyName) {
   return value;
 }
 
+///Display all Frequency for DropDownValues or ...
 List<String> displayAllFrequency() {
   List<String> list = List.generate(Frequency.values.length, (index) => "");
 
