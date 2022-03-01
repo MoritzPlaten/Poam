@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Poam',
       theme: ThemeData(
-        primaryColor: Colors.lightBlue.shade700,
+        primaryColor: Colors.blueAccent,
       ),
       ///A Provider that refresh the Widgets
       home: MultiProvider(

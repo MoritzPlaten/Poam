@@ -82,8 +82,8 @@ class _PoamDatePickerState extends State<PoamDatePicker> {
             margin: const EdgeInsets.only(top: 10, bottom: 10),
             alignment: Alignment.center,
             child: Container(
-              decoration: const BoxDecoration(
-                color: Colors.blueAccent,
+              decoration: BoxDecoration(
+                color: primaryColor,
                 borderRadius: BorderRadius.all(Radius.circular(20)),
               ),
               child: TextFormField(
@@ -123,8 +123,8 @@ class _PoamDatePickerState extends State<PoamDatePicker> {
               margin: const EdgeInsets.only(top: 10, bottom: 10),
               alignment: Alignment.center,
               child: Container(
-                decoration: const BoxDecoration(
-                  color: Colors.blueAccent,
+                decoration: BoxDecoration(
+                  color: primaryColor,
                   borderRadius: BorderRadius.all(Radius.circular(20)),
                 ),
                 child: TextFormField(

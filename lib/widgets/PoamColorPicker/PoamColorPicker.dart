@@ -15,8 +15,6 @@ class PoamColorPicker extends StatefulWidget {
 
 class _PoamColorPickerState extends State<PoamColorPicker> {
 
-  Color mycolor = Colors.black;
-
   @override
   Widget build(BuildContext context) {
 
