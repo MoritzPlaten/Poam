@@ -151,30 +151,29 @@ class _PoamDateItemState extends State<PoamDateItem> {
                                     children: [
 
                                       Column(
-
                                         children: [
 
                                           if (widget.allItems!.elementAt(i).frequency != "")
                                             Row(
-                                            children: [
+                                              children: [
 
-                                              Text(
-                                                "Wiederholung: ",
-                                                style: GoogleFonts.kreon(
-                                                    color: primaryColor,
-                                                    fontSize: 13
+                                                Text(
+                                                  "Wiederholung: ",
+                                                  style: GoogleFonts.kreon(
+                                                      color: primaryColor,
+                                                      fontSize: 13
+                                                  ),
                                                 ),
-                                              ),
 
-                                              Text(
-                                                displayFrequency(widget.allItems!.elementAt(i).frequency),
-                                                style: GoogleFonts.kreon(
-                                                    fontSize: 13
+                                                Text(
+                                                  displayFrequency(widget.allItems!.elementAt(i).frequency),
+                                                  style: GoogleFonts.kreon(
+                                                      fontSize: 13
+                                                  ),
                                                 ),
-                                              ),
 
-                                            ],
-                                          ),
+                                              ],
+                                            ),
 
                                           if (widget.allItems!.elementAt(i).description != "")
                                             Row(

@@ -34,6 +34,8 @@ class _PoamPopUpState extends State<PoamPopUp> {
   String categoryDropDownValue = displayTextCategory(Categories.values.first);
   String personDropDownValue = "";
 
+  String dateExample = "";
+
   Color selectedColor = Colors.blueAccent;
 
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -119,6 +121,7 @@ class _PoamPopUpState extends State<PoamPopUp> {
                           label: "Titel",
                           keyboardType: TextInputType.text,
                           maxLines: 1,
+                          maxLength: 40,
                         ),
 
                         const SizedBox(height: 10,),
@@ -129,12 +132,13 @@ class _PoamPopUpState extends State<PoamPopUp> {
                               if (value == null || value.isEmpty) {
                                 return 'Bitte geben Sie die Anzahl an!';
                               }
-                              return null;
+                              return value;
                             }),
                             controller: _numberController,
                             label: "Anzahl",
                             keyboardType: TextInputType.number,
                             maxLines: 1,
+                            maxLength: 5,
                           ),
 
                         if (categoryDropDownValue == displayTextCategory(Categories.tasks))
@@ -146,9 +150,10 @@ class _PoamPopUpState extends State<PoamPopUp> {
                                 personDropDownValue = value!;
                               });
                             },
+                            box: box,
                           ),
 
-
+                        ///TODO: Wenn der erste ausgewählt wird, also das Datum dann soll im zweiten Datum, das Datum von dem ersten eingesetzt werden, darf aber auch daraufhin geändert werden
                         Card(
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
@@ -206,6 +211,7 @@ class _PoamPopUpState extends State<PoamPopUp> {
                           label: "Beschreibung",
                           keyboardType: TextInputType.multiline,
                           maxLines: 5,
+                          maxLength: 100,
                         ),
 
                       ],

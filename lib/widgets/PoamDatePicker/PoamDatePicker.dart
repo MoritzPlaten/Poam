@@ -5,10 +5,11 @@ import 'package:intl/intl.dart';
 class PoamDatePicker extends StatefulWidget {
 
   final String? title;
+  final String? test;
   final TextEditingController? dateController;
   final TextEditingController? timeController;
 
-  const PoamDatePicker({ Key? key, this.title, this.dateController, this.timeController }) : super(key: key);
+  const PoamDatePicker({ Key? key, this.title, this.test, this.dateController, this.timeController }) : super(key: key);
 
   @override
   _PoamDatePickerState createState() => _PoamDatePickerState();
@@ -21,7 +22,7 @@ class _PoamDatePickerState extends State<PoamDatePicker> {
   late String _hour, _minute, _time;
   late String _setTime, _setDate;
   DateTime selectedDate = DateTime.now();
-  TimeOfDay selectedTime = TimeOfDay(hour: DateTime.now().hour, minute: DateTime.now().minute);
+  TimeOfDay selectedTime = TimeOfDay(hour: DateTime.now().hour, minute: DateTime.now().minute + 1);
   late String dateTime;
 
   @override

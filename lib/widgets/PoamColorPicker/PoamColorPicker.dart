@@ -19,7 +19,7 @@ class _PoamColorPickerState extends State<PoamColorPicker> {
   Widget build(BuildContext context) {
 
     return Container(
-      margin: EdgeInsets.only(top: 10),
+      margin: const EdgeInsets.only(top: 10),
       child: GestureDetector(
         onTap: () {
           setState(() {
