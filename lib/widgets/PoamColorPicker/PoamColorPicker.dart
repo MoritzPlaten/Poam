@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PoamColorPicker extends StatefulWidget {
 
@@ -27,7 +28,7 @@ class _PoamColorPickerState extends State<PoamColorPicker> {
                 context: context,
                 builder: (BuildContext context){
               return AlertDialog(
-                title: Text('Pick a color!'),
+                title: Text(AppLocalizations.of(context)!.colorField),
                 content: SingleChildScrollView(
                   child: MaterialPicker(
                     pickerColor: widget.pickedColor!, //default color
@@ -36,7 +37,7 @@ class _PoamColorPickerState extends State<PoamColorPicker> {
                 ),
                 actions: <Widget>[
                   ElevatedButton(
-                    child: const Text('DONE'),
+                    child: Text(AppLocalizations.of(context)!.done),
                     onPressed: () {
                       Navigator.of(context).pop(); //dismiss the color picker
                     },
@@ -55,7 +56,7 @@ class _PoamColorPickerState extends State<PoamColorPicker> {
             padding: const EdgeInsets.only(left: 10, right: 10, top: 15, bottom: 15),
             child: Center(
               child: Text(
-                "Farbe auswählen",
+                AppLocalizations.of(context)!.colorField,
                 style: GoogleFonts.novaMono(
                   fontWeight: FontWeight.bold,
                   color: Colors.white

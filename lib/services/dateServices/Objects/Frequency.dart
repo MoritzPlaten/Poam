@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:hive/hive.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 part 'Frequency.g.dart';
 
@@ -18,23 +20,23 @@ enum Frequency {
 }
 
 ///Display the Frequency
-String displayFrequency(Frequency frequency) {
+String displayFrequency(BuildContext context, Frequency frequency) {
   String value;
   switch(frequency) {
     case Frequency.single:
-      value = "Einmalig";
+      value = AppLocalizations.of(context)!.single;
       break;
     case Frequency.daily:
-      value = "Täglich";
+      value = AppLocalizations.of(context)!.daily;
       break;
     case Frequency.weekly:
-      value = "Wöchentlich";
+      value = AppLocalizations.of(context)!.weekly;
       break;
     case Frequency.monthly:
-      value = "Monatlich";
+      value = AppLocalizations.of(context)!.monthly;
       break;
     case Frequency.yearly:
-      value = "Jährlich";
+      value = AppLocalizations.of(context)!.yearly;
       break;
   }
   return value;
@@ -64,11 +66,11 @@ Frequency getFrequency(String frequencyName) {
 }
 
 ///Display all Frequency for DropDownValues or ...
-List<String> displayAllFrequency() {
+List<String> displayAllFrequency(BuildContext context) {
   List<String> list = List.generate(Frequency.values.length, (index) => "");
 
   for (int i = 0;i < list.length; i++) {
-    list[i] = displayFrequency(Frequency.values.elementAt(i));
+    list[i] = displayFrequency(context, Frequency.values.elementAt(i));
   }
   return list;
 }

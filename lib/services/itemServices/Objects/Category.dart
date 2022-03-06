@@ -1,6 +1,6 @@
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-
 part 'Category.g.dart';
 
 @HiveType(typeId: 2)
@@ -12,25 +12,26 @@ enum Categories {
 }
 
 ///Display the Category as String
-String displayTextCategory(Categories categories) {
+String displayTextCategory(BuildContext context, Categories categories) {
   String displayTest = "";
   switch(categories) {
     case Categories.shopping:
-      displayTest = "Einkaufsliste";
+
+      displayTest = AppLocalizations.of(context)!.shoppingList;
       break;
     case Categories.tasks:
-      displayTest = "Aufgabenliste";
+      displayTest = AppLocalizations.of(context)!.taskList;
       break;
   }
   return displayTest;
 }
 
 ///Display all Categories as List<String>
-List<String> displayAllCategories() {
+List<String> displayAllCategories(BuildContext context) {
   List<String> list = List.generate(Categories.values.length, (index) => "");
 
   for (int i = 0;i < list.length; i++) {
-    list[i] = displayTextCategory(Categories.values.elementAt(i));
+    list[i] = displayTextCategory(context, Categories.values.elementAt(i));
   }
   return list;
 }

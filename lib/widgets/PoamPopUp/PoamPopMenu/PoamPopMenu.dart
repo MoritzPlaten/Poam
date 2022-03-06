@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../services/dateServices/Objects/Frequency.dart';
 import '../../../services/itemServices/ItemModel.dart';
@@ -106,7 +107,7 @@ class _PoamPopMenuState extends State<PoamPopMenu> {
                     if (widget.formKey!.currentState!.validate()) {
                       bool isProblem = false;
 
-                      DateTime fromDateTime = widget.categoryDropDownValue == displayTextCategory(Categories.tasks) ? DateTime(
+                      DateTime fromDateTime = widget.categoryDropDownValue == displayTextCategory(context, Categories.tasks) ? DateTime(
                           widget.fromDateController!.text != "" ? int.parse(widget.fromDateController!.text.split("/").last) : DateTime.now().year,
                           widget.fromDateController!.text != "" ? int.parse(widget.fromDateController!.text.split("/").first) : DateTime.now().month,
                           widget.fromDateController!.text != "" ? int.parse(widget.fromDateController!.text.split("/").elementAt(1)) : DateTime.now().day,
@@ -114,7 +115,7 @@ class _PoamPopMenuState extends State<PoamPopMenu> {
                           widget.fromTimeController!.text != "" ? int.parse(widget.fromTimeController!.text.split(":").last) : DateTime.now().minute + 1,
                           DateTime.now().second) : DateTime.now();
 
-                      DateTime toDateTime = widget.categoryDropDownValue == displayTextCategory(Categories.tasks) ? DateTime(
+                      DateTime toDateTime = widget.categoryDropDownValue == displayTextCategory(context, Categories.tasks) ? DateTime(
                           widget.toDateController!.text != "" ? int.parse(widget.toDateController!.text.split("/").last) : DateTime.now().year,
                           widget.toDateController!.text != "" ? int.parse(widget.toDateController!.text.split("/").first) : DateTime.now().month,
                           widget.toDateController!.text != "" ? int.parse(widget.toDateController!.text.split("/").elementAt(1)) : DateTime.now().day,
@@ -123,24 +124,24 @@ class _PoamPopMenuState extends State<PoamPopMenu> {
                           DateTime.now().second) : DateTime.now();
 
                       ///if select Category task, then you can add only tasks for the future
-                      if (widget.categoryDropDownValue == displayTextCategory(Categories.tasks) ? fromDateTime.compareTo(DateTime.now()) /*>=*/ < 0 : false) {
+                      if (widget.categoryDropDownValue == displayTextCategory(context, Categories.tasks) ? fromDateTime.compareTo(DateTime.now()) /*>=*/ < 0 : false) {
                         poamSnackbar.showSnackBar(context,
-                            "Sie können keine Aufgaben erstellen in der Vergangenheit!",
+                            AppLocalizations.of(context)!.messagePast,
                             primaryColor);
                         isProblem = true;
                       }
 
                       RegExp regExp = new RegExp(r'^[0-9]+$');
-                      if (widget.categoryDropDownValue == displayTextCategory(Categories.shopping) && regExp.hasMatch(widget.numberController!.text) == false) {
+                      if (widget.categoryDropDownValue == displayTextCategory(context, Categories.shopping) && regExp.hasMatch(widget.numberController!.text) == false) {
                         poamSnackbar.showSnackBar(context,
-                            "Geben Sie eine Zahl ein, keine Buchstaben!",
+                            AppLocalizations.of(context)!.messageOnlyNumber,
                             primaryColor);
                         isProblem = true;
                       }
 
                       if (fromDateTime.compareTo(toDateTime) > 0) {
                         poamSnackbar.showSnackBar(context,
-                            "Die 'von Time' darf nicht kleiner als die 'bis Time' sein!",
+                            AppLocalizations.of(context)!.messageFromToTime,
                             primaryColor);
 
                         isProblem = true;
@@ -154,7 +155,7 @@ class _PoamPopMenuState extends State<PoamPopMenu> {
                             widget.titleController!.text.trim(),
 
                             ///Set the number. if number == "", then set number to 0
-                            widget.categoryDropDownValue == displayTextCategory(Categories.shopping) ? int.parse(widget.numberController!.text.trim()) : 0,
+                            widget.categoryDropDownValue == displayTextCategory(context, Categories.shopping) ? int.parse(widget.numberController!.text.trim()) : 0,
 
                             ///isChecked == false
                             false,
@@ -163,7 +164,7 @@ class _PoamPopMenuState extends State<PoamPopMenu> {
                             Person(widget.personValue!.trim()),
 
                             ///Set Category
-                            widget.categoryDropDownValue == "Aufgabenliste"
+                            widget.categoryDropDownValue == AppLocalizations.of(context)!.taskList
                                 ? Categories.tasks
                                 : Categories.shopping,
 

@@ -39,7 +39,7 @@ class _ListPageState extends State<ListPage> {
       appBar: AppBar(
         title: Text(
           ///Display the Category
-          displayTextCategory(widget.categories!),
+          displayTextCategory(context, widget.categories!),
           style: GoogleFonts.novaMono(),
         ),
         backgroundColor: Colors.white,
@@ -67,7 +67,7 @@ class _ListPageState extends State<ListPage> {
                     alignment: Alignment.center,
                     height: 50,
                     child: Text(
-                      "Die " + displayTextCategory(widget.categories!) + " ist leer!",
+                      "Die " + displayTextCategory(context, widget.categories!) + " ist leer!",
                       style: GoogleFonts.novaMono(),
                     ),
                   ),

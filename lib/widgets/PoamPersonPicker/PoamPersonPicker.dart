@@ -42,7 +42,7 @@ class _PoamPersonPickerState extends State<PoamPersonPicker> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         SizedBox(
-          width: size.width - size.width / 3,
+          width: size.width - size.width / 2,
           height: 55,
           child: PoamDropDown(
             dropdownValue:
@@ -62,15 +62,8 @@ class _PoamPersonPickerState extends State<PoamPersonPicker> {
               showDialog(
                   context: context,
                   builder: (BuildContext context) {
-                return MultiProvider(
-                  providers: [
-                    ChangeNotifierProvider(
-                      create: (_) => Person(""),
-                    ),
-                  ],
-                  builder: (context, widgets) {
                     return AlertDialog(
-                      title: Text('Person'),
+                      title: const Text('Person hinzufügen'),
                       content: PoamTextField(
                         label: "Name",
                         keyboardType: TextInputType.text,
@@ -85,13 +78,12 @@ class _PoamPersonPickerState extends State<PoamPersonPicker> {
 
                         TextButton(
                           onPressed: () async {
-                            Person person = Provider.of<Person>(context, listen: false);
-                            bool s = await person.isExists(new Person(personController.text));
+                            bool personExist = widget.box!.values.contains(new Person(personController.text));
 
                             setState(() {
                               bool isProblem = false;
 
-                              if (s == true) {
+                              if (personExist == true) {
                                 poamSnackbar.showSnackBar(context,
                                     "Diese Person existiert bereits!",
                                     primaryColor);
@@ -100,45 +92,12 @@ class _PoamPersonPickerState extends State<PoamPersonPicker> {
 
                               if (isProblem == false) {
 
-                                person.addPerson(new Person(personController.text));
+                                widget.box!.add(new Person(personController.text));
                                 Navigator.pop(context);
                               }
                             });
                           },
-                          child: Text('Add'),
-                        ),
-
-                        TextButton(
-                          onPressed: () async {
-                            Person person = await Provider.of<Person>(context, listen: false);
-
-                            int i = -1, e = 0;
-
-                            int numberOfItems = widget.box!.values.where((element) => element.name == personController.text.trim()).length;
-
-                            if (numberOfItems != 0) {
-                              widget.box!.values.forEach((element) {
-                                ++i;
-                                if (element.name ==
-                                    personController.text.trim()) {
-                                  e = i;
-                                }
-                              });
-                            }
-
-                            setState(() {
-                              if (numberOfItems == 0) {
-                                poamSnackbar.showSnackBar(context,
-                                    "Diese Person existiert nicht!",
-                                    primaryColor);
-
-                              } else {
-                                person.removePerson(e);
-                                Navigator.pop(context);
-                              }
-                            });
-                          },
-                          child: Text('Remove'),
+                          child: const Text('Add'),
                         ),
 
                         TextButton(
@@ -147,96 +106,47 @@ class _PoamPersonPickerState extends State<PoamPersonPicker> {
                               Navigator.pop(context);
                             });
                           },
-                          child: Text('Cancel'),
+                          child: const Text('Exit'),
                         ),
                       ],
                     );
-                  },
-                );
               });
             });
           },
           icon: const Icon(Icons.add_outlined),
         ),
+
+        IconButton(
+            onPressed: () async {
+
+              int i = -1, e = 0;
+
+              int numberOfItems = widget.box!.values.where((element) => element.name == widget.pickedPerson!.trim()).length;
+
+              if (numberOfItems != 0) {
+                widget.box!.values.forEach((element) {
+                  ++i;
+                  if (element.name == widget.pickedPerson!.trim()) {
+                    e = i;
+                  }
+                });
+              }
+
+              setState(() {
+                if (numberOfItems == 0) {
+                  poamSnackbar.showSnackBar(context,
+                      "Diese Person existiert nicht!",
+                      primaryColor);
+
+                } else {
+                  widget.box!.deleteAt(e);
+                }
+              });
+            },
+            icon: const Icon(Icons.remove),
+        ),
+
       ],
     );
   }
 }
-
-/*
-builder: (BuildContext context) {
-                  return MultiProvider(
-                    providers: [
-                      ChangeNotifierProvider(
-                        create: (_) => Person(""),
-                      ),
-                    ],
-                    builder: (context, widgets) {
-                      return AlertDialog(
-                        title: Text('Person'),
-                        content: PoamTextField(
-                          label: "Name",
-                          keyboardType: TextInputType.text,
-                          maxLines: 1,
-                          maxLength: 30,
-                          validator: ((value) {
-                            return null;
-                          }),
-                          controller: personController,
-                        ),
-                        actions: [
-
-                          TextButton(
-                            onPressed: () async {
-                              Person person = Provider.of<Person>(context, listen: false);
-                              bool s = await person.isExists(new Person(personController.text));
-
-                              setState(() {
-                                bool isProblem = false;
-
-                                if (s == true) {
-                                  poamSnackbar.showSnackBar(context,
-                                      "Diese Person existiert bereits!",
-                                      primaryColor);
-                                  isProblem = true;
-                                }
-
-                                if (isProblem == false) {
-
-                                  person.addPerson(new Person(personController.text));
-                                  Navigator.pop(context);
-                                }
-                              });
-                            },
-                            child: Text('Add'),
-                          ),
-
-                          ///TODO: Person Remove: doesn't work
-                          TextButton(
-                            onPressed: () async {
-                              Person person = await Provider.of<Person>(context, listen: false);
-                              int index = person.PersonList.indexOf(new Person(personController.text));
-
-                              print(personController.text);
-                              setState(() {
-                                //person.removePerson(index);
-                                Navigator.pop(context);
-                              });
-                            },
-                            child: Text('Remove'),
-                          ),
-
-                          TextButton(
-                            onPressed: () {
-                              setState(() {
-                                Navigator.pop(context);
-                              });
-                            },
-                            child: Text('Cancel'),
-                          ),
-                        ],
-                      );
-                    },
-                  );
-                },
-*/

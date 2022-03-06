@@ -7,6 +7,7 @@ import 'package:poam/services/itemServices/ItemModel.dart';
 import 'package:poam/widgets/PoamItem/PoamItem.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PoamDateItem extends StatefulWidget {
 
@@ -24,6 +25,7 @@ class _PoamDateItemState extends State<PoamDateItem> {
   late DateService dateService;
   late List<DateTime> dates;
   late Color primaryColor;
+  late String languageCode;
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +61,7 @@ class _PoamDateItemState extends State<PoamDateItem> {
                               children: [
 
                                 Text(
-                                  "Beschreibung: ",
+                                  AppLocalizations.of(context)!.descriptionField + ": ",
                                   style: GoogleFonts.kreon(
                                     color: primaryColor,
                                   ),
@@ -108,7 +110,7 @@ class _PoamDateItemState extends State<PoamDateItem> {
                           ),
 
                           Text(
-                              DateFormat("EEEE - dd.MM.yyyy").format(dates[k]),
+                              DateFormat.EEEE(Locale("de", "").languageCode).format(dates[k]) + " - " + DateFormat("dd.MM.yyyy").format(dates[k]),
                             style: GoogleFonts.novaMono(
                               fontSize: 11,
                               color: primaryColor,
@@ -158,7 +160,7 @@ class _PoamDateItemState extends State<PoamDateItem> {
                                               children: [
 
                                                 Text(
-                                                  "Wiederholung: ",
+                                                  AppLocalizations.of(context)!.frequency + ": ",
                                                   style: GoogleFonts.kreon(
                                                       color: primaryColor,
                                                       fontSize: 13
@@ -166,7 +168,7 @@ class _PoamDateItemState extends State<PoamDateItem> {
                                                 ),
 
                                                 Text(
-                                                  displayFrequency(widget.allItems!.elementAt(i).frequency),
+                                                  displayFrequency(context, widget.allItems!.elementAt(i).frequency),
                                                   style: GoogleFonts.kreon(
                                                       fontSize: 13
                                                   ),
@@ -180,7 +182,7 @@ class _PoamDateItemState extends State<PoamDateItem> {
                                               children: [
 
                                                 Text(
-                                                  "Beschreibung: ",
+                                                  AppLocalizations.of(context)!.descriptionField + ": ",
                                                   style: GoogleFonts.kreon(
                                                       color: primaryColor,
                                                       fontSize: 13

@@ -10,6 +10,7 @@ import 'package:poam/widgets/PoamPersonPicker/PoamPersonPicker.dart';
 import 'package:poam/widgets/PoamSnackbar/PoamSnackbar.dart';
 import 'package:poam/widgets/PoamTextField/PoamTextField.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../services/itemServices/Objects/Database.dart';
 import '../PoamDatePicker/PoamDatePicker.dart';
@@ -30,8 +31,8 @@ class _PoamPopUpState extends State<PoamPopUp> {
   late Size size;
 
   ///TODO: Frequency is not working
-  String frequencyDropDownValue = displayFrequency(Frequency.values.first);
-  String categoryDropDownValue = displayTextCategory(Categories.values.first);
+  String frequencyDropDownValue = "";
+  String categoryDropDownValue = "";
   String personDropDownValue = "";
 
   String dateExample = "";
@@ -58,6 +59,9 @@ class _PoamPopUpState extends State<PoamPopUp> {
     size = MediaQuery.of(context).size;
     primaryColor = Theme.of(context).primaryColor;
     poamSnackbar = PoamSnackbar();
+
+    if (categoryDropDownValue == "") categoryDropDownValue = displayTextCategory(context, Categories.values.first);
+    if (frequencyDropDownValue == "") frequencyDropDownValue = displayFrequency(context, Frequency.values.first);
 
     return ValueListenableBuilder(
         valueListenable: Hive.box<Person>(Database.PersonName).listenable(),
@@ -102,7 +106,7 @@ class _PoamPopUpState extends State<PoamPopUp> {
                               categoryDropDownValue = value!;
                             });
                           },
-                          items: displayAllCategories(),
+                          items: displayAllCategories(context),
                           color: primaryColor,
                           iconData: Icons.arrow_drop_down,
                           foregroundColor: Colors.white,
@@ -118,7 +122,7 @@ class _PoamPopUpState extends State<PoamPopUp> {
                             return null;
                           }),
                           controller: _titleController,
-                          label: "Titel",
+                          label: AppLocalizations.of(context)!.titleField,
                           keyboardType: TextInputType.text,
                           maxLines: 1,
                           maxLength: 40,
@@ -126,7 +130,7 @@ class _PoamPopUpState extends State<PoamPopUp> {
 
                         const SizedBox(height: 10,),
 
-                        if (categoryDropDownValue == displayTextCategory(Categories.shopping))
+                        if (categoryDropDownValue == displayTextCategory(context, Categories.shopping))
                           PoamTextField(
                             validator: ((value) {
                               if (value == null || value.isEmpty) {
@@ -135,13 +139,13 @@ class _PoamPopUpState extends State<PoamPopUp> {
                               return value;
                             }),
                             controller: _numberController,
-                            label: "Anzahl",
+                            label: AppLocalizations.of(context)!.numberField,
                             keyboardType: TextInputType.number,
                             maxLines: 1,
                             maxLength: 5,
                           ),
 
-                        if (categoryDropDownValue == displayTextCategory(Categories.tasks))
+                        if (categoryDropDownValue == displayTextCategory(context, Categories.tasks))
                           PoamPersonPicker(
                             personNames: personNames,
                             pickedPerson: personDropDownValue,
@@ -161,16 +165,16 @@ class _PoamPopUpState extends State<PoamPopUp> {
                           child: Column(
                             children: [
 
-                              if (categoryDropDownValue == displayTextCategory(Categories.tasks))
+                              if (categoryDropDownValue == displayTextCategory(context, Categories.tasks))
                                 PoamDatePicker(
-                                  title: "Von: ",
+                                  title: AppLocalizations.of(context)!.dateFrom + ": ",
                                   dateController: _fromDateController,
                                   timeController: _fromTimeController,
                                 ),
 
-                              if (categoryDropDownValue == displayTextCategory(Categories.tasks))
+                              if (categoryDropDownValue == displayTextCategory(context, Categories.tasks))
                                 PoamDatePicker(
-                                  title: "Bis: ",
+                                  title: AppLocalizations.of(context)!.dateTo + ": ",
                                   dateController: _toDateController,
                                   timeController: _toTimeController,
                                 ),
@@ -179,7 +183,7 @@ class _PoamPopUpState extends State<PoamPopUp> {
                           ),
                         ),
 
-                        if (categoryDropDownValue == displayTextCategory(Categories.tasks))
+                        if (categoryDropDownValue == displayTextCategory(context, Categories.tasks))
                           PoamDropDown(
                             dropdownValue: frequencyDropDownValue,
                             onChanged: (value) {
@@ -187,13 +191,13 @@ class _PoamPopUpState extends State<PoamPopUp> {
                                 frequencyDropDownValue = value!;
                               });
                             },
-                            items: displayAllFrequency(),
+                            items: displayAllFrequency(context),
                             color: Colors.white,
                             iconData: Icons.arrow_drop_down,
                             foregroundColor: Colors.black,
                           ),
 
-                        if (categoryDropDownValue == displayTextCategory(Categories.tasks))
+                        if (categoryDropDownValue == displayTextCategory(context, Categories.tasks))
                           PoamColorPicker(
                             pickedColor: selectedColor,
                             onChangeColor: (Color? color){ //on color picked
@@ -208,7 +212,7 @@ class _PoamPopUpState extends State<PoamPopUp> {
                             return null;
                           }),
                           controller: _descriptionController,
-                          label: "Beschreibung",
+                          label: AppLocalizations.of(context)!.descriptionField,
                           keyboardType: TextInputType.multiline,
                           maxLines: 5,
                           maxLength: 100,

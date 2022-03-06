@@ -11,6 +11,7 @@ import 'package:poam/widgets/PoamDateItem/PoamDateItem.dart';
 import 'package:poam/widgets/PoamSnackbar/PoamSnackbar.dart';
 import 'package:provider/provider.dart';
 import '../../services/dateServices/DateService.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PoamMenu extends StatefulWidget {
 
@@ -65,7 +66,7 @@ class _PoamMenuState extends State<PoamMenu> {
           } else {
 
             ///The Snackbar
-            poamSnackbar.showSnackBar(context, "Ihre " + displayTextCategory(widget.categories!) + " ist leer!", primaryColor);
+            poamSnackbar.showSnackBar(context, AppLocalizations.of(context)!.your + " " + displayTextCategory(context, widget.categories!) + " " + AppLocalizations.of(context)!.empty + "!", primaryColor);
           }
         })
       },
@@ -95,7 +96,7 @@ class _PoamMenuState extends State<PoamMenu> {
 
                 ///The title of the menu
                 Text(
-                  displayTextCategory(widget.categories!),
+                  displayTextCategory(context, widget.categories!),
                   style: GoogleFonts.novaMono(
                       fontSize: 18
                   ),
@@ -131,7 +132,7 @@ class _PoamMenuState extends State<PoamMenu> {
 
             ///All Items, which are sorted by date, will packed in a PoamDateItem, which display the Date
             PoamDateItem(
-              allItems: dateService.sortItemsByDate(widget.allItems!.toList()).take(numberOfItemsOnStartScreen) as Iterable<ItemModel>,
+              allItems: dateService.sortItemsByDate(widget.allItems!.toList()).take(numberOfItemsOnStartScreen),
               categories: widget.categories!,
             ),
 
@@ -150,7 +151,7 @@ class _PoamMenuState extends State<PoamMenu> {
                 ),
 
                 Text(
-                  "Und weitere " + (widget.allItems!.length - numberOfItemsOnStartScreen).toString() + " Elemente",
+                  AppLocalizations.of(context)!.another + " " + (widget.allItems!.length - numberOfItemsOnStartScreen).toString() + " " + AppLocalizations.of(context)!.element,
                   style: GoogleFonts.novaMono(
                     fontSize: 12.5
                   ),
@@ -171,7 +172,7 @@ class _PoamMenuState extends State<PoamMenu> {
             if (widget.allItems!.isEmpty == true) Container(
               padding: const EdgeInsets.all(10),
               child: Text(
-                "Die " + displayTextCategory(widget.categories!) + " ist leer!",
+                AppLocalizations.of(context)!.your + " " + displayTextCategory(context, widget.categories!) + " " + AppLocalizations.of(context)!.empty + "!",
                 style: GoogleFonts.novaMono(
                   fontSize: 12.5
                 ),

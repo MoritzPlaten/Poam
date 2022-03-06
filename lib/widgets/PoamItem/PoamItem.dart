@@ -6,6 +6,7 @@ import 'package:poam/services/itemServices/ItemModel.dart';
 import 'package:poam/widgets/PoamSnackbar/PoamSnackbar.dart';
 import 'package:provider/provider.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PoamItem extends StatefulWidget {
 
@@ -32,8 +33,6 @@ class _PoamItemState extends State<PoamItem> {
     primaryColor = Theme.of(context).primaryColor;
     poamSnackbar = PoamSnackbar();
 
-    ///TODO: if you click on the item, you can change the data of it
-
     return Container(
 
       width: size.width,
@@ -48,8 +47,8 @@ class _PoamItemState extends State<PoamItem> {
               GestureDetector(
                 onLongPress: () {
                   setState(() {
+                    ///TODO: if you click on the item, you can change the data of it
 
-                    ///TODO: Edit Item
                     print("Item wird hier geändert!");
                   });
                 },
@@ -89,8 +88,8 @@ class _PoamItemState extends State<PoamItem> {
                         ///if fromTime != toTime, then display "fromTime - toTime Uhr"
                         if (widget.itemModel!.categories == Categories.tasks && widget.itemModel!.fromTime != widget.itemModel!.toTime)
                           Text(
-                            "Um " + widget.itemModel!.fromTime.hour.toString() + ":" + widget.itemModel!.fromTime.minute.toString() +
-                                " - " + widget.itemModel!.toTime.hour.toString() + ":" + widget.itemModel!.toTime.minute.toString() + " Uhr",
+                          AppLocalizations.of(context)!.around + " " + widget.itemModel!.fromTime.hour.toString() + ":" + widget.itemModel!.fromTime.minute.toString() +
+                                " - " + widget.itemModel!.toTime.hour.toString() + ":" + widget.itemModel!.toTime.minute.toString() + " " + AppLocalizations.of(context)!.clock,
                             style: GoogleFonts.kreon(
                                 color: primaryColor,
                                 fontSize: 13,
@@ -101,7 +100,7 @@ class _PoamItemState extends State<PoamItem> {
                         ///if fromTime == toTime, then display "fromTime"
                         if (widget.itemModel!.categories == Categories.tasks && widget.itemModel!.fromTime == widget.itemModel!.toTime)
                           Text(
-                            "Um " + widget.itemModel!.fromTime.hour.toString() + ":" + widget.itemModel!.fromTime.minute.toString() + " Uhr",
+                            AppLocalizations.of(context)!.around + " " + widget.itemModel!.fromTime.hour.toString() + ":" + widget.itemModel!.fromTime.minute.toString() + " " + AppLocalizations.of(context)!.clock,
                             style: GoogleFonts.kreon(
                                 color: primaryColor,
                                 fontSize: 13,

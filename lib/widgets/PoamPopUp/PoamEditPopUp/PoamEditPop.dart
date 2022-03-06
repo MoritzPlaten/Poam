@@ -14,7 +14,10 @@ import '../../PoamDatePicker/PoamDatePicker.dart';
 import '../PoamPopMenu/PoamPopMenu.dart';
 
 class PoamEditPop extends StatefulWidget {
-  const PoamEditPop({Key? key}) : super(key: key);
+
+  final ItemModel? itemModel;
+
+  const PoamEditPop({ Key? key, this.itemModel }) : super(key: key);
 
   @override
   _PoamEditPopState createState() => _PoamEditPopState();
@@ -27,8 +30,8 @@ class _PoamEditPopState extends State<PoamEditPop> {
   late Size size;
 
   ///TODO: Frequency is not working
-  String frequencyDropDownValue = displayFrequency(Frequency.values.first);
-  String categoryDropDownValue = displayTextCategory(Categories.values.first);
+  String frequencyDropDownValue = "";
+  String categoryDropDownValue = "";
 
   Color selectedColor = Colors.blueAccent;
 
@@ -54,6 +57,9 @@ class _PoamEditPopState extends State<PoamEditPop> {
     primaryColor = Theme.of(context).primaryColor;
     poamSnackbar = PoamSnackbar();
 
+    if (categoryDropDownValue == "") categoryDropDownValue = displayTextCategory(context, Categories.values.first);
+    if (frequencyDropDownValue == "") frequencyDropDownValue = displayFrequency(context, Frequency.values.first);
+
     return Scaffold(
         body: SizedBox(
           height: size.height,
@@ -78,7 +84,7 @@ class _PoamEditPopState extends State<PoamEditPop> {
                           categoryDropDownValue = value!;
                         });
                       },
-                      items: displayAllCategories(),
+                      items: displayAllCategories(context),
                       color: primaryColor,
                       iconData: Icons.arrow_drop_down,
                       foregroundColor: Colors.white,
@@ -101,7 +107,7 @@ class _PoamEditPopState extends State<PoamEditPop> {
 
                     const SizedBox(height: 10,),
 
-                    if (categoryDropDownValue == displayTextCategory(Categories.shopping))
+                    if (categoryDropDownValue == displayTextCategory(context, Categories.shopping))
                       PoamTextField(
                         validator: ((value) {
                           if (value == null || value.isEmpty) {
@@ -115,7 +121,7 @@ class _PoamEditPopState extends State<PoamEditPop> {
                         maxLines: 1,
                       ),
 
-                    if (categoryDropDownValue == displayTextCategory(Categories.tasks))
+                    if (categoryDropDownValue == displayTextCategory(context, Categories.tasks))
                       PoamTextField(
                         validator: ((value) {
                           if (value == null || value.isEmpty) {
@@ -129,21 +135,21 @@ class _PoamEditPopState extends State<PoamEditPop> {
                         maxLines: 1,
                       ),
 
-                    if (categoryDropDownValue == displayTextCategory(Categories.tasks))
+                    if (categoryDropDownValue == displayTextCategory(context, Categories.tasks))
                       PoamDatePicker(
                         title: "Von: ",
                         dateController: _fromDateController,
                         timeController: _fromTimeController,
                       ),
 
-                    if (categoryDropDownValue == displayTextCategory(Categories.tasks))
+                    if (categoryDropDownValue == displayTextCategory(context, Categories.tasks))
                       PoamDatePicker(
                         title: "Bis: ",
                         dateController: _toDateController,
                         timeController: _toTimeController,
                       ),
 
-                    if (categoryDropDownValue == displayTextCategory(Categories.tasks))
+                    if (categoryDropDownValue == displayTextCategory(context, Categories.tasks))
                       PoamDropDown(
                         dropdownValue: frequencyDropDownValue,
                         onChanged: (value) {
@@ -151,13 +157,13 @@ class _PoamEditPopState extends State<PoamEditPop> {
                             frequencyDropDownValue = value!;
                           });
                         },
-                        items: displayAllFrequency(),
+                        items: displayAllFrequency(context),
                         color: Colors.white,
                         iconData: Icons.arrow_drop_down,
                         foregroundColor: Colors.black,
                       ),
 
-                    if (categoryDropDownValue == displayTextCategory(Categories.tasks))
+                    if (categoryDropDownValue == displayTextCategory(context, Categories.tasks))
                       PoamColorPicker(
                         pickedColor: selectedColor,
                         onChangeColor: (Color? color){ //on color picked

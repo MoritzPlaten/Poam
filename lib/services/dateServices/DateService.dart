@@ -61,6 +61,6 @@ class DateService extends ChangeNotifier {
   }
 
   String displayDate(DateTime dateTime) {
-    return DateFormat.E().format(dateTime);
+    return DateFormat.E(Locale("de", "").languageCode).format(dateTime);
   }
 }
