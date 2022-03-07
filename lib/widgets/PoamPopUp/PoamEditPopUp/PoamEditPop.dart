@@ -80,9 +80,7 @@ class _PoamEditPopState extends State<PoamEditPop> {
                     PoamDropDown(
                       dropdownValue: categoryDropDownValue,
                       onChanged: (value) {
-                        setState(() {
-                          categoryDropDownValue = value!;
-                        });
+                        categoryDropDownValue = value!;
                       },
                       items: displayAllCategories(context),
                       color: primaryColor,
@@ -153,9 +151,7 @@ class _PoamEditPopState extends State<PoamEditPop> {
                       PoamDropDown(
                         dropdownValue: frequencyDropDownValue,
                         onChanged: (value) {
-                          setState(() {
-                            frequencyDropDownValue = value!;
-                          });
+                          frequencyDropDownValue = value!;
                         },
                         items: displayAllFrequency(context),
                         color: Colors.white,
@@ -167,9 +163,7 @@ class _PoamEditPopState extends State<PoamEditPop> {
                       PoamColorPicker(
                         pickedColor: selectedColor,
                         onChangeColor: (Color? color){ //on color picked
-                          setState(() {
-                            selectedColor = color!;
-                          });
+                          selectedColor = color!;
                         },
                       ),
 

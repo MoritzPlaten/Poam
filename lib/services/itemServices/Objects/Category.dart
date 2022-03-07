@@ -6,9 +6,9 @@ part 'Category.g.dart';
 @HiveType(typeId: 2)
 enum Categories {
   @HiveField(0)
-  shopping,
+  tasks,
   @HiveField(1)
-  tasks
+  shopping
 }
 
 ///Display the Category as String

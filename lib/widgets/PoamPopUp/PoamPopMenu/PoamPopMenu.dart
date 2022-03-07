@@ -74,9 +74,7 @@ class _PoamPopMenuState extends State<PoamPopMenu> {
                   ),
                 ),
                 onTap: () => {
-                  setState(() {
-                    Navigator.pop(context);
-                  })
+                  Navigator.pop(context)
                 },
               ),
 

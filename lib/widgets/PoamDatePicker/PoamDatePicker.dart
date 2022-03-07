@@ -95,10 +95,7 @@ class _PoamDatePickerState extends State<PoamDatePicker> {
                 enabled: false,
                 controller: widget.dateController,
                 onChanged: ((String? value) {
-                  setState(() {
-                    _setDate = value!;
-                    print(value);
-                  });
+                  _setDate = value!;
                 }),
                 decoration: InputDecoration(
                   hintText: DateFormat.yMd().format(selectedDate),
@@ -136,10 +133,7 @@ class _PoamDatePickerState extends State<PoamDatePicker> {
                   enabled: false,
                   controller: widget.timeController,
                   onChanged: ((String? value) {
-                    setState(() {
-                      _setTime = value!;
-                      print(value);
-                    });
+                    _setTime = value!;
                   }),
                   decoration: InputDecoration(
                       hintText: selectedTime.hour.toString() + ":" + selectedTime.minute.toString(),

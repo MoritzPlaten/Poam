@@ -102,9 +102,7 @@ class _PoamPopUpState extends State<PoamPopUp> {
                         PoamDropDown(
                           dropdownValue: categoryDropDownValue,
                           onChanged: (value) {
-                            setState(() {
-                              categoryDropDownValue = value!;
-                            });
+                            categoryDropDownValue = value!;
                           },
                           items: displayAllCategories(context),
                           color: primaryColor,
@@ -150,9 +148,7 @@ class _PoamPopUpState extends State<PoamPopUp> {
                             personNames: personNames,
                             pickedPerson: personDropDownValue,
                             onChange: (value) {
-                              setState(() {
-                                personDropDownValue = value!;
-                              });
+                              personDropDownValue = value!;
                             },
                             box: box,
                           ),
@@ -187,9 +183,7 @@ class _PoamPopUpState extends State<PoamPopUp> {
                           PoamDropDown(
                             dropdownValue: frequencyDropDownValue,
                             onChanged: (value) {
-                              setState(() {
-                                frequencyDropDownValue = value!;
-                              });
+                              frequencyDropDownValue = value!;
                             },
                             items: displayAllFrequency(context),
                             color: Colors.white,
@@ -201,9 +195,7 @@ class _PoamPopUpState extends State<PoamPopUp> {
                           PoamColorPicker(
                             pickedColor: selectedColor,
                             onChangeColor: (Color? color){ //on color picked
-                              setState(() {
-                                selectedColor = color!;
-                              });
+                              selectedColor = color!;
                             },
                           ),
 

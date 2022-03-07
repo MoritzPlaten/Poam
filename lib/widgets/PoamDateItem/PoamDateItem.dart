@@ -83,9 +83,7 @@ class _PoamDateItemState extends State<PoamDateItem> {
                   ),
               ],
               expansionCallback: (int item, bool status) {
-                setState(() {
-                  widget.allItems!.where((element) => element.categories == Categories.shopping).elementAt(item).expanded = !status;
-                });
+                widget.allItems!.where((element) => element.categories == Categories.shopping).elementAt(item).expanded = !status;
               },
             )
             :
@@ -209,7 +207,7 @@ class _PoamDateItemState extends State<PoamDateItem> {
                                               Provider.of<ItemModel>(context, listen: false).removeItem(widget.allItems!.elementAt(i));
                                             });
                                           },
-                                          icon: Icon(
+                                          icon: const Icon(
                                             Icons.delete,
                                             color: Colors.red,
                                           ),
@@ -219,15 +217,11 @@ class _PoamDateItemState extends State<PoamDateItem> {
                                   ),
                                 ),
                                 isExpanded: widget.allItems!.elementAt(i).expanded,
-                                //canTapOnHeader: true,
                               ),
                         ],
                         expansionCallback: (int item, bool status) {
-                          setState(() {
-
-                            widget.allItems!.where((element) =>
-                            element.fromDate == dates[k]).elementAt(item).expanded = !status;
-                          });
+                          widget.allItems!.where((element) =>
+                          element.fromDate == dates[k]).elementAt(item).expanded = !status;
                         },
                       ),
 

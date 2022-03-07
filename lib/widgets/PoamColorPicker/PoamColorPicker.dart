@@ -23,29 +23,27 @@ class _PoamColorPickerState extends State<PoamColorPicker> {
       margin: const EdgeInsets.only(top: 10),
       child: GestureDetector(
         onTap: () {
-          setState(() {
-            showDialog(
-                context: context,
-                builder: (BuildContext context){
-              return AlertDialog(
-                title: Text(AppLocalizations.of(context)!.colorField),
-                content: SingleChildScrollView(
-                  child: MaterialPicker(
-                    pickerColor: widget.pickedColor!, //default color
-                    onColorChanged: widget.onChangeColor!,
+          showDialog(
+              context: context,
+              builder: (BuildContext context){
+                return AlertDialog(
+                  title: Text(AppLocalizations.of(context)!.colorField),
+                  content: SingleChildScrollView(
+                    child: MaterialPicker(
+                      pickerColor: widget.pickedColor!, //default color
+                      onColorChanged: widget.onChangeColor!,
+                    ),
                   ),
-                ),
-                actions: <Widget>[
-                  ElevatedButton(
-                    child: Text(AppLocalizations.of(context)!.done),
-                    onPressed: () {
-                      Navigator.of(context).pop(); //dismiss the color picker
-                    },
-                  ),
-                ],
-              );
-            });
-          });
+                  actions: <Widget>[
+                    ElevatedButton(
+                      child: Text(AppLocalizations.of(context)!.done),
+                      onPressed: () {
+                        Navigator.of(context).pop(); //dismiss the color picker
+                      },
+                    ),
+                  ],
+                );
+              });
         },
         child: Card(
           shape: RoundedRectangleBorder(

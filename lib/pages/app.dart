@@ -17,12 +17,14 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
 
   late double padding;
+  late Size size;
 
   @override
   Widget build(BuildContext context) {
 
     ///Initialize
     padding = MediaQuery.of(context).padding.top;
+    size = MediaQuery.of(context).size;
 
     return MultiProvider(
       providers: [
@@ -33,9 +35,12 @@ class _AppState extends State<App> {
       child: Scaffold(
         body: Padding(
           padding: EdgeInsets.only(top: padding),
-          child: PoamList(),
+          child: SizedBox(
+            height: size.height,
+            child: const PoamList(),
+          ),
         ),
-        floatingActionButton: PoamFloatingButton(),
+        floatingActionButton: const PoamFloatingButton(),
       ),
     );
 

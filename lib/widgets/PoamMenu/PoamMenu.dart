@@ -45,30 +45,31 @@ class _PoamMenuState extends State<PoamMenu> {
     ///You can click on the PoamMenu, if it is empty it will show you a snack bar
     return GestureDetector(
       onTap: () => {
-        setState(() {
-          ///It must exists Items
-          if (widget.allItems!.isEmpty == false) {
-            ///Navigate
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => MultiProvider(
-                providers: [
-                  ChangeNotifierProvider(
-                    create: (_) => ItemModel("", 0, false, Person(""), Categories.tasks, "#FFFFFF", DateTime(0), DateTime(0), DateTime(0), DateTime(0), Frequency.single, "", false),
-                  ),
-                ],
-                child: ListPage(
-                  categories: widget.allItems!.first.categories,
-                ),
-              ),
-              ),
-            );
-          } else {
 
-            ///The Snackbar
-            poamSnackbar.showSnackBar(context, AppLocalizations.of(context)!.your + " " + displayTextCategory(context, widget.categories!) + " " + AppLocalizations.of(context)!.empty + "!", primaryColor);
-          }
-        })
+      ///It must exists Items
+      if (widget.allItems!.isEmpty == false) {
+          ///Navigate
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) =>
+                MultiProvider(
+                  providers: [
+                    ChangeNotifierProvider(
+                      create: (_) => ItemModel("", 0, false, Person(""), Categories.tasks, "#FFFFFF", DateTime(0), DateTime(0), DateTime(0), DateTime(0), Frequency.single, "", false),
+                    ),
+                  ],
+                  child: ListPage(
+                    categories: widget.allItems!.first.categories,
+                  ),
+                ),
+            ),
+          )
+        } else {
+
+          ///The Snackbar
+          poamSnackbar.showSnackBar(context, AppLocalizations.of(context)!.your + " " + displayTextCategory(context, widget.categories!) + " " + AppLocalizations.of(context)!.empty + "!", primaryColor)
+        }
+
       },
       child: Container(
 

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:poam/services/itemServices/Objects/Category.dart';
 import 'package:poam/services/itemServices/ItemModel.dart';
@@ -16,11 +17,15 @@ class PoamList extends StatefulWidget {
 
 class _PoamListState extends State<PoamList> {
 
+  late Size size;
+  late List<Categories> categories = Categories.values;
+
   @override
   Widget build(BuildContext context) {
 
     ///initialize
-    final size = MediaQuery.of(context).size;
+    size = MediaQuery.of(context).size;
+
 
     ///Update Items
     context.watch<ItemModel>().getItems();
@@ -31,25 +36,19 @@ class _PoamListState extends State<PoamList> {
         return SizedBox(
 
           width: size.width,
-          child: ListView(
+          child: ListView.builder(
 
             shrinkWrap: true,
             padding: const EdgeInsets.all(10),
-            children: [
+            itemCount: categories.length,
+            itemBuilder: (BuildContext context, int index) {
 
-              PoamMenu(
-                categories: Categories.tasks,
+              return PoamMenu(
+                categories: categories.elementAt(index),
                 ///All items
-                allItems: box.values.where((element) => element.categories == Categories.tasks).toList() as List<ItemModel>,
-              ),
-
-              PoamMenu(
-                categories: Categories.shopping,
-                ///All items
-                allItems: box.values.where((element) => element.categories == Categories.shopping).toList() as List<ItemModel>,
-              ),
-
-            ],
+                allItems: box.values.where((element) => element.categories == categories.elementAt(index)).toList() as List<ItemModel>,
+              );
+            },
           ),
         );
       },

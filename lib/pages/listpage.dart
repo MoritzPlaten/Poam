@@ -50,29 +50,34 @@ class _ListPageState extends State<ListPage> {
       body: ValueListenableBuilder(
           valueListenable: Hive.box<ItemModel>(Database.Name).listenable(),
           builder: (context, Box<ItemModel> box, _) {
-            return ListView(
-              padding: const EdgeInsets.all(15),
-              children: [
 
-                ///All Items will packed in a PoamDateItem, which display the Date
-                PoamDateItem(
-                  allItems: dateService.sortItemsByDate(box.values.where((element) => element.categories == widget.categories).toList()),
-                  categories: widget.categories,
-                ),
+            return SizedBox(
+              height: size.height,
 
-                ///When no items are there
-                if (box.values.where((element) => element.categories == widget.categories).isEmpty == true)
-                  Container(
-                    width: size.width,
-                    alignment: Alignment.center,
-                    height: 50,
-                    child: Text(
-                      "Die " + displayTextCategory(context, widget.categories!) + " ist leer!",
-                      style: GoogleFonts.novaMono(),
-                    ),
-                  ),
+              child: ListView.builder(
+                padding: const EdgeInsets.all(15),
+                itemCount: box.values.where((element) => element.categories == widget.categories).isEmpty == true ? 0 : dateService.getListOfAllDates(box.values.where((element) => element.categories == widget.categories)).length,
+                itemBuilder: (BuildContext context, int index) {
+                  ///All Items will packed in a PoamDateItem, which display the Date
 
-              ],
+                  if (box.values.where((element) => element.categories == widget.categories).isEmpty == true)
+                    return Container(
+                      width: size.width,
+                      alignment: Alignment.center,
+                      height: 50,
+                      child: Text(
+                        "Die " + displayTextCategory(context, widget.categories!) + " ist leer!",
+                        style: GoogleFonts.novaMono(),
+                      ),
+                    );
+
+                  return PoamDateItem(
+                    allItems: dateService.sortItemsByDate(box.values.where((element) => element.categories == widget.categories).toList()),
+                    categories: widget.categories,
+                  );
+
+                },
+              ),
             );
           }
       ),

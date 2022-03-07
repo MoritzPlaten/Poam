@@ -58,65 +58,62 @@ class _PoamPersonPickerState extends State<PoamPersonPicker> {
         ),
         IconButton(
           onPressed: () {
-            setState(() {
-              showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: const Text('Person hinzufügen'),
-                      content: PoamTextField(
-                        label: "Name",
-                        keyboardType: TextInputType.text,
-                        maxLines: 1,
-                        maxLength: 30,
-                        validator: ((value) {
-                          return null;
-                        }),
-                        controller: personController,
+
+            showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: const Text('Person hinzufügen'),
+                    content: PoamTextField(
+                      label: "Name",
+                      keyboardType: TextInputType.text,
+                      maxLines: 1,
+                      maxLength: 30,
+                      validator: ((value) {
+                        return null;
+                      }),
+                      controller: personController,
+                    ),
+                    actions: [
+
+                      TextButton(
+                        onPressed: () async {
+                          bool personExist = widget.box!.values.contains(new Person(personController.text));
+
+                          bool isProblem = false;
+
+                          if (personExist == true) {
+                            poamSnackbar.showSnackBar(context,
+                                "Diese Person existiert bereits!",
+                                primaryColor);
+                            isProblem = true;
+                          }
+
+                          if (isProblem == false) {
+
+                            widget.box!.add(new Person(personController.text));
+                            Navigator.pop(context);
+                          }
+                        },
+                        child: const Text('Add'),
                       ),
-                      actions: [
 
-                        TextButton(
-                          onPressed: () async {
-                            bool personExist = widget.box!.values.contains(new Person(personController.text));
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: const Text('Exit'),
+                      ),
+                    ],
+                  );
+                });
 
-                            setState(() {
-                              bool isProblem = false;
-
-                              if (personExist == true) {
-                                poamSnackbar.showSnackBar(context,
-                                    "Diese Person existiert bereits!",
-                                    primaryColor);
-                                isProblem = true;
-                              }
-
-                              if (isProblem == false) {
-
-                                widget.box!.add(new Person(personController.text));
-                                Navigator.pop(context);
-                              }
-                            });
-                          },
-                          child: const Text('Add'),
-                        ),
-
-                        TextButton(
-                          onPressed: () {
-                            setState(() {
-                              Navigator.pop(context);
-                            });
-                          },
-                          child: const Text('Exit'),
-                        ),
-                      ],
-                    );
-              });
-            });
           },
           icon: const Icon(Icons.add_outlined),
         ),
 
         IconButton(
+          ///TODO: Problems when the item is removed
             onPressed: () async {
 
               int i = -1, e = 0;
@@ -132,16 +129,14 @@ class _PoamPersonPickerState extends State<PoamPersonPicker> {
                 });
               }
 
-              setState(() {
-                if (numberOfItems == 0) {
-                  poamSnackbar.showSnackBar(context,
-                      "Diese Person existiert nicht!",
-                      primaryColor);
+              if (numberOfItems == 0) {
+                poamSnackbar.showSnackBar(context,
+                    "Diese Person existiert nicht!",
+                    primaryColor);
 
-                } else {
-                  widget.box!.deleteAt(e);
-                }
-              });
+              } else {
+                widget.box!.deleteAt(e);
+              }
             },
             icon: const Icon(Icons.remove),
         ),

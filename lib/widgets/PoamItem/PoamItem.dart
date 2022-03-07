@@ -46,11 +46,9 @@ class _PoamItemState extends State<PoamItem> {
             children: [
               GestureDetector(
                 onLongPress: () {
-                  setState(() {
-                    ///TODO: if you click on the item, you can change the data of it
+                  ///TODO: if you click on the item, you can change the data of it
 
-                    print("Item wird hier geändert!");
-                  });
+                  print("Item wird hier geändert!");
                 },
 
                 child: Row(
@@ -142,18 +140,16 @@ class _PoamItemState extends State<PoamItem> {
                 fillColor: MaterialStateProperty.all(primaryColor),
                 value: widget.itemModel!.isChecked,
                 onChanged: (bool? value) {
-                  setState(() {
-                    ///TODO: if Frequency != Single then don't remove the Item from db, but remove only the surface and for this week
-                    if (widget.itemModel!.frequency == Frequency.single) {
-                      widget.itemModel!.isChecked = value!;
-                      Provider.of<ItemModel>(context, listen: false).removeItem(widget.itemModel!);
-                    } else {
-                      ///TODO: Remove surface and for this day but not
-                      poamSnackbar.showSnackBar(context,
-                          "Item soll nicht entfernt werden von der Datenbank, sondern nur die Oberfläche für den Tag!",
-                          primaryColor);
-                    }
-                  });
+                  ///TODO: if Frequency != Single then don't remove the Item from db, but remove only the surface and for this week
+                  if (widget.itemModel!.frequency == Frequency.single) {
+                    widget.itemModel!.isChecked = value!;
+                    Provider.of<ItemModel>(context, listen: false).removeItem(widget.itemModel!);
+                  } else {
+                    ///TODO: Remove surface and for this day but not
+                    poamSnackbar.showSnackBar(context,
+                        "Item soll nicht entfernt werden von der Datenbank, sondern nur die Oberfläche für den Tag!",
+                        primaryColor);
+                  }
                 },
               ),
 
