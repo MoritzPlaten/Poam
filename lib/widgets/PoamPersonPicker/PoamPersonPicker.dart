@@ -47,7 +47,8 @@ class _PoamPersonPickerState extends State<PoamPersonPicker> {
           child: PoamDropDown(
             dropdownValue:
             widget.personNames!.contains(widget.pickedPerson) == false || widget.pickedPerson == "" && widget.personNames!.length != 0 ?
-                widget.personNames!.first : widget.pickedPerson,
+                widget.personNames!.length != 0 ? widget.personNames!.first :  ""
+                : widget.pickedPerson,
             onChanged: widget.onChange,
             items: widget.personNames,
             color: Colors.white,
