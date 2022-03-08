@@ -55,6 +55,7 @@ class _PoamDateItemState extends State<PoamDateItem> {
                       },
                       body: Column(
                         children: [
+                          ///Displays Description of Shopping elements
                           if (widget.allItems!.where((element) =>
                           element.categories == Categories.shopping).elementAt(i).description != "")
                             Row(
@@ -79,6 +80,7 @@ class _PoamDateItemState extends State<PoamDateItem> {
                             ),
                         ],
                       ),
+                    ///Only for the Shopping elements
                     isExpanded: widget.allItems!.where((element) => element.categories == Categories.shopping).elementAt(i).expanded,
                   ),
               ],
@@ -127,8 +129,8 @@ class _PoamDateItemState extends State<PoamDateItem> {
 
                         ],
                       ),
-                      ///Adds all Items with the correct date to the element
 
+                      ///Adds all Items with the correct date to the element
                       ExpansionPanelList(
                         elevation: 0,
                         children: [
@@ -153,6 +155,7 @@ class _PoamDateItemState extends State<PoamDateItem> {
                                       Column(
                                         children: [
 
+                                          ///Displays the frequency
                                           if (widget.allItems!.elementAt(i).frequency != "")
                                             Row(
                                               children: [
@@ -175,6 +178,7 @@ class _PoamDateItemState extends State<PoamDateItem> {
                                               ],
                                             ),
 
+                                          ///Displays the Description
                                           if (widget.allItems!.elementAt(i).description != "")
                                             Row(
                                               children: [

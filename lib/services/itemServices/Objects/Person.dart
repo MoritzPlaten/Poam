@@ -53,3 +53,15 @@ class Person extends ChangeNotifier {
   }
 
 }
+
+List<String> getPersonsAsStrings(List<Person> persons) {
+  List<String> personNames = List.generate(persons.length, (index) => "");
+
+  int i = 0;
+  persons.forEach((element) {
+    personNames[i] = element.name!;
+    i++;
+  });
+
+  return personNames;
+}

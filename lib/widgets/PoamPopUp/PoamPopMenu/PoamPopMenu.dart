@@ -11,6 +11,7 @@ import '../../PoamSnackbar/PoamSnackbar.dart';
 class PoamPopMenu extends StatefulWidget {
 
   final GlobalKey<FormState>? formKey;
+  final bool? isEditMode;
   final String? categoryDropDownValue;
   final TextEditingController? numberController;
   final TextEditingController? titleController;
@@ -22,10 +23,11 @@ class PoamPopMenu extends StatefulWidget {
   final TextEditingController? fromTimeController;
   final TextEditingController? toDateController;
   final TextEditingController? toTimeController;
+  final int? itemIndex;
 
-  const PoamPopMenu({Key? key, this.formKey, this.categoryDropDownValue, this.numberController, this.titleController,
+  const PoamPopMenu({Key? key, this.formKey, this.isEditMode, this.categoryDropDownValue, this.numberController, this.titleController,
     this.personValue, this.selectedColor, this.frequencyDropDownValue, this.descriptionController, this.fromDateController,
-    this.fromTimeController, this.toDateController, this.toTimeController }) : super(key: key);
+    this.fromTimeController, this.toDateController, this.toTimeController, this.itemIndex }) : super(key: key);
 
   @override
   _PoamPopMenuState createState() => _PoamPopMenuState();
@@ -130,6 +132,7 @@ class _PoamPopMenuState extends State<PoamPopMenu> {
                       }
 
                       RegExp regExp = new RegExp(r'^[0-9]+$');
+                      ///Message: Only Number else error
                       if (widget.categoryDropDownValue == displayTextCategory(context, Categories.shopping) && regExp.hasMatch(widget.numberController!.text) == false) {
                         poamSnackbar.showSnackBar(context,
                             AppLocalizations.of(context)!.messageOnlyNumber,
@@ -137,6 +140,7 @@ class _PoamPopMenuState extends State<PoamPopMenu> {
                         isProblem = true;
                       }
 
+                      ///Message: From Time is smaller than to Time
                       if (fromDateTime.compareTo(toDateTime) > 0) {
                         poamSnackbar.showSnackBar(context,
                             AppLocalizations.of(context)!.messageFromToTime,
@@ -145,9 +149,19 @@ class _PoamPopMenuState extends State<PoamPopMenu> {
                         isProblem = true;
                       }
 
+                      ///Message: A Person must be create
+                      if (widget.personValue == "") {
+                        poamSnackbar.showSnackBar(context,
+                            AppLocalizations.of(context)!.messagePerson,
+                            primaryColor);
+
+                        isProblem = true;
+                      }
+
                       ///If there are no problems then add ItemModel
                       if (isProblem == false) {
-                        Provider.of<ItemModel>(context, listen: false).addItem(ItemModel(
+
+                        ItemModel itemModel = ItemModel(
 
                           ///Set Title
                             widget.titleController!.text.trim(),
@@ -187,11 +201,32 @@ class _PoamPopMenuState extends State<PoamPopMenu> {
                             widget.descriptionController!.text.trim(),
                             ///Set Expanded
                             false
-                        )
                         );
+
+                        switch (widget.isEditMode) {
+
+                          ///Edit the ItemModel
+                          case true:
+                            Provider.of<ItemModel>(context, listen: false).putItem(
+                                widget.itemIndex!,
+                                itemModel
+                            );
+                            break;
+
+                            ///Add a ItemModel
+                          case false:
+                            Provider.of<ItemModel>(context, listen: false).addItem(itemModel);
+                            break;
+
+                            ///Error
+                          default:
+                            print("Error");
+                            break;
+                        }
 
                         Navigator.pop(context);
                       }
+
                     }
                   })
                 },

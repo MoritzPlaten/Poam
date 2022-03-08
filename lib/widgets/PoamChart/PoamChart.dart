@@ -31,8 +31,6 @@ class _PoamChartState extends State<PoamChart> {
     ///initialize
     size = MediaQuery.of(context).size;
     dateService = DateService();
-    ///TODO: Doesn't work
-    //datesBetween = context.watch<DateService>().getDaysInBetween(dateService.getMondayDate(), dateService.getSundayDate());
     primaryColor = Theme.of(context).primaryColor;
     datesBetween = dateService.getDaysInBetween(dateService.getMondayDate(), dateService.getSundayDate());
 

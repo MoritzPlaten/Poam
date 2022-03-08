@@ -63,11 +63,11 @@ class _PoamMenuState extends State<PoamMenu> {
                   ),
                 ),
             ),
-          )
+          ),
         } else {
 
           ///The Snackbar
-          poamSnackbar.showSnackBar(context, AppLocalizations.of(context)!.your + " " + displayTextCategory(context, widget.categories!) + " " + AppLocalizations.of(context)!.empty + "!", primaryColor)
+          poamSnackbar.showSnackBar(context, AppLocalizations.of(context)!.your + " " + displayTextCategory(context, widget.categories!) + " " + AppLocalizations.of(context)!.empty + "!", primaryColor),
         }
 
       },
@@ -169,7 +169,7 @@ class _PoamMenuState extends State<PoamMenu> {
 
               ],
             ),
-            ///When the no items are there, this will shows
+            ///if no items are there, this will be display
             if (widget.allItems!.isEmpty == true) Container(
               padding: const EdgeInsets.all(10),
               child: Text(

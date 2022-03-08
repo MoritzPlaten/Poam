@@ -9,8 +9,9 @@ import 'package:poam/services/itemServices/Objects/Category.dart';
 import 'package:poam/services/itemServices/ItemModel.dart';
 import 'package:poam/services/itemServices/Objects/Database.dart';
 import 'package:poam/services/itemServices/Objects/Person.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:path_provider/path_provider.dart' as pathProvider;
+import 'package:poam/services/localeService/Locales.dart';
+import 'package:provider/provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,6 +22,7 @@ Future<void> main() async {
   Hive.registerAdapter(PersonAdapter());
   Hive.registerAdapter(CategoriesAdapter());
   Hive.registerAdapter(FrequencyAdapter());
+  Hive.registerAdapter(LocalesAdapter());
 
   ///initialize DateFormat
   //await initializeDateFormatting();
@@ -28,8 +30,16 @@ Future<void> main() async {
   ///Open our Box(DB)
   await Hive.openBox<ItemModel>(Database.Name);
   await Hive.openBox<Person>(Database.PersonName);
+  await Hive.openBox<Locales>(Database.LocaleName);
 
-  runApp(const MyApp());
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(
+        create: (_) => Locales(""),
+      ),
+    ],
+    child: const MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -37,10 +47,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ///### MAIN APP ####
 
     ///TODO: Add Options
     ///TODO: Change Language in options
+
+    context.watch<Locales>().getLocale();
+
+    /*Locales localeService = Locales("");
+    localeService.addLocale(Locales("de"));*/
 
     return MaterialApp(
 
@@ -52,7 +66,7 @@ class MyApp extends StatelessWidget {
       initialRoute: "/",
       routes: {
         '/': (context) => const App(),
-        '/listpage': (context) => ListPage(),
+        '/listpage': (context) => const ListPage(),
       },
       locale: Locale("de", ""),
       localizationsDelegates: AppLocalizations.localizationsDelegates,

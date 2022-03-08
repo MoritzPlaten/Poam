@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:hive_flutter/adapters.dart';
+import 'package:intl/intl.dart';
 import 'package:poam/services/dateServices/Objects/Frequency.dart';
 import 'package:poam/services/itemServices/Objects/Category.dart';
 import 'package:poam/services/itemServices/ItemModel.dart';
@@ -18,7 +20,10 @@ import 'PoamPopMenu/PoamPopMenu.dart';
 
 class PoamPopUp extends StatefulWidget {
 
-  const PoamPopUp({Key? key}) : super(key: key);
+  final ItemModel? itemModel;
+  final bool? isEditMode;
+
+  const PoamPopUp({ Key? key, this.itemModel, this.isEditMode }) : super(key: key);
 
   @override
   _PoamPopUpState createState() => _PoamPopUpState();
@@ -29,12 +34,12 @@ class _PoamPopUpState extends State<PoamPopUp> {
   late Color primaryColor;
   late PoamSnackbar poamSnackbar;
   late Size size;
+  late List<ItemModel> itemModel;
 
   ///TODO: Frequency is not working
   String frequencyDropDownValue = "";
   String categoryDropDownValue = "";
   String personDropDownValue = "";
-
   String dateExample = "";
 
   Color selectedColor = Colors.blueAccent;
@@ -59,23 +64,47 @@ class _PoamPopUpState extends State<PoamPopUp> {
     size = MediaQuery.of(context).size;
     primaryColor = Theme.of(context).primaryColor;
     poamSnackbar = PoamSnackbar();
+    itemModel = Provider.of<ItemModel>(context, listen: false).itemModelList;
 
-    if (categoryDropDownValue == "") categoryDropDownValue = displayTextCategory(context, Categories.values.first);
-    if (frequencyDropDownValue == "") frequencyDropDownValue = displayFrequency(context, Frequency.values.first);
+    switch(widget.isEditMode) {
+
+      ///Set Values of the itemModel in the Textformfields
+      case true:
+
+        if (personDropDownValue == "" && categoryDropDownValue == "" && frequencyDropDownValue == "") {
+          frequencyDropDownValue = displayFrequency(context, widget.itemModel!.frequency);
+          categoryDropDownValue = displayTextCategory(context, widget.itemModel!.categories);
+          personDropDownValue = widget.itemModel!.person.name!;
+          _titleController.text = widget.itemModel!.title;
+          _numberController.text = widget.itemModel!.count.toString();
+          _descriptionController.text = widget.itemModel!.description;
+          _fromDateController.text = DateFormat.yMd().format(widget.itemModel!.fromDate);
+          _toDateController.text = DateFormat.yMd().format(widget.itemModel!.toDate);
+          _fromTimeController.text = widget.itemModel!.fromTime.hour.toString() + " : " + widget.itemModel!.fromTime.minute.toString();
+          _toTimeController.text = widget.itemModel!.toTime.hour.toString() + " : " + widget.itemModel!.toTime.minute.toString();
+          selectedColor = Color(HexColor(widget.itemModel!.hex).value);
+        }
+        break;
+
+        ///EditMode is false
+      case false:
+        if (categoryDropDownValue == "") categoryDropDownValue = displayTextCategory(context, Categories.values.first);
+        if (frequencyDropDownValue == "") frequencyDropDownValue = displayFrequency(context, Frequency.values.first);
+        break;
+
+        ///Error
+      default:
+        print("Error");
+        break;
+    }
 
     return ValueListenableBuilder(
         valueListenable: Hive.box<Person>(Database.PersonName).listenable(),
-        builder: (context, Box<Person> box, widget) {
+        builder: (context, Box<Person> box, widgets) {
 
+          ///Get All persons
           List<Person> persons = box.values.toList();
-          List<String> personNames = List.generate(persons.length, (index) => "");
-
-          int i = 0;
-          ///Add person names to list
-          persons.forEach((element) {
-            personNames[i] = element.name!;
-            i++;
-          });
+          List<String> personNames = getPersonsAsStrings(persons);
 
           ///if no person is selected, then choose the first one of the list
           if (personDropDownValue == "" && personNames.length != 0) {
@@ -99,6 +128,7 @@ class _PoamPopUpState extends State<PoamPopUp> {
                       shrinkWrap: true,
                       children: [
 
+                        ///Displays the Category DropDownMenu
                         PoamDropDown(
                           dropdownValue: categoryDropDownValue,
                           onChanged: (value) {
@@ -112,6 +142,7 @@ class _PoamPopUpState extends State<PoamPopUp> {
 
                         const SizedBox(height: 10,),
 
+                        ///Displays the title
                         PoamTextField(
                           validator: ((value) {
                             if (value == null || value.isEmpty) {
@@ -128,13 +159,14 @@ class _PoamPopUpState extends State<PoamPopUp> {
 
                         const SizedBox(height: 10,),
 
+                        ///Displays the Number field
                         if (categoryDropDownValue == displayTextCategory(context, Categories.shopping))
                           PoamTextField(
                             validator: ((value) {
                               if (value == null || value.isEmpty) {
                                 return 'Bitte geben Sie die Anzahl an!';
                               }
-                              return value;
+                              return null;
                             }),
                             controller: _numberController,
                             label: AppLocalizations.of(context)!.numberField,
@@ -143,6 +175,7 @@ class _PoamPopUpState extends State<PoamPopUp> {
                             maxLength: 5,
                           ),
 
+                        ///Displays the PersonPicker
                         if (categoryDropDownValue == displayTextCategory(context, Categories.tasks))
                           PoamPersonPicker(
                             personNames: personNames,
@@ -153,7 +186,8 @@ class _PoamPopUpState extends State<PoamPopUp> {
                             box: box,
                           ),
 
-                        ///TODO: Wenn der erste ausgewählt wird, also das Datum dann soll im zweiten Datum, das Datum von dem ersten eingesetzt werden, darf aber auch daraufhin geändert werden
+                        ///TODO: if the first date is selected, then set the second date equals the first date
+                        ///Displays the Date-Time-Picker
                         Card(
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
@@ -179,6 +213,7 @@ class _PoamPopUpState extends State<PoamPopUp> {
                           ),
                         ),
 
+                        ///Displays the Frequency DropDownMenu
                         if (categoryDropDownValue == displayTextCategory(context, Categories.tasks))
                           PoamDropDown(
                             dropdownValue: frequencyDropDownValue,
@@ -191,6 +226,7 @@ class _PoamPopUpState extends State<PoamPopUp> {
                             foregroundColor: Colors.black,
                           ),
 
+                        ///Displays the Color Picker
                         if (categoryDropDownValue == displayTextCategory(context, Categories.tasks))
                           PoamColorPicker(
                             pickedColor: selectedColor,
@@ -199,6 +235,7 @@ class _PoamPopUpState extends State<PoamPopUp> {
                             },
                           ),
 
+                        ///Displays the Desciption field
                         PoamTextField(
                           validator: ((value) {
                             return null;
@@ -214,8 +251,10 @@ class _PoamPopUpState extends State<PoamPopUp> {
                     ),
                   ),
 
+                  ///Displays the PoamPopMenu
                   PoamPopMenu(
                     formKey: _formKey,
+                    isEditMode: widget.isEditMode,
                     categoryDropDownValue: categoryDropDownValue,
                     numberController: _numberController,
                     titleController: _titleController,
@@ -227,6 +266,8 @@ class _PoamPopUpState extends State<PoamPopUp> {
                     fromTimeController: _fromTimeController,
                     toDateController: _toDateController,
                     toTimeController: _toTimeController,
+                    ///if EditMode is true then get the index of this itemModel, else set the itemIndex to 0
+                    itemIndex: widget.isEditMode == true ? itemModel.indexOf(widget.itemModel!) : 0,
                   ),
 
                 ],

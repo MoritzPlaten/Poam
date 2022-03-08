@@ -14,21 +14,21 @@ class CategoriesAdapter extends TypeAdapter<Categories> {
   Categories read(BinaryReader reader) {
     switch (reader.readByte()) {
       case 0:
-        return Categories.shopping;
-      case 1:
         return Categories.tasks;
-      default:
+      case 1:
         return Categories.shopping;
+      default:
+        return Categories.tasks;
     }
   }
 
   @override
   void write(BinaryWriter writer, Categories obj) {
     switch (obj) {
-      case Categories.shopping:
+      case Categories.tasks:
         writer.writeByte(0);
         break;
-      case Categories.tasks:
+      case Categories.shopping:
         writer.writeByte(1);
         break;
     }

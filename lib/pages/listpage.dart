@@ -56,10 +56,12 @@ class _ListPageState extends State<ListPage> {
 
               child: ListView.builder(
                 padding: const EdgeInsets.all(15),
-                itemCount: box.values.where((element) => element.categories == widget.categories).isEmpty == true ? 0 : dateService.getListOfAllDates(box.values.where((element) => element.categories == widget.categories)).length,
+                ///counts the ItemModels
+                itemCount: box.values.where((element) => element.categories == widget.categories).isEmpty == true ?
+                0 : dateService.getListOfAllDates(box.values.where((element) => element.categories == widget.categories)).length,
                 itemBuilder: (BuildContext context, int index) {
-                  ///All Items will packed in a PoamDateItem, which display the Date
 
+                  ///if the list is empty display text
                   if (box.values.where((element) => element.categories == widget.categories).isEmpty == true)
                     return Container(
                       width: size.width,
@@ -71,6 +73,7 @@ class _ListPageState extends State<ListPage> {
                       ),
                     );
 
+                  ///All Items will packed in a PoamDateItem, which display the Date
                   return PoamDateItem(
                     allItems: dateService.sortItemsByDate(box.values.where((element) => element.categories == widget.categories).toList()),
                     categories: widget.categories,

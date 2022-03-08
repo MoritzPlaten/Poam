@@ -6,7 +6,6 @@ import 'package:poam/widgets/PoamSnackbar/PoamSnackbar.dart';
 import 'package:poam/widgets/PoamTextField/PoamTextField.dart';
 import 'package:provider/provider.dart';
 
-import '../../services/itemServices/Objects/Database.dart';
 import '../PoamDropDown/PoamDropDown.dart';
 
 class PoamPersonPicker extends StatefulWidget {
@@ -56,6 +55,7 @@ class _PoamPersonPickerState extends State<PoamPersonPicker> {
             foregroundColor: Colors.black,
           ),
         ),
+        ///Add a Person
         IconButton(
           onPressed: () {
 
@@ -112,6 +112,7 @@ class _PoamPersonPickerState extends State<PoamPersonPicker> {
           icon: const Icon(Icons.add_outlined),
         ),
 
+        ///Remove the active Person
         IconButton(
           ///TODO: Problems when the item is removed
             onPressed: () async {

@@ -32,6 +32,7 @@ class _PoamDatePickerState extends State<PoamDatePicker> {
     primaryColor = Theme.of(context).primaryColor;
     size = MediaQuery.of(context).size;
 
+    ///Opens DatePicker
     Future<Null> _selectDate(BuildContext context) async {
       final DateTime? picked = await showDatePicker(
           context: context,
@@ -46,6 +47,7 @@ class _PoamDatePickerState extends State<PoamDatePicker> {
         });
     }
 
+    ///Opens TimePicker
     Future<Null> _selectTime(BuildContext context) async {
       final TimeOfDay? picked = await showTimePicker(
         context: context,
@@ -74,6 +76,7 @@ class _PoamDatePickerState extends State<PoamDatePicker> {
           width: 8,
         ),
 
+        ///Displays DatePicker
         InkWell(
           onTap: () {
             _selectDate(context);
@@ -85,7 +88,7 @@ class _PoamDatePickerState extends State<PoamDatePicker> {
             child: Container(
               decoration: BoxDecoration(
                 color: primaryColor,
-                borderRadius: BorderRadius.all(Radius.circular(20)),
+                borderRadius: const BorderRadius.all(Radius.circular(20)),
               ),
               child: TextFormField(
                 style: GoogleFonts.novaMono(
@@ -100,8 +103,8 @@ class _PoamDatePickerState extends State<PoamDatePicker> {
                 decoration: InputDecoration(
                   hintText: DateFormat.yMd().format(selectedDate),
                     hintStyle: const TextStyle(color: Colors.white),
-                    disabledBorder: UnderlineInputBorder(borderSide: BorderSide.none),
-                    contentPadding: EdgeInsets.only(top: 0.0)),
+                    disabledBorder: const UnderlineInputBorder(borderSide: BorderSide.none),
+                    contentPadding: const EdgeInsets.only(top: 0.0)),
               ),
 
           ),
@@ -112,6 +115,7 @@ class _PoamDatePickerState extends State<PoamDatePicker> {
           width: 5,
         ),
 
+        ///Displays TimePicker
         InkWell(
           onTap: () {
             _selectTime(context);
@@ -123,7 +127,7 @@ class _PoamDatePickerState extends State<PoamDatePicker> {
               child: Container(
                 decoration: BoxDecoration(
                   color: primaryColor,
-                  borderRadius: BorderRadius.all(Radius.circular(20)),
+                  borderRadius: const BorderRadius.all(Radius.circular(20)),
                 ),
                 child: TextFormField(
                   style: GoogleFonts.novaMono(
@@ -138,8 +142,8 @@ class _PoamDatePickerState extends State<PoamDatePicker> {
                   decoration: InputDecoration(
                       hintText: selectedTime.hour.toString() + ":" + selectedTime.minute.toString(),
                       hintStyle: const TextStyle(color: Colors.white),
-                      disabledBorder: UnderlineInputBorder(borderSide: BorderSide.none),
-                      contentPadding: EdgeInsets.only(top: 0.0)),
+                      disabledBorder: const UnderlineInputBorder(borderSide: BorderSide.none),
+                      contentPadding: const EdgeInsets.only(top: 0.0)),
                 ),
               )
           ),

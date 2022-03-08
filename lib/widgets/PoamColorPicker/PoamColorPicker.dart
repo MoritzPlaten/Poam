@@ -23,9 +23,11 @@ class _PoamColorPickerState extends State<PoamColorPicker> {
       margin: const EdgeInsets.only(top: 10),
       child: GestureDetector(
         onTap: () {
+
           showDialog(
               context: context,
-              builder: (BuildContext context){
+              builder: (BuildContext context) {
+
                 return AlertDialog(
                   title: Text(AppLocalizations.of(context)!.colorField),
                   content: SingleChildScrollView(

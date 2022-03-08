@@ -24,11 +24,11 @@ class _PoamDropDownState extends State<PoamDropDown> {
   Widget build(BuildContext context) {
     return Card(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(10)),
+        borderRadius: const BorderRadius.all(Radius.circular(10)),
       ),
       color: widget.color!,
       child: Padding(
-        padding: EdgeInsets.only(left: 10, right: 10),
+        padding: const EdgeInsets.only(left: 10, right: 10),
         child: DropdownButton<String>(
           onChanged: widget.onChanged,
           value: widget.dropdownValue,
@@ -38,30 +38,34 @@ class _PoamDropDownState extends State<PoamDropDown> {
           isExpanded: true,
 
           /// Gets all Items from a List<String>
-          items: widget.items!.map((e) => DropdownMenuItem<String>(
-            child: Container(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                e,
-                style: GoogleFonts.novaMono(
-                    fontWeight: FontWeight.w500
+          items: widget.items!.map((e) =>
+              DropdownMenuItem<String>(
+                child: Container(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    e,
+                    style: GoogleFonts.novaMono(
+                        fontWeight: FontWeight.w500
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            value: e,
-          )).toList(),
+                value: e,
+              )
+          ).toList(),
 
           // Customize the selected item
-          selectedItemBuilder: (BuildContext context) => widget.items!.map((e) => Center(
-            child: Text(
-              e,
-              style: GoogleFonts.novaMono(
-                  fontSize: 14,
-                  color: widget.foregroundColor,
-                  fontWeight: FontWeight.bold
-              ),
-            ),
-          )).toList(),
+          selectedItemBuilder: (BuildContext context) => widget.items!.map((e) =>
+              Center(
+                child: Text(
+                  e,
+                  style: GoogleFonts.novaMono(
+                      fontSize: 14,
+                      color: widget.foregroundColor,
+                      fontWeight: FontWeight.bold
+                  ),
+                ),
+              )
+          ).toList(),
 
           icon: Icon(widget.iconData, color: widget.foregroundColor,),
         ),

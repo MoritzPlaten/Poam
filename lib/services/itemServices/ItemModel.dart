@@ -58,11 +58,19 @@ class ItemModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  ///Add the ItemModel from our db
+  ///Add the ItemModel to our db
   void addItem(ItemModel item) async {
     var box = await Hive.openBox<ItemModel>(Database.Name);
 
     box.add(item);
+    notifyListeners();
+  }
+
+  ///Change the ItemModel to our db
+  void putItem(int index, ItemModel item) async {
+    var box = await Hive.openBox<ItemModel>(Database.Name);
+
+    box.putAt(index, item);
     notifyListeners();
   }
 
@@ -83,5 +91,4 @@ class ItemModel extends ChangeNotifier {
     });
 
   }
-
 }

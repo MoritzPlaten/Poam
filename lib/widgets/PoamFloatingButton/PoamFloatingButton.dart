@@ -31,7 +31,8 @@ class _PoamFloatingButtonState extends State<PoamFloatingButton> {
             builder: (context) => MultiProvider(
               providers: [
                 ChangeNotifierProvider(
-                  create: (_) => ItemModel(
+                  create: (_) =>
+                      ItemModel(
                       "",
                       0,
                       false,
@@ -44,7 +45,8 @@ class _PoamFloatingButtonState extends State<PoamFloatingButton> {
                       DateTime(0),
                       Frequency.single,
                       "",
-                      false),
+                      false
+                  ),
                 ),
                 ChangeNotifierProvider(
                   create: (_) => ChartService(),
@@ -53,10 +55,10 @@ class _PoamFloatingButtonState extends State<PoamFloatingButton> {
                   create: (_) => Person(""),
                 ),
               ],
-              child: const PoamPopUp(),
+              child: const PoamPopUp(isEditMode: false,),
             ),
           ),
-        )
+        ),
       },
       child: Container(
         width: 60,

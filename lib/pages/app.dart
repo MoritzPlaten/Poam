@@ -16,15 +16,15 @@ class App extends StatefulWidget {
 
 class _AppState extends State<App> {
 
-  late double padding;
   late Size size;
+  late double padding;
 
   @override
   Widget build(BuildContext context) {
 
     ///Initialize
-    padding = MediaQuery.of(context).padding.top;
     size = MediaQuery.of(context).size;
+    padding = MediaQuery.of(context).padding.top;
 
     return MultiProvider(
       providers: [

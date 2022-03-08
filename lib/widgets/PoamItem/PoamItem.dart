@@ -3,6 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:poam/services/dateServices/Objects/Frequency.dart';
 import 'package:poam/services/itemServices/Objects/Category.dart';
 import 'package:poam/services/itemServices/ItemModel.dart';
+import 'package:poam/services/itemServices/Objects/Person.dart';
+import 'package:poam/widgets/PoamPopUp/PoamPopUp.dart';
 import 'package:poam/widgets/PoamSnackbar/PoamSnackbar.dart';
 import 'package:provider/provider.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -46,9 +48,25 @@ class _PoamItemState extends State<PoamItem> {
             children: [
               GestureDetector(
                 onLongPress: () {
-                  ///TODO: if you click on the item, you can change the data of it
+                  setState(() {
 
-                  print("Item wird hier geändert!");
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => MultiProvider(
+                        providers: [
+                          ChangeNotifierProvider(
+                            create: (_) => ItemModel("", 0, false, Person(""), Categories.shopping, "", DateTime(0), DateTime(0), DateTime(0), DateTime(0), Frequency.single, "", false),
+                          ),
+                          ChangeNotifierProvider(
+                            create: (_) => Person(""),
+                          ),
+                        ],
+                        ///EditMode true
+                        child: PoamPopUp(itemModel: widget.itemModel,isEditMode: true,),
+                      )),
+                    );
+
+                  });
                 },
 
                 child: Row(

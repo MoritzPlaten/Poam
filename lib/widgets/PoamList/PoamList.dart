@@ -26,7 +26,6 @@ class _PoamListState extends State<PoamList> {
     ///initialize
     size = MediaQuery.of(context).size;
 
-
     ///Update Items
     context.watch<ItemModel>().getItems();
 
