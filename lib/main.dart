@@ -48,9 +48,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    ///TODO: Add Options
-    ///TODO: Change Language in options
-
     context.watch<Locales>().getLocale();
 
     /*Locales localeService = Locales("");

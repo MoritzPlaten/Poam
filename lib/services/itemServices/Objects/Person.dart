@@ -14,14 +14,13 @@ class Person extends ChangeNotifier {
   @HiveField(1)
   Person(this.name);
 
-  List _personList = <Person>[];
-  List get PersonList => _personList;
+  List<Person> _personList = <Person>[];
+  List<Person> get PersonList => _personList;
 
   void getPersons() async {
-
     final box = await Hive.openBox<Person>(Database.PersonName);
-    _personList = box.values.toList();
 
+    _personList = box.values.toList();
     notifyListeners();
   }
 

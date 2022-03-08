@@ -7,6 +7,7 @@ import 'package:provider/src/provider.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import '../../services/itemServices/Objects/Database.dart';
+import '../../services/itemServices/Objects/Person.dart';
 
 class PoamList extends StatefulWidget {
   const PoamList({ Key? key }) : super(key: key);

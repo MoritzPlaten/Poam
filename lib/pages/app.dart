@@ -26,6 +26,9 @@ class _AppState extends State<App> {
     size = MediaQuery.of(context).size;
     padding = MediaQuery.of(context).padding.top;
 
+    ///TODO: Add Options
+    ///TODO: Change Language in options
+
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(

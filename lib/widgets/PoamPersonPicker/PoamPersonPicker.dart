@@ -29,6 +29,7 @@ class _PoamPersonPickerState extends State<PoamPersonPicker> {
 
   @override
   Row build(BuildContext context) {
+
     ///watch
     context.watch<Person>().getPersons();
 
@@ -45,9 +46,8 @@ class _PoamPersonPickerState extends State<PoamPersonPicker> {
           height: 55,
           child: PoamDropDown(
             dropdownValue:
-                widget.pickedPerson == "" && widget.personNames!.length != 0
-                    ? widget.personNames!.first
-                    : widget.pickedPerson,
+            widget.personNames!.contains(widget.pickedPerson) == false || widget.pickedPerson == "" && widget.personNames!.length != 0 ?
+                widget.personNames!.first : widget.pickedPerson,
             onChanged: widget.onChange,
             items: widget.personNames,
             color: Colors.white,
@@ -114,13 +114,11 @@ class _PoamPersonPickerState extends State<PoamPersonPicker> {
 
         ///Remove the active Person
         IconButton(
-          ///TODO: Problems when the item is removed
             onPressed: () async {
 
               int i = -1, e = 0;
-
               int numberOfItems = widget.box!.values.where((element) => element.name == widget.pickedPerson!.trim()).length;
-
+              
               if (numberOfItems != 0) {
                 widget.box!.values.forEach((element) {
                   ++i;

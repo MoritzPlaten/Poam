@@ -134,7 +134,8 @@ class _PoamPopUpState extends State<PoamPopUp> {
                           onChanged: (value) {
                             categoryDropDownValue = value!;
                           },
-                          items: displayAllCategories(context),
+                          ///if EditMode is true then only display the Category of the ItemModel
+                          items: widget.isEditMode == false ? displayAllCategories(context) : List.generate(1, (index) => displayTextCategory(context, widget.itemModel!.categories)),
                           color: primaryColor,
                           iconData: Icons.arrow_drop_down,
                           foregroundColor: Colors.white,
