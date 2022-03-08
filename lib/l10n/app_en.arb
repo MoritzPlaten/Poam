@@ -23,5 +23,7 @@
     "messagePast": "",
     "messageOnlyNumber": "Only Numbers please",
     "messageFromToTime": "",
-    "messagePerson": "You must create a person!"
+    "messagePerson": "You must create a person!",
+    "settings": "Settings",
+    "home": "Home"
 }

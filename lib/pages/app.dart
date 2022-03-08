@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:poam/widgets/PoamFloatingButton/PoamFloatingButton.dart';
 import 'package:poam/widgets/PoamList/PoamList.dart';
+import 'package:poam/widgets/PoamOptions/PoamOptions.dart';
 import 'package:provider/provider.dart';
 import '../services/dateServices/Objects/Frequency.dart';
 import '../services/itemServices/ItemModel.dart';
 import '../services/itemServices/Objects/Category.dart';
 import '../services/itemServices/Objects/Person.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class App extends StatefulWidget {
   const App({ Key? key }) : super(key: key);
@@ -18,6 +20,7 @@ class _AppState extends State<App> {
 
   late Size size;
   late double padding;
+  int selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -26,8 +29,11 @@ class _AppState extends State<App> {
     size = MediaQuery.of(context).size;
     padding = MediaQuery.of(context).padding.top;
 
-    ///TODO: Add Options
-    ///TODO: Change Language in options
+    void _onItemTapped(int index) {
+      setState(() {
+        selectedIndex = index;
+      });
+    }
 
     return MultiProvider(
       providers: [
@@ -36,14 +42,30 @@ class _AppState extends State<App> {
         ),
       ],
       child: Scaffold(
-        body: Padding(
+        body: selectedIndex == 0 ? Padding(
           padding: EdgeInsets.only(top: padding),
           child: SizedBox(
             height: size.height,
             child: const PoamList(),
           ),
+        ) : PoamOptions(),
+        floatingActionButton: selectedIndex == 0 ? const PoamFloatingButton() : null,
+        bottomNavigationBar: BottomNavigationBar(
+          items: [
+
+            BottomNavigationBarItem(
+              icon: Icon(Icons.calendar_view_month),
+              label: AppLocalizations.of(context)!.home,
+            ),
+
+            BottomNavigationBarItem(
+              icon: Icon(Icons.settings_outlined),
+              label: AppLocalizations.of(context)!.settings,
+            ),
+          ],
+          currentIndex: selectedIndex,
+          onTap: _onItemTapped,
         ),
-        floatingActionButton: const PoamFloatingButton(),
       ),
     );
 

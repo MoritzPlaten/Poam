@@ -65,7 +65,7 @@ class MyApp extends StatelessWidget {
         '/': (context) => const App(),
         '/listpage': (context) => const ListPage(),
       },
-      locale: Locale("de", ""),
+      locale: Locale("en", ""),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
     );
