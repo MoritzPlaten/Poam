@@ -24,6 +24,12 @@
     "messageOnlyNumber": "Geben Sie eine Zahl ein, keine Buchstaben!",
     "messageFromToTime": "Die 'von Time' darf nicht kleiner als die 'bis Time' sein!",
     "messagePerson": "Sie müssen eine Person erstellen!",
+    "messagePersonNotExists": "Diese Person existiert bereits!",
+    "messageWriteNumber": "Bitte geben Sie die Anzahl an!",
+    "messageWriteTitle": "Bitte geben Sie die Title an!",
     "settings": "Einstellungen",
-    "home": "Startseite"
+    "home": "Startseite",
+    "addPerson": "Person hinzufügen",
+    "addButton": "Hinzufügen",
+    "exitButton": "Schließen"
 }

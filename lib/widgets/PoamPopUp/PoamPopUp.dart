@@ -147,7 +147,7 @@ class _PoamPopUpState extends State<PoamPopUp> {
                         PoamTextField(
                           validator: ((value) {
                             if (value == null || value.isEmpty) {
-                              return 'Bitte geben Sie den Titel an!';
+                              return AppLocalizations.of(context)!.messageWriteTitle;
                             }
                             return null;
                           }),
@@ -165,7 +165,7 @@ class _PoamPopUpState extends State<PoamPopUp> {
                           PoamTextField(
                             validator: ((value) {
                               if (value == null || value.isEmpty) {
-                                return 'Bitte geben Sie die Anzahl an!';
+                                return AppLocalizations.of(context)!.messageWriteNumber;
                               }
                               return null;
                             }),

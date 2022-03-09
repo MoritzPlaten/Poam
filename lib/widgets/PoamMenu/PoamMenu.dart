@@ -59,7 +59,7 @@ class _PoamMenuState extends State<PoamMenu> {
                     ),
                   ],
                   child: ListPage(
-                    categories: widget.allItems!.first.categories,
+                    categories: widget.categories,
                   ),
                 ),
             ),

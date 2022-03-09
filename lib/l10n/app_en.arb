@@ -24,6 +24,12 @@
     "messageOnlyNumber": "Only Numbers please",
     "messageFromToTime": "",
     "messagePerson": "You must create a person!",
+    "messagePersonNotExists": "The Person doesn't exists!",
+    "messageWriteNumber": "Pls set the number value!",
+    "messageWriteTitle": "Pls set the title!",
     "settings": "Settings",
-    "home": "Home"
+    "home": "Home",
+    "addPerson": "Add a Person",
+    "addButton": "Add",
+    "exitButton": "Exit"
 }

@@ -5,6 +5,7 @@ import 'package:poam/services/itemServices/Objects/Person.dart';
 import 'package:poam/widgets/PoamSnackbar/PoamSnackbar.dart';
 import 'package:poam/widgets/PoamTextField/PoamTextField.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../PoamDropDown/PoamDropDown.dart';
 
@@ -64,7 +65,7 @@ class _PoamPersonPickerState extends State<PoamPersonPicker> {
                 context: context,
                 builder: (BuildContext context) {
                   return AlertDialog(
-                    title: const Text('Person hinzufügen'),
+                    title: Text(AppLocalizations.of(context)!.addPerson),
                     content: PoamTextField(
                       label: "Name",
                       keyboardType: TextInputType.text,
@@ -85,7 +86,7 @@ class _PoamPersonPickerState extends State<PoamPersonPicker> {
 
                           if (personExist == true) {
                             poamSnackbar.showSnackBar(context,
-                                "Diese Person existiert bereits!",
+                                AppLocalizations.of(context)!.messagePersonNotExists,
                                 primaryColor);
                             isProblem = true;
                           }
@@ -96,14 +97,14 @@ class _PoamPersonPickerState extends State<PoamPersonPicker> {
                             Navigator.pop(context);
                           }
                         },
-                        child: const Text('Add'),
+                        child: Text(AppLocalizations.of(context)!.addButton),
                       ),
 
                       TextButton(
                         onPressed: () {
                           Navigator.pop(context);
                         },
-                        child: const Text('Exit'),
+                        child: Text(AppLocalizations.of(context)!.exitButton),
                       ),
                     ],
                   );

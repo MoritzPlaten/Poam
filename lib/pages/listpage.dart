@@ -8,6 +8,7 @@ import 'package:poam/services/itemServices/Objects/Database.dart';
 import 'package:poam/widgets/PoamDateItem/PoamDateItem.dart';
 import 'package:poam/widgets/PoamFloatingButton/PoamFloatingButton.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ListPage extends StatefulWidget {
 
@@ -58,7 +59,7 @@ class _ListPageState extends State<ListPage> {
                 padding: const EdgeInsets.all(15),
                 ///counts the ItemModels
                 itemCount: box.values.where((element) => element.categories == widget.categories).isEmpty == true ?
-                0 : dateService.getListOfAllDates(box.values.where((element) => element.categories == widget.categories)).length,
+                1 : dateService.getListOfAllDates(box.values.where((element) => element.categories == widget.categories)).length,
                 itemBuilder: (BuildContext context, int index) {
 
                   ///if the list is empty display text
@@ -68,7 +69,7 @@ class _ListPageState extends State<ListPage> {
                       alignment: Alignment.center,
                       height: 50,
                       child: Text(
-                        "Die " + displayTextCategory(context, widget.categories!) + " ist leer!",
+                        AppLocalizations.of(context)!.your + " " + displayTextCategory(context, widget.categories!) + " " + AppLocalizations.of(context)!.empty,
                         style: GoogleFonts.novaMono(),
                       ),
                     );

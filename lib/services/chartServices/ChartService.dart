@@ -10,12 +10,12 @@ class ChartService extends ChangeNotifier {
 
   ///TODO: rewrite
 
-  List<charts.Series<dynamic, String>> getSeries(List<ItemModel> items, DateService dateService, List<DateTime> datesBetween, Color primaryColor) {
+  List<charts.Series<dynamic, String>> getSeries(context, List<ItemModel> items, DateService dateService, List<DateTime> datesBetween, Color primaryColor) {
 
     ChartModel chartModel = ChartModel([
       for(int i = 0;i < datesBetween.length;i++)
         BarChartModel(
-          day: dateService.displayDate(datesBetween.elementAt(i)),
+          day: dateService.displayDate(context, datesBetween.elementAt(i)),
 
           tasks: items.where((element) => (element.fromDate.day == datesBetween.elementAt(i).day)
               && (element.fromDate.month == datesBetween.elementAt(i).month)

@@ -26,6 +26,7 @@ class _PoamDateItemState extends State<PoamDateItem> {
   late List<DateTime> dates;
   late Color primaryColor;
   late String languageCode;
+  late Size size;
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +37,7 @@ class _PoamDateItemState extends State<PoamDateItem> {
     dateService = DateService();
     dates = dateService.getListOfAllDates(widget.allItems!.where((element) => element.categories == Categories.tasks));
     primaryColor = Theme.of(context).primaryColor;
+    size = size = MediaQuery.of(context).size;
 
     return Column(
       children: [
@@ -68,11 +70,16 @@ class _PoamDateItemState extends State<PoamDateItem> {
                                   ),
                                 ),
 
-                                Text(
-                                  widget.allItems!.where((element) =>
-                                  element.categories == Categories.shopping).elementAt(i).description,
-                                  style: GoogleFonts.kreon(
-                                      fontSize: 12
+                                const SizedBox(width: 5,),
+
+                                SizedBox(
+                                  width: size.width - (size.width / 2.3),
+                                  child: Text(
+                                    widget.allItems!.where((element) =>
+                                    element.categories == Categories.shopping).elementAt(i).description,
+                                    style: GoogleFonts.kreon(
+                                        fontSize: 12
+                                    ),
                                   ),
                                 ),
 
@@ -110,7 +117,7 @@ class _PoamDateItemState extends State<PoamDateItem> {
                           ),
 
                           Text(
-                              DateFormat.EEEE(Locale("de", "").languageCode).format(dates[k]) + " - " + DateFormat("dd.MM.yyyy").format(dates[k]),
+                              DateFormat.EEEE(Localizations.localeOf(context).languageCode).format(dates[k]) + " - " + DateFormat.yMd(Localizations.localeOf(context).languageCode).format(dates[k]),
                             style: GoogleFonts.novaMono(
                               fontSize: 11,
                               color: primaryColor,
@@ -153,63 +160,69 @@ class _PoamDateItemState extends State<PoamDateItem> {
                                     children: [
 
                                       Column(
-                                        children: [
+                                          children: [
 
-                                          ///Displays the frequency
-                                          if (widget.allItems!.elementAt(i).frequency != "")
-                                            Row(
-                                              children: [
+                                            ///Displays the frequency
+                                            if (widget.allItems!.elementAt(i).frequency != "")
+                                              Row(
+                                                children: [
 
-                                                Text(
-                                                  AppLocalizations.of(context)!.frequency + ": ",
-                                                  style: GoogleFonts.kreon(
-                                                      color: primaryColor,
-                                                      fontSize: 13
+                                                  Text(
+                                                    AppLocalizations.of(context)!.frequency + ": ",
+                                                    style: GoogleFonts.kreon(
+                                                        color: primaryColor,
+                                                        fontSize: 13
+                                                    ),
                                                   ),
-                                                ),
 
-                                                Text(
-                                                  displayFrequency(context, widget.allItems!.elementAt(i).frequency),
-                                                  style: GoogleFonts.kreon(
-                                                      fontSize: 13
+                                                    SizedBox(
+                                                      width: size.width - (size.width / 2),
+                                                      child: Text(
+                                                        displayFrequency(context, widget.allItems!.elementAt(i).frequency),
+                                                        style: GoogleFonts.kreon(
+                                                            fontSize: 13
+                                                        ),
+                                                      ),
+                                                    ),
+
+                                                ],
+                                              ),
+
+                                            const SizedBox(height: 6,),
+
+                                            ///Displays the Description
+                                            if (widget.allItems!.elementAt(i).description != "")
+                                              Row(
+                                                children: [
+
+                                                  Text(
+                                                    AppLocalizations.of(context)!.descriptionField + ": ",
+                                                    style: GoogleFonts.kreon(
+                                                        color: primaryColor,
+                                                        fontSize: 13
+                                                    ),
                                                   ),
-                                                ),
 
-                                              ],
-                                            ),
-
-                                          ///Displays the Description
-                                          if (widget.allItems!.elementAt(i).description != "")
-                                            Row(
-                                              children: [
-
-                                                Text(
-                                                  AppLocalizations.of(context)!.descriptionField + ": ",
-                                                  style: GoogleFonts.kreon(
-                                                      color: primaryColor,
-                                                      fontSize: 13
+                                                  SizedBox(
+                                                  width: size.width - (size.width / 2),
+                                                  child: Text(
+                                                      widget.allItems!.elementAt(i).description,
+                                                      style: GoogleFonts.kreon(
+                                                          fontSize: 13
+                                                      ),
+                                                    ),
                                                   ),
-                                                ),
 
-                                                Text(
-                                                  widget.allItems!.elementAt(i).description,
-                                                  style: GoogleFonts.kreon(
-                                                      fontSize: 13
-                                                  ),
-                                                ),
+                                                ],
+                                              ),
 
-                                              ],
-                                            ),
-
-                                        ],
-                                      ),
+                                          ],
+                                        ),
 
                                       if (widget.allItems!.elementAt(i).frequency != Frequency.single) IconButton(
                                           onPressed: () {
-                                            setState(() {
-                                              widget.allItems!.elementAt(i).isChecked = !widget.allItems!.elementAt(i).isChecked;
-                                              Provider.of<ItemModel>(context, listen: false).removeItem(widget.allItems!.elementAt(i));
-                                            });
+                                            widget.allItems!.elementAt(i).isChecked = !widget.allItems!.elementAt(i).isChecked;
+                                            Provider.of<ItemModel>(context, listen: false).removeItem(widget.allItems!.elementAt(i));
                                           },
                                           icon: const Icon(
                                             Icons.delete,

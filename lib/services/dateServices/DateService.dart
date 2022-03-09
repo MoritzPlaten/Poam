@@ -60,7 +60,7 @@ class DateService extends ChangeNotifier {
     return days;
   }
 
-  String displayDate(DateTime dateTime) {
-    return DateFormat.E(Locale("de", "").languageCode).format(dateTime);
+  String displayDate(context, DateTime dateTime) {
+    return DateFormat.E(Localizations.localeOf(context).languageCode).format(dateTime);
   }
 }

@@ -43,7 +43,7 @@ class _PoamDatePickerState extends State<PoamDatePicker> {
       if (picked != null)
         setState(() {
           selectedDate = picked;
-          widget.dateController!.text = DateFormat.yMd().format(selectedDate);
+          widget.dateController!.text = DateFormat.yMd(Localizations.localeOf(context).languageCode).format(selectedDate);
         });
     }
 
@@ -101,7 +101,7 @@ class _PoamDatePickerState extends State<PoamDatePicker> {
                   _setDate = value!;
                 }),
                 decoration: InputDecoration(
-                  hintText: DateFormat.yMd().format(selectedDate),
+                  hintText: DateFormat.yMd(Localizations.localeOf(context).languageCode).format(selectedDate),
                     hintStyle: const TextStyle(color: Colors.white),
                     disabledBorder: const UnderlineInputBorder(borderSide: BorderSide.none),
                     contentPadding: const EdgeInsets.only(top: 0.0)),
