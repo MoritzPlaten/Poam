@@ -43,25 +43,21 @@ String displayFrequency(BuildContext context, Frequency frequency) {
 }
 
 ///Get the Frequency object from text
-Frequency getFrequency(String frequencyName) {
+Frequency getFrequency(context, String frequencyName) {
   Frequency value = Frequency.single;
-  switch(frequencyName) {
-    case "Einmalig":
-      value = Frequency.single;
-      break;
-    case "Täglich":
-      value = Frequency.daily;
-      break;
-    case "Wöchentlich":
-      value = Frequency.weekly;
-      break;
-    case "Monatlich":
-      value = Frequency.monthly;
-      break;
-    case "Jährlich":
-      value = Frequency.yearly;
-      break;
+
+  if (frequencyName == AppLocalizations.of(context)!.single) {
+    value = Frequency.single;
+  } else if (frequencyName == AppLocalizations.of(context)!.daily) {
+    value = Frequency.daily;
+  } else if (frequencyName == AppLocalizations.of(context)!.weekly) {
+    value = Frequency.weekly;
+  } else if (frequencyName == AppLocalizations.of(context)!.monthly) {
+    value = Frequency.monthly;
+  } else if (frequencyName == AppLocalizations.of(context)!.yearly) {
+    value = Frequency.yearly;
   }
+
   return value;
 }
 

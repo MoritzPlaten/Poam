@@ -33,6 +33,9 @@ class _PoamDateItemState extends State<PoamDateItem> {
 
     ///TODO: if the surface of the item is removed, then add a new surface of the item: if is it weekly then add a new DateTime, ...
 
+    ///TODO: Anstatt ExpansionPanelList und ExpansionPanel zu benutzen, benutzt ListView.Builder und ExpansionTile : Optimiert vielleicht die Leistung
+    ///TODO: PoamDateItem wird irgendwie schon als komplette Liste angesehen, brauche keine ListView.builder in listpage mehr
+
     ///initialize
     dateService = DateService();
     dates = dateService.getListOfAllDates(widget.allItems!.where((element) => element.categories == Categories.tasks));
@@ -203,6 +206,7 @@ class _PoamDateItemState extends State<PoamDateItem> {
                                                     ),
                                                   ),
 
+                                                  ///TODO: Beschreibungsfeld oben nicht mittig ausrichten
                                                   SizedBox(
                                                   width: size.width - (size.width / 2),
                                                   child: Text(

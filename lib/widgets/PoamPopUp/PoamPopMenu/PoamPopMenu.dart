@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -107,18 +108,26 @@ class _PoamPopMenuState extends State<PoamPopMenu> {
                     if (widget.formKey!.currentState!.validate()) {
                       bool isProblem = false;
 
+                      DateTime _fromDate;
+                      DateTime _toDate;
+
+                      if (widget.fromDateController!.text != "") { _fromDate = DateFormat.yMd(Localizations.localeOf(context).languageCode).parse(widget.fromDateController!.text); }
+                      else { _fromDate = DateTime.now(); }
+                      if (widget.toDateController!.text != "") { _toDate = DateFormat.yMd(Localizations.localeOf(context).languageCode).parse(widget.toDateController!.text); }
+                      else { _toDate = DateTime.now(); }
+
                       DateTime fromDateTime = widget.categoryDropDownValue == displayTextCategory(context, Categories.tasks) ? DateTime(
-                          widget.fromDateController!.text != "" ? int.parse(widget.fromDateController!.text.split("/").last) : DateTime.now().year,
-                          widget.fromDateController!.text != "" ? int.parse(widget.fromDateController!.text.split("/").first) : DateTime.now().month,
-                          widget.fromDateController!.text != "" ? int.parse(widget.fromDateController!.text.split("/").elementAt(1)) : DateTime.now().day,
+                          _fromDate.year,
+                          _fromDate.month,
+                          _fromDate.day,
                           widget.fromTimeController!.text != "" ? int.parse(widget.fromTimeController!.text.split(":").first) : DateTime.now().hour,
                           widget.fromTimeController!.text != "" ? int.parse(widget.fromTimeController!.text.split(":").last) : DateTime.now().minute + 1,
                           DateTime.now().second) : DateTime.now();
 
                       DateTime toDateTime = widget.categoryDropDownValue == displayTextCategory(context, Categories.tasks) ? DateTime(
-                          widget.toDateController!.text != "" ? int.parse(widget.toDateController!.text.split("/").last) : DateTime.now().year,
-                          widget.toDateController!.text != "" ? int.parse(widget.toDateController!.text.split("/").first) : DateTime.now().month,
-                          widget.toDateController!.text != "" ? int.parse(widget.toDateController!.text.split("/").elementAt(1)) : DateTime.now().day,
+                          _toDate.year,
+                          _toDate.month,
+                          _toDate.day,
                           widget.toTimeController!.text != "" ? int.parse(widget.toTimeController!.text.split(":").first) : DateTime.now().hour,
                           widget.toTimeController!.text != "" ? int.parse(widget.toTimeController!.text.split(":").last) : DateTime.now().minute + 1,
                           DateTime.now().second) : DateTime.now();
@@ -196,7 +205,7 @@ class _PoamPopMenuState extends State<PoamPopMenu> {
                             DateTime(toDateTime.year, toDateTime.month, toDateTime.day),
 
                             ///Set Frequency
-                            getFrequency(widget.frequencyDropDownValue!),
+                            getFrequency(context, widget.frequencyDropDownValue!),
                             ///Description
                             widget.descriptionController!.text.trim(),
                             ///Set Expanded

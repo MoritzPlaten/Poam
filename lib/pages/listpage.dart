@@ -58,8 +58,9 @@ class _ListPageState extends State<ListPage> {
               child: ListView.builder(
                 padding: const EdgeInsets.all(15),
                 ///counts the ItemModels
-                itemCount: box.values.where((element) => element.categories == widget.categories).isEmpty == true ?
-                1 : dateService.getListOfAllDates(box.values.where((element) => element.categories == widget.categories)).length,
+                ///TODO: Hier gabs Probleme
+                itemCount: /*box.values.where((element) => element.categories == widget.categories).isEmpty == true ?
+                1 : dateService.getListOfAllDates(box.values.where((element) => element.categories == widget.categories)).length*/ 1,
                 itemBuilder: (BuildContext context, int index) {
 
                   ///if the list is empty display text
