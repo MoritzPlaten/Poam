@@ -78,8 +78,8 @@ class _PoamPopUpState extends State<PoamPopUp> {
           _titleController.text = widget.itemModel!.title;
           _numberController.text = widget.itemModel!.count.toString();
           _descriptionController.text = widget.itemModel!.description;
-          _fromDateController.text = DateFormat.yMd().format(widget.itemModel!.fromDate);
-          _toDateController.text = DateFormat.yMd().format(widget.itemModel!.toDate);
+          _fromDateController.text = DateFormat.yMd(Localizations.localeOf(context).languageCode).format(widget.itemModel!.fromDate);
+          _toDateController.text = DateFormat.yMd(Localizations.localeOf(context).languageCode).format(widget.itemModel!.toDate);
           _fromTimeController.text = widget.itemModel!.fromTime.hour.toString() + " : " + widget.itemModel!.fromTime.minute.toString();
           _toTimeController.text = widget.itemModel!.toTime.hour.toString() + " : " + widget.itemModel!.toTime.minute.toString();
           selectedColor = Color(HexColor(widget.itemModel!.hex).value);
