@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:poam/pages/app.dart';
 import 'package:poam/pages/listpage.dart';
+import 'package:poam/services/chartServices/ChartService.dart';
 import 'package:poam/services/dateServices/Objects/Frequency.dart';
 import 'package:poam/services/itemServices/Objects/Category.dart';
 import 'package:poam/services/itemServices/ItemModel.dart';
@@ -23,14 +24,13 @@ Future<void> main() async {
   Hive.registerAdapter(CategoriesAdapter());
   Hive.registerAdapter(FrequencyAdapter());
   Hive.registerAdapter(LocalesAdapter());
-
-  ///initialize DateFormat
-  //await initializeDateFormatting();
+  Hive.registerAdapter(ChartServiceAdapter());
 
   ///Open our Box(DB)
   await Hive.openBox<ItemModel>(Database.Name);
   await Hive.openBox<Person>(Database.PersonName);
   await Hive.openBox<Locales>(Database.LocaleName);
+  await Hive.openBox<ChartService>(Database.ChartName);
 
   runApp(MultiProvider(
     providers: [

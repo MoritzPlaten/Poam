@@ -28,6 +28,9 @@ class _PoamChartState extends State<PoamChart> {
 
     ///TODO: if Frequency is not single, but weekly or ..., then display the item weekly or ...
 
+    ///watcher
+    //context.watch<ChartService>().getCharts();
+
     ///initialize
     size = MediaQuery.of(context).size;
     dateService = DateService();

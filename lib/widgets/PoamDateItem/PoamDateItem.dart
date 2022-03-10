@@ -40,10 +40,7 @@ class _PoamDateItemState extends State<PoamDateItem> {
     return Column(
       children: [
         ///Display a Column, when the Category shopping is
-        (widget.categories! == Categories.shopping)
-            ?
-
-            ///TODO: Ändern zu ExpansionList, ...
+        (widget.categories! == Categories.shopping) ?
             ExpansionPanelList(
                 elevation: 0,
                 children: [
@@ -64,6 +61,14 @@ class _PoamDateItemState extends State<PoamDateItem> {
                                   .elementAt(i)
                                   .description !=
                               "")
+                            CostumListTile(
+                              color: primaryColor,
+                              size: size,
+                              dates: dates,
+                              Index: i,
+                              title: AppLocalizations.of(context)!.descriptionField,
+                              body: widget.allItems!.where((element) => element.categories == Categories.shopping).elementAt(i).description,
+                            ),
                             Row(
                               children: [
                                 Text(
@@ -207,35 +212,14 @@ class _PoamDateItemState extends State<PoamDateItem> {
                                               .elementAt(i)
                                               .frequency !=
                                           "")
-                                        Row(
-                                          children: [
-                                            Text(
-                                              AppLocalizations.of(context)!
-                                                      .frequency +
-                                                  ": ",
-                                              style: GoogleFonts.kreon(
-                                                  color: primaryColor,
-                                                  fontSize: 13),
-                                            ),
-                                            SizedBox(
-                                              width:
-                                                  size.width - (size.width / 2),
-                                              child: Text(
-                                                displayFrequency(
-                                                    context,
-                                                    widget.allItems!
-                                                        .where((element) =>
-                                                            element.fromDate ==
-                                                            dates[widget
-                                                                .dateIndex!])
-                                                        .elementAt(i)
-                                                        .frequency),
-                                                style: GoogleFonts.kreon(
-                                                    fontSize: 13),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
+                                      CostumListTile(
+                                        color: primaryColor,
+                                        size: size,
+                                        dates: dates,
+                                        Index: i,
+                                        title: AppLocalizations.of(context)!.frequency,
+                                        body: displayFrequency(context, widget.allItems!.where((element) => element.fromDate == dates[widget.dateIndex!]).elementAt(i).frequency),
+                                      ),
 
                                       const SizedBox(
                                         height: 6,
@@ -249,32 +233,13 @@ class _PoamDateItemState extends State<PoamDateItem> {
                                               .elementAt(i)
                                               .description !=
                                           "")
-                                        Row(
-                                          children: [
-                                            Text(
-                                              AppLocalizations.of(context)!
-                                                      .descriptionField +
-                                                  ": ",
-                                              style: GoogleFonts.kreon(
-                                                  color: primaryColor,
-                                                  fontSize: 13),
-                                            ),
-                                            SizedBox(
-                                              width:
-                                                  size.width - (size.width / 2),
-                                              child: Text(
-                                                widget.allItems!
-                                                    .where((element) =>
-                                                        element.fromDate ==
-                                                        dates[
-                                                            widget.dateIndex!])
-                                                    .elementAt(i)
-                                                    .description,
-                                                style: GoogleFonts.kreon(
-                                                    fontSize: 13),
-                                              ),
-                                            ),
-                                          ],
+                                        CostumListTile(
+                                          color: primaryColor,
+                                          size: size,
+                                          dates: dates,
+                                          Index: i,
+                                          title: AppLocalizations.of(context)!.descriptionField,
+                                          body: widget.allItems!.where((element) => element.fromDate == dates[widget.dateIndex!]).elementAt(i).description,
                                         ),
                                     ],
                                   ),
@@ -333,6 +298,46 @@ class _PoamDateItemState extends State<PoamDateItem> {
                   ),
                 ],
               ),
+      ],
+    );
+  }
+}
+
+class CostumListTile extends StatefulWidget {
+
+  final Color? color;
+  final Size? size;
+  final List<DateTime>? dates;
+  final int? Index;
+  final String? title;
+  final String? body;
+
+  const CostumListTile({Key? key, this.dates, this.size, this.title, this.color, this.body, this.Index}) : super(key: key);
+
+  @override
+  State<CostumListTile> createState() => _CostumListTileState();
+}
+
+class _CostumListTileState extends State<CostumListTile> {
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Text(
+          widget.title! + ": ",
+          style: GoogleFonts.kreon(
+              color: widget.color,
+              fontSize: 13),
+        ),
+        SizedBox(
+          width:
+          widget.size!.width - (widget.size!.width / 2),
+          child: Text(
+            widget.body!,
+            style: GoogleFonts.kreon(
+                fontSize: 13),
+          ),
+        ),
       ],
     );
   }

@@ -114,6 +114,7 @@ class _PoamMenuState extends State<PoamMenu> {
               ],
             ),
 
+            ///PoamChart
             if (widget.categories! == Categories.tasks)
               MultiProvider(
                 providers: [
@@ -121,7 +122,7 @@ class _PoamMenuState extends State<PoamMenu> {
                     create: (_) => DateService(),
                   ),
                   ChangeNotifierProvider(
-                    create: (_) => ChartService(),
+                    create: (_) => ChartService(0, DateTime(0)),
                   ),
                 ],
                 child: const PoamChart(),

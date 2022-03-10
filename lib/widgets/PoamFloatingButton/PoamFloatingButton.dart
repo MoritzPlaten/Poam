@@ -49,7 +49,7 @@ class _PoamFloatingButtonState extends State<PoamFloatingButton> {
                   ),
                 ),
                 ChangeNotifierProvider(
-                  create: (_) => ChartService(),
+                  create: (_) => ChartService(0, DateTime(0)),
                 ),
                 ChangeNotifierProvider(
                   create: (_) => Person(""),
