@@ -132,9 +132,34 @@ class _PoamMenuState extends State<PoamMenu> {
             ),
 
             ///All Items, which are sorted by date, will packed in a PoamDateItem, which display the Date
-            PoamDateItem(
-              allItems: dateService.sortItemsByDate(widget.allItems!.toList()).take(numberOfItemsOnStartScreen),
-              categories: widget.categories!,
+            if (widget.allItems!.isEmpty != true)
+              ListView.builder(
+              padding: const EdgeInsets.all(10),
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: widget.allItems!.where((element) => element.categories == widget.categories).isEmpty == true ? 0 :
+              dateService.getListOfAllDates(widget.allItems!.where((element) => element.categories == widget.categories!).take(numberOfItemsOnStartScreen)).length,
+              itemBuilder: (BuildContext context, int index) {
+
+                ///if the list is empty display text
+                if (widget.allItems!.where((element) => element.categories == widget.categories).isEmpty == true)
+                  return Container(
+                    width: size.width,
+                    alignment: Alignment.center,
+                    height: 50,
+                    child: Text(
+                      AppLocalizations.of(context)!.your + " " + displayTextCategory(context, widget.categories!) + " " + AppLocalizations.of(context)!.empty,
+                      style: GoogleFonts.novaMono(),
+                    ),
+                  );
+
+                ///All Items will packed in a PoamDateItem, which display the Date
+                return PoamDateItem(
+                  allItems: dateService.sortItemsByDate(widget.allItems!.where((element) => element.categories == widget.categories).toList()),
+                  categories: widget.categories,
+                  dateIndex: index,
+                );
+              },
             ),
 
             ///When it exists more than the Items, than this will shows

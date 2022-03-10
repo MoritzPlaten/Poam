@@ -59,8 +59,9 @@ class _ListPageState extends State<ListPage> {
                 padding: const EdgeInsets.all(15),
                 ///counts the ItemModels
                 ///TODO: Hier gabs Probleme
-                itemCount: /*box.values.where((element) => element.categories == widget.categories).isEmpty == true ?
-                1 : dateService.getListOfAllDates(box.values.where((element) => element.categories == widget.categories)).length*/ 1,
+                shrinkWrap: true,
+                itemCount: box.values.where((element) => element.categories == widget.categories).isEmpty == true ? 1 :
+                dateService.getListOfAllDates(box.values.where((element) => element.categories == widget.categories)).length,
                 itemBuilder: (BuildContext context, int index) {
 
                   ///if the list is empty display text
@@ -79,8 +80,8 @@ class _ListPageState extends State<ListPage> {
                   return PoamDateItem(
                     allItems: dateService.sortItemsByDate(box.values.where((element) => element.categories == widget.categories).toList()),
                     categories: widget.categories,
+                    dateIndex: index,
                   );
-
                 },
               ),
             );
