@@ -31,5 +31,6 @@
     "home": "Home",
     "addPerson": "Add a Person",
     "addButton": "Add",
-    "exitButton": "Exit"
+    "exitButton": "Exit",
+    "messageAddPerson": "Pls add persons"
 }

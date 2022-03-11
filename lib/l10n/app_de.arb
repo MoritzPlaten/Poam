@@ -31,5 +31,6 @@
     "home": "Startseite",
     "addPerson": "Person hinzufügen",
     "addButton": "Hinzufügen",
-    "exitButton": "Schließen"
+    "exitButton": "Schließen",
+    "messageAddPerson": "Bitte fügen Sie Personen hinzu!"
 }

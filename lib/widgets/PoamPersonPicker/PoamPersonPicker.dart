@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:poam/services/itemServices/Objects/Person.dart';
 import 'package:poam/widgets/PoamSnackbar/PoamSnackbar.dart';
@@ -45,7 +46,8 @@ class _PoamPersonPickerState extends State<PoamPersonPicker> {
 
         Flexible(
           flex: 3,
-            child: PoamDropDown(
+            child: widget.personNames!.length != 0 ?
+            PoamDropDown(
               dropdownValue:
               widget.personNames!.contains(widget.pickedPerson) == false || widget.pickedPerson == "" && widget.personNames!.length != 0 ?
               widget.personNames!.length != 0 ? widget.personNames!.first :  ""
@@ -55,6 +57,14 @@ class _PoamPersonPickerState extends State<PoamPersonPicker> {
               color: Colors.white,
               iconData: Icons.arrow_drop_down,
               foregroundColor: Colors.black,
+            ) : Card(
+              child: Padding(
+                padding: EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
+                child: Text(
+                  AppLocalizations.of(context)!.messageAddPerson,
+                  style: GoogleFonts.novaMono(),
+                ),
+              ),
             ),
         ),
 
@@ -126,6 +136,7 @@ class _PoamPersonPickerState extends State<PoamPersonPicker> {
 
                 int i = -1, e = 0;
                 int numberOfItems = widget.box!.values.where((element) => element.name == widget.pickedPerson!.trim()).length;
+                print(numberOfItems);
 
                 if (numberOfItems != 0) {
                   widget.box!.values.forEach((element) {
@@ -138,7 +149,7 @@ class _PoamPersonPickerState extends State<PoamPersonPicker> {
 
                 if (numberOfItems == 0) {
                   poamSnackbar.showSnackBar(context,
-                      "Diese Person existiert nicht!",
+                      AppLocalizations.of(context)!.messagePersonNotExists,
                       primaryColor);
 
                 } else {
