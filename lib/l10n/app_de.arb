@@ -32,5 +32,7 @@
     "addPerson": "Person hinzufügen",
     "addButton": "Hinzufügen",
     "exitButton": "Schließen",
-    "messageAddPerson": "Bitte fügen Sie Personen hinzu!"
+    "messageAddPerson": "Bitte fügen Sie Personen hinzu!",
+    "english": "Englisch",
+    "german": "Deutsch"
 }

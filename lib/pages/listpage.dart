@@ -58,7 +58,6 @@ class _ListPageState extends State<ListPage> {
               child: ListView.builder(
                 padding: const EdgeInsets.all(15),
                 ///counts the ItemModels
-                ///TODO: Hier gabs Probleme
                 shrinkWrap: true,
                 itemCount: box.values.where((element) => element.categories == widget.categories).isEmpty == true ? 1 :
                 dateService.getListOfAllDates(box.values.where((element) => element.categories == widget.categories)).length,

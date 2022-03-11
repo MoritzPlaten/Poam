@@ -32,5 +32,7 @@
     "addPerson": "Add a Person",
     "addButton": "Add",
     "exitButton": "Exit",
-    "messageAddPerson": "Pls add persons"
+    "messageAddPerson": "Pls add persons",
+    "english": "English",
+    "german": "German"
 }

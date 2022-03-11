@@ -116,6 +116,7 @@ class _PoamPopUpState extends State<PoamPopUp> {
               key: _formKey,
               child: Stack(
 
+                alignment: Alignment.bottomCenter,
                 children: [
 
                   SizedBox(

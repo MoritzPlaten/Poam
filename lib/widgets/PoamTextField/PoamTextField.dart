@@ -48,6 +48,7 @@ class _PoamTextFieldState extends State<PoamTextField> {
           ),
 
           ///TODO: Recognize voice to write text
+          ///Microphone Button
           Padding(
             padding: EdgeInsets.only(right: 10),
             child: IconButton(

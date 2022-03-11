@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:poam/services/localeService/Locales.dart';
 import 'package:poam/widgets/PoamFloatingButton/PoamFloatingButton.dart';
 import 'package:poam/widgets/PoamList/PoamList.dart';
 import 'package:poam/widgets/PoamOptions/PoamOptions.dart';
@@ -39,6 +40,9 @@ class _AppState extends State<App> {
       providers: [
         ChangeNotifierProvider(
           create: (_) => ItemModel("", 0, false, Person(""), Categories.tasks, "0xFFFFFF", DateTime(0), DateTime(0), DateTime(0), DateTime(0), Frequency.single, "", false),
+        ),
+        ChangeNotifierProvider(
+            create: (_) => Locales(""),
         ),
       ],
       child: Scaffold(
