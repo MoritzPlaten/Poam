@@ -40,8 +40,8 @@ class _PoamDateItemState extends State<PoamDateItem> {
     return Column(
       children: [
         ///Display a Column, when the Category shopping is
-        (widget.categories! == Categories.shopping) ?
-            ExpansionPanelList(
+        (widget.categories! == Categories.shopping)
+            ? ExpansionPanelList(
                 elevation: 0,
                 children: [
                   for (int i = 0; i < widget.allItems!.length; i++)
@@ -56,9 +56,7 @@ class _PoamDateItemState extends State<PoamDateItem> {
                         children: [
                           ///Displays Description of Shopping elements
                           if (widget.allItems!
-                                  .where((element) =>
-                                      element.categories == Categories.shopping)
-                                  .elementAt(i)
+                                  .elementAt(widget.dateIndex!)
                                   .description !=
                               "")
                             CostumListTile(
@@ -66,35 +64,9 @@ class _PoamDateItemState extends State<PoamDateItem> {
                               size: size,
                               dates: dates,
                               Index: i,
-                              title: AppLocalizations.of(context)!.descriptionField,
-                              body: widget.allItems!.where((element) => element.categories == Categories.shopping).elementAt(i).description,
-                            ),
-                            Row(
-                              children: [
-                                Text(
-                                  AppLocalizations.of(context)!
-                                          .descriptionField +
-                                      ": ",
-                                  style: GoogleFonts.kreon(
-                                    color: primaryColor,
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 5,
-                                ),
-                                SizedBox(
-                                  width: size.width - (size.width / 2.3),
-                                  child: Text(
-                                    widget.allItems!
-                                        .where((element) =>
-                                            element.categories ==
-                                            Categories.shopping)
-                                        .elementAt(i)
-                                        .description,
-                                    style: GoogleFonts.kreon(fontSize: 12),
-                                  ),
-                                ),
-                              ],
+                              title: AppLocalizations.of(context)!
+                                  .descriptionField,
+                              body: widget.allItems!.elementAt(i).description,
                             ),
                         ],
                       ),
@@ -102,6 +74,7 @@ class _PoamDateItemState extends State<PoamDateItem> {
                     ),
                 ],
                 expansionCallback: (int item, bool status) {
+                  print(item);
                   widget.allItems!.elementAt(item).expanded = !status;
                 },
               )
@@ -196,52 +169,71 @@ class _PoamDateItemState extends State<PoamDateItem> {
                               );
                             },
                             body: Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 10, bottom: 2),
+                              padding: const EdgeInsets.only(
+                                  left: 10, bottom: 2, right: 20),
                               child: Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceEvenly,
                                 children: [
-                                  Column(
-                                    children: [
-                                      ///Displays the frequency
-                                      if (widget.allItems!
-                                              .where((element) =>
-                                                  element.fromDate ==
-                                                  dates[widget.dateIndex!])
-                                              .elementAt(i)
-                                              .frequency !=
-                                          "")
-                                      CostumListTile(
-                                        color: primaryColor,
-                                        size: size,
-                                        dates: dates,
-                                        Index: i,
-                                        title: AppLocalizations.of(context)!.frequency,
-                                        body: displayFrequency(context, widget.allItems!.where((element) => element.fromDate == dates[widget.dateIndex!]).elementAt(i).frequency),
-                                      ),
+                                  Flexible(
+                                    flex: 3,
+                                    child: Column(
+                                      children: [
+                                        ///Displays the frequency
+                                        if (widget.allItems!
+                                                .where((element) =>
+                                                    element.fromDate ==
+                                                    dates[widget.dateIndex!])
+                                                .elementAt(i)
+                                                .frequency !=
+                                            "")
+                                          CostumListTile(
+                                            color: primaryColor,
+                                            size: size,
+                                            dates: dates,
+                                            Index: i,
+                                            title: AppLocalizations.of(context)!
+                                                .frequency,
+                                            body: displayFrequency(
+                                                context,
+                                                widget.allItems!
+                                                    .where((element) =>
+                                                        element.fromDate ==
+                                                        dates[
+                                                            widget.dateIndex!])
+                                                    .elementAt(i)
+                                                    .frequency),
+                                          ),
 
-                                      const SizedBox(
-                                        height: 6,
-                                      ),
-
-                                      ///Displays the Description
-                                      if (widget.allItems!
-                                              .where((element) =>
-                                                  element.fromDate ==
-                                                  dates[widget.dateIndex!])
-                                              .elementAt(i)
-                                              .description !=
-                                          "")
-                                        CostumListTile(
-                                          color: primaryColor,
-                                          size: size,
-                                          dates: dates,
-                                          Index: i,
-                                          title: AppLocalizations.of(context)!.descriptionField,
-                                          body: widget.allItems!.where((element) => element.fromDate == dates[widget.dateIndex!]).elementAt(i).description,
+                                        const SizedBox(
+                                          height: 6,
                                         ),
-                                    ],
+
+                                        ///Displays the Description
+                                        if (widget.allItems!
+                                                .where((element) =>
+                                                    element.fromDate ==
+                                                    dates[widget.dateIndex!])
+                                                .elementAt(i)
+                                                .description !=
+                                            "")
+                                          CostumListTile(
+                                            color: primaryColor,
+                                            size: size,
+                                            dates: dates,
+                                            Index: i,
+                                            title: AppLocalizations.of(context)!
+                                                .descriptionField,
+                                            body: widget.allItems!
+                                                .where((element) =>
+                                                    element.fromDate ==
+                                                    dates[widget.dateIndex!])
+                                                .elementAt(i)
+                                                .description
+                                                .trim(),
+                                          ),
+                                      ],
+                                    ),
                                   ),
                                   if (widget.allItems!
                                           .where((element) =>
@@ -250,31 +242,34 @@ class _PoamDateItemState extends State<PoamDateItem> {
                                           .elementAt(i)
                                           .frequency !=
                                       Frequency.single)
-                                    IconButton(
-                                      onPressed: () {
-                                        widget.allItems!
-                                                .where((element) =>
-                                                    element.fromDate ==
-                                                    dates[widget.dateIndex!])
-                                                .elementAt(i)
-                                                .isChecked =
-                                            !widget.allItems!
-                                                .where((element) =>
-                                                    element.fromDate ==
-                                                    dates[widget.dateIndex!])
-                                                .elementAt(i)
-                                                .isChecked;
-                                        Provider.of<ItemModel>(context,
-                                                listen: false)
-                                            .removeItem(widget.allItems!
-                                                .where((element) =>
-                                                    element.fromDate ==
-                                                    dates[widget.dateIndex!])
-                                                .elementAt(i));
-                                      },
-                                      icon: const Icon(
-                                        Icons.delete,
-                                        color: Colors.red,
+                                    Flexible(
+                                      flex: 1,
+                                      child: IconButton(
+                                        onPressed: () {
+                                          widget.allItems!
+                                                  .where((element) =>
+                                                      element.fromDate ==
+                                                      dates[widget.dateIndex!])
+                                                  .elementAt(i)
+                                                  .isChecked =
+                                              !widget.allItems!
+                                                  .where((element) =>
+                                                      element.fromDate ==
+                                                      dates[widget.dateIndex!])
+                                                  .elementAt(i)
+                                                  .isChecked;
+                                          Provider.of<ItemModel>(context,
+                                                  listen: false)
+                                              .removeItem(widget.allItems!
+                                                  .where((element) =>
+                                                      element.fromDate ==
+                                                      dates[widget.dateIndex!])
+                                                  .elementAt(i));
+                                        },
+                                        icon: const Icon(
+                                          Icons.delete,
+                                          color: Colors.red,
+                                        ),
                                       ),
                                     ),
                                 ],
@@ -304,7 +299,6 @@ class _PoamDateItemState extends State<PoamDateItem> {
 }
 
 class CostumListTile extends StatefulWidget {
-
   final Color? color;
   final Size? size;
   final List<DateTime>? dates;
@@ -312,7 +306,15 @@ class CostumListTile extends StatefulWidget {
   final String? title;
   final String? body;
 
-  const CostumListTile({Key? key, this.dates, this.size, this.title, this.color, this.body, this.Index}) : super(key: key);
+  const CostumListTile(
+      {Key? key,
+      this.dates,
+      this.size,
+      this.title,
+      this.color,
+      this.body,
+      this.Index})
+      : super(key: key);
 
   @override
   State<CostumListTile> createState() => _CostumListTileState();
@@ -325,17 +327,12 @@ class _CostumListTileState extends State<CostumListTile> {
       children: [
         Text(
           widget.title! + ": ",
-          style: GoogleFonts.kreon(
-              color: widget.color,
-              fontSize: 13),
+          style: GoogleFonts.kreon(color: widget.color, fontSize: 13),
         ),
         SizedBox(
-          width:
-          widget.size!.width - (widget.size!.width / 2),
           child: Text(
             widget.body!,
-            style: GoogleFonts.kreon(
-                fontSize: 13),
+            style: GoogleFonts.kreon(fontSize: 13),
           ),
         ),
       ],

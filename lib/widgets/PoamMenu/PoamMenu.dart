@@ -138,21 +138,9 @@ class _PoamMenuState extends State<PoamMenu> {
               padding: const EdgeInsets.all(10),
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
-              itemCount: widget.allItems!.where((element) => element.categories == widget.categories).isEmpty == true ? 0 :
-              dateService.getListOfAllDates(widget.allItems!.where((element) => element.categories == widget.categories!).take(numberOfItemsOnStartScreen)).length,
+              itemCount: widget.categories != Categories.shopping ?
+              dateService.getListOfAllDates(widget.allItems!.where((element) => element.categories == widget.categories!).take(numberOfItemsOnStartScreen)).length : 1,
               itemBuilder: (BuildContext context, int index) {
-
-                ///if the list is empty display text
-                if (widget.allItems!.where((element) => element.categories == widget.categories).isEmpty == true)
-                  return Container(
-                    width: size.width,
-                    alignment: Alignment.center,
-                    height: 50,
-                    child: Text(
-                      AppLocalizations.of(context)!.your + " " + displayTextCategory(context, widget.categories!) + " " + AppLocalizations.of(context)!.empty,
-                      style: GoogleFonts.novaMono(),
-                    ),
-                  );
 
                 ///All Items will packed in a PoamDateItem, which display the Date
                 return PoamDateItem(
