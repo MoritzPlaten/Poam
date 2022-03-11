@@ -42,104 +42,111 @@ class _PoamPersonPickerState extends State<PoamPersonPicker> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        SizedBox(
-          width: size.width - size.width / 2,
-          height: 55,
-          child: PoamDropDown(
-            dropdownValue:
-            widget.personNames!.contains(widget.pickedPerson) == false || widget.pickedPerson == "" && widget.personNames!.length != 0 ?
-                widget.personNames!.length != 0 ? widget.personNames!.first :  ""
-                : widget.pickedPerson,
-            onChanged: widget.onChange,
-            items: widget.personNames,
-            color: Colors.white,
-            iconData: Icons.arrow_drop_down,
-            foregroundColor: Colors.black,
-          ),
+
+        Flexible(
+          flex: 3,
+            child: PoamDropDown(
+              dropdownValue:
+              widget.personNames!.contains(widget.pickedPerson) == false || widget.pickedPerson == "" && widget.personNames!.length != 0 ?
+              widget.personNames!.length != 0 ? widget.personNames!.first :  ""
+                  : widget.pickedPerson,
+              onChanged: widget.onChange,
+              items: widget.personNames,
+              color: Colors.white,
+              iconData: Icons.arrow_drop_down,
+              foregroundColor: Colors.black,
+            ),
         ),
+
         ///Add a Person
-        IconButton(
-          onPressed: () {
+        Flexible(
+          flex: 1,
+            child: IconButton(
+              onPressed: () {
 
-            showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: Text(AppLocalizations.of(context)!.addPerson),
-                    content: PoamTextField(
-                      label: "Name",
-                      keyboardType: TextInputType.text,
-                      maxLines: 1,
-                      maxLength: 30,
-                      validator: ((value) {
-                        return null;
-                      }),
-                      controller: personController,
-                    ),
-                    actions: [
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text(AppLocalizations.of(context)!.addPerson),
+                        content: PoamTextField(
+                          label: "Name",
+                          keyboardType: TextInputType.text,
+                          maxLines: 1,
+                          maxLength: 30,
+                          validator: ((value) {
+                            return null;
+                          }),
+                          controller: personController,
+                        ),
+                        actions: [
 
-                      TextButton(
-                        onPressed: () async {
-                          int itemCount = widget.box!.values.where((element) => element.name == personController.text).length;
+                          TextButton(
+                            onPressed: () async {
+                              int itemCount = widget.box!.values.where((element) => element.name == personController.text).length;
 
-                          bool isProblem = false;
+                              bool isProblem = false;
 
-                          if (itemCount > 0) {
-                            poamSnackbar.showSnackBar(context,
-                                AppLocalizations.of(context)!.messagePersonNotExists,
-                                primaryColor);
-                            isProblem = true;
-                          }
+                              if (itemCount > 0) {
+                                poamSnackbar.showSnackBar(context,
+                                    AppLocalizations.of(context)!.messagePersonNotExists,
+                                    primaryColor);
+                                isProblem = true;
+                              }
 
-                          if (isProblem == false) {
+                              if (isProblem == false) {
 
-                            widget.box!.add(new Person(personController.text));
-                            Navigator.pop(context);
-                          }
-                        },
-                        child: Text(AppLocalizations.of(context)!.addButton),
-                      ),
+                                widget.box!.add(new Person(personController.text));
+                                Navigator.pop(context);
+                              }
+                            },
+                            child: Text(AppLocalizations.of(context)!.addButton),
+                          ),
 
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: Text(AppLocalizations.of(context)!.exitButton),
-                      ),
-                    ],
-                  );
-                });
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: Text(AppLocalizations.of(context)!.exitButton),
+                          ),
+                        ],
+                      );
+                    });
 
-          },
-          icon: const Icon(Icons.add_outlined),
+              },
+              icon: const Icon(Icons.add_outlined),
+            ),
         ),
 
         ///Remove the active Person
-        IconButton(
-            onPressed: () async {
+        Flexible(
+          flex: 1,
+            child: IconButton(
+              onPressed: () async {
 
-              int i = -1, e = 0;
-              int numberOfItems = widget.box!.values.where((element) => element.name == widget.pickedPerson!.trim()).length;
-              
-              if (numberOfItems != 0) {
-                widget.box!.values.forEach((element) {
-                  ++i;
-                  if (element.name == widget.pickedPerson!.trim()) {
-                    e = i;
-                  }
-                });
-              }
+                int i = -1, e = 0;
+                int numberOfItems = widget.box!.values.where((element) => element.name == widget.pickedPerson!.trim()).length;
 
-              if (numberOfItems == 0) {
-                poamSnackbar.showSnackBar(context,
-                    "Diese Person existiert nicht!",
-                    primaryColor);
+                if (numberOfItems != 0) {
+                  widget.box!.values.forEach((element) {
+                    ++i;
+                    if (element.name == widget.pickedPerson!.trim()) {
+                      e = i;
+                    }
+                  });
+                }
 
-              } else {
-                widget.box!.deleteAt(e);
-              }
-            },
-            icon: const Icon(Icons.remove),
+                if (numberOfItems == 0) {
+                  poamSnackbar.showSnackBar(context,
+                      "Diese Person existiert nicht!",
+                      primaryColor);
+
+                } else {
+                  widget.box!.deleteAt(e);
+                }
+              },
+              icon: const Icon(Icons.remove),
+            ),
         ),
 
       ],

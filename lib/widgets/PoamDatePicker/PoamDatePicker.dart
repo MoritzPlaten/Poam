@@ -67,48 +67,49 @@ class _PoamDatePickerState extends State<PoamDatePicker> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
 
-        Text(
-          widget.title!,
-          style: GoogleFonts.novaMono(),
-        ),
-
-        const SizedBox(
-          width: 8,
+        Flexible(
+          flex: 1,
+            child: Text(
+              widget.title!,
+              style: GoogleFonts.novaMono(),
+            ),
         ),
 
         ///Displays DatePicker
-        InkWell(
-          onTap: () {
-            _selectDate(context);
-          },
-          child: Container(
-            width: 100,
-            margin: const EdgeInsets.only(top: 10, bottom: 10),
-            alignment: Alignment.center,
-            child: Container(
-              decoration: BoxDecoration(
-                color: primaryColor,
-                borderRadius: const BorderRadius.all(Radius.circular(20)),
-              ),
-              child: TextFormField(
-                style: GoogleFonts.novaMono(
-                    fontSize: 13, color: Colors.white, fontWeight: FontWeight.bold
-                ),
-                textAlign: TextAlign.center,
-                enabled: false,
-                controller: widget.dateController,
-                onChanged: ((String? value) {
-                  _setDate = value!;
-                }),
-                decoration: InputDecoration(
-                  hintText: DateFormat.yMd(Localizations.localeOf(context).languageCode).format(selectedDate),
-                    hintStyle: const TextStyle(color: Colors.white),
-                    disabledBorder: const UnderlineInputBorder(borderSide: BorderSide.none),
-                    contentPadding: const EdgeInsets.only(top: 0.0)),
-              ),
+        Flexible(
+          flex: 1,
+            child: InkWell(
+              onTap: () {
+                _selectDate(context);
+              },
+              child: Container(
+                margin: const EdgeInsets.only(top: 10, bottom: 10),
+                alignment: Alignment.center,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: primaryColor,
+                    borderRadius: const BorderRadius.all(Radius.circular(20)),
+                  ),
+                  child: TextFormField(
+                    style: GoogleFonts.novaMono(
+                        fontSize: 13, color: Colors.white, fontWeight: FontWeight.bold
+                    ),
+                    textAlign: TextAlign.center,
+                    enabled: false,
+                    controller: widget.dateController,
+                    onChanged: ((String? value) {
+                      _setDate = value!;
+                    }),
+                    decoration: InputDecoration(
+                        hintText: DateFormat.yMd(Localizations.localeOf(context).languageCode).format(selectedDate),
+                        hintStyle: const TextStyle(color: Colors.white),
+                        disabledBorder: const UnderlineInputBorder(borderSide: BorderSide.none),
+                        contentPadding: const EdgeInsets.only(top: 0.0)),
+                  ),
 
-          ),
-          ),
+                ),
+              ),
+            ),
         ),
 
         const SizedBox(
@@ -116,38 +117,41 @@ class _PoamDatePickerState extends State<PoamDatePicker> {
         ),
 
         ///Displays TimePicker
-        InkWell(
-          onTap: () {
-            _selectTime(context);
-          },
-          child: Container(
-              width: 80,
-              margin: const EdgeInsets.only(top: 10, bottom: 10),
-              alignment: Alignment.center,
+        Flexible(
+          flex: 1,
+            child: InkWell(
+              onTap: () {
+                _selectTime(context);
+              },
               child: Container(
-                decoration: BoxDecoration(
-                  color: primaryColor,
-                  borderRadius: const BorderRadius.all(Radius.circular(20)),
-                ),
-                child: TextFormField(
-                  style: GoogleFonts.novaMono(
-                    fontSize: 13, color: Colors.white, fontWeight: FontWeight.bold,
-                  ),
-                  textAlign: TextAlign.center,
-                  enabled: false,
-                  controller: widget.timeController,
-                  onChanged: ((String? value) {
-                    _setTime = value!;
-                  }),
-                  decoration: InputDecoration(
-                      hintText: selectedTime.hour.toString() + ":" + selectedTime.minute.toString(),
-                      hintStyle: const TextStyle(color: Colors.white),
-                      disabledBorder: const UnderlineInputBorder(borderSide: BorderSide.none),
-                      contentPadding: const EdgeInsets.only(top: 0.0)),
-                ),
-              )
-          ),
+                  margin: const EdgeInsets.only(top: 10, bottom: 10),
+                  alignment: Alignment.center,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: primaryColor,
+                      borderRadius: const BorderRadius.all(Radius.circular(20)),
+                    ),
+                    child: TextFormField(
+                      style: GoogleFonts.novaMono(
+                        fontSize: 13, color: Colors.white, fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.center,
+                      enabled: false,
+                      controller: widget.timeController,
+                      onChanged: ((String? value) {
+                        _setTime = value!;
+                      }),
+                      decoration: InputDecoration(
+                          hintText: selectedTime.hour.toString() + ":" + selectedTime.minute.toString(),
+                          hintStyle: const TextStyle(color: Colors.white),
+                          disabledBorder: const UnderlineInputBorder(borderSide: BorderSide.none),
+                          contentPadding: const EdgeInsets.only(top: 0.0)),
+                    ),
+                  )
+              ),
+            ),
         ),
+
       ],
     );
   }

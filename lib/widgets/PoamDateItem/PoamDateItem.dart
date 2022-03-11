@@ -159,6 +159,7 @@ class _PoamDateItemState extends State<PoamDateItem> {
                           ExpansionPanel(
                             headerBuilder:
                                 (BuildContext context, bool isExpanded) {
+                              ///Displays the PoamItem
                               return PoamItem(
                                 itemIndex: i,
                                 itemModel: widget.allItems!
@@ -242,6 +243,7 @@ class _PoamDateItemState extends State<PoamDateItem> {
                                           .elementAt(i)
                                           .frequency !=
                                       Frequency.single)
+                                    ///Delete Button: displays if the frequency != single
                                     Flexible(
                                       flex: 1,
                                       child: IconButton(
@@ -298,6 +300,7 @@ class _PoamDateItemState extends State<PoamDateItem> {
   }
 }
 
+///ListTile: Description, Frequency, ...
 class CostumListTile extends StatefulWidget {
   final Color? color;
   final Size? size;
