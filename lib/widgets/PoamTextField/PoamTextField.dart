@@ -18,25 +18,51 @@ class PoamTextField extends StatefulWidget {
 
 class _PoamTextFieldState extends State<PoamTextField> {
 
+  late Color primaryColor;
+
   @override
   Widget build(BuildContext context) {
+
+    primaryColor = Theme.of(context).primaryColor;
+
     return Card(
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(10)),
       ),
-      child: TextFormField(
-        controller: widget.controller,
-        keyboardType: widget.keyboardType,
-        maxLines: widget.maxLines,
-        maxLength: widget.maxLength,
-        style: GoogleFonts.kreon(),
-        validator: widget.validator,
-        decoration: InputDecoration(
-          labelText: widget.label,
-          contentPadding: EdgeInsets.only(top: 10, bottom: 10, right: 15, left: 15),
-          border: InputBorder.none,
-        ),
-      ),
+      child: Stack(
+        alignment: Alignment.centerRight,
+        children: [
+
+          TextFormField(
+            controller: widget.controller,
+            keyboardType: widget.keyboardType,
+            maxLines: widget.maxLines,
+            maxLength: widget.maxLength,
+            style: GoogleFonts.kreon(),
+            validator: widget.validator,
+            decoration: InputDecoration(
+              labelText: widget.label,
+              contentPadding: EdgeInsets.only(top: 10, bottom: 10, right: 15, left: 15),
+              border: InputBorder.none,
+            ),
+          ),
+
+          ///TODO: Recognize voice to write text
+          Padding(
+            padding: EdgeInsets.only(right: 10),
+            child: IconButton(
+                onPressed: () {
+
+                },
+                icon: Icon(
+                  Icons.mic,
+                  color: primaryColor,
+                ),
+            ),
+          ),
+
+        ],
+      )
     );
   }
 }

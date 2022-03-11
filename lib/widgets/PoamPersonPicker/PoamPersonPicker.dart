@@ -136,7 +136,6 @@ class _PoamPersonPickerState extends State<PoamPersonPicker> {
 
                 int i = -1, e = 0;
                 int numberOfItems = widget.box!.values.where((element) => element.name == widget.pickedPerson!.trim()).length;
-                print(numberOfItems);
 
                 if (numberOfItems != 0) {
                   widget.box!.values.forEach((element) {
