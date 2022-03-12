@@ -2,12 +2,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:poam/services/itemServices/Objects/Category.dart';
 import 'package:poam/services/itemServices/ItemModel.dart';
+import 'package:poam/services/localeService/Objects/Languages.dart';
 import 'package:poam/widgets/PoamMenu/PoamMenu.dart';
 import 'package:provider/src/provider.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import '../../services/itemServices/Objects/Database.dart';
-import '../../services/itemServices/Objects/Person.dart';
+import '../../services/localeService/Locales.dart';
 
 class PoamList extends StatefulWidget {
   const PoamList({ Key? key }) : super(key: key);
@@ -30,9 +31,13 @@ class _PoamListState extends State<PoamList> {
     ///Update Items
     context.watch<ItemModel>().getItems();
 
+    if (Provider.of<Locales>(context, listen: false).locales.length == 0) {
+      Provider.of<Locales>(context, listen: false).addLocale(new Locales(languagesAsString(context, Languages.values.first)));
+    }
+
     return ValueListenableBuilder(
       valueListenable: Hive.box<ItemModel>(Database.Name).listenable(),
-      builder: (context, Box box, widget) {
+      builder: (context, Box box, widgets) {
         return SizedBox(
 
           width: size.width,

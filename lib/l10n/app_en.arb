@@ -33,6 +33,7 @@
     "addButton": "Add",
     "exitButton": "Exit",
     "messageAddPerson": "Pls add persons",
+    "messageSave": "The options have been saved!",
     "english": "English",
     "german": "German",
     "language": "Language"

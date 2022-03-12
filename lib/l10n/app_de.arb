@@ -33,6 +33,7 @@
     "addButton": "Hinzufügen",
     "exitButton": "Schließen",
     "messageAddPerson": "Bitte fügen Sie Personen hinzu!",
+    "messageSave": "Die Einstellungen wurden gespeichert!",
     "english": "Englisch",
     "german": "Deutsch",
     "language": "Sprache"

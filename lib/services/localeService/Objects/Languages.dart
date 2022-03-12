@@ -28,3 +28,18 @@ List<String> languagesAsListString(BuildContext context)  {
 
   return languages;
 }
+
+Locale languageToLocale(BuildContext context, String language) {
+
+  String lang = "";
+
+  if (language == AppLocalizations.of(context)!.german) {
+    lang = "de";
+  } else if (language == AppLocalizations.of(context)!.english) {
+    lang = "en";
+  }
+
+  Locale locale = Locale(lang, "");
+
+  return locale;
+}
