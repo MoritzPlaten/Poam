@@ -34,5 +34,6 @@
     "exitButton": "Schließen",
     "messageAddPerson": "Bitte fügen Sie Personen hinzu!",
     "english": "Englisch",
-    "german": "Deutsch"
+    "german": "Deutsch",
+    "language": "Sprache"
 }

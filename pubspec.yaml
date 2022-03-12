@@ -50,6 +50,7 @@ dependencies:
   hexcolor: ^2.0.6
   flutter_colorpicker: ^1.0.3
   get: ^4.6.1
+  speech_to_text: ^5.4.3
 
 dev_dependencies:
   flutter_test:

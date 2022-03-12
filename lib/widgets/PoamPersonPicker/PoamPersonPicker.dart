@@ -97,7 +97,7 @@ class _PoamPersonPickerState extends State<PoamPersonPicker> {
 
                               bool isProblem = false;
 
-                              if (itemCount > 0) {
+                              if (itemCount > 0 && isProblem != true) {
                                 poamSnackbar.showSnackBar(context,
                                     AppLocalizations.of(context)!.messagePersonNotExists,
                                     primaryColor);
@@ -134,27 +134,40 @@ class _PoamPersonPickerState extends State<PoamPersonPicker> {
             child: IconButton(
               onPressed: () async {
 
+                bool isProblem = false;
+
                 int i = -1, e = 0;
                 int numberOfItems = widget.box!.values.where((element) => element.name == widget.pickedPerson!.trim()).length;
 
-                if (numberOfItems != 0) {
+                if (widget.box!.values.length == 0) {
+                  poamSnackbar.showSnackBar(context,
+                      AppLocalizations.of(context)!.messageAddPerson,
+                      primaryColor);
+                  isProblem = true;
+                }
+
+                if (numberOfItems != 0 && isProblem != true) {
                   widget.box!.values.forEach((element) {
                     ++i;
                     if (element.name == widget.pickedPerson!.trim()) {
                       e = i;
                     }
                   });
+                  isProblem = true;
                 }
 
-                if (numberOfItems == 0) {
+                if (numberOfItems == 0 && isProblem != true) {
                   poamSnackbar.showSnackBar(context,
                       AppLocalizations.of(context)!.messagePersonNotExists,
                       primaryColor);
+                  isProblem = true;
+                }
 
-                } else {
+                if (isProblem == false) {
                   widget.box!.deleteAt(e);
                 }
-              },
+
+                },
               icon: const Icon(Icons.remove),
             ),
         ),

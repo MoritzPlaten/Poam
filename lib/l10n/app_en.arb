@@ -34,5 +34,6 @@
     "exitButton": "Exit",
     "messageAddPerson": "Pls add persons",
     "english": "English",
-    "german": "German"
+    "german": "German",
+    "language": "Language"
 }

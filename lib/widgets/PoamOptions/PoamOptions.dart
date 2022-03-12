@@ -56,7 +56,7 @@ class _PoamOptionsState extends State<PoamOptions> {
 
               Flexible(
                   child: Text(
-                    "Sprache:",
+                    AppLocalizations.of(context)!.language + ":",
                     style: GoogleFonts.novaMono(),
                   )
               ),
