@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:speech_to_text/speech_recognition_error.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 import 'package:speech_to_text/speech_recognition_result.dart';
 
@@ -23,8 +22,6 @@ class _PoamTextFieldState extends State<PoamTextField> {
 
   late Color primaryColor;
   bool _isListening = false;
-  late stt.SpeechToText _speech;
-  String s = "";
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +37,7 @@ class _PoamTextFieldState extends State<PoamTextField> {
           alignment: Alignment.centerRight,
           children: [
 
+            ///TextField
             TextFormField(
               controller: widget.controller,
               keyboardType: widget.keyboardType,
@@ -55,19 +53,13 @@ class _PoamTextFieldState extends State<PoamTextField> {
               ),
             ),
 
-            ///TODO: Recognize voice to write text: Auf YT => https://www.youtube.com/watch?v=wDWoD1AaLu8
             ///Microphone Button
             Padding(
               padding: EdgeInsets.only(right: 10),
               child: IconButton(
-                onPressed: /*_listen*/ () {
-
-                },
-                icon: Icon(
-                  Icons.mic,
-                  color: primaryColor,
-                ),
-              ),
+                  onPressed: _listen,
+                  icon: Icon(_isListening == false ? Icons.mic : Icons.mic_none_outlined, color: primaryColor,),
+              )
             ),
 
           ],
@@ -76,20 +68,31 @@ class _PoamTextFieldState extends State<PoamTextField> {
   }
 
   void _listen() async {
-    stt.SpeechToText speech = stt.SpeechToText();
-    bool available = await speech.initialize();
 
-    if (available) {
-      speech.listen(
-          onResult: (SpeechRecognitionResult recognitionResult) {
-            widget.controller!.text = recognitionResult.recognizedWords;
-          }
-      );
+    ///change listen state
+    _isListening = !_isListening;
+    stt.SpeechToText speech = stt.SpeechToText();
+
+    ///is Listen
+    if (_isListening == true) {
+      bool available = await speech.initialize();
+      ///if speech available
+      if (available) {
+        await speech.listen(
+            onResult: (SpeechRecognitionResult recognitionResult) {
+              setState(() {
+                ///print Result
+                widget.controller!.text = recognitionResult.recognizedWords;
+              });
+            }
+        );
+      }
+      else {
+        print("The user has denied the use of speech recognition.");
+      }
+      ///Stop listen
+    } else if (_isListening == false) {
+      await speech.stop();
     }
-    else {
-      print("The user has denied the use of speech recognition.");
-    }
-    // some time later...
-    speech.stop();
   }
 }

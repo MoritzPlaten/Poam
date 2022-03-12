@@ -146,21 +146,13 @@ class _PoamPersonPickerState extends State<PoamPersonPicker> {
                   isProblem = true;
                 }
 
-                if (numberOfItems != 0 && isProblem != true) {
+                if (numberOfItems != 0) {
                   widget.box!.values.forEach((element) {
                     ++i;
                     if (element.name == widget.pickedPerson!.trim()) {
                       e = i;
                     }
                   });
-                  isProblem = true;
-                }
-
-                if (numberOfItems == 0 && isProblem != true) {
-                  poamSnackbar.showSnackBar(context,
-                      AppLocalizations.of(context)!.messagePersonNotExists,
-                      primaryColor);
-                  isProblem = true;
                 }
 
                 if (isProblem == false) {
@@ -171,7 +163,6 @@ class _PoamPersonPickerState extends State<PoamPersonPicker> {
               icon: const Icon(Icons.remove),
             ),
         ),
-
       ],
     );
   }
