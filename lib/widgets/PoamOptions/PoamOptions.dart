@@ -72,7 +72,7 @@ class _PoamOptionsState extends State<PoamOptions> {
                     Flexible(
                       flex: 3,
                       child: PoamDropDown(
-                        dropdownValue: languageValue == "" ? languagesAsString(context, Languages.values.first) : languageValue,
+                        dropdownValue: languageValue != "" && languagesAsListString(context).contains(languageValue) ? languageValue : languagesAsString(context, Languages.values.first),
                         onChanged: (String? value) {
                           languageValue = value!;
                         },

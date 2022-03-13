@@ -33,13 +33,12 @@ Locale languageToLocale(BuildContext context, String language) {
 
   String lang = "";
 
-  if (language == AppLocalizations.of(context)!.german) {
+  ///TODO: must be change
+  if (language == /*AppLocalizations.of(context)!.german*/ "Deutsch" || language == "German") {
     lang = "de";
-  } else if (language == AppLocalizations.of(context)!.english) {
+  } else if (language == /*AppLocalizations.of(context)!.english*/ "English" || language == "Englisch") {
     lang = "en";
   }
 
-  Locale locale = Locale(lang, "");
-
-  return locale;
+  return Locale(lang, "");
 }

@@ -12,6 +12,7 @@ import 'package:poam/services/itemServices/Objects/Database.dart';
 import 'package:poam/services/itemServices/Objects/Person.dart';
 import 'package:path_provider/path_provider.dart' as pathProvider;
 import 'package:poam/services/localeService/Locales.dart';
+import 'package:poam/services/localeService/Objects/Languages.dart';
 import 'package:provider/provider.dart';
 
 Future<void> main() async {
@@ -42,16 +43,32 @@ Future<void> main() async {
   ));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  
+  static Locale _locale = Locale("en", "");
+
+  void setLocale(Locale value) {
+    setState(() {
+      _locale = value;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
 
+    ///watcher
     context.watch<Locales>().getLocale();
 
-    /*Locales localeService = Locales("");
-    localeService.addLocale(Locales("de"));*/
+    if (Provider.of<Locales>(context, listen: false).locales.length != 0) {
+      setLocale(languageToLocale(context, Provider.of<Locales>(context, listen: false).locales.first.locale));
+    }
 
     return MaterialApp(
 
@@ -65,7 +82,7 @@ class MyApp extends StatelessWidget {
         '/': (context) => const App(),
         '/listpage': (context) => const ListPage(),
       },
-      locale: Locale("de", ""),
+      locale: _locale,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
     );

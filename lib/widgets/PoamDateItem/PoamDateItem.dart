@@ -324,8 +324,15 @@ class CostumListTile extends StatefulWidget {
 }
 
 class _CostumListTileState extends State<CostumListTile> {
+
+  late Size size;
+
   @override
   Widget build(BuildContext context) {
+
+    ///initialize
+    size = MediaQuery.of(context).size;
+
     return Row(
       children: [
         Text(
@@ -333,6 +340,7 @@ class _CostumListTileState extends State<CostumListTile> {
           style: GoogleFonts.kreon(color: widget.color, fontSize: 13),
         ),
         SizedBox(
+          width: size.width - (size.width / 1.5),
           child: Text(
             widget.body!,
             style: GoogleFonts.kreon(fontSize: 13),

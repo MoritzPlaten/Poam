@@ -36,5 +36,6 @@
     "messageSave": "The options have been saved!",
     "english": "English",
     "german": "German",
-    "language": "Language"
+    "language": "Language",
+    "save": "Save"
 }

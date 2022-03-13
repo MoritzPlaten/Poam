@@ -96,7 +96,8 @@ class _PoamItemState extends State<PoamItem> {
 
                           ///Display the Item Title
                           SizedBox(
-                            width: size.width * 0.45,
+                            ///TODO: size anpassen von Title
+                            width: size.width - (size.width / 1.7),
                             child: Text(
                               widget.itemModel!.title,
                               style: GoogleFonts.ubuntu(
@@ -144,12 +145,16 @@ class _PoamItemState extends State<PoamItem> {
 
                           ///Person should only displayed when the Category Tasks is active
                           if (widget.itemModel!.categories == Categories.tasks)
-                            Text(
-                              "Person: " + widget.itemModel!.person.name.toString(),
-                              style: GoogleFonts.kreon(
-                                  color: primaryColor,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.bold
+                            SizedBox(
+                              ///TODO: size anpassen von Person
+                              width: size.width - (size.width / 1.7),
+                              child: Text(
+                                "Person: " + widget.itemModel!.person.name.toString(),
+                                style: GoogleFonts.kreon(
+                                    color: primaryColor,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold
+                                ),
                               ),
                             ),
                         ],

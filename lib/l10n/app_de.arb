@@ -36,5 +36,6 @@
     "messageSave": "Die Einstellungen wurden gespeichert!",
     "english": "Englisch",
     "german": "Deutsch",
-    "language": "Sprache"
+    "language": "Sprache",
+    "save": "Speichern"
 }
