@@ -78,10 +78,23 @@ class _PoamPopUpState extends State<PoamPopUp> {
           _titleController.text = widget.itemModel!.title;
           _numberController.text = widget.itemModel!.count.toString();
           _descriptionController.text = widget.itemModel!.description;
-          _fromDateController.text = DateFormat.yMd(Localizations.localeOf(context).languageCode).format(widget.itemModel!.fromDate);
-          _toDateController.text = DateFormat.yMd(Localizations.localeOf(context).languageCode).format(widget.itemModel!.toDate);
-          _fromTimeController.text = widget.itemModel!.fromTime.hour.toString() + " : " + widget.itemModel!.fromTime.minute.toString();
-          _toTimeController.text = widget.itemModel!.toTime.hour.toString() + " : " + widget.itemModel!.toTime.minute.toString();
+
+          DateTime isFromDateTimeOver = DateTime(widget.itemModel!.fromDate.year, widget.itemModel!.fromDate.month, widget.itemModel!.fromDate.day, widget.itemModel!.fromTime.hour, widget.itemModel!.fromTime.minute);
+
+          ///if the From DateTime is over, then set DateTime.now(). Else set the item settings
+          if (isFromDateTimeOver.compareTo(DateTime.now()) > 0) {
+            _fromDateController.text = DateFormat.yMd(Localizations.localeOf(context).languageCode).format(widget.itemModel!.fromDate);
+            _fromTimeController.text = widget.itemModel!.fromTime.hour.toString() + " : " + widget.itemModel!.fromTime.minute.toString();
+          }
+
+          DateTime isToDateTimeOver = DateTime(widget.itemModel!.toDate.year, widget.itemModel!.toDate.month, widget.itemModel!.toDate.day, widget.itemModel!.toTime.hour, widget.itemModel!.toTime.minute);
+
+          ///if the to DateTime is after the FromDateTime, then set DateTime.now()
+          if (isToDateTimeOver.compareTo(isFromDateTimeOver) > 0) {
+            _toDateController.text = DateFormat.yMd(Localizations.localeOf(context).languageCode).format(widget.itemModel!.toDate);
+            _toTimeController.text = widget.itemModel!.toTime.hour.toString() + " : " + widget.itemModel!.toTime.minute.toString();
+          }
+
           selectedColor = Color(HexColor(widget.itemModel!.hex).value);
         }
         break;
@@ -188,7 +201,6 @@ class _PoamPopUpState extends State<PoamPopUp> {
                             box: box,
                           ),
 
-                        ///TODO: if the first date is selected, then set the second date equals the first date
                         ///Displays the Date-Time-Picker
                         Card(
                           shape: RoundedRectangleBorder(
@@ -209,6 +221,8 @@ class _PoamPopUpState extends State<PoamPopUp> {
                                   title: AppLocalizations.of(context)!.dateTo + ": ",
                                   dateController: _toDateController,
                                   timeController: _toTimeController,
+                                  fromDateController: _fromDateController,
+                                  fromTimeController: _fromTimeController,
                                 ),
 
                             ],

@@ -57,7 +57,6 @@ class _PoamOptionsState extends State<PoamOptions> {
                   height: 30,
                 ),
 
-                ///TODO: Change language, add in db
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -84,6 +83,9 @@ class _PoamOptionsState extends State<PoamOptions> {
                     ),
                   ],
                 ),
+
+                ///TODO: Add a Color Picker to change the primaryColor
+
               ],
             ),
           ),

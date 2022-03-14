@@ -8,8 +8,10 @@ class PoamDatePicker extends StatefulWidget {
   final String? test;
   final TextEditingController? dateController;
   final TextEditingController? timeController;
+  final TextEditingController? fromDateController;
+  final TextEditingController? fromTimeController;
 
-  const PoamDatePicker({ Key? key, this.title, this.test, this.dateController, this.timeController }) : super(key: key);
+  const PoamDatePicker({ Key? key, this.title, this.test, this.dateController, this.timeController, this.fromTimeController, this.fromDateController }) : super(key: key);
 
   @override
   _PoamDatePickerState createState() => _PoamDatePickerState();
@@ -46,6 +48,21 @@ class _PoamDatePickerState extends State<PoamDatePicker> {
           widget.dateController!.text = DateFormat.yMd(Localizations.localeOf(context).languageCode).format(selectedDate);
         });
     }
+
+    ///TODO: if the first date is selected, then set the second date equals the first date
+    /*if (widget.fromDateController != null && widget.fromTimeController != null && widget.fromDateController!.text != "" && widget.fromTimeController!.text != "" && widget.dateController!.text != "" && widget.timeController!.text != "") {
+
+      print(widget.fromDateController!.text);
+      DateTime fromDate = DateFormat.yMd(Localizations.localeOf(context).languageCode).parse(widget.fromDateController!.text);
+      DateTime fromTime = DateTime.parse(widget.fromTimeController!.text);
+
+      DateTime toDate = DateFormat.yMd(Localizations.localeOf(context).languageCode).parse(widget.dateController!.text);
+      DateTime toTime = DateTime.parse(widget.timeController!.text);
+
+      if (toDate.compareTo(fromDate) < 0) {
+        print(fromDate);
+      }
+    }*/
 
     ///Opens TimePicker
     Future<Null> _selectTime(BuildContext context) async {

@@ -96,8 +96,7 @@ class _PoamItemState extends State<PoamItem> {
 
                           ///Display the Item Title
                           SizedBox(
-                            ///TODO: size anpassen von Title
-                            width: size.width - (size.width / 1.7),
+                            width: size.width * 0.40,
                             child: Text(
                               widget.itemModel!.title,
                               style: GoogleFonts.ubuntu(
@@ -105,10 +104,13 @@ class _PoamItemState extends State<PoamItem> {
                                   fontSize: 16.5
                               ),
                               textAlign: TextAlign.left,
+                              softWrap: true,
+                              maxLines: 3,
                             ),
                           ),
                           const SizedBox(height: 1,),
 
+                          ///TODO: width kann so lang sein, muss angepasst werden
                           ///if fromTime != toTime, then display "fromTime - toTime Uhr"
                           if (widget.itemModel!.categories == Categories.tasks && widget.itemModel!.fromTime != widget.itemModel!.toTime)
                             Text(
@@ -147,7 +149,7 @@ class _PoamItemState extends State<PoamItem> {
                           if (widget.itemModel!.categories == Categories.tasks)
                             SizedBox(
                               ///TODO: size anpassen von Person
-                              width: size.width - (size.width / 1.7),
+                              width: size.width * 0.4,
                               child: Text(
                                 "Person: " + widget.itemModel!.person.name.toString(),
                                 style: GoogleFonts.kreon(
