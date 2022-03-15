@@ -81,7 +81,7 @@ class _PoamPopUpState extends State<PoamPopUp> {
 
           DateTime isFromDateTimeOver = DateTime(widget.itemModel!.fromDate.year, widget.itemModel!.fromDate.month, widget.itemModel!.fromDate.day, widget.itemModel!.fromTime.hour, widget.itemModel!.fromTime.minute);
 
-          ///if the From DateTime is over, then set DateTime.now(). Else set the item settings
+          ///if the From DateTime is not over, then set the item settings. Else set DateTime.now()
           if (isFromDateTimeOver.compareTo(DateTime.now()) > 0) {
             _fromDateController.text = DateFormat.yMd(Localizations.localeOf(context).languageCode).format(widget.itemModel!.fromDate);
             _fromTimeController.text = widget.itemModel!.fromTime.hour.toString() + " : " + widget.itemModel!.fromTime.minute.toString();
@@ -89,14 +89,13 @@ class _PoamPopUpState extends State<PoamPopUp> {
 
           DateTime isToDateTimeOver = DateTime(widget.itemModel!.toDate.year, widget.itemModel!.toDate.month, widget.itemModel!.toDate.day, widget.itemModel!.toTime.hour, widget.itemModel!.toTime.minute);
 
-          ///TODO: Look
-          ///if the to DateTime is after the from DateTime, then set DateTime.now()
+          ///if the to DateTime is not over, then set item settings
           if (isToDateTimeOver.compareTo(DateTime.now()) > 0) {
             _toDateController.text = DateFormat.yMd(Localizations.localeOf(context).languageCode).format(widget.itemModel!.toDate);
             _toTimeController.text = widget.itemModel!.toTime.hour.toString() + " : " + widget.itemModel!.toTime.minute.toString();
-            ///if the to DateTime is equal the from DateTime, then set item settings
           } else if (isFromDateTimeOver.compareTo(isToDateTimeOver) == 0) {
 
+            ///if the to DateTime is equal the from DateTime and is not over, then set item settings
             if (isToDateTimeOver.compareTo(DateTime.now()) > 0) {
               _toDateController.text = DateFormat.yMd(Localizations.localeOf(context).languageCode).format(widget.itemModel!.toDate);
               _toTimeController.text = widget.itemModel!.toTime.hour.toString() + " : " + widget.itemModel!.toTime.minute.toString();
