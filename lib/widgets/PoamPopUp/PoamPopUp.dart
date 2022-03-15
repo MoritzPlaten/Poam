@@ -91,13 +91,16 @@ class _PoamPopUpState extends State<PoamPopUp> {
 
           ///TODO: Look
           ///if the to DateTime is after the from DateTime, then set DateTime.now()
-          if (isToDateTimeOver.compareTo(isFromDateTimeOver) > 0) {
+          if (isToDateTimeOver.compareTo(DateTime.now()) > 0) {
             _toDateController.text = DateFormat.yMd(Localizations.localeOf(context).languageCode).format(widget.itemModel!.toDate);
             _toTimeController.text = widget.itemModel!.toTime.hour.toString() + " : " + widget.itemModel!.toTime.minute.toString();
             ///if the to DateTime is equal the from DateTime, then set item settings
           } else if (isFromDateTimeOver.compareTo(isToDateTimeOver) == 0) {
-            _toDateController.text = DateFormat.yMd(Localizations.localeOf(context).languageCode).format(widget.itemModel!.toDate);
-            _toTimeController.text = widget.itemModel!.toTime.hour.toString() + " : " + widget.itemModel!.toTime.minute.toString();
+
+            if (isToDateTimeOver.compareTo(DateTime.now()) > 0) {
+              _toDateController.text = DateFormat.yMd(Localizations.localeOf(context).languageCode).format(widget.itemModel!.toDate);
+              _toTimeController.text = widget.itemModel!.toTime.hour.toString() + " : " + widget.itemModel!.toTime.minute.toString();
+            }
           }
 
           selectedColor = Color(HexColor(widget.itemModel!.hex).value);
