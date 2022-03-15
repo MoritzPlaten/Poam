@@ -242,10 +242,10 @@ class _PoamPopUpState extends State<PoamPopUp> {
                                   title: AppLocalizations.of(context)!.dateTo + ": ",
                                   dateController: _toDateController,
                                   timeController: _toTimeController,
-                                  fromDateController: _fromDateController,
-                                  fromTimeController: _fromTimeController,
+                                  ///TODO: controller kann nicht benutzt werden außerhalb, also indem Sinne
+                                  fromDate: _fromDateController.text != "" ? DateFormat.yMd(Localizations.localeOf(context).languageCode).parse(_fromDateController.text) : DateTime.now(),
+                                  fromTime: _fromTimeController.text != "" ? DateFormat.Hm().parse(_fromTimeController.text) : DateTime(0,0,0, DateTime.now().hour, DateTime.now().minute + 1),
                                 ),
-
                             ],
                           ),
                         ),

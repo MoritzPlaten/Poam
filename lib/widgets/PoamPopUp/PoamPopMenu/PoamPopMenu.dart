@@ -167,7 +167,7 @@ class _PoamPopMenuState extends State<PoamPopMenu> {
                   ///If there are no problems then add ItemModel
                   if (isProblem == false) {
 
-                    ///TODO: Einen Wecker hinzufügen
+                    ///TODO: add awesome_notifications: https://www.youtube.com/watch?v=fMoQTHUvy5s
 
                     ItemModel itemModel = ItemModel(
 
