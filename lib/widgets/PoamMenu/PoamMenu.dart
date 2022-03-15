@@ -138,13 +138,12 @@ class _PoamMenuState extends State<PoamMenu> {
               padding: const EdgeInsets.all(10),
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
-              itemCount: widget.categories != Categories.shopping ?
-              dateService.getListOfAllDates(widget.allItems!.where((element) => element.categories == widget.categories!).take(numberOfItemsOnStartScreen)).length : 1,
+              itemCount: widget.categories != Categories.shopping ? dateService.getListOfAllDates(widget.allItems!.where((element) => element.categories == widget.categories!).take(numberOfItemsOnStartScreen)).length : 1,
               itemBuilder: (BuildContext context, int index) {
 
                 ///All Items will packed in a PoamDateItem, which display the Date
                 return PoamDateItem(
-                  allItems: dateService.sortItemsByDate(widget.allItems!.where((element) => element.categories == widget.categories).toList()),
+                  allItems: dateService.sortItemsByDate(widget.allItems!.where((element) => element.categories == widget.categories).toList()).take(numberOfItemsOnStartScreen),
                   categories: widget.categories,
                   dateIndex: index,
                 );
