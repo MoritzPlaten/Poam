@@ -19,18 +19,17 @@ import '../PoamDatePicker/PoamDatePicker.dart';
 import 'PoamPopMenu/PoamPopMenu.dart';
 
 class PoamPopUp extends StatefulWidget {
-
   final ItemModel? itemModel;
   final bool? isEditMode;
 
-  const PoamPopUp({ Key? key, this.itemModel, this.isEditMode }) : super(key: key);
+  const PoamPopUp({Key? key, this.itemModel, this.isEditMode})
+      : super(key: key);
 
   @override
   _PoamPopUpState createState() => _PoamPopUpState();
 }
 
 class _PoamPopUpState extends State<PoamPopUp> {
-
   late Color primaryColor;
   late PoamSnackbar poamSnackbar;
   late Size size;
@@ -55,7 +54,6 @@ class _PoamPopUpState extends State<PoamPopUp> {
 
   @override
   Widget build(BuildContext context) {
-
     ///Refresh Items
     context.watch<ItemModel>().getItems();
     context.watch<Person>().getPersons();
@@ -66,67 +64,114 @@ class _PoamPopUpState extends State<PoamPopUp> {
     poamSnackbar = PoamSnackbar();
     itemModel = Provider.of<ItemModel>(context, listen: false).itemModelList;
 
-    switch(widget.isEditMode) {
+    switch (widget.isEditMode) {
 
       ///Set Values of the itemModel in the Textformfields
       case true:
-
-        if (personDropDownValue == "" && categoryDropDownValue == "" && frequencyDropDownValue == "") {
-          frequencyDropDownValue = displayFrequency(context, widget.itemModel!.frequency);
-          categoryDropDownValue = displayTextCategory(context, widget.itemModel!.categories);
+        if (personDropDownValue == "" &&
+            categoryDropDownValue == "" &&
+            frequencyDropDownValue == "") {
+          frequencyDropDownValue =
+              displayFrequency(context, widget.itemModel!.frequency);
+          categoryDropDownValue =
+              displayTextCategory(context, widget.itemModel!.categories);
           personDropDownValue = widget.itemModel!.person.name!;
           _titleController.text = widget.itemModel!.title;
           _numberController.text = widget.itemModel!.count.toString();
           _descriptionController.text = widget.itemModel!.description;
 
           ///DateTimes
-          DateTime isFromDateTimeOver = DateTime(widget.itemModel!.fromDate.year, widget.itemModel!.fromDate.month, widget.itemModel!.fromDate.day, widget.itemModel!.fromTime.hour, widget.itemModel!.fromTime.minute);
-          DateTime isToDateTimeOver = DateTime(widget.itemModel!.toDate.year, widget.itemModel!.toDate.month, widget.itemModel!.toDate.day, widget.itemModel!.toTime.hour, widget.itemModel!.toTime.minute);
+          DateTime isFromDateTimeOver = DateTime(
+              widget.itemModel!.fromDate.year,
+              widget.itemModel!.fromDate.month,
+              widget.itemModel!.fromDate.day,
+              widget.itemModel!.fromTime.hour,
+              widget.itemModel!.fromTime.minute);
+          DateTime isToDateTimeOver = DateTime(
+              widget.itemModel!.toDate.year,
+              widget.itemModel!.toDate.month,
+              widget.itemModel!.toDate.day,
+              widget.itemModel!.toTime.hour,
+              widget.itemModel!.toTime.minute);
 
           ///Durations
-          Duration dateDuration = widget.itemModel!.toDate.difference(widget.itemModel!.fromDate);
-          Duration timeDuration = widget.itemModel!.toTime.difference(widget.itemModel!.fromTime);
+          Duration dateDuration =
+              widget.itemModel!.toDate.difference(widget.itemModel!.fromDate);
+          Duration timeDuration =
+              widget.itemModel!.toTime.difference(widget.itemModel!.fromTime);
 
           ///if the From DateTime is not over, then set the item settings. Else set DateTime.now()
           if (isFromDateTimeOver.compareTo(DateTime.now()) > 0) {
-            _fromDateController.text = DateFormat.yMd(Localizations.localeOf(context).languageCode).format(widget.itemModel!.fromDate);
-            _fromTimeController.text = widget.itemModel!.fromTime.hour.toString() + ":" + widget.itemModel!.fromTime.minute.toString();
-            
-            _toDateController.text = DateFormat.yMd(Localizations.localeOf(context).languageCode).format(widget.itemModel!.toDate.add(dateDuration)); //.add(dateDuration)
-            _toTimeController.text = widget.itemModel!.toTime.add(timeDuration).hour.toString() + ":" + widget.itemModel!.toTime.add(timeDuration).minute.toString();
+            _fromDateController.text =
+                DateFormat.yMd(Localizations.localeOf(context).languageCode)
+                    .format(widget.itemModel!.fromDate);
+            _fromTimeController.text =
+                widget.itemModel!.fromTime.hour.toString() +
+                    ":" +
+                    widget.itemModel!.fromTime.minute.toString();
+
+            _toDateController.text =
+                DateFormat.yMd(Localizations.localeOf(context).languageCode)
+                    .format(widget.itemModel!.toDate
+                        .add(dateDuration)); //.add(dateDuration)
+            _toTimeController.text = widget.itemModel!.toTime
+                    .add(timeDuration)
+                    .hour
+                    .toString() +
+                ":" +
+                widget.itemModel!.toTime.add(timeDuration).minute.toString();
           }
 
           ///if the to DateTime is not over, then set item settings
           if (isToDateTimeOver.compareTo(DateTime.now()) > 0) {
-
-            _toDateController.text = DateFormat.yMd(Localizations.localeOf(context).languageCode).format(widget.itemModel!.toDate); //.add(dateDuration)
-            _toTimeController.text = widget.itemModel!.toTime.hour.toString() + ":" + widget.itemModel!.toTime.minute.toString();
+            _toDateController.text =
+                DateFormat.yMd(Localizations.localeOf(context).languageCode)
+                    .format(widget.itemModel!.toDate
+                        .add(dateDuration)); //.add(dateDuration)
+            _toTimeController.text = widget.itemModel!.toTime
+                    .add(timeDuration)
+                    .hour
+                    .toString() +
+                ":" +
+                widget.itemModel!.toTime.add(timeDuration).minute.toString();
           } else if (isFromDateTimeOver.compareTo(isToDateTimeOver) == 0) {
-
             ///if the to DateTime is equal the from DateTime and is not over, then set item settings
             if (isToDateTimeOver.compareTo(DateTime.now()) > 0) {
-
-              _toDateController.text = DateFormat.yMd(Localizations.localeOf(context).languageCode).format(widget.itemModel!.toDate);
-              _toTimeController.text = widget.itemModel!.toTime.hour.toString() + ":" + widget.itemModel!.toTime.minute.toString();
+              _toDateController.text =
+                  DateFormat.yMd(Localizations.localeOf(context).languageCode)
+                      .format(widget.itemModel!.toDate);
+              _toTimeController.text =
+                  widget.itemModel!.toTime.hour.toString() +
+                      ":" +
+                      widget.itemModel!.toTime.minute.toString();
             }
+
             ///if the DateTime is over
           } else if (isToDateTimeOver.compareTo(DateTime.now()) < 0) {
-
-            _toDateController.text = DateFormat.yMd(Localizations.localeOf(context).languageCode).format(DateTime.now().add(dateDuration));
-            _toTimeController.text = DateTime.now().add(timeDuration).hour.toString() + ":" + (DateTime.now().add(timeDuration).minute + 1).toString();
+            _toDateController.text =
+                DateFormat.yMd(Localizations.localeOf(context).languageCode)
+                    .format(DateTime.now().add(dateDuration));
+            _toTimeController.text =
+                DateTime.now().add(timeDuration).hour.toString() +
+                    ":" +
+                    (DateTime.now().add(timeDuration).minute + 1).toString();
           }
 
           selectedColor = Color(HexColor(widget.itemModel!.hex).value);
         }
         break;
 
-        ///EditMode is false
+      ///EditMode is false
       case false:
-        if (categoryDropDownValue == "") categoryDropDownValue = displayTextCategory(context, Categories.values.first);
-        if (frequencyDropDownValue == "") frequencyDropDownValue = displayFrequency(context, Frequency.values.first);
+        if (categoryDropDownValue == "")
+          categoryDropDownValue =
+              displayTextCategory(context, Categories.values.first);
+        if (frequencyDropDownValue == "")
+          frequencyDropDownValue =
+              displayFrequency(context, Frequency.values.first);
         break;
 
-        ///Error
+      ///Error
       default:
         print("Error");
         break;
@@ -135,7 +180,6 @@ class _PoamPopUpState extends State<PoamPopUp> {
     return ValueListenableBuilder(
         valueListenable: Hive.box<Person>(Database.PersonName).listenable(),
         builder: (context, Box<Person> box, widgets) {
-
           ///Get All persons
           List<Person> persons = box.values.toList();
           List<String> personNames = getPersonsAsStrings(persons);
@@ -149,40 +193,45 @@ class _PoamPopUpState extends State<PoamPopUp> {
             body: Form(
               key: _formKey,
               child: Stack(
-
                 alignment: Alignment.bottomCenter,
                 children: [
-
                   SizedBox(
-
                     width: size.width,
                     height: size.height,
-
                     child: ListView(
-                      padding: const EdgeInsets.only(top: 60, right: 30, left: 30, bottom: 10),
+                      padding: const EdgeInsets.only(
+                          top: 60, right: 30, left: 30, bottom: 10),
                       shrinkWrap: true,
                       children: [
-
                         ///Displays the Category DropDownMenu
                         PoamDropDown(
                           dropdownValue: categoryDropDownValue,
                           onChanged: (value) {
                             categoryDropDownValue = value!;
                           },
+
                           ///if EditMode is true then only display the Category of the ItemModel
-                          items: widget.isEditMode == false ? displayAllCategories(context) : List.generate(1, (index) => displayTextCategory(context, widget.itemModel!.categories)),
+                          items: widget.isEditMode == false
+                              ? displayAllCategories(context)
+                              : List.generate(
+                                  1,
+                                  (index) => displayTextCategory(
+                                      context, widget.itemModel!.categories)),
                           color: primaryColor,
                           iconData: Icons.arrow_drop_down,
                           foregroundColor: Colors.white,
                         ),
 
-                        const SizedBox(height: 10,),
+                        const SizedBox(
+                          height: 10,
+                        ),
 
                         ///Displays the title
                         PoamTextField(
                           validator: ((value) {
                             if (value == null || value.isEmpty) {
-                              return AppLocalizations.of(context)!.messageWriteTitle;
+                              return AppLocalizations.of(context)!
+                                  .messageWriteTitle;
                             }
                             return null;
                           }),
@@ -193,14 +242,18 @@ class _PoamPopUpState extends State<PoamPopUp> {
                           maxLength: 40,
                         ),
 
-                        const SizedBox(height: 10,),
+                        const SizedBox(
+                          height: 10,
+                        ),
 
                         ///Displays the Number field
-                        if (categoryDropDownValue == displayTextCategory(context, Categories.shopping))
+                        if (categoryDropDownValue ==
+                            displayTextCategory(context, Categories.shopping))
                           PoamTextField(
                             validator: ((value) {
                               if (value == null || value.isEmpty) {
-                                return AppLocalizations.of(context)!.messageWriteNumber;
+                                return AppLocalizations.of(context)!
+                                    .messageWriteNumber;
                               }
                               return null;
                             }),
@@ -212,7 +265,8 @@ class _PoamPopUpState extends State<PoamPopUp> {
                           ),
 
                         ///Displays the PersonPicker
-                        if (categoryDropDownValue == displayTextCategory(context, Categories.tasks))
+                        if (categoryDropDownValue ==
+                            displayTextCategory(context, Categories.tasks))
                           PoamPersonPicker(
                             personNames: personNames,
                             pickedPerson: personDropDownValue,
@@ -229,29 +283,45 @@ class _PoamPopUpState extends State<PoamPopUp> {
                           ),
                           child: Column(
                             children: [
-
-                              if (categoryDropDownValue == displayTextCategory(context, Categories.tasks))
+                              if (categoryDropDownValue ==
+                                  displayTextCategory(
+                                      context, Categories.tasks))
                                 PoamDatePicker(
-                                  title: AppLocalizations.of(context)!.dateFrom + ": ",
+                                  title:
+                                      AppLocalizations.of(context)!.dateFrom +
+                                          ": ",
                                   dateController: _fromDateController,
                                   timeController: _fromTimeController,
                                 ),
-
-                              if (categoryDropDownValue == displayTextCategory(context, Categories.tasks))
+                              if (categoryDropDownValue ==
+                                  displayTextCategory(
+                                      context, Categories.tasks))
                                 PoamDatePicker(
-                                  title: AppLocalizations.of(context)!.dateTo + ": ",
+                                  title: AppLocalizations.of(context)!.dateTo +
+                                      ": ",
                                   dateController: _toDateController,
                                   timeController: _toTimeController,
+
                                   ///TODO: controller kann nicht benutzt werden außerhalb, also indem Sinne
-                                  fromDate: _fromDateController.text != "" ? DateFormat.yMd(Localizations.localeOf(context).languageCode).parse(_fromDateController.text) : DateTime.now(),
-                                  fromTime: _fromTimeController.text != "" ? DateFormat.Hm().parse(_fromTimeController.text) : DateTime(0,0,0, DateTime.now().hour, DateTime.now().minute + 1),
+                                  fromDate: _fromDateController.text != ""
+                                      ? DateFormat.yMd(
+                                              Localizations.localeOf(context)
+                                                  .languageCode)
+                                          .parse(_fromDateController.text)
+                                      : DateTime.now(),
+                                  fromTime: _fromTimeController.text != ""
+                                      ? DateFormat.Hm()
+                                          .parse(_fromTimeController.text)
+                                      : DateTime(0, 0, 0, DateTime.now().hour,
+                                          DateTime.now().minute + 1),
                                 ),
                             ],
                           ),
                         ),
 
                         ///Displays the Frequency DropDownMenu
-                        if (categoryDropDownValue == displayTextCategory(context, Categories.tasks))
+                        if (categoryDropDownValue ==
+                            displayTextCategory(context, Categories.tasks))
                           PoamDropDown(
                             dropdownValue: frequencyDropDownValue,
                             onChanged: (value) {
@@ -264,10 +334,12 @@ class _PoamPopUpState extends State<PoamPopUp> {
                           ),
 
                         ///Displays the Color Picker
-                        if (categoryDropDownValue == displayTextCategory(context, Categories.tasks))
+                        if (categoryDropDownValue ==
+                            displayTextCategory(context, Categories.tasks))
                           PoamColorPicker(
                             pickedColor: selectedColor,
-                            onChangeColor: (Color? color){ //on color picked
+                            onChangeColor: (Color? color) {
+                              //on color picked
                               selectedColor = color!;
                             },
                           ),
@@ -283,7 +355,6 @@ class _PoamPopUpState extends State<PoamPopUp> {
                           maxLines: 5,
                           maxLength: 100,
                         ),
-
                       ],
                     ),
                   ),
@@ -303,15 +374,16 @@ class _PoamPopUpState extends State<PoamPopUp> {
                     fromTimeController: _fromTimeController,
                     toDateController: _toDateController,
                     toTimeController: _toTimeController,
-                    ///if EditMode is true then get the index of this itemModel, else set the itemIndex to 0
-                    itemIndex: widget.isEditMode == true ? itemModel.indexOf(widget.itemModel!) : 0,
-                  ),
 
+                    ///if EditMode is true then get the index of this itemModel, else set the itemIndex to 0
+                    itemIndex: widget.isEditMode == true
+                        ? itemModel.indexOf(widget.itemModel!)
+                        : 0,
+                  ),
                 ],
               ),
             ),
           );
-        }
-      );
+        });
   }
 }
