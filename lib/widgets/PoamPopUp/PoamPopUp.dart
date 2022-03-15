@@ -79,36 +79,41 @@ class _PoamPopUpState extends State<PoamPopUp> {
           _numberController.text = widget.itemModel!.count.toString();
           _descriptionController.text = widget.itemModel!.description;
 
+          ///DateTimes
           DateTime isFromDateTimeOver = DateTime(widget.itemModel!.fromDate.year, widget.itemModel!.fromDate.month, widget.itemModel!.fromDate.day, widget.itemModel!.fromTime.hour, widget.itemModel!.fromTime.minute);
           DateTime isToDateTimeOver = DateTime(widget.itemModel!.toDate.year, widget.itemModel!.toDate.month, widget.itemModel!.toDate.day, widget.itemModel!.toTime.hour, widget.itemModel!.toTime.minute);
+
+          ///Durations
+          Duration dateDuration = widget.itemModel!.toDate.difference(widget.itemModel!.fromDate);
+          Duration timeDuration = widget.itemModel!.toTime.difference(widget.itemModel!.fromTime);
 
           ///if the From DateTime is not over, then set the item settings. Else set DateTime.now()
           if (isFromDateTimeOver.compareTo(DateTime.now()) > 0) {
             _fromDateController.text = DateFormat.yMd(Localizations.localeOf(context).languageCode).format(widget.itemModel!.fromDate);
-            _fromTimeController.text = widget.itemModel!.fromTime.hour.toString() + " : " + widget.itemModel!.fromTime.minute.toString();
+            _fromTimeController.text = widget.itemModel!.fromTime.hour.toString() + ":" + widget.itemModel!.fromTime.minute.toString();
+            
+            _toDateController.text = DateFormat.yMd(Localizations.localeOf(context).languageCode).format(widget.itemModel!.toDate.add(dateDuration)); //.add(dateDuration)
+            _toTimeController.text = widget.itemModel!.toTime.add(timeDuration).hour.toString() + ":" + widget.itemModel!.toTime.add(timeDuration).minute.toString();
           }
 
           ///if the to DateTime is not over, then set item settings
           if (isToDateTimeOver.compareTo(DateTime.now()) > 0) {
 
-            Duration dateDuration = widget.itemModel!.toDate.difference(widget.itemModel!.fromDate);
-            Duration timeDuration = widget.itemModel!.toTime.difference(widget.itemModel!.fromTime);
-            _toDateController.text = DateFormat.yMd(Localizations.localeOf(context).languageCode).format(DateTime.now().add(dateDuration));
-            _toTimeController.text = DateTime.now().add(timeDuration).hour.toString() + " : " + (DateTime.now().add(timeDuration).minute + 1).toString();
+            _toDateController.text = DateFormat.yMd(Localizations.localeOf(context).languageCode).format(widget.itemModel!.toDate); //.add(dateDuration)
+            _toTimeController.text = widget.itemModel!.toTime.hour.toString() + ":" + widget.itemModel!.toTime.minute.toString();
           } else if (isFromDateTimeOver.compareTo(isToDateTimeOver) == 0) {
 
             ///if the to DateTime is equal the from DateTime and is not over, then set item settings
             if (isToDateTimeOver.compareTo(DateTime.now()) > 0) {
 
               _toDateController.text = DateFormat.yMd(Localizations.localeOf(context).languageCode).format(widget.itemModel!.toDate);
-              _toTimeController.text = widget.itemModel!.toTime.hour.toString() + " : " + widget.itemModel!.toTime.minute.toString();
+              _toTimeController.text = widget.itemModel!.toTime.hour.toString() + ":" + widget.itemModel!.toTime.minute.toString();
             }
-          } else {
+            ///if the DateTime is over
+          } else if (isToDateTimeOver.compareTo(DateTime.now()) < 0) {
 
-            Duration dateDuration = widget.itemModel!.toDate.difference(widget.itemModel!.fromDate);
-            Duration timeDuration = widget.itemModel!.toTime.difference(widget.itemModel!.fromTime);
             _toDateController.text = DateFormat.yMd(Localizations.localeOf(context).languageCode).format(DateTime.now().add(dateDuration));
-            _toTimeController.text = DateTime.now().add(timeDuration).hour.toString() + " : " + (DateTime.now().add(timeDuration).minute + 1).toString();
+            _toTimeController.text = DateTime.now().add(timeDuration).hour.toString() + ":" + (DateTime.now().add(timeDuration).minute + 1).toString();
           }
 
           selectedColor = Color(HexColor(widget.itemModel!.hex).value);
