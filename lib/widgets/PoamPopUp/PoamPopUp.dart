@@ -79,6 +79,7 @@ class _PoamPopUpState extends State<PoamPopUp> {
           _titleController.text = widget.itemModel!.title;
           _numberController.text = widget.itemModel!.count.toString();
           _descriptionController.text = widget.itemModel!.description;
+          selectedColor = Color(HexColor(widget.itemModel!.hex).value);
 
           ///DateTimes
           DateTime isFromDateTimeOver = DateTime(
@@ -95,10 +96,10 @@ class _PoamPopUpState extends State<PoamPopUp> {
               widget.itemModel!.toTime.minute);
 
           ///Durations
-          Duration dateDuration =
-              widget.itemModel!.toDate.difference(widget.itemModel!.fromDate);
-          Duration timeDuration =
-              widget.itemModel!.toTime.difference(widget.itemModel!.fromTime);
+          //Duration dateDuration = widget.itemModel!.toDate.difference(widget.itemModel!.fromDate);
+          //Duration timeDuration = widget.itemModel!.toTime.difference(widget.itemModel!.fromTime);
+          Duration dateDuration = isToDateTimeOver.difference(isFromDateTimeOver);
+          Duration timeDuration = widget.itemModel!.toTime.difference(widget.itemModel!.fromTime);
 
           ///TODO: wenn die Zeit von 1 stunde differenz hat und dann ein neuer Tag beginnt, dann soll auch das Datum geändert werden
 
@@ -110,37 +111,34 @@ class _PoamPopUpState extends State<PoamPopUp> {
             _toDateController.text = DateFormat.yMd(Localizations.localeOf(context).languageCode).format(widget.itemModel!.toDate); //.add(dateDuration)
             _toTimeController.text = widget.itemModel!.toTime.hour.toString() + ":" + widget.itemModel!.toTime.minute.toString();
 
+            ///if the to DateTime is not over and the fromDateTime is over, then set item settings
+          } else if (isToDateTimeOver.compareTo(DateTime.now()) > 0 && isFromDateTimeOver.compareTo(DateTime.now()) < 0) {
+
+            _toDateController.text = DateFormat.yMd(Localizations.localeOf(context).languageCode).format(DateTime.now().add(dateDuration)); //.add(dateDuration)
+            _toTimeController.text = DateTime.now().add(timeDuration).hour.toString() + ":" + (DateTime.now().add(timeDuration).minute + 1).toString();
+
             ///if the to DateTime is not over, then set item settings
           } else if (isToDateTimeOver.compareTo(DateTime.now()) > 0) {
-            _toDateController.text =
-                DateFormat.yMd(Localizations.localeOf(context).languageCode)
-                    .format(widget.itemModel!.toDate
-                        .add(dateDuration)); //.add(dateDuration)
-            _toTimeController.text = widget.itemModel!.toTime
-                    .add(timeDuration)
-                    .hour
-                    .toString() +
-                ":" +
-                widget.itemModel!.toTime.add(timeDuration).minute.toString();
+
+            _toDateController.text = DateFormat.yMd(Localizations.localeOf(context).languageCode).format(widget.itemModel!.fromDate.add(dateDuration)); //.add(dateDuration)
+            _toTimeController.text = widget.itemModel!.fromTime.add(timeDuration).hour.toString() + ":" + widget.itemModel!.fromTime.add(timeDuration).minute.toString();
           } else if (isFromDateTimeOver.compareTo(isToDateTimeOver) == 0) {
+
             ///if the to DateTime is equal the from DateTime and is not over, then set item settings
             if (isToDateTimeOver.compareTo(DateTime.now()) > 0) {
-              _toDateController.text =
-                  DateFormat.yMd(Localizations.localeOf(context).languageCode)
-                      .format(widget.itemModel!.toDate);
-              _toTimeController.text =
-                  widget.itemModel!.toTime.hour.toString() +
-                      ":" +
-                      widget.itemModel!.toTime.minute.toString();
+
+              _toDateController.text = DateFormat.yMd(Localizations.localeOf(context).languageCode).format(widget.itemModel!.toDate);
+              _toTimeController.text = widget.itemModel!.toTime.hour.toString() + ":" + widget.itemModel!.toTime.minute.toString();
             }
 
-            ///if the DateTime is over
+            ///if the toDateTime is over
           } else if (isToDateTimeOver.compareTo(DateTime.now()) < 0) {
+
+            print(dateDuration.inHours);
+            print(DateTime.now().add(timeDuration).toString());
             _toDateController.text = DateFormat.yMd(Localizations.localeOf(context).languageCode).format(DateTime.now().add(dateDuration));
             _toTimeController.text = DateTime.now().add(timeDuration).hour.toString() + ":" + (DateTime.now().add(timeDuration).minute + 1).toString();
           }
-
-          selectedColor = Color(HexColor(widget.itemModel!.hex).value);
         }
         break;
 
