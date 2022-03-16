@@ -100,30 +100,18 @@ class _PoamPopUpState extends State<PoamPopUp> {
           Duration timeDuration =
               widget.itemModel!.toTime.difference(widget.itemModel!.fromTime);
 
+          ///TODO: wenn die Zeit von 1 stunde differenz hat und dann ein neuer Tag beginnt, dann soll auch das Datum geändert werden
+
           ///if the From DateTime is not over, then set the item settings. Else set DateTime.now()
           if (isFromDateTimeOver.compareTo(DateTime.now()) > 0) {
-            _fromDateController.text =
-                DateFormat.yMd(Localizations.localeOf(context).languageCode)
-                    .format(widget.itemModel!.fromDate);
-            _fromTimeController.text =
-                widget.itemModel!.fromTime.hour.toString() +
-                    ":" +
-                    widget.itemModel!.fromTime.minute.toString();
 
-            _toDateController.text =
-                DateFormat.yMd(Localizations.localeOf(context).languageCode)
-                    .format(widget.itemModel!.toDate
-                        .add(dateDuration)); //.add(dateDuration)
-            _toTimeController.text = widget.itemModel!.toTime
-                    .add(timeDuration)
-                    .hour
-                    .toString() +
-                ":" +
-                widget.itemModel!.toTime.add(timeDuration).minute.toString();
-          }
+            _fromDateController.text = DateFormat.yMd(Localizations.localeOf(context).languageCode).format(widget.itemModel!.fromDate);
+            _fromTimeController.text = widget.itemModel!.fromTime.hour.toString() + ":" + widget.itemModel!.fromTime.minute.toString();
+            _toDateController.text = DateFormat.yMd(Localizations.localeOf(context).languageCode).format(widget.itemModel!.toDate); //.add(dateDuration)
+            _toTimeController.text = widget.itemModel!.toTime.hour.toString() + ":" + widget.itemModel!.toTime.minute.toString();
 
-          ///if the to DateTime is not over, then set item settings
-          if (isToDateTimeOver.compareTo(DateTime.now()) > 0) {
+            ///if the to DateTime is not over, then set item settings
+          } else if (isToDateTimeOver.compareTo(DateTime.now()) > 0) {
             _toDateController.text =
                 DateFormat.yMd(Localizations.localeOf(context).languageCode)
                     .format(widget.itemModel!.toDate
@@ -148,13 +136,8 @@ class _PoamPopUpState extends State<PoamPopUp> {
 
             ///if the DateTime is over
           } else if (isToDateTimeOver.compareTo(DateTime.now()) < 0) {
-            _toDateController.text =
-                DateFormat.yMd(Localizations.localeOf(context).languageCode)
-                    .format(DateTime.now().add(dateDuration));
-            _toTimeController.text =
-                DateTime.now().add(timeDuration).hour.toString() +
-                    ":" +
-                    (DateTime.now().add(timeDuration).minute + 1).toString();
+            _toDateController.text = DateFormat.yMd(Localizations.localeOf(context).languageCode).format(DateTime.now().add(dateDuration));
+            _toTimeController.text = DateTime.now().add(timeDuration).hour.toString() + ":" + (DateTime.now().add(timeDuration).minute + 1).toString();
           }
 
           selectedColor = Color(HexColor(widget.itemModel!.hex).value);
