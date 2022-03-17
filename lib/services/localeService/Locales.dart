@@ -23,7 +23,7 @@ class Locales extends ChangeNotifier {
     notifyListeners();
   }
 
-  void addLocale(Locales locales) async {
+  void initializeLocale(Locales locales) async {
     var box = await Hive.openBox<Locales>(Database.LocaleName);
 
     if (box.values.length == 0) {

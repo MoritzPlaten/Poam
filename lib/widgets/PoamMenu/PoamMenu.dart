@@ -122,7 +122,7 @@ class _PoamMenuState extends State<PoamMenu> {
                     create: (_) => DateService(),
                   ),
                   ChangeNotifierProvider(
-                    create: (_) => ChartService(0, DateTime(0)),
+                    create: (_) => ChartService(0, 0, DateTime(0)),
                   ),
                 ],
                 child: const PoamChart(),

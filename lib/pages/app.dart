@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:poam/main.dart';
+import 'package:poam/services/chartServices/ChartService.dart';
+import 'package:poam/services/dateServices/DateService.dart';
 import 'package:poam/services/localeService/Locales.dart';
 import 'package:poam/widgets/PoamFloatingButton/PoamFloatingButton.dart';
 import 'package:poam/widgets/PoamList/PoamList.dart';
@@ -45,6 +47,9 @@ class _AppState extends State<App> {
         ChangeNotifierProvider(
             create: (_) => Locales(""),
         ),
+        ChangeNotifierProvider(
+          create: (_) => ChartService(0, 0, DateTime(0)),
+        ),
       ],
       child: Scaffold(
         body: selectedIndex == 0 ? Padding(
@@ -54,6 +59,7 @@ class _AppState extends State<App> {
             child: const PoamList(),
           ),
         ) : PoamOptions(),
+
         floatingActionButton: selectedIndex == 0 ? const PoamFloatingButton() : null,
         bottomNavigationBar: BottomNavigationBar(
           items: [

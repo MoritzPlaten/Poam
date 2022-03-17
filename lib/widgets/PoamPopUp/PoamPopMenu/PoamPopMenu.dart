@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:poam/services/chartServices/ChartService.dart';
+import 'package:poam/services/dateServices/DateService.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -25,10 +27,11 @@ class PoamPopMenu extends StatefulWidget {
   final TextEditingController? toDateController;
   final TextEditingController? toTimeController;
   final int? itemIndex;
+  final DateTime? oldDateTime;
 
   const PoamPopMenu({Key? key, this.formKey, this.isEditMode, this.categoryDropDownValue, this.numberController, this.titleController,
     this.personValue, this.selectedColor, this.frequencyDropDownValue, this.descriptionController, this.fromDateController,
-    this.fromTimeController, this.toDateController, this.toTimeController, this.itemIndex }) : super(key: key);
+    this.fromTimeController, this.toDateController, this.toTimeController, this.itemIndex, this.oldDateTime }) : super(key: key);
 
   @override
   _PoamPopMenuState createState() => _PoamPopMenuState();
@@ -215,15 +218,30 @@ class _PoamPopMenuState extends State<PoamPopMenu> {
 
                     ///Edit the ItemModel
                       case true:
+                        ///ItemModel
                         Provider.of<ItemModel>(context, listen: false).putItem(
                             widget.itemIndex!,
                             itemModel
                         );
+                        ///TODO: Hier muss dann das Datum vom Chart geändert werden
+                        ///ChartModel
+                        ChartService chartService = ChartService(0, 0, DateTime(0));
+                        List<ChartService> chartList = Provider.of<ChartService>(context, listen: false).chartItemList;
+
+                        Provider.of<ChartService>(context, listen: false).putNotChecked(itemModel.fromDate, chartService.getNumberOfNotChecked(chartList, itemModel.fromDate) + 1);
+                        Provider.of<ChartService>(context, listen: false).putNotChecked(widget.oldDateTime!, chartService.getNumberOfNotChecked(chartList, widget.oldDateTime!) != 0 ? chartService.getNumberOfNotChecked(chartList, widget.oldDateTime!) - 1 : 0);
                         break;
 
                     ///Add a ItemModel
                       case false:
+                        ///ItemModel
                         Provider.of<ItemModel>(context, listen: false).addItem(itemModel);
+
+                        ///ChartModel
+                        ChartService chartService = ChartService(0, 0, DateTime(0));
+                        List<ChartService> chartList = Provider.of<ChartService>(context, listen: false).chartItemList;
+
+                        Provider.of<ChartService>(context, listen: false).putNotChecked(itemModel.fromDate, chartService.getNumberOfNotChecked(chartList, itemModel.fromDate) + 1);
                         break;
 
                     ///Error

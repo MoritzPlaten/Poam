@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:poam/services/chartServices/ChartService.dart';
+import 'package:poam/services/chartServices/Objects/BartChartModel.dart';
 import 'package:poam/services/dateServices/DateService.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
-import 'package:poam/services/itemServices/Objects/Category.dart';
-import 'package:poam/services/itemServices/ItemModel.dart';
 import 'package:poam/services/itemServices/Objects/Database.dart';
 import 'package:provider/provider.dart';
 
@@ -28,9 +27,6 @@ class _PoamChartState extends State<PoamChart> {
 
     ///TODO: if Frequency is not single, but weekly or ..., then display the item weekly or ...
 
-    ///watcher
-    //context.watch<ChartService>().getCharts();
-
     ///initialize
     size = MediaQuery.of(context).size;
     dateService = DateService();
@@ -38,12 +34,26 @@ class _PoamChartState extends State<PoamChart> {
     datesBetween = dateService.getDaysInBetween(dateService.getMondayDate(), dateService.getSundayDate());
 
     return ValueListenableBuilder(
-        valueListenable: Hive.box<ItemModel>(Database.Name).listenable(),
-        builder: (context, Box box, widget) {
+        valueListenable: Hive.box<ChartService>(Database.ChartName).listenable(),
+        builder: (context, Box<ChartService> box, widget) {
+
           return SizedBox(
             width: size.width,
-            height: 250,
-            child: charts.BarChart(Provider.of<ChartService>(context, listen: false).getSeries(context, box.values.where((element) => element.categories == Categories.tasks).toList() as List<ItemModel>, dateService, datesBetween, primaryColor), animate: true,),
+            height: size.height * 0.35,
+            child: FutureBuilder(
+              future: Provider.of<ChartService>(context, listen: false).getSeries(context, box.values.toList(), primaryColor),
+              builder: (BuildContext context, AsyncSnapshot<List<charts.Series<dynamic, String>>> snapshot) {
+
+                if (snapshot.hasData) {
+
+                  return charts.BarChart(snapshot.data!, animate: true,);
+                }
+
+                return Center(
+                  child: Text("Wird geladen"),
+                );
+              }
+            ),
           );
         }
     );

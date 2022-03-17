@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/adapters.dart';
+import 'package:poam/services/chartServices/ChartService.dart';
 import 'package:poam/services/dateServices/Objects/Frequency.dart';
 import 'package:poam/services/itemServices/Objects/Category.dart';
 import 'package:poam/services/itemServices/ItemModel.dart';
@@ -9,6 +12,8 @@ import 'package:poam/widgets/PoamSnackbar/PoamSnackbar.dart';
 import 'package:provider/provider.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import '../../services/itemServices/Objects/Database.dart';
 
 class PoamItem extends StatefulWidget {
 
@@ -170,22 +175,36 @@ class _PoamItemState extends State<PoamItem> {
               ///ShaderMask for the look
               Flexible(
                 flex: 1,
-                child: Checkbox(
-                  checkColor: primaryColor,
-                  fillColor: MaterialStateProperty.all(primaryColor),
-                  value: widget.itemModel!.isChecked,
-                  onChanged: (bool? value) {
-                    ///TODO: if Frequency != Single then don't remove the Item from db, but remove only the surface and for this week
-                    if (widget.itemModel!.frequency == Frequency.single) {
-                      widget.itemModel!.isChecked = value!;
-                      Provider.of<ItemModel>(context, listen: false).removeItem(widget.itemModel!);
-                    } else {
-                      ///TODO: Remove surface and for this day but not
-                      poamSnackbar.showSnackBar(context,
-                          "Item soll nicht entfernt werden von der Datenbank, sondern nur die Oberfläche für den Tag!",
-                          primaryColor);
-                    }
-                  },
+                child: ValueListenableBuilder(
+                    valueListenable: Hive.box<ChartService>(Database.ChartName).listenable(),
+                    builder: (BuildContext context, Box<ChartService> box, widgets) {
+                  return Checkbox(
+                    checkColor: primaryColor,
+                    fillColor: MaterialStateProperty.all(primaryColor),
+                    value: widget.itemModel!.isChecked,
+                    onChanged: (bool? value) async {
+                      ///TODO: if Frequency != Single then don't remove the Item from db, but remove only the surface and for this week
+                      if (widget.itemModel!.frequency == Frequency.single) {
+
+                        ///ItemModel
+                        widget.itemModel!.isChecked = value!;
+                        Provider.of<ItemModel>(context, listen: false).removeItem(widget.itemModel!);
+
+                        ///ChartModel
+                        ChartService chartService = ChartService(0, 0, DateTime(0));
+
+                        Provider.of<ChartService>(context, listen: false).putChecked(widget.itemModel!.fromDate, chartService.getNumberOfChecked(box.values.toList(), widget.itemModel!.fromDate) + 1);
+                        Provider.of<ChartService>(context, listen: false).putNotChecked(
+                            widget.itemModel!.fromDate, box.values.length != 0 ? chartService.getNumberOfNotChecked(box.values.toList(), widget.itemModel!.fromDate) - 1 : 0);
+                      } else {
+                        ///TODO: Remove surface and for this day but not
+                        poamSnackbar.showSnackBar(context,
+                            "Item soll nicht entfernt werden von der Datenbank, sondern nur die Oberfläche für den Tag!",
+                            primaryColor);
+                      }
+                    },
+                  );
+                }
                 ),
               ),
 

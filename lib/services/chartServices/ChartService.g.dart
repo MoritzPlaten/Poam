@@ -17,18 +17,21 @@ class ChartServiceAdapter extends TypeAdapter<ChartService> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return ChartService(
+      fields[1] as int,
       fields[0] as int,
-      fields[1] as DateTime,
+      fields[2] as DateTime,
     );
   }
 
   @override
   void write(BinaryWriter writer, ChartService obj) {
     writer
-      ..writeByte(2)
+      ..writeByte(3)
       ..writeByte(0)
-      ..write(obj.isChecked)
+      ..write(obj.isNotChecked)
       ..writeByte(1)
+      ..write(obj.isChecked)
+      ..writeByte(2)
       ..write(obj.dateTime);
   }
 

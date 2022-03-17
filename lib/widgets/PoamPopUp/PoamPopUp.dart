@@ -14,6 +14,7 @@ import 'package:poam/widgets/PoamTextField/PoamTextField.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../../services/chartServices/ChartService.dart';
 import '../../services/itemServices/Objects/Database.dart';
 import '../PoamDatePicker/PoamDatePicker.dart';
 import 'PoamPopMenu/PoamPopMenu.dart';
@@ -96,12 +97,8 @@ class _PoamPopUpState extends State<PoamPopUp> {
               widget.itemModel!.toTime.minute);
 
           ///Durations
-          //Duration dateDuration = widget.itemModel!.toDate.difference(widget.itemModel!.fromDate);
-          //Duration timeDuration = widget.itemModel!.toTime.difference(widget.itemModel!.fromTime);
           Duration dateDuration = isToDateTimeOver.difference(isFromDateTimeOver);
           Duration timeDuration = widget.itemModel!.toTime.difference(widget.itemModel!.fromTime);
-
-          ///TODO: wenn die Zeit von 1 stunde differenz hat und dann ein neuer Tag beginnt, dann soll auch das Datum geändert werden
 
           ///if the From DateTime is not over, then set the item settings. Else set DateTime.now()
           if (isFromDateTimeOver.compareTo(DateTime.now()) > 0) {
@@ -341,27 +338,34 @@ class _PoamPopUpState extends State<PoamPopUp> {
                   ),
 
                   ///Displays the PoamPopMenu
-                  PoamPopMenu(
-                    formKey: _formKey,
-                    isEditMode: widget.isEditMode,
-                    categoryDropDownValue: categoryDropDownValue,
-                    numberController: _numberController,
-                    titleController: _titleController,
-                    personValue: personDropDownValue,
-                    selectedColor: selectedColor,
-                    frequencyDropDownValue: frequencyDropDownValue,
-                    descriptionController: _descriptionController,
-                    fromDateController: _fromDateController,
-                    fromTimeController: _fromTimeController,
-                    toDateController: _toDateController,
-                    toTimeController: _toTimeController,
+                  MultiProvider(
+                    providers: [
+                      ChangeNotifierProvider(
+                        create: (_) => ChartService(0, 0, DateTime(0)),
+                      ),
+                    ],
+                    child: PoamPopMenu(
+                      formKey: _formKey,
+                      isEditMode: widget.isEditMode,
+                      categoryDropDownValue: categoryDropDownValue,
+                      numberController: _numberController,
+                      titleController: _titleController,
+                      personValue: personDropDownValue,
+                      selectedColor: selectedColor,
+                      frequencyDropDownValue: frequencyDropDownValue,
+                      descriptionController: _descriptionController,
+                      fromDateController: _fromDateController,
+                      fromTimeController: _fromTimeController,
+                      toDateController: _toDateController,
+                      toTimeController: _toTimeController,
+                      oldDateTime: widget.isEditMode == true ? widget.itemModel!.fromDate : DateTime(0),
 
-                    ///if EditMode is true then get the index of this itemModel, else set the itemIndex to 0
-                    itemIndex: widget.isEditMode == true
-                        ? itemModel.indexOf(widget.itemModel!)
-                        : 0,
-                  ),
-                ],
+                      ///if EditMode is true then get the index of this itemModel, else set the itemIndex to 0
+                      itemIndex: widget.isEditMode == true
+                          ? itemModel.indexOf(widget.itemModel!)
+                          : 0,
+                    ),)
+                  ],
               ),
             ),
           );
