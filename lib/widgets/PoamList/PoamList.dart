@@ -34,13 +34,12 @@ class _PoamListState extends State<PoamList> {
     context.watch<ChartService>().getCharts();
 
     ///Clear the Last Week
+    ///TODO: not working
     Provider.of<ChartService>(context, listen: false).weekIsOver();
 
     ///initialize Classes
     Provider.of<Locales>(context, listen: false).initializeLocale(new Locales(languagesAsString(context, Languages.values.first)));
     Provider.of<ChartService>(context, listen: false).initialize();
-
-    //print(Provider.of<ChartService>(context, listen: false).chartItemList.where((element) => element.dateTime.year == 2022 && element.dateTime.month == 3 && element.dateTime.day == 17).first.isChecked);
 
     return ValueListenableBuilder(
       valueListenable: Hive.box<ItemModel>(Database.Name).listenable(),

@@ -6,6 +6,7 @@ import 'package:poam/widgets/PoamOptions/PoamSave/PoamSaveButton.dart';
 import 'package:provider/provider.dart';
 
 import '../../services/localeService/Locales.dart';
+import '../PoamColorPicker/PoamColorPicker.dart';
 import '../PoamDropDown/PoamDropDown.dart';
 
 class PoamOptions extends StatefulWidget {
@@ -20,6 +21,7 @@ class _PoamOptionsState extends State<PoamOptions> {
   late double padding;
   late Size size;
   String languageValue = "";
+  Color selectedColor = Colors.blueAccent;
 
   @override
   Widget build(BuildContext context) {
@@ -58,16 +60,14 @@ class _PoamOptionsState extends State<PoamOptions> {
                 ),
 
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Flexible(
-                        child: Text(
-                          AppLocalizations.of(context)!.language + ":",
-                          style: GoogleFonts.novaMono(),
-                        )),
-                    const SizedBox(
-                      width: 20,
-                    ),
+                      flex: 1,
+                      child: Text(
+                        AppLocalizations.of(context)!.language + ":",
+                        style: GoogleFonts.novaMono(),
+                      )),
                     Flexible(
                       flex: 3,
                       child: PoamDropDown(
@@ -84,7 +84,30 @@ class _PoamOptionsState extends State<PoamOptions> {
                   ],
                 ),
 
-                ///TODO: Add a Color Picker to change the primaryColor
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+
+                    Flexible(
+                      flex: 1,
+                      child: Text(
+                        AppLocalizations.of(context)!.menuColor + ":",
+                        style: GoogleFonts.novaMono(),
+                      ),
+                    ),
+
+                    Flexible(
+                      flex: 3,
+                      child: PoamColorPicker(
+                        pickedColor: selectedColor,
+                        onChangeColor: (Color? value) {
+                          selectedColor = value!;
+                        },
+                      ),
+                    ),
+
+                  ],
+                )
 
               ],
             ),

@@ -10,8 +10,9 @@ import '../../../services/localeService/Locales.dart';
 class PoamSaveButton extends StatefulWidget {
 
   final String? language;
+  final Color? color;
 
-  const PoamSaveButton({ Key? key, this.language }) : super(key: key);
+  const PoamSaveButton({ Key? key, this.language, this.color }) : super(key: key);
 
   @override
   State<PoamSaveButton> createState() => _PoamSaveButtonState();
@@ -35,6 +36,7 @@ class _PoamSaveButtonState extends State<PoamSaveButton> {
           onPressed: () {
 
             Provider.of<Locales>(context, listen: false).setLocale(new Locales(widget.language!));
+            ///TODO: Hier die Farbe speichern in db
             poamSnackbar.showSnackBar(context, AppLocalizations.of(context)!.messageSave, primaryColor);
           },
           child: Text(

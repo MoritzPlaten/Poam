@@ -223,7 +223,6 @@ class _PoamPopMenuState extends State<PoamPopMenu> {
                             widget.itemIndex!,
                             itemModel
                         );
-                        ///TODO: Hier muss dann das Datum vom Chart geändert werden
                         ///ChartModel
                         ChartService chartService = ChartService(0, 0, DateTime(0));
                         List<ChartService> chartList = Provider.of<ChartService>(context, listen: false).chartItemList;
