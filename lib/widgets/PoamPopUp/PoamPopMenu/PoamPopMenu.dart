@@ -227,8 +227,11 @@ class _PoamPopMenuState extends State<PoamPopMenu> {
                         ChartService chartService = ChartService(0, 0, DateTime(0));
                         List<ChartService> chartList = Provider.of<ChartService>(context, listen: false).chartItemList;
 
-                        Provider.of<ChartService>(context, listen: false).putNotChecked(itemModel.fromDate, chartService.getNumberOfNotChecked(chartList, itemModel.fromDate) + 1);
-                        Provider.of<ChartService>(context, listen: false).putNotChecked(widget.oldDateTime!, chartService.getNumberOfNotChecked(chartList, widget.oldDateTime!) != 0 ? chartService.getNumberOfNotChecked(chartList, widget.oldDateTime!) - 1 : 0);
+                        if (widget.oldDateTime!.compareTo(itemModel.fromDate) != 0) {
+                          Provider.of<ChartService>(context, listen: false).putNotChecked(itemModel.fromDate, chartService.getNumberOfNotChecked(chartList, itemModel.fromDate) + 1);
+                          Provider.of<ChartService>(context, listen: false)
+                              .putNotChecked(widget.oldDateTime!, chartService.getNumberOfNotChecked(chartList, widget.oldDateTime!) != 0 ? chartService.getNumberOfNotChecked(chartList, widget.oldDateTime!) - 1 : 0);
+                        }
                         break;
 
                     ///Add a ItemModel
