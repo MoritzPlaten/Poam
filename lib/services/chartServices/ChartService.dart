@@ -58,6 +58,10 @@ class ChartService extends ChangeNotifier {
     ChartService chartService = box.values.firstWhere((element) => element.dateTime.year == dateTime.year && element.dateTime.month == dateTime.month && element.dateTime.day == dateTime.day);
     int index = box.values.toList().indexOf(chartService);
 
+    if (numberOfNotChecked < 0) {
+      numberOfNotChecked = box.values.elementAt(index).isNotChecked;
+    }
+
     box.putAt(index, ChartService(chartService.isChecked, numberOfNotChecked, chartService.dateTime));
 
     notifyListeners();

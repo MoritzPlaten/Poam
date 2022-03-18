@@ -26,6 +26,7 @@ class _PoamChartState extends State<PoamChart> {
   Widget build(BuildContext context) {
 
     ///TODO: if Frequency is not single, but weekly or ..., then display the item weekly or ...
+    ///TODO: https://google.github.io/charts/flutter/example/behaviors/selection_callback_example.html => selectionModels => displays values of the BarModels
 
     ///initialize
     size = MediaQuery.of(context).size;
