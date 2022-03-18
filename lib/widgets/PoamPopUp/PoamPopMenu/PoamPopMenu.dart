@@ -227,7 +227,8 @@ class _PoamPopMenuState extends State<PoamPopMenu> {
                         ChartService chartService = ChartService(0, 0, DateTime(0));
                         List<ChartService> chartList = Provider.of<ChartService>(context, listen: false).chartItemList;
 
-                        if (widget.oldDateTime!.compareTo(itemModel.fromDate) != 0) {
+                        if (widget.oldDateTime!.compareTo(itemModel.fromDate) != 0 && itemModel.categories == Categories.tasks) {
+
                           Provider.of<ChartService>(context, listen: false).putNotChecked(itemModel.fromDate, chartService.getNumberOfNotChecked(chartList, itemModel.fromDate) + 1);
                           Provider.of<ChartService>(context, listen: false)
                               .putNotChecked(widget.oldDateTime!, chartService.getNumberOfNotChecked(chartList, widget.oldDateTime!) != 0 ? chartService.getNumberOfNotChecked(chartList, widget.oldDateTime!) - 1 : 0);
@@ -240,10 +241,13 @@ class _PoamPopMenuState extends State<PoamPopMenu> {
                         Provider.of<ItemModel>(context, listen: false).addItem(itemModel);
 
                         ///ChartModel
-                        ChartService chartService = ChartService(0, 0, DateTime(0));
-                        List<ChartService> chartList = Provider.of<ChartService>(context, listen: false).chartItemList;
+                        if (itemModel.categories == Categories.tasks) {
 
-                        Provider.of<ChartService>(context, listen: false).putNotChecked(itemModel.fromDate, chartService.getNumberOfNotChecked(chartList, itemModel.fromDate) + 1);
+                          ChartService chartService = ChartService(0, 0, DateTime(0));
+                          List<ChartService> chartList = Provider.of<ChartService>(context, listen: false).chartItemList;
+
+                          Provider.of<ChartService>(context, listen: false).putNotChecked(itemModel.fromDate, chartService.getNumberOfNotChecked(chartList, itemModel.fromDate) + 1);
+                        }
                         break;
 
                     ///Error

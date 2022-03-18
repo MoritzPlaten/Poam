@@ -191,11 +191,14 @@ class _PoamItemState extends State<PoamItem> {
                         Provider.of<ItemModel>(context, listen: false).removeItem(widget.itemModel!);
 
                         ///ChartModel
-                        ChartService chartService = ChartService(0, 0, DateTime(0));
+                        if (widget.itemModel!.categories == Categories.tasks) {
 
-                        Provider.of<ChartService>(context, listen: false).putChecked(widget.itemModel!.fromDate, chartService.getNumberOfChecked(box.values.toList(), widget.itemModel!.fromDate) + 1);
-                        Provider.of<ChartService>(context, listen: false).putNotChecked(
-                            widget.itemModel!.fromDate, box.values.length != 0 ? chartService.getNumberOfNotChecked(box.values.toList(), widget.itemModel!.fromDate) - 1 : 0);
+                          ChartService chartService = ChartService(0, 0, DateTime(0));
+
+                          Provider.of<ChartService>(context, listen: false).putChecked(widget.itemModel!.fromDate, chartService.getNumberOfChecked(box.values.toList(), widget.itemModel!.fromDate) + 1);
+                          Provider.of<ChartService>(context, listen: false).putNotChecked(
+                              widget.itemModel!.fromDate, box.values.length != 0 ? chartService.getNumberOfNotChecked(box.values.toList(), widget.itemModel!.fromDate) - 1 : 0);
+                        }
                       } else {
                         ///TODO: Remove surface and for this day but not
                         poamSnackbar.showSnackBar(context,
