@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:poam/services/dateServices/DateService.dart';
-import 'package:poam/services/itemServices/Objects/Category.dart';
+import 'package:poam/services/itemServices/Objects/Category/Category.dart';
 import 'package:poam/services/itemServices/ItemModel.dart';
 import 'package:poam/services/itemServices/Objects/Database.dart';
 import 'package:poam/widgets/PoamDateItem/PoamDateItem.dart';

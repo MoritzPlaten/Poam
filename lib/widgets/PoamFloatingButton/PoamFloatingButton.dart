@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:poam/services/chartServices/ChartService.dart';
 import 'package:poam/services/dateServices/Objects/Frequency.dart';
-import 'package:poam/services/itemServices/Objects/Category.dart';
+import 'package:poam/services/itemServices/Objects/Category/Category.dart';
 import 'package:poam/services/itemServices/ItemModel.dart';
-import 'package:poam/services/itemServices/Objects/Person.dart';
+import 'package:poam/services/itemServices/Objects/Person/Person.dart';
 import 'package:poam/widgets/PoamPopUp/PoamPopUp.dart';
 import 'package:provider/provider.dart';
 

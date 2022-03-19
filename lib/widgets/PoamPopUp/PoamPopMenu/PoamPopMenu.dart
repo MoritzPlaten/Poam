@@ -9,9 +9,9 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../services/dateServices/Objects/Frequency.dart';
 import '../../../services/itemServices/ItemModel.dart';
-import '../../../services/itemServices/Objects/Category.dart';
+import '../../../services/itemServices/Objects/Category/Category.dart';
 import '../../../services/itemServices/Objects/Database.dart';
-import '../../../services/itemServices/Objects/Person.dart';
+import '../../../services/itemServices/Objects/Person/Person.dart';
 import '../../PoamSnackbar/PoamSnackbar.dart';
 
 class PoamPopMenu extends StatefulWidget {

@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:hive/hive.dart';
 
-import 'Database.dart';
+import '../Database.dart';
 
 part 'Person.g.dart';
 

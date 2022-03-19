@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:poam/services/itemServices/Objects/Category.dart';
-import 'package:poam/services/itemServices/Objects/Person.dart';
+import 'package:poam/services/itemServices/Objects/Category/Category.dart';
+import 'package:poam/services/itemServices/Objects/Person/Person.dart';
 import 'package:hive/hive.dart';
 
 import '../dateServices/Objects/Frequency.dart';
