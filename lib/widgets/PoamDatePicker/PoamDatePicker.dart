@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
@@ -39,11 +40,11 @@ class _PoamDatePickerState extends State<PoamDatePicker> {
     if (widget.timeController!.text == "") {
       widget.timeController!.text = selectedTime.hour.toString() + ":" + selectedTime.minute.toString();
     }
-    if (_picked == false) {
-      //widget.timeController!.text = DateTime.now().hour.toString() + ":" + DateTime.now().minute.toString();
+    if (_picked == false && selectedTime.compareTo(DateTime.now()) < 0) {
+      SchedulerBinding.instance?.addPostFrameCallback((_) {
+        widget.timeController!.text = DateTime.now().hour.toString() + ":" + DateTime.now().minute.toString();
+      });
     }
-
-    //print(widget.timeController!.text = "");
 
     ///Opens DatePicker
     Future<Null> _selectDate(BuildContext context) async {
@@ -78,20 +79,27 @@ class _PoamDatePickerState extends State<PoamDatePicker> {
 
     ///if the fromTime or the fromDate is change, then it will be set the toDate or the toTime equal the fromTime or the fromDate
     ///TODO: Error message
-    /*if (widget.fromDate != null && widget.fromTime != null) {
+    if (widget.fromDate != null && widget.fromTime != null) {
 
       DateTime toDate = selectedDate;
       DateTime toTime = selectedTime;
 
       if (toTime.compareTo(widget.fromTime!) < 0) {
         selectedTime = widget.fromTime!;
-        widget.timeController!.text = DateFormat.Hm(Localizations.localeOf(context).languageCode).format(widget.fromTime!);
+
+        SchedulerBinding.instance?.addPostFrameCallback((_) {
+          widget.timeController!.text = DateFormat.Hm(Localizations.localeOf(context).languageCode).format(widget.fromTime!);
+        });
       }
       if (toDate.compareTo(widget.fromDate!) < 0) {
         selectedDate = widget.fromDate!;
-        widget.dateController!.text = DateFormat.yMd(Localizations.localeOf(context).languageCode).format(widget.fromDate!);
+
+        SchedulerBinding.instance?.addPostFrameCallback((_) {
+          widget.dateController!.text = DateFormat.yMd(Localizations.localeOf(context).languageCode).format(widget.fromDate!);
+        });
+
       }
-    }*/
+    }
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -169,7 +177,7 @@ class _PoamDatePickerState extends State<PoamDatePicker> {
                         disabledBorder: const UnderlineInputBorder(borderSide: BorderSide.none),
                         contentPadding: const EdgeInsets.only(top: 0.0)),
                   ),
-                )
+                ),
             ),
           ),
         ),
