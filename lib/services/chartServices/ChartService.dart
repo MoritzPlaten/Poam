@@ -109,10 +109,14 @@ class ChartService extends ChangeNotifier {
     DateService dateService = DateService();
 
     if (box.values.length != 0) {
+      DateTime Sunday = dateService.getSundayDate();
+      DateTime lastDateTime = box.values.last.dateTime;
 
-      if (box.values.last.dateTime.compareTo(dateService.getSundayDate()) > 0) {
+      DateTime _Sunday = DateTime(Sunday.year, Sunday.month, Sunday.day);
+      DateTime _lastDateTime = DateTime(lastDateTime.year, lastDateTime.month, lastDateTime.day);
+
+      if (_lastDateTime.compareTo(_Sunday) < 0) {
         box.clear();
-        notifyListeners();
       }
     }
   }

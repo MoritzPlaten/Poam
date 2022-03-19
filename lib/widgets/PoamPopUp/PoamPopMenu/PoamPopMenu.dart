@@ -255,8 +255,6 @@ class _PoamPopMenuState extends State<PoamPopMenu> {
                                 ChartService chartService = ChartService(0, 0, DateTime(0));
                                 List<ChartService> chartList = box.values.toList();
 
-                                ///TODO: Error: add only 1, not more => work with ValueListenBuilder :D
-                                print("getNumberOfNotChecked: " + chartService.getNumberOfNotChecked(chartList, itemModel.fromDate).toString());
                                 Provider.of<ChartService>(context, listen: false).putNotChecked(itemModel.fromDate, chartService.getNumberOfNotChecked(chartList, itemModel.fromDate) + 1);
                               }
                               break;

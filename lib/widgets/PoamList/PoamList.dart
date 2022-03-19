@@ -37,7 +37,6 @@ class _PoamListState extends State<PoamList> {
     context.watch<ChartService>().getCharts();
 
     ///Clear the Last Week
-    ///TODO: not working
     Provider.of<ChartService>(context, listen: false).weekIsOver();
 
     ///initialize Classes

@@ -24,6 +24,7 @@ class _PoamDatePickerState extends State<PoamDatePicker> {
   DateTime selectedDate = DateTime.now();
   DateTime selectedTime = DateTime(0,0,0, DateTime.now().hour, DateTime.now().minute + 1);
   late String dateTime;
+  bool _picked = false;
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +39,11 @@ class _PoamDatePickerState extends State<PoamDatePicker> {
     if (widget.timeController!.text == "") {
       widget.timeController!.text = selectedTime.hour.toString() + ":" + selectedTime.minute.toString();
     }
+    if (_picked == false) {
+      //widget.timeController!.text = DateTime.now().hour.toString() + ":" + DateTime.now().minute.toString();
+    }
+
+    //print(widget.timeController!.text = "");
 
     ///Opens DatePicker
     Future<Null> _selectDate(BuildContext context) async {
@@ -60,6 +66,7 @@ class _PoamDatePickerState extends State<PoamDatePicker> {
       );
       if (picked != null)
         setState(() {
+          _picked = true;
           TimeOfDay timeOfDay = picked;
           selectedTime = DateTime(0,0,0, timeOfDay.hour, timeOfDay.minute);
           _hour = selectedTime.hour.toString();
