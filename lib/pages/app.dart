@@ -3,6 +3,7 @@ import 'package:poam/main.dart';
 import 'package:poam/services/chartServices/ChartService.dart';
 import 'package:poam/services/dateServices/DateService.dart';
 import 'package:poam/services/localeService/Locales.dart';
+import 'package:poam/services/settingService/Settings.dart';
 import 'package:poam/widgets/PoamFloatingButton/PoamFloatingButton.dart';
 import 'package:poam/widgets/PoamList/PoamList.dart';
 import 'package:poam/widgets/PoamOptions/PoamOptions.dart';
@@ -46,6 +47,9 @@ class _AppState extends State<App> {
         ),
         ChangeNotifierProvider(
             create: (_) => Locales(""),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => Settings(0),
         ),
         ChangeNotifierProvider(
           create: (_) => ChartService(0, 0, DateTime(0)),

@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 enum Languages {
   German,
@@ -10,10 +9,12 @@ String languagesAsString(BuildContext context, Languages languages) {
   String s = "";
   switch (languages) {
     case Languages.German:
-      s = AppLocalizations.of(context)!.german;
+      //s = AppLocalizations.of(context)!.german;
+      s = "German";
       break;
     case Languages.English:
-      s = AppLocalizations.of(context)!.english;
+      //s = AppLocalizations.of(context)!.english;
+      s = "English";
       break;
   }
   return s;
@@ -33,10 +34,9 @@ Locale languageToLocale(BuildContext context, String language) {
 
   String lang = "";
 
-  ///TODO: must be change
-  if (language == /*AppLocalizations.of(context)!.german*/ "Deutsch" || language == "German") {
+  if (language == "Deutsch" || language == "German") {
     lang = "de";
-  } else if (language == /*AppLocalizations.of(context)!.english*/ "English" || language == "Englisch") {
+  } else if (language == "English" || language == "Englisch") {
     lang = "en";
   }
 

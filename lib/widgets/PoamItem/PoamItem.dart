@@ -115,7 +115,6 @@ class _PoamItemState extends State<PoamItem> {
                           ),
                           const SizedBox(height: 1,),
 
-                          ///TODO: width kann so lang sein, muss angepasst werden
                           ///if fromTime != toTime, then display "fromTime - toTime Uhr"
                           if (widget.itemModel!.categories == Categories.tasks && widget.itemModel!.fromTime != widget.itemModel!.toTime)
                             Text(
@@ -153,7 +152,6 @@ class _PoamItemState extends State<PoamItem> {
                           ///Person should only displayed when the Category Tasks is active
                           if (widget.itemModel!.categories == Categories.tasks)
                             SizedBox(
-                              ///TODO: size anpassen von Person
                               width: size.width * 0.4,
                               child: Text(
                                 "Person: " + widget.itemModel!.person.name.toString(),
@@ -183,6 +181,9 @@ class _PoamItemState extends State<PoamItem> {
                     fillColor: MaterialStateProperty.all(primaryColor),
                     value: widget.itemModel!.isChecked,
                     onChanged: (bool? value) async {
+
+                      ChartService chartService = ChartService(0, 0, DateTime(0));
+
                       ///TODO: if Frequency != Single then don't remove the Item from db, but remove only the surface and for this week
                       if (widget.itemModel!.frequency == Frequency.single) {
 
@@ -193,14 +194,15 @@ class _PoamItemState extends State<PoamItem> {
                         ///ChartModel
                         if (widget.itemModel!.categories == Categories.tasks) {
 
-                          ChartService chartService = ChartService(0, 0, DateTime(0));
-
                           Provider.of<ChartService>(context, listen: false).putChecked(widget.itemModel!.fromDate, chartService.getNumberOfChecked(box.values.toList(), widget.itemModel!.fromDate) + 1);
                           Provider.of<ChartService>(context, listen: false).putNotChecked(
                               widget.itemModel!.fromDate, box.values.length != 0 ? chartService.getNumberOfNotChecked(box.values.toList(), widget.itemModel!.fromDate) - 1 : 0);
                         }
                       } else {
                         ///TODO: Remove surface and for this day but not
+
+                        Provider.of<ChartService>(context, listen: false).putChecked(widget.itemModel!.fromDate, chartService.getNumberOfChecked(box.values.toList(), widget.itemModel!.fromDate) + 1);
+
                         poamSnackbar.showSnackBar(context,
                             "Item soll nicht entfernt werden von der Datenbank, sondern nur die Oberfläche für den Tag!",
                             primaryColor);

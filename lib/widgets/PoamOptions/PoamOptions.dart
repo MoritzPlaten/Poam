@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:poam/services/localeService/Objects/Languages.dart';
+import 'package:poam/services/settingService/Settings.dart';
 import 'package:poam/widgets/PoamOptions/PoamSave/PoamSaveButton.dart';
 import 'package:provider/provider.dart';
 
@@ -20,20 +21,26 @@ class _PoamOptionsState extends State<PoamOptions> {
 
   late double padding;
   late Size size;
-  String languageValue = "";
-  Color selectedColor = Colors.blueAccent;
+  String? languageValue;
+  Color? selectedColor;
 
   @override
   Widget build(BuildContext context) {
+
     ///watcher
     context.watch<Locales>().getLocale();
+    context.watch<Settings>().getSettings();
 
     ///initialize
     size = MediaQuery.of(context).size;
     padding = MediaQuery.of(context).padding.top;
 
-    if (languageValue == "" && Provider.of<Locales>(context, listen: false).locales.length != 0) {
+    ///if values == null then set these
+    if (languageValue == null && Provider.of<Locales>(context, listen: false).locales.length != 0) {
       languageValue = Provider.of<Locales>(context, listen: false).locales.first.locale;
+    }
+    if (selectedColor == null && Provider.of<Settings>(context, listen: false).settings.length != 0) {
+      selectedColor = Color(Provider.of<Settings>(context, listen: false).settings.first.ColorHex);
     }
 
     return Scaffold(
@@ -59,6 +66,7 @@ class _PoamOptionsState extends State<PoamOptions> {
                   height: 30,
                 ),
 
+                ///displays the DropDownMenu for the language
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -71,7 +79,7 @@ class _PoamOptionsState extends State<PoamOptions> {
                     Flexible(
                       flex: 3,
                       child: PoamDropDown(
-                        dropdownValue: languageValue != "" && languagesAsListString(context).contains(languageValue) ? languageValue : languagesAsString(context, Languages.values.first),
+                        dropdownValue: languageValue != "" && languagesAsListString(context).contains(languageValue) ? languageValue : Languages.values.first.toString(),
                         onChanged: (String? value) {
                           languageValue = value!;
                         },
@@ -84,6 +92,7 @@ class _PoamOptionsState extends State<PoamOptions> {
                   ],
                 ),
 
+                ///displays the Color Picker
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -99,7 +108,7 @@ class _PoamOptionsState extends State<PoamOptions> {
                     Flexible(
                       flex: 3,
                       child: PoamColorPicker(
-                        pickedColor: selectedColor,
+                        pickedColor: selectedColor != null ? selectedColor : Colors.blueAccent,
                         onChangeColor: (Color? value) {
                           selectedColor = value!;
                         },
@@ -113,8 +122,10 @@ class _PoamOptionsState extends State<PoamOptions> {
             ),
           ),
 
+          ///displays the PoamSaveButton
           PoamSaveButton(
             language: languageValue,
+            color: selectedColor,
           ),
 
         ],

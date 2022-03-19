@@ -5,5 +5,6 @@ class Database {
   static const PersonName = "persons_database";
   static const LocaleName = "locale_database";
   static const ChartName = "charts_database";
+  static const SettingsName = "settings_database";
 
 }

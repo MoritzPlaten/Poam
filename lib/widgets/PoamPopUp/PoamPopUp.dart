@@ -16,6 +16,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../services/chartServices/ChartService.dart';
 import '../../services/itemServices/Objects/Database.dart';
+import '../../services/settingService/Settings.dart';
 import '../PoamDatePicker/PoamDatePicker.dart';
 import 'PoamPopMenu/PoamPopMenu.dart';
 
@@ -42,7 +43,8 @@ class _PoamPopUpState extends State<PoamPopUp> {
   String personDropDownValue = "";
   String dateExample = "";
 
-  Color selectedColor = Colors.blueAccent;
+  //Color selectedColor = Colors.blueAccent;
+  Color? selectedColor;
 
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   TextEditingController _fromDateController = TextEditingController();
@@ -69,6 +71,7 @@ class _PoamPopUpState extends State<PoamPopUp> {
 
       ///Set Values of the itemModel in the Textformfields
       case true:
+        ///TODO: Daten sollen immer aktualisiert werden. Zum Beispiel: PoamPersonPicker remove Person => abhacken => Person wird immer noch angezeigt, soweit man nicht eine neue Person angetippt hat
         if (personDropDownValue == "" &&
             categoryDropDownValue == "" &&
             frequencyDropDownValue == "") {
@@ -141,12 +144,17 @@ class _PoamPopUpState extends State<PoamPopUp> {
 
       ///EditMode is false
       case false:
+
         if (categoryDropDownValue == "")
           categoryDropDownValue =
               displayTextCategory(context, Categories.values.first);
         if (frequencyDropDownValue == "")
           frequencyDropDownValue =
               displayFrequency(context, Frequency.values.first);
+        ///Set selectedColor from db
+        if (selectedColor == null) {
+          selectedColor = Color(Provider.of<Settings>(context, listen: false).settings.first.ColorHex);
+        }
         break;
 
       ///Error
@@ -225,6 +233,7 @@ class _PoamPopUpState extends State<PoamPopUp> {
                         ),
 
                         ///Displays the Number field
+                        ///TODO: Mengen auswählbar Liter, Anzahl
                         if (categoryDropDownValue ==
                             displayTextCategory(context, Categories.shopping))
                           PoamTextField(

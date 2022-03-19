@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:intl/intl.dart';
 import 'package:poam/services/dateServices/DateService.dart';
 import 'package:poam/services/dateServices/Objects/Frequency.dart';
@@ -8,6 +10,9 @@ import 'package:poam/widgets/PoamItem/PoamItem.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import '../../services/chartServices/ChartService.dart';
+import '../../services/itemServices/Objects/Database.dart';
 
 class PoamDateItem extends StatefulWidget {
   final Iterable<ItemModel>? allItems;
@@ -74,227 +79,273 @@ class _PoamDateItemState extends State<PoamDateItem> {
                     ),
                 ],
                 expansionCallback: (int item, bool status) {
-                  print(item);
                   widget.allItems!.elementAt(item).expanded = !status;
                 },
               )
             :
 
             ///Display the Items with the Date
-            Column(
-                children: [
-                  const SizedBox(
-                    height: 2,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Flexible(
-                        child: Divider(
-                          thickness: 1,
-                          color: Colors.grey,
-                          indent: 10,
-                          endIndent: 10,
-                        ),
-                      ),
-                      Text(
-                          DateFormat.EEEE(Localizations.localeOf(context)
-                                      .languageCode)
-                                  .format(dates[widget.dateIndex!]) +
-                              " - " +
-                              DateFormat.yMd(Localizations.localeOf(context)
-                                      .languageCode)
-                                  .format(dates[widget.dateIndex!]),
-                          style: GoogleFonts.novaMono(
-                            fontSize: 11,
-                            color: primaryColor,
-                            fontWeight: FontWeight.bold,
-                          )),
-                      const Flexible(
-                        child: Divider(
-                          thickness: 1,
-                          color: Colors.grey,
-                          indent: 10,
-                          endIndent: 10,
-                        ),
-                      ),
-                    ],
-                  ),
 
-                  ///Adds all Items with the correct date to the element
-                  ExpansionPanelList(
-                    elevation: 0,
+            ValueListenableBuilder(
+                valueListenable:
+                    Hive.box<ChartService>(Database.ChartName).listenable(),
+                builder:
+                    (BuildContext context, Box<ChartService> box, widgets) {
+                  return Column(
                     children: [
-                      for (int i = 0;
-                          i <
-                              widget.allItems!
-                                  .where((element) =>
-                                      element.fromDate ==
-                                      dates[widget.dateIndex!])
-                                  .length;
-                          i++)
-                        if (DateTime(
-                                widget.allItems!
-                                    .where((element) =>
-                                        element.fromDate ==
-                                        dates[widget.dateIndex!])
-                                    .elementAt(i)
-                                    .fromDate
-                                    .year,
-                                widget.allItems!
-                                    .where((element) =>
-                                        element.fromDate ==
-                                        dates[widget.dateIndex!])
-                                    .elementAt(i)
-                                    .fromDate
-                                    .month,
-                                widget.allItems!
-                                    .where((element) =>
-                                        element.fromDate ==
-                                        dates[widget.dateIndex!])
-                                    .elementAt(i)
-                                    .fromDate
-                                    .day) ==
-                            dates[widget.dateIndex!])
-                          ExpansionPanel(
-                            headerBuilder:
-                                (BuildContext context, bool isExpanded) {
-                              ///Displays the PoamItem
-                              return PoamItem(
-                                itemIndex: i,
-                                itemModel: widget.allItems!
-                                    .where((element) =>
-                                        element.fromDate ==
-                                        dates[widget.dateIndex!])
-                                    .elementAt(i),
-                              );
-                            },
-                            body: Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 10, bottom: 2, right: 20),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Flexible(
-                                    flex: 3,
-                                    child: Column(
-                                      children: [
-                                        ///Displays the frequency
-                                        if (widget.allItems!
-                                                .where((element) =>
-                                                    element.fromDate ==
-                                                    dates[widget.dateIndex!])
-                                                .elementAt(i)
-                                                .frequency !=
-                                            "")
-                                          CostumListTile(
-                                            color: primaryColor,
-                                            size: size,
-                                            dates: dates,
-                                            Index: i,
-                                            title: AppLocalizations.of(context)!
-                                                .frequency,
-                                            body: displayFrequency(
-                                                context,
-                                                widget.allItems!
+                      const SizedBox(
+                        height: 2,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Flexible(
+                            child: Divider(
+                              thickness: 1,
+                              color: Colors.grey,
+                              indent: 10,
+                              endIndent: 10,
+                            ),
+                          ),
+                          Text(
+                              DateFormat.EEEE(Localizations.localeOf(context)
+                                          .languageCode)
+                                      .format(dates[widget.dateIndex!]) +
+                                  " - " +
+                                  DateFormat.yMd(Localizations.localeOf(context)
+                                          .languageCode)
+                                      .format(dates[widget.dateIndex!]),
+                              style: GoogleFonts.novaMono(
+                                fontSize: 11,
+                                color: primaryColor,
+                                fontWeight: FontWeight.bold,
+                              )),
+                          const Flexible(
+                            child: Divider(
+                              thickness: 1,
+                              color: Colors.grey,
+                              indent: 10,
+                              endIndent: 10,
+                            ),
+                          ),
+                        ],
+                      ),
+
+                      ///Adds all Items with the correct date to the element
+                      ExpansionPanelList(
+                        elevation: 0,
+                        children: [
+                          for (int i = 0;
+                              i <
+                                  widget.allItems!
+                                      .where((element) =>
+                                          element.fromDate ==
+                                          dates[widget.dateIndex!])
+                                      .length;
+                              i++)
+                            if (DateTime(
+                                    widget.allItems!
+                                        .where((element) =>
+                                            element.fromDate ==
+                                            dates[widget.dateIndex!])
+                                        .elementAt(i)
+                                        .fromDate
+                                        .year,
+                                    widget.allItems!
+                                        .where((element) =>
+                                            element.fromDate ==
+                                            dates[widget.dateIndex!])
+                                        .elementAt(i)
+                                        .fromDate
+                                        .month,
+                                    widget.allItems!
+                                        .where((element) =>
+                                            element.fromDate ==
+                                            dates[widget.dateIndex!])
+                                        .elementAt(i)
+                                        .fromDate
+                                        .day) ==
+                                dates[widget.dateIndex!])
+                              ExpansionPanel(
+                                headerBuilder:
+                                    (BuildContext context, bool isExpanded) {
+                                  ///Displays the PoamItem
+                                  return PoamItem(
+                                    itemIndex: i,
+                                    itemModel: widget.allItems!
+                                        .where((element) =>
+                                            element.fromDate ==
+                                            dates[widget.dateIndex!])
+                                        .elementAt(i),
+                                  );
+                                },
+                                body: Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 10, bottom: 2, right: 20),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Flexible(
+                                        flex: 3,
+                                        child: Column(
+                                          children: [
+                                            ///Displays the frequency
+                                            if (widget.allItems!
                                                     .where((element) =>
                                                         element.fromDate ==
                                                         dates[
                                                             widget.dateIndex!])
                                                     .elementAt(i)
-                                                    .frequency),
-                                          ),
+                                                    .frequency !=
+                                                "")
+                                              CostumListTile(
+                                                color: primaryColor,
+                                                size: size,
+                                                dates: dates,
+                                                Index: i,
+                                                title: AppLocalizations.of(
+                                                        context)!
+                                                    .frequency,
+                                                body: displayFrequency(
+                                                    context,
+                                                    widget.allItems!
+                                                        .where((element) =>
+                                                            element.fromDate ==
+                                                            dates[widget
+                                                                .dateIndex!])
+                                                        .elementAt(i)
+                                                        .frequency),
+                                              ),
 
-                                        const SizedBox(
-                                          height: 6,
-                                        ),
+                                            const SizedBox(
+                                              height: 6,
+                                            ),
 
-                                        ///Displays the Description
-                                        if (widget.allItems!
-                                                .where((element) =>
-                                                    element.fromDate ==
-                                                    dates[widget.dateIndex!])
-                                                .elementAt(i)
-                                                .description !=
-                                            "")
-                                          CostumListTile(
-                                            color: primaryColor,
-                                            size: size,
-                                            dates: dates,
-                                            Index: i,
-                                            title: AppLocalizations.of(context)!
-                                                .descriptionField,
-                                            body: widget.allItems!
-                                                .where((element) =>
-                                                    element.fromDate ==
-                                                    dates[widget.dateIndex!])
-                                                .elementAt(i)
-                                                .description
-                                                .trim(),
-                                          ),
-                                      ],
-                                    ),
-                                  ),
-                                  if (widget.allItems!
-                                          .where((element) =>
-                                              element.fromDate ==
-                                              dates[widget.dateIndex!])
-                                          .elementAt(i)
-                                          .frequency !=
-                                      Frequency.single)
-                                    ///Delete Button: displays if the frequency != single
-                                    Flexible(
-                                      flex: 1,
-                                      child: IconButton(
-                                        onPressed: () {
-                                          widget.allItems!
-                                                  .where((element) =>
-                                                      element.fromDate ==
-                                                      dates[widget.dateIndex!])
-                                                  .elementAt(i)
-                                                  .isChecked =
-                                              !widget.allItems!
-                                                  .where((element) =>
-                                                      element.fromDate ==
-                                                      dates[widget.dateIndex!])
-                                                  .elementAt(i)
-                                                  .isChecked;
-                                          Provider.of<ItemModel>(context,
-                                                  listen: false)
-                                              .removeItem(widget.allItems!
-                                                  .where((element) =>
-                                                      element.fromDate ==
-                                                      dates[widget.dateIndex!])
-                                                  .elementAt(i));
-                                        },
-                                        icon: const Icon(
-                                          Icons.delete,
-                                          color: Colors.red,
+                                            ///Displays the Description
+                                            if (widget.allItems!
+                                                    .where((element) =>
+                                                        element.fromDate ==
+                                                        dates[
+                                                            widget.dateIndex!])
+                                                    .elementAt(i)
+                                                    .description !=
+                                                "")
+                                              CostumListTile(
+                                                color: primaryColor,
+                                                size: size,
+                                                dates: dates,
+                                                Index: i,
+                                                title: AppLocalizations.of(
+                                                        context)!
+                                                    .descriptionField,
+                                                body: widget.allItems!
+                                                    .where((element) =>
+                                                        element.fromDate ==
+                                                        dates[
+                                                            widget.dateIndex!])
+                                                    .elementAt(i)
+                                                    .description
+                                                    .trim(),
+                                              ),
+                                          ],
                                         ),
                                       ),
-                                    ),
-                                ],
+                                      if (widget.allItems!
+                                              .where((element) =>
+                                                  element.fromDate ==
+                                                  dates[widget.dateIndex!])
+                                              .elementAt(i)
+                                              .frequency !=
+                                          Frequency.single)
+
+                                        ///Delete Button: displays if the frequency != single
+                                        Flexible(
+                                          flex: 1,
+                                          child: IconButton(
+                                            onPressed: () {
+
+                                              ///ItemModel
+                                              widget.allItems!
+                                                      .where(
+                                                          (element) =>
+                                                              element
+                                                                  .fromDate ==
+                                                              dates[widget
+                                                                  .dateIndex!])
+                                                      .elementAt(i)
+                                                      .isChecked =
+                                                  !widget.allItems!
+                                                      .where((element) =>
+                                                          element.fromDate ==
+                                                          dates[widget
+                                                              .dateIndex!])
+                                                      .elementAt(i)
+                                                      .isChecked;
+                                              Provider.of<ItemModel>(context,
+                                                      listen: false)
+                                                  .removeItem(widget.allItems!
+                                                      .where((element) =>
+                                                          element.fromDate ==
+                                                          dates[widget
+                                                              .dateIndex!])
+                                                      .elementAt(i));
+
+                                              ///ChartModel
+                                              if (widget.allItems!
+                                                      .where((element) =>
+                                                          element.fromDate ==
+                                                          dates[widget
+                                                              .dateIndex!])
+                                                      .elementAt(i)
+                                                      .categories ==
+                                                  Categories.tasks) {
+                                                ChartService chartService =
+                                                    ChartService(
+                                                        0, 0, DateTime(0));
+
+                                                Provider.of<ChartService>(context, listen: false).putNotChecked(
+                                                    widget.allItems!
+                                                        .where((element) =>
+                                                            element.fromDate ==
+                                                            dates[widget
+                                                                .dateIndex!])
+                                                        .elementAt(i)
+                                                        .fromDate,
+                                                    box.values.length != 0
+                                                        ? chartService.getNumberOfNotChecked(
+                                                                box.values.toList(),
+                                                        widget.allItems!.where((element) => element.fromDate == dates[widget.dateIndex!]).elementAt(i).fromDate) - 1 : 0);
+                                              }
+                                            },
+                                            icon: const Icon(
+                                              Icons.delete,
+                                              color: Colors.red,
+                                            ),
+                                          ),
+                                        ),
+                                    ],
+                                  ),
+                                ),
+                                isExpanded: widget.allItems!
+                                    .where((element) =>
+                                        element.fromDate ==
+                                        dates[widget.dateIndex!])
+                                    .elementAt(i)
+                                    .expanded,
                               ),
-                            ),
-                            isExpanded: widget.allItems!
-                                .where((element) =>
-                                    element.fromDate ==
-                                    dates[widget.dateIndex!])
-                                .elementAt(i)
-                                .expanded,
-                          ),
+                        ],
+                        expansionCallback: (int item, bool status) {
+                          widget.allItems!
+                              .where((element) =>
+                                  element.fromDate == dates[widget.dateIndex!])
+                              .elementAt(item)
+                              .expanded = !status;
+                        },
+                      ),
                     ],
-                    expansionCallback: (int item, bool status) {
-                      widget.allItems!
-                          .where((element) =>
-                              element.fromDate == dates[widget.dateIndex!])
-                          .elementAt(item)
-                          .expanded = !status;
-                    },
-                  ),
-                ],
-              ),
+                  );
+                }),
       ],
     );
   }
@@ -324,12 +375,10 @@ class CostumListTile extends StatefulWidget {
 }
 
 class _CostumListTileState extends State<CostumListTile> {
-
   late Size size;
 
   @override
   Widget build(BuildContext context) {
-
     ///initialize
     size = MediaQuery.of(context).size;
 
@@ -339,12 +388,9 @@ class _CostumListTileState extends State<CostumListTile> {
           widget.title! + ": ",
           style: GoogleFonts.kreon(color: widget.color, fontSize: 13),
         ),
-        SizedBox(
-          width: size.width - (size.width / 1.5),
-          child: Text(
-            widget.body!,
-            style: GoogleFonts.kreon(fontSize: 13),
-          ),
+        Text(
+          widget.body!,
+          style: GoogleFonts.kreon(fontSize: 13),
         ),
       ],
     );

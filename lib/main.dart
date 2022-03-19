@@ -13,6 +13,7 @@ import 'package:poam/services/itemServices/Objects/Person.dart';
 import 'package:path_provider/path_provider.dart' as pathProvider;
 import 'package:poam/services/localeService/Locales.dart';
 import 'package:poam/services/localeService/Objects/Languages.dart';
+import 'package:poam/services/settingService/Settings.dart';
 import 'package:provider/provider.dart';
 
 Future<void> main() async {
@@ -26,17 +27,22 @@ Future<void> main() async {
   Hive.registerAdapter(FrequencyAdapter());
   Hive.registerAdapter(LocalesAdapter());
   Hive.registerAdapter(ChartServiceAdapter());
+  Hive.registerAdapter(SettingsAdapter());
 
   ///Open our Box(DB)
   await Hive.openBox<ItemModel>(Database.Name);
   await Hive.openBox<Person>(Database.PersonName);
   await Hive.openBox<Locales>(Database.LocaleName);
   await Hive.openBox<ChartService>(Database.ChartName);
+  await Hive.openBox<Settings>(Database.SettingsName);
 
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(
         create: (_) => Locales(""),
+      ),
+      ChangeNotifierProvider(
+        create: (_) => Settings(0),
       ),
     ],
     child: const MyApp(),
@@ -53,10 +59,17 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   
   Locale _locale = Locale("en", "");
+  Color _menuColor = Colors.blueAccent;
 
   void setLocale(Locale value) {
     setState(() {
       _locale = value;
+    });
+  }
+
+  void setMenuColor(Color value) {
+    setState(() {
+      _menuColor = value;
     });
   }
 
@@ -65,9 +78,14 @@ class _MyAppState extends State<MyApp> {
 
     ///watcher
     context.watch<Locales>().getLocale();
+    context.watch<Settings>().getSettings();
 
+    ///Set the values in the MaterialApp
     if (Provider.of<Locales>(context, listen: false).locales.length != 0) {
       setLocale(languageToLocale(context, Provider.of<Locales>(context, listen: false).locales.first.locale));
+    }
+    if (Provider.of<Settings>(context, listen: false).settings.length != 0) {
+      setMenuColor(Color(Provider.of<Settings>(context, listen: false).settings.first.ColorHex));
     }
 
     return MaterialApp(
@@ -75,7 +93,7 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       title: 'Poam',
       theme: ThemeData(
-        primaryColor: Colors.blueAccent,
+        primaryColor: _menuColor,
       ),
       initialRoute: "/",
       routes: {

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:poam/services/localeService/Objects/Languages.dart';
+import 'package:poam/services/settingService/Settings.dart';
 import 'package:poam/widgets/PoamSnackbar/PoamSnackbar.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
@@ -36,7 +38,7 @@ class _PoamSaveButtonState extends State<PoamSaveButton> {
           onPressed: () {
 
             Provider.of<Locales>(context, listen: false).setLocale(new Locales(widget.language!));
-            ///TODO: Hier die Farbe speichern in db
+            Provider.of<Settings>(context, listen: false).setSettings(new Settings(ColorToHex(widget.color!).value));
             poamSnackbar.showSnackBar(context, AppLocalizations.of(context)!.messageSave, primaryColor);
           },
           child: Text(
