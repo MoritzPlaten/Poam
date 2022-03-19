@@ -6,6 +6,7 @@ import 'package:poam/pages/app.dart';
 import 'package:poam/pages/listpage.dart';
 import 'package:poam/services/chartServices/ChartService.dart';
 import 'package:poam/services/dateServices/Objects/Frequency.dart';
+import 'package:poam/services/itemServices/Objects/Amounts/Amounts.dart';
 import 'package:poam/services/itemServices/Objects/Category/Category.dart';
 import 'package:poam/services/itemServices/ItemModel.dart';
 import 'package:poam/services/itemServices/Objects/Database.dart';
@@ -28,6 +29,7 @@ Future<void> main() async {
   Hive.registerAdapter(LocalesAdapter());
   Hive.registerAdapter(ChartServiceAdapter());
   Hive.registerAdapter(SettingsAdapter());
+  Hive.registerAdapter(AmountsAdapter());
 
   ///Open our Box(DB)
   await Hive.openBox<ItemModel>(Database.Name);
