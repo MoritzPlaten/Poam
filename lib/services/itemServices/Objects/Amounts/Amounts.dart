@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:hive/hive.dart';
 
 part 'Amounts.g.dart';
@@ -12,7 +11,7 @@ enum QuantityType {
 }
 
 @HiveType(typeId: 8)
-class Amounts extends ChangeNotifier {
+class Amounts {
 
   @HiveField(0)
   int? Number;
