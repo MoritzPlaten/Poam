@@ -13,6 +13,8 @@ import 'package:provider/provider.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../../services/itemServices/Objects/Amounts/Amounts.dart';
+import '../../services/itemServices/Objects/Amounts/QuantityType.dart';
 import '../../services/itemServices/Objects/Database.dart';
 
 class PoamItem extends StatefulWidget {
@@ -63,7 +65,7 @@ class _PoamItemState extends State<PoamItem> {
                         MaterialPageRoute(builder: (context) => MultiProvider(
                           providers: [
                             ChangeNotifierProvider(
-                              create: (_) => ItemModel("", 0, false, Person(""), Categories.shopping, "", DateTime(0), DateTime(0), DateTime(0), DateTime(0), Frequency.single, "", false),
+                              create: (_) => ItemModel("", Amounts(0, QuantityType.Number), false, Person(""), Categories.shopping, "", DateTime(0), DateTime(0), DateTime(0), DateTime(0), Frequency.single, "", false),
                             ),
                             ChangeNotifierProvider(
                               create: (_) => Person(""),
@@ -141,7 +143,7 @@ class _PoamItemState extends State<PoamItem> {
                           ///Count should only displayed on the Category Shopping
                           if (widget.itemModel!.categories == Categories.shopping)
                             Text(
-                              "Anzahl: " + widget.itemModel!.count.toString(),
+                              displayTextQuantityType(context, widget.itemModel!.amounts.quantityType!) + ": " + widget.itemModel!.amounts.Number.toString(),
                               style: GoogleFonts.kreon(
                                   color: primaryColor,
                                   fontSize: 12,

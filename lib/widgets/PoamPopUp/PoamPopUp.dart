@@ -3,6 +3,8 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:intl/intl.dart';
 import 'package:poam/services/dateServices/Objects/Frequency.dart';
+import 'package:poam/services/itemServices/Objects/Amounts/Amounts.dart';
+import 'package:poam/services/itemServices/Objects/Amounts/QuantityType.dart';
 import 'package:poam/services/itemServices/Objects/Category/Category.dart';
 import 'package:poam/services/itemServices/ItemModel.dart';
 import 'package:poam/services/itemServices/Objects/Person/Person.dart';
@@ -41,7 +43,7 @@ class _PoamPopUpState extends State<PoamPopUp> {
   String frequencyDropDownValue = "";
   String categoryDropDownValue = "";
   String personDropDownValue = "";
-  String dateExample = "";
+  String quantityTypeDropwDownValue = "";
 
   //Color selectedColor = Colors.blueAccent;
   Color? selectedColor;
@@ -67,107 +69,111 @@ class _PoamPopUpState extends State<PoamPopUp> {
     poamSnackbar = PoamSnackbar();
     itemModel = Provider.of<ItemModel>(context, listen: false).itemModelList;
 
-    switch (widget.isEditMode) {
-
-      ///Set Values of the itemModel in the Textformfields
-      case true:
-        ///TODO: Daten sollen immer aktualisiert werden. Zum Beispiel: PoamPersonPicker remove Person => abhacken => Person wird immer noch angezeigt, soweit man nicht eine neue Person angetippt hat
-        if (personDropDownValue == "" && categoryDropDownValue == "" && frequencyDropDownValue == "") {
-
-          frequencyDropDownValue = displayFrequency(context, widget.itemModel!.frequency);
-          categoryDropDownValue = displayTextCategory(context, widget.itemModel!.categories);
-          personDropDownValue = widget.itemModel!.person.name!;
-          _titleController.text = widget.itemModel!.title;
-          _numberController.text = widget.itemModel!.count.toString();
-          _descriptionController.text = widget.itemModel!.description;
-          selectedColor = Color(HexColor(widget.itemModel!.hex).value);
-
-          ///DateTimes
-          DateTime isFromDateTimeOver = DateTime(
-              widget.itemModel!.fromDate.year,
-              widget.itemModel!.fromDate.month,
-              widget.itemModel!.fromDate.day,
-              widget.itemModel!.fromTime.hour,
-              widget.itemModel!.fromTime.minute);
-          DateTime isToDateTimeOver = DateTime(
-              widget.itemModel!.toDate.year,
-              widget.itemModel!.toDate.month,
-              widget.itemModel!.toDate.day,
-              widget.itemModel!.toTime.hour,
-              widget.itemModel!.toTime.minute);
-
-          ///Durations
-          Duration dateDuration = isToDateTimeOver.difference(isFromDateTimeOver);
-          Duration timeDuration = widget.itemModel!.toTime.difference(widget.itemModel!.fromTime);
-
-          ///if the From DateTime is not over, then set the item settings. Else set DateTime.now()
-          if (isFromDateTimeOver.compareTo(DateTime.now()) > 0) {
-
-            _fromDateController.text = DateFormat.yMd(Localizations.localeOf(context).languageCode).format(widget.itemModel!.fromDate);
-            _fromTimeController.text = widget.itemModel!.fromTime.hour.toString() + ":" + widget.itemModel!.fromTime.minute.toString();
-            _toDateController.text = DateFormat.yMd(Localizations.localeOf(context).languageCode).format(widget.itemModel!.toDate); //.add(dateDuration)
-            _toTimeController.text = widget.itemModel!.toTime.hour.toString() + ":" + widget.itemModel!.toTime.minute.toString();
-
-            ///if the to DateTime is not over and the fromDateTime is over, then set item settings
-          } else if (isToDateTimeOver.compareTo(DateTime.now()) > 0 && isFromDateTimeOver.compareTo(DateTime.now()) < 0) {
-
-            _toDateController.text = DateFormat.yMd(Localizations.localeOf(context).languageCode).format(DateTime.now().add(dateDuration)); //.add(dateDuration)
-            _toTimeController.text = DateTime.now().add(timeDuration).hour.toString() + ":" + (DateTime.now().add(timeDuration).minute + 1).toString();
-
-            ///if the to DateTime is not over, then set item settings
-          } else if (isToDateTimeOver.compareTo(DateTime.now()) > 0) {
-
-            _toDateController.text = DateFormat.yMd(Localizations.localeOf(context).languageCode).format(widget.itemModel!.fromDate.add(dateDuration)); //.add(dateDuration)
-            _toTimeController.text = widget.itemModel!.fromTime.add(timeDuration).hour.toString() + ":" + widget.itemModel!.fromTime.add(timeDuration).minute.toString();
-          } else if (isFromDateTimeOver.compareTo(isToDateTimeOver) == 0) {
-
-            ///if the to DateTime is equal the from DateTime and is not over, then set item settings
-            if (isToDateTimeOver.compareTo(DateTime.now()) > 0) {
-
-              _toDateController.text = DateFormat.yMd(Localizations.localeOf(context).languageCode).format(widget.itemModel!.toDate);
-              _toTimeController.text = widget.itemModel!.toTime.hour.toString() + ":" + widget.itemModel!.toTime.minute.toString();
-            }
-
-            ///if the toDateTime is over
-          } else if (isToDateTimeOver.compareTo(DateTime.now()) < 0) {
-
-            _toDateController.text = DateFormat.yMd(Localizations.localeOf(context).languageCode).format(DateTime.now().add(dateDuration));
-            _toTimeController.text = DateTime.now().add(timeDuration).hour.toString() + ":" + (DateTime.now().add(timeDuration).minute + 1).toString();
-          }
-        }
-        break;
-
-      ///EditMode is false
-      case false:
-
-        if (categoryDropDownValue == "")
-          categoryDropDownValue =
-              displayTextCategory(context, Categories.values.first);
-        if (frequencyDropDownValue == "")
-          frequencyDropDownValue =
-              displayFrequency(context, Frequency.values.first);
-        ///Set selectedColor from db
-        if (selectedColor == null) {
-          selectedColor = Color(Provider.of<Settings>(context, listen: false).settings.first.ColorHex);
-        }
-        break;
-
-      ///Error
-      default:
-        print("Error");
-        break;
-    }
-
     return ValueListenableBuilder(
         valueListenable: Hive.box<Person>(Database.PersonName).listenable(),
         builder: (context, Box<Person> box, widgets) {
+
           ///Get All persons
           List<Person> persons = box.values.toList();
           List<String> personNames = getPersonsAsStrings(persons);
 
-          ///if no person is selected, then choose the first one of the list
-          if (personDropDownValue == "" && personNames.length != 0) {
-            personDropDownValue = personNames.first;
+          switch (widget.isEditMode) {
+
+          ///Set Values of the itemModel in the Textformfields
+            case true:
+            ///TODO: Daten sollen immer aktualisiert werden. Zum Beispiel: PoamPersonPicker remove Person => abhacken => Person wird immer noch angezeigt, soweit man nicht eine neue Person angetippt hat
+              if (personDropDownValue == "" && categoryDropDownValue == "" && frequencyDropDownValue == "") {
+
+                frequencyDropDownValue = displayFrequency(context, widget.itemModel!.frequency);
+                categoryDropDownValue = displayTextCategory(context, widget.itemModel!.categories);
+                personDropDownValue = widget.itemModel!.person.name!;
+                _titleController.text = widget.itemModel!.title;
+                _numberController.text = widget.itemModel!.amounts.Number.toString();
+                _descriptionController.text = widget.itemModel!.description;
+                selectedColor = Color(HexColor(widget.itemModel!.hex).value);
+
+                ///DateTimes
+                DateTime isFromDateTimeOver = DateTime(
+                    widget.itemModel!.fromDate.year,
+                    widget.itemModel!.fromDate.month,
+                    widget.itemModel!.fromDate.day,
+                    widget.itemModel!.fromTime.hour,
+                    widget.itemModel!.fromTime.minute);
+                DateTime isToDateTimeOver = DateTime(
+                    widget.itemModel!.toDate.year,
+                    widget.itemModel!.toDate.month,
+                    widget.itemModel!.toDate.day,
+                    widget.itemModel!.toTime.hour,
+                    widget.itemModel!.toTime.minute);
+
+                ///Durations
+                Duration dateDuration = isToDateTimeOver.difference(isFromDateTimeOver);
+                Duration timeDuration = widget.itemModel!.toTime.difference(widget.itemModel!.fromTime);
+
+                ///if the From DateTime is not over, then set the item settings. Else set DateTime.now()
+                if (isFromDateTimeOver.compareTo(DateTime.now()) > 0) {
+
+                  _fromDateController.text = DateFormat.yMd(Localizations.localeOf(context).languageCode).format(widget.itemModel!.fromDate);
+                  _fromTimeController.text = widget.itemModel!.fromTime.hour.toString() + ":" + widget.itemModel!.fromTime.minute.toString();
+                  _toDateController.text = DateFormat.yMd(Localizations.localeOf(context).languageCode).format(widget.itemModel!.toDate); //.add(dateDuration)
+                  _toTimeController.text = widget.itemModel!.toTime.hour.toString() + ":" + widget.itemModel!.toTime.minute.toString();
+
+                  ///if the to DateTime is not over and the fromDateTime is over, then set item settings
+                } else if (isToDateTimeOver.compareTo(DateTime.now()) > 0 && isFromDateTimeOver.compareTo(DateTime.now()) < 0) {
+
+                  _toDateController.text = DateFormat.yMd(Localizations.localeOf(context).languageCode).format(DateTime.now().add(dateDuration)); //.add(dateDuration)
+                  _toTimeController.text = DateTime.now().add(timeDuration).hour.toString() + ":" + (DateTime.now().add(timeDuration).minute + 1).toString();
+
+                  ///if the to DateTime is not over, then set item settings
+                } else if (isToDateTimeOver.compareTo(DateTime.now()) > 0) {
+
+                  _toDateController.text = DateFormat.yMd(Localizations.localeOf(context).languageCode).format(widget.itemModel!.fromDate.add(dateDuration)); //.add(dateDuration)
+                  _toTimeController.text = widget.itemModel!.fromTime.add(timeDuration).hour.toString() + ":" + widget.itemModel!.fromTime.add(timeDuration).minute.toString();
+                } else if (isFromDateTimeOver.compareTo(isToDateTimeOver) == 0) {
+
+                  ///if the to DateTime is equal the from DateTime and is not over, then set item settings
+                  if (isToDateTimeOver.compareTo(DateTime.now()) > 0) {
+
+                    _toDateController.text = DateFormat.yMd(Localizations.localeOf(context).languageCode).format(widget.itemModel!.toDate);
+                    _toTimeController.text = widget.itemModel!.toTime.hour.toString() + ":" + widget.itemModel!.toTime.minute.toString();
+                  }
+
+                  ///if the toDateTime is over
+                } else if (isToDateTimeOver.compareTo(DateTime.now()) < 0) {
+
+                  _toDateController.text = DateFormat.yMd(Localizations.localeOf(context).languageCode).format(DateTime.now().add(dateDuration));
+                  _toTimeController.text = DateTime.now().add(timeDuration).hour.toString() + ":" + (DateTime.now().add(timeDuration).minute + 1).toString();
+                }
+              }
+              break;
+
+          ///EditMode is false
+            case false:
+
+              if (categoryDropDownValue == "")
+                categoryDropDownValue =
+                    displayTextCategory(context, Categories.values.first);
+              if (frequencyDropDownValue == "")
+                frequencyDropDownValue =
+                    displayFrequency(context, Frequency.values.first);
+              if (quantityTypeDropwDownValue == "") {
+                quantityTypeDropwDownValue = displayTextQuantityType(context, QuantityType.values.first);
+              }
+              ///Set selectedColor from db
+              if (selectedColor == null) {
+                selectedColor = Color(Provider.of<Settings>(context, listen: false).settings.first.ColorHex);
+              }
+              ///if no person is selected, then choose the first one of the list
+              if (personDropDownValue == "" && personNames.length != 0) {
+                personDropDownValue = personNames.first;
+              }
+
+              break;
+
+          ///Error
+            default:
+              print("Error");
+              break;
           }
 
           return Scaffold(
@@ -228,22 +234,44 @@ class _PoamPopUpState extends State<PoamPopUp> {
                         ),
 
                         ///Displays the Number field
-                        ///TODO: Mengen auswählbar Liter, Anzahl
                         if (categoryDropDownValue ==
                             displayTextCategory(context, Categories.shopping))
-                          PoamTextField(
-                            validator: ((value) {
-                              if (value == null || value.isEmpty) {
-                                return AppLocalizations.of(context)!
-                                    .messageWriteNumber;
-                              }
-                              return null;
-                            }),
-                            controller: _numberController,
-                            label: AppLocalizations.of(context)!.numberField,
-                            keyboardType: TextInputType.number,
-                            maxLines: 1,
-                            maxLength: 5,
+                          Row(
+                            children: [
+
+                              Flexible(
+                                flex: 2,
+                                child: PoamTextField(
+                                  validator: ((value) {
+                                    if (value == null || value.isEmpty) {
+                                      return AppLocalizations.of(context)!
+                                          .messageWriteNumber;
+                                    }
+                                    return null;
+                                  }),
+                                  controller: _numberController,
+                                  label: AppLocalizations.of(context)!.numberField,
+                                  keyboardType: TextInputType.number,
+                                  maxLines: 1,
+                                  maxLength: 5,
+                                ),
+                              ),
+
+                              Flexible(
+                                flex: 1,
+                                child: PoamDropDown(
+                                  dropdownValue: quantityTypeDropwDownValue,
+                                  onChanged: (value) {
+                                    quantityTypeDropwDownValue = value!;
+                                  },
+                                  items: displayAllQuantityType(context),
+                                  color: Colors.white,
+                                  iconData: Icons.arrow_drop_down,
+                                  foregroundColor: Colors.black,
+                                ),
+                              ),
+
+                            ],
                           ),
 
                         ///Displays the PersonPicker
@@ -351,6 +379,7 @@ class _PoamPopUpState extends State<PoamPopUp> {
                       formKey: _formKey,
                       isEditMode: widget.isEditMode,
                       categoryDropDownValue: categoryDropDownValue,
+                      quantityTypeDropwDownValue: quantityTypeDropwDownValue,
                       numberController: _numberController,
                       titleController: _titleController,
                       personValue: personDropDownValue,

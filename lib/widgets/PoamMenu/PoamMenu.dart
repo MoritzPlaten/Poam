@@ -13,6 +13,9 @@ import 'package:provider/provider.dart';
 import '../../services/dateServices/DateService.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../../services/itemServices/Objects/Amounts/Amounts.dart';
+import '../../services/itemServices/Objects/Amounts/QuantityType.dart';
+
 class PoamMenu extends StatefulWidget {
 
   final List<ItemModel>? allItems;
@@ -55,7 +58,7 @@ class _PoamMenuState extends State<PoamMenu> {
                 MultiProvider(
                   providers: [
                     ChangeNotifierProvider(
-                      create: (_) => ItemModel("", 0, false, Person(""), Categories.tasks, "#FFFFFF", DateTime(0), DateTime(0), DateTime(0), DateTime(0), Frequency.single, "", false),
+                      create: (_) => ItemModel("", Amounts(0, QuantityType.Number), false, Person(""), Categories.tasks, "#FFFFFF", DateTime(0), DateTime(0), DateTime(0), DateTime(0), Frequency.single, "", false),
                     ),
                   ],
                   child: ListPage(

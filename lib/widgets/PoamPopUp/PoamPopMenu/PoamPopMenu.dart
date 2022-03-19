@@ -9,6 +9,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../services/dateServices/Objects/Frequency.dart';
 import '../../../services/itemServices/ItemModel.dart';
+import '../../../services/itemServices/Objects/Amounts/Amounts.dart';
+import '../../../services/itemServices/Objects/Amounts/QuantityType.dart';
 import '../../../services/itemServices/Objects/Category/Category.dart';
 import '../../../services/itemServices/Objects/Database.dart';
 import '../../../services/itemServices/Objects/Person/Person.dart';
@@ -19,6 +21,7 @@ class PoamPopMenu extends StatefulWidget {
   final GlobalKey<FormState>? formKey;
   final bool? isEditMode;
   final String? categoryDropDownValue;
+  final String? quantityTypeDropwDownValue;
   final TextEditingController? numberController;
   final TextEditingController? titleController;
   final String? personValue;
@@ -32,7 +35,7 @@ class PoamPopMenu extends StatefulWidget {
   final int? itemIndex;
   final DateTime? oldDateTime;
 
-  const PoamPopMenu({Key? key, this.formKey, this.isEditMode, this.categoryDropDownValue, this.numberController, this.titleController,
+  const PoamPopMenu({Key? key, this.formKey, this.isEditMode, this.categoryDropDownValue, this.quantityTypeDropwDownValue, this.numberController, this.titleController,
     this.personValue, this.selectedColor, this.frequencyDropDownValue, this.descriptionController, this.fromDateController,
     this.fromTimeController, this.toDateController, this.toTimeController, this.itemIndex, this.oldDateTime }) : super(key: key);
 
@@ -54,13 +57,9 @@ class _PoamPopMenuState extends State<PoamPopMenu> {
     size = MediaQuery.of(context).size;
     primaryColor = Theme.of(context).primaryColor;
 
-    //print(widget.personValue);
-
     return ValueListenableBuilder(
         valueListenable: Hive.box<ChartService>(Database.ChartName).listenable(),
         builder: (BuildContext context, Box<ChartService> box, widgets) {
-
-
 
           return Padding(
             padding: EdgeInsets.only(bottom: 40),
@@ -170,7 +169,7 @@ class _PoamPopMenuState extends State<PoamPopMenu> {
                         }
 
                         ///Message: A Person must be create
-                        if (widget.personValue == "") {
+                        if (widget.personValue == "" && widget.categoryDropDownValue == displayTextCategory(context, Categories.tasks)) {
                           poamSnackbar.showSnackBar(context,
                               AppLocalizations.of(context)!.messagePerson,
                               primaryColor);
@@ -182,6 +181,8 @@ class _PoamPopMenuState extends State<PoamPopMenu> {
                         if (isProblem == false) {
 
                           ///TODO: add awesome_notifications: https://www.youtube.com/watch?v=fMoQTHUvy5s
+                          print(stringToQuantityType(context, widget.quantityTypeDropwDownValue!));
+                          print(widget.quantityTypeDropwDownValue!);
 
                           ItemModel itemModel = ItemModel(
 
@@ -189,7 +190,8 @@ class _PoamPopMenuState extends State<PoamPopMenu> {
                               widget.titleController!.text.trim(),
 
                               ///Set the number. if number == "", then set number to 0
-                              widget.categoryDropDownValue == displayTextCategory(context, Categories.shopping) ? int.parse(widget.numberController!.text.trim()) : 0,
+                              ///TODO: QuantityType anpassbar machen
+                              widget.categoryDropDownValue == displayTextCategory(context, Categories.shopping) ? Amounts(int.parse(widget.numberController!.text.trim()), stringToQuantityType(context, widget.quantityTypeDropwDownValue!)) : Amounts(0, QuantityType.Number),
 
                               ///isChecked == false
                               false,

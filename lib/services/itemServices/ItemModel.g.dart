@@ -18,7 +18,7 @@ class ItemModelAdapter extends TypeAdapter<ItemModel> {
     };
     return ItemModel(
       fields[0] as String,
-      fields[1] as int,
+      fields[1] as Amounts,
       fields[2] as bool,
       fields[3] as Person,
       fields[4] as Categories,
@@ -40,7 +40,7 @@ class ItemModelAdapter extends TypeAdapter<ItemModel> {
       ..writeByte(0)
       ..write(obj.title)
       ..writeByte(1)
-      ..write(obj.count)
+      ..write(obj.amounts)
       ..writeByte(2)
       ..write(obj.isChecked)
       ..writeByte(3)

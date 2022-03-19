@@ -5,6 +5,7 @@ import 'package:poam/services/itemServices/Objects/Person/Person.dart';
 import 'package:hive/hive.dart';
 
 import '../dateServices/Objects/Frequency.dart';
+import 'Objects/Amounts/Amounts.dart';
 import 'Objects/Database.dart';
 
 part 'ItemModel.g.dart';
@@ -15,7 +16,7 @@ class ItemModel extends ChangeNotifier {
   @HiveField(0)
   String title;
   @HiveField(1)
-  int count;
+  Amounts amounts;
   @HiveField(2)
   bool isChecked;
   @HiveField(3)
@@ -39,7 +40,7 @@ class ItemModel extends ChangeNotifier {
   @HiveField(12)
   bool expanded;
 
-  ItemModel (this.title, this.count, this.isChecked, this.person, this.categories, this.hex, this.fromTime, this.fromDate, this.toTime, this.toDate,this.frequency, this.description, this.expanded);
+  ItemModel (this.title, this.amounts, this.isChecked, this.person, this.categories, this.hex, this.fromTime, this.fromDate, this.toTime, this.toDate,this.frequency, this.description, this.expanded);
 
   List<ItemModel> _itemModelList = <ItemModel>[];
   List<ItemModel> get itemModelList => _itemModelList;

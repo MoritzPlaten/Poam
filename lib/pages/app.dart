@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:poam/main.dart';
 import 'package:poam/services/chartServices/ChartService.dart';
 import 'package:poam/services/dateServices/DateService.dart';
+import 'package:poam/services/itemServices/Objects/Amounts/Amounts.dart';
 import 'package:poam/services/localeService/Locales.dart';
 import 'package:poam/services/settingService/Settings.dart';
 import 'package:poam/widgets/PoamFloatingButton/PoamFloatingButton.dart';
@@ -10,6 +11,7 @@ import 'package:poam/widgets/PoamOptions/PoamOptions.dart';
 import 'package:provider/provider.dart';
 import '../services/dateServices/Objects/Frequency.dart';
 import '../services/itemServices/ItemModel.dart';
+import '../services/itemServices/Objects/Amounts/QuantityType.dart';
 import '../services/itemServices/Objects/Category/Category.dart';
 import '../services/itemServices/Objects/Person/Person.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -45,7 +47,7 @@ class _AppState extends State<App> {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (_) => ItemModel("", 0, false, Person(""), Categories.tasks, "0xFFFFFF", DateTime(0), DateTime(0), DateTime(0), DateTime(0), Frequency.single, "", false),
+          create: (_) => ItemModel("", Amounts(0, QuantityType.Number), false, Person(""), Categories.tasks, "0xFFFFFF", DateTime(0), DateTime(0), DateTime(0), DateTime(0), Frequency.single, "", false),
         ),
         ChangeNotifierProvider(
             create: (_) => Locales(""),

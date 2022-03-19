@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:poam/services/chartServices/ChartService.dart';
 import 'package:poam/services/dateServices/Objects/Frequency.dart';
+import 'package:poam/services/itemServices/Objects/Amounts/Amounts.dart';
 import 'package:poam/services/itemServices/Objects/Category/Category.dart';
 import 'package:poam/services/itemServices/ItemModel.dart';
 import 'package:poam/services/itemServices/Objects/Person/Person.dart';
 import 'package:poam/widgets/PoamPopUp/PoamPopUp.dart';
 import 'package:provider/provider.dart';
+
+import '../../services/itemServices/Objects/Amounts/QuantityType.dart';
 
 class PoamFloatingButton extends StatefulWidget {
   const PoamFloatingButton({Key? key}) : super(key: key);
@@ -34,7 +37,7 @@ class _PoamFloatingButtonState extends State<PoamFloatingButton> {
                   create: (_) =>
                       ItemModel(
                       "",
-                      0,
+                      Amounts(0, QuantityType.Number),
                       false,
                       Person(""),
                       Categories.tasks,
