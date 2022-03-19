@@ -42,11 +42,14 @@ class _PoamSaveButtonState extends State<PoamSaveButton> {
             poamSnackbar.showSnackBar(context, AppLocalizations.of(context)!.messageSave, primaryColor);
           },
           child: Text(
-              AppLocalizations.of(context)!.save,
+            AppLocalizations.of(context)!.save,
             style: GoogleFonts.novaMono(
-                fontSize: 18
+              fontSize: 18,
             ),
-          )
+          ),
+        style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all<Color>(primaryColor),
+        ),
       ),
     );
   }

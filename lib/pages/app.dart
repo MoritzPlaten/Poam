@@ -24,6 +24,7 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
 
   late Size size;
+  late Color primaryColor;
   late double padding;
   int selectedIndex = 0;
 
@@ -33,6 +34,7 @@ class _AppState extends State<App> {
     ///Initialize
     size = MediaQuery.of(context).size;
     padding = MediaQuery.of(context).padding.top;
+    primaryColor = Theme.of(context).primaryColor;
 
     void _onItemTapped(int index) {
       setState(() {
@@ -69,17 +71,24 @@ class _AppState extends State<App> {
           items: [
 
             BottomNavigationBarItem(
-              icon: Icon(Icons.calendar_view_month),
+              icon: Icon(
+                Icons.calendar_view_month,
+                color: primaryColor,
+              ),
               label: AppLocalizations.of(context)!.home,
             ),
 
             BottomNavigationBarItem(
-              icon: Icon(Icons.settings_outlined),
+              icon: Icon(
+                Icons.settings_outlined,
+                color: primaryColor,
+              ),
               label: AppLocalizations.of(context)!.settings,
             ),
           ],
           currentIndex: selectedIndex,
           onTap: _onItemTapped,
+          selectedItemColor: primaryColor,
         ),
       ),
     );
