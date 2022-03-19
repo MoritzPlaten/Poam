@@ -72,13 +72,10 @@ class _PoamPopUpState extends State<PoamPopUp> {
       ///Set Values of the itemModel in the Textformfields
       case true:
         ///TODO: Daten sollen immer aktualisiert werden. Zum Beispiel: PoamPersonPicker remove Person => abhacken => Person wird immer noch angezeigt, soweit man nicht eine neue Person angetippt hat
-        if (personDropDownValue == "" &&
-            categoryDropDownValue == "" &&
-            frequencyDropDownValue == "") {
-          frequencyDropDownValue =
-              displayFrequency(context, widget.itemModel!.frequency);
-          categoryDropDownValue =
-              displayTextCategory(context, widget.itemModel!.categories);
+        if (personDropDownValue == "" && categoryDropDownValue == "" && frequencyDropDownValue == "") {
+
+          frequencyDropDownValue = displayFrequency(context, widget.itemModel!.frequency);
+          categoryDropDownValue = displayTextCategory(context, widget.itemModel!.categories);
           personDropDownValue = widget.itemModel!.person.name!;
           _titleController.text = widget.itemModel!.title;
           _numberController.text = widget.itemModel!.count.toString();
@@ -134,8 +131,6 @@ class _PoamPopUpState extends State<PoamPopUp> {
             ///if the toDateTime is over
           } else if (isToDateTimeOver.compareTo(DateTime.now()) < 0) {
 
-            print(dateDuration.inHours);
-            print(DateTime.now().add(timeDuration).toString());
             _toDateController.text = DateFormat.yMd(Localizations.localeOf(context).languageCode).format(DateTime.now().add(dateDuration));
             _toTimeController.text = DateTime.now().add(timeDuration).hour.toString() + ":" + (DateTime.now().add(timeDuration).minute + 1).toString();
           }
@@ -289,7 +284,6 @@ class _PoamPopUpState extends State<PoamPopUp> {
                                   dateController: _toDateController,
                                   timeController: _toTimeController,
 
-                                  ///TODO: controller kann nicht benutzt werden außerhalb, also indem Sinne
                                   fromDate: _fromDateController.text != ""
                                       ? DateFormat.yMd(
                                               Localizations.localeOf(context)

@@ -96,7 +96,6 @@ class _PoamPersonPickerState extends State<PoamPersonPicker> {
                               int itemCount = widget.box!.values.where((element) => element.name == personController.text).length;
 
                               bool isProblem = false;
-
                               if (itemCount > 0 && isProblem != true) {
                                 poamSnackbar.showSnackBar(context,
                                     AppLocalizations.of(context)!.messagePersonNotExists,

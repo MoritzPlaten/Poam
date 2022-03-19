@@ -42,7 +42,7 @@ class _PoamDatePickerState extends State<PoamDatePicker> {
     }
     if (_picked == false && selectedTime.compareTo(DateTime.now()) < 0) {
       SchedulerBinding.instance?.addPostFrameCallback((_) {
-        widget.timeController!.text = DateTime.now().hour.toString() + ":" + DateTime.now().minute.toString();
+        widget.timeController!.text = DateTime.now().hour.toString() + ":" + (DateTime.now().minute + 1).toString();
       });
     }
 

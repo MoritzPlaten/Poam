@@ -54,6 +54,8 @@ class _PoamPopMenuState extends State<PoamPopMenu> {
     size = MediaQuery.of(context).size;
     primaryColor = Theme.of(context).primaryColor;
 
+    //print(widget.personValue);
+
     return ValueListenableBuilder(
         valueListenable: Hive.box<ChartService>(Database.ChartName).listenable(),
         builder: (BuildContext context, Box<ChartService> box, widgets) {
