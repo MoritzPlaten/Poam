@@ -55,6 +55,8 @@ class ChartService extends ChangeNotifier {
 
     final box = await Hive.openBox<ChartService>(Database.ChartName);
 
+    if (box.values.where((element) => element.dateTime.year == dateTime.year && element.dateTime.month == dateTime.month && element.dateTime.day == dateTime.day).length != 0) {
+
     ChartService chartService = box.values.firstWhere((element) => element.dateTime.year == dateTime.year && element.dateTime.month == dateTime.month && element.dateTime.day == dateTime.day);
     int index = box.values.toList().indexOf(chartService);
 
@@ -65,23 +67,36 @@ class ChartService extends ChangeNotifier {
     box.putAt(index, ChartService(chartService.isChecked, numberOfNotChecked, chartService.dateTime));
 
     notifyListeners();
+    }
   }
 
   void putChecked(DateTime dateTime, int numberOfChecked) async {
 
     final box = await Hive.openBox<ChartService>(Database.ChartName);
 
-    ChartService chartService = box.values.firstWhere((element) => element.dateTime.year == dateTime.year && element.dateTime.month == dateTime.month && element.dateTime.day == dateTime.day);
-    int index = box.values.toList().indexOf(chartService);
+    if (box.values.where((element) => element.dateTime.year == dateTime.year && element.dateTime.month == dateTime.month && element.dateTime.day == dateTime.day).length != 0) {
+      
+      ChartService chartService = box.values.firstWhere((element) =>
+      element.dateTime.year == dateTime.year &&
+          element.dateTime.month == dateTime.month &&
+          element.dateTime.day == dateTime.day);
+      int index = box.values.toList().indexOf(chartService);
 
-    box.putAt(index, ChartService(numberOfChecked, chartService.isNotChecked, chartService.dateTime));
+      box.putAt(index, ChartService(
+          numberOfChecked, chartService.isNotChecked, chartService.dateTime));
 
-    notifyListeners();
+      notifyListeners();
+    }
   }
 
   int getNumberOfChecked(List<ChartService> chartList, DateTime dateTime) {
 
     if (chartList.length == 0) {
+      return 0;
+    }
+
+    if (chartList.where(
+            (element) => element.dateTime.year == dateTime.year && element.dateTime.month == dateTime.month && element.dateTime.day == dateTime.day).length == 0) {
       return 0;
     }
 
@@ -93,7 +108,14 @@ class ChartService extends ChangeNotifier {
 
   int getNumberOfNotChecked(List<ChartService> chartList, DateTime dateTime) {
 
+    DateService dateService = DateService();
+
     if (chartList.length == 0) {
+      return 0;
+    }
+
+    if (chartList.where(
+            (element) => element.dateTime.year == dateTime.year && element.dateTime.month == dateTime.month && element.dateTime.day == dateTime.day).length == 0) {
       return 0;
     }
 
