@@ -89,6 +89,7 @@ class _PoamPopUpState extends State<PoamPopUp> {
                 personDropDownValue = widget.itemModel!.person.name!;
                 _titleController.text = widget.itemModel!.title;
                 _numberController.text = widget.itemModel!.amounts.Number.toString();
+                quantityTypeDropwDownValue = displayTextQuantityType(context, widget.itemModel!.amounts.quantityType!);
                 _descriptionController.text = widget.itemModel!.description;
                 selectedColor = Color(HexColor(widget.itemModel!.hex).value);
 

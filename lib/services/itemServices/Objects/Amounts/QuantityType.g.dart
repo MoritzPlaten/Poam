@@ -14,18 +14,18 @@ class QuantityTypeAdapter extends TypeAdapter<QuantityType> {
   QuantityType read(BinaryReader reader) {
     switch (reader.readByte()) {
       case 0:
-        return QuantityType.Number;
+        return QuantityType.Pieces;
       case 1:
         return QuantityType.Liter;
       default:
-        return QuantityType.Number;
+        return QuantityType.Pieces;
     }
   }
 
   @override
   void write(BinaryWriter writer, QuantityType obj) {
     switch (obj) {
-      case QuantityType.Number:
+      case QuantityType.Pieces:
         writer.writeByte(0);
         break;
       case QuantityType.Liter:

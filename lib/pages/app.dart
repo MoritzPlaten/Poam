@@ -47,7 +47,7 @@ class _AppState extends State<App> {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (_) => ItemModel("", Amounts(0, QuantityType.Number), false, Person(""), Categories.tasks, "0xFFFFFF", DateTime(0), DateTime(0), DateTime(0), DateTime(0), Frequency.single, "", false),
+          create: (_) => ItemModel("", Amounts(0, QuantityType.Pieces), false, Person(""), Categories.tasks, "0xFFFFFF", DateTime(0), DateTime(0), DateTime(0), DateTime(0), Frequency.single, "", false),
         ),
         ChangeNotifierProvider(
             create: (_) => Locales(""),

@@ -23,9 +23,9 @@ String displayTextQuantityType(BuildContext context, QuantityType quantityType) 
 
   String displayTest = "";
   switch(quantityType) {
-    case QuantityType.Number:
+    case QuantityType.Pieces:
 
-      displayTest = AppLocalizations.of(context)!.numberField;
+      displayTest = AppLocalizations.of(context)!.pieces;
       break;
     case QuantityType.Liter:
 
@@ -39,8 +39,8 @@ QuantityType stringToQuantityType(BuildContext context, String value) {
 
   QuantityType quantityType = QuantityType.values.last;
 
-  if (value == "Anzahl" || value == "Number" /*AppLocalizations.of(context)!.numberField*/) {
-    quantityType = QuantityType.Number;
+  if (value == "Stücke" || value == "pieces" /*AppLocalizations.of(context)!.numberField*/) {
+    quantityType = QuantityType.Pieces;
   }
   if (value == "Liter") {
     quantityType = QuantityType.Liter;

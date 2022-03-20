@@ -2,7 +2,7 @@
     "taskList": "Task list",
     "shoppingList": "Shopping list",
     "titleField": "Title",
-    "numberField": "Number",
+    "numberField": "Amount",
     "descriptionField": "Description",
     "colorField": "Select Colour",
     "dateFrom": "From",
@@ -38,5 +38,6 @@
     "german": "German",
     "language": "Language",
     "save": "Save",
-    "menuColor": "Menu Color"
+    "menuColor": "Menu Color",
+    "pieces": "pieces"
 }

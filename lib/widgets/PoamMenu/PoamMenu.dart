@@ -58,7 +58,7 @@ class _PoamMenuState extends State<PoamMenu> {
                 MultiProvider(
                   providers: [
                     ChangeNotifierProvider(
-                      create: (_) => ItemModel("", Amounts(0, QuantityType.Number), false, Person(""), Categories.tasks, "#FFFFFF", DateTime(0), DateTime(0), DateTime(0), DateTime(0), Frequency.single, "", false),
+                      create: (_) => ItemModel("", Amounts(0, QuantityType.Pieces), false, Person(""), Categories.tasks, "#FFFFFF", DateTime(0), DateTime(0), DateTime(0), DateTime(0), Frequency.single, "", false),
                     ),
                   ],
                   child: ListPage(

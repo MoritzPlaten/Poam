@@ -5,7 +5,7 @@ part 'QuantityType.g.dart';
 @HiveType(typeId: 7)
 enum QuantityType {
   @HiveField(0)
-  Number,
+  Pieces,
   @HiveField(1)
   Liter
 }

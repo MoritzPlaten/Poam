@@ -37,7 +37,7 @@ class _PoamFloatingButtonState extends State<PoamFloatingButton> {
                   create: (_) =>
                       ItemModel(
                       "",
-                      Amounts(0, QuantityType.Number),
+                      Amounts(0, QuantityType.Pieces),
                       false,
                       Person(""),
                       Categories.tasks,

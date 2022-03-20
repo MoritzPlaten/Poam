@@ -65,7 +65,7 @@ class _PoamItemState extends State<PoamItem> {
                         MaterialPageRoute(builder: (context) => MultiProvider(
                           providers: [
                             ChangeNotifierProvider(
-                              create: (_) => ItemModel("", Amounts(0, QuantityType.Number), false, Person(""), Categories.shopping, "", DateTime(0), DateTime(0), DateTime(0), DateTime(0), Frequency.single, "", false),
+                              create: (_) => ItemModel("", Amounts(0, QuantityType.Pieces), false, Person(""), Categories.shopping, "", DateTime(0), DateTime(0), DateTime(0), DateTime(0), Frequency.single, "", false),
                             ),
                             ChangeNotifierProvider(
                               create: (_) => Person(""),
@@ -143,7 +143,9 @@ class _PoamItemState extends State<PoamItem> {
                           ///Count should only displayed on the Category Shopping
                           if (widget.itemModel!.categories == Categories.shopping)
                             Text(
-                              displayTextQuantityType(context, widget.itemModel!.amounts.quantityType!) + ": " + widget.itemModel!.amounts.Number.toString(),
+                              AppLocalizations.of(context)!.numberField + ": " +
+                                  widget.itemModel!.amounts.Number.toString() + " " +
+                                  displayTextQuantityType(context, widget.itemModel!.amounts.quantityType!),
                               style: GoogleFonts.kreon(
                                   color: primaryColor,
                                   fontSize: 12,
