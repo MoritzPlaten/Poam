@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:hive/hive.dart';
 import 'package:poam/services/chartServices/Objects/ChartSeries.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:poam/services/itemServices/ItemModel.dart';
 import 'package:provider/provider.dart';
 import '../dateServices/DateService.dart';
 import '../itemServices/Objects/Database.dart';
@@ -38,13 +39,18 @@ class ChartService extends ChangeNotifier {
 
   void initialize() async {
 
-    final box = await Hive.openBox<ChartService>(Database.ChartName);
+    var box = await Hive.openBox<ChartService>(Database.ChartName);
+    var itemModelBox = await Hive.openBox<ItemModel>(Database.Name);
 
     if (box.values.length == 0) {
       List<DateTime> listOfDates = this.dateService.getDaysInBetween(this.dateService.getMondayDate(), this.dateService.getSundayDate());
       
       for (int i = 0;i < listOfDates.length;i++) {
-        box.add(ChartService(0, 0, listOfDates.elementAt(i)));
+        DateTime dates = listOfDates.elementAt(i);
+        DateTime _dates = DateTime(dates.year, dates.month, dates.day);
+
+        print(itemModelBox.values.where((element) => element.fromDate == _dates));
+        box.add(ChartService(0, itemModelBox.values.where((element) => element.fromDate == _dates).toList().length, _dates));
       }
     }
 
