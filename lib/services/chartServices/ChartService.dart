@@ -75,7 +75,7 @@ class ChartService extends ChangeNotifier {
     final box = await Hive.openBox<ChartService>(Database.ChartName);
 
     if (box.values.where((element) => element.dateTime.year == dateTime.year && element.dateTime.month == dateTime.month && element.dateTime.day == dateTime.day).length != 0) {
-      
+
       ChartService chartService = box.values.firstWhere((element) =>
       element.dateTime.year == dateTime.year &&
           element.dateTime.month == dateTime.month &&

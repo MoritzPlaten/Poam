@@ -79,7 +79,9 @@ class _PoamDateItemState extends State<PoamDateItem> {
                     ),
                 ],
                 expansionCallback: (int item, bool status) {
-                  widget.allItems!.elementAt(item).expanded = !status;
+                  if (!widget.allItems!.elementAt(item).description.isEmpty) {
+                    widget.allItems!.elementAt(item).expanded = !status;
+                  }
                 },
               )
             :
@@ -329,18 +331,14 @@ class _PoamDateItemState extends State<PoamDateItem> {
                                 ),
                                 isExpanded: widget.allItems!
                                     .where((element) =>
-                                        element.fromDate ==
-                                        dates[widget.dateIndex!])
+                                element.fromDate ==
+                                    dates[widget.dateIndex!])
                                     .elementAt(i)
                                     .expanded,
                               ),
                         ],
                         expansionCallback: (int item, bool status) {
-                          widget.allItems!
-                              .where((element) =>
-                                  element.fromDate == dates[widget.dateIndex!])
-                              .elementAt(item)
-                              .expanded = !status;
+                          widget.allItems!.where((element) => element.fromDate == dates[widget.dateIndex!]).elementAt(item).expanded = !status;
                         },
                       ),
                     ],

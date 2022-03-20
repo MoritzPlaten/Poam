@@ -36,6 +36,9 @@ class _PoamListState extends State<PoamList> {
     context.watch<Settings>().getSettings();
     context.watch<ChartService>().getCharts();
 
+    ///Change ItemModels
+    Provider.of<ItemModel>(context, listen: false).changeItems(context);
+
     ///Clear the Last Week
     Provider.of<ChartService>(context, listen: false).weekIsOver();
 

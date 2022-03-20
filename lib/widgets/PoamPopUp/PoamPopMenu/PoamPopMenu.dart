@@ -181,8 +181,6 @@ class _PoamPopMenuState extends State<PoamPopMenu> {
                         if (isProblem == false) {
 
                           ///TODO: add awesome_notifications: https://www.youtube.com/watch?v=fMoQTHUvy5s
-                          print(stringToQuantityType(context, widget.quantityTypeDropwDownValue!));
-                          print(widget.quantityTypeDropwDownValue!);
 
                           ItemModel itemModel = ItemModel(
 

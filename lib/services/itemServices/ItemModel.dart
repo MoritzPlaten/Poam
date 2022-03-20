@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:poam/services/chartServices/ChartService.dart';
 import 'package:poam/services/itemServices/Objects/Category/Category.dart';
 import 'package:poam/services/itemServices/Objects/Person/Person.dart';
 import 'package:hive/hive.dart';
+import 'package:provider/provider.dart';
 
 import '../dateServices/Objects/Frequency.dart';
 import 'Objects/Amounts/Amounts.dart';
@@ -75,20 +77,30 @@ class ItemModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  ///TODO: If an item has expired, then it should be put it for today
-  ///Provider.of<ItemModel>(context, listen: false).changeItems();
-  void changeItems() async {
+  void changeItems(BuildContext context) async {
 
+    var box = await Hive.openBox<ItemModel>(Database.Name);
+    var chartBox = await Hive.openBox<ChartService>(Database.ChartName);
     DateTime now = DateTime.now();
 
-    final box = await Hive.openBox<ItemModel>(Database.Name);
-    _itemModelList.where((element) =>
-    element.fromDate.compareTo(DateTime(now.year, now.month, now.day)) > 0)
-        .forEach((element) {
-          ItemModel model = element;
+    _itemModelList.where((element) => element.fromDate.compareTo(DateTime(now.year, now.month, now.day)) < 0).forEach((element) {
+      ItemModel model = element;
 
-          model.fromDate = DateTime(now.year, now.month, now.day);
-          box.putAt(_itemModelList.indexOf(element), model);
+      ///ChartModel
+      ChartService chartService = ChartService(0, 0, DateTime(0));
+      List<ChartService> chartList = chartBox.values.toList();
+
+      if (model.fromDate.compareTo(DateTime(now.year, now.month, now.day)) != 0 && model.categories == Categories.tasks) {
+        DateTime _now = DateTime(now.year, now.month, now.day);
+
+        ///TODO: wenn zwei items verändert werden, dann wird nur 1 zum aktuellen chart hinzugefügt
+        Provider.of<ChartService>(context, listen: false).putNotChecked(_now, chartService.getNumberOfNotChecked(chartList, _now) + 1);
+        Provider.of<ChartService>(context, listen: false)
+            .putNotChecked(model.fromDate, chartService.getNumberOfNotChecked(chartList, model.fromDate) != 0 ? chartService.getNumberOfNotChecked(chartList, model.fromDate) - 1 : 0);
+      }
+
+      model.fromDate = DateTime(now.year, now.month, now.day);
+      box.putAt(_itemModelList.indexOf(element), model);
     });
 
   }

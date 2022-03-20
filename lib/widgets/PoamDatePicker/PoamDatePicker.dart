@@ -25,7 +25,7 @@ class _PoamDatePickerState extends State<PoamDatePicker> {
   DateTime selectedDate = DateTime.now();
   DateTime selectedTime = DateTime(0,0,0, DateTime.now().hour, DateTime.now().minute + 1);
   late String dateTime;
-  bool _picked = false;
+  bool _pickedTime = false, _pickedDate = false;
 
   @override
   Widget build(BuildContext context) {
@@ -40,9 +40,17 @@ class _PoamDatePickerState extends State<PoamDatePicker> {
     if (widget.timeController!.text == "") {
       widget.timeController!.text = selectedTime.hour.toString() + ":" + selectedTime.minute.toString();
     }
-    if (_picked == false && selectedTime.compareTo(DateTime.now()) < 0) {
+    if (_pickedDate == false && selectedDate.compareTo(DateTime.now()) < 0) {
       SchedulerBinding.instance?.addPostFrameCallback((_) {
-        widget.timeController!.text = DateTime.now().hour.toString() + ":" + (DateTime.now().minute + 1).toString();
+        widget.dateController!.text = DateFormat.yMd(Localizations.localeOf(context).languageCode).format(DateTime.now());
+      });
+    }
+    if (_pickedTime == false && selectedTime.compareTo(DateTime.now()) < 0) {
+      DateTime now = DateTime.now();
+      DateTime _now = DateTime(0, 0, 0, now.hour, now.minute + 1);
+
+      SchedulerBinding.instance?.addPostFrameCallback((_) {
+        widget.timeController!.text = DateFormat.Hm(Localizations.localeOf(context).languageCode).format(_now);
       });
     }
 
@@ -56,7 +64,8 @@ class _PoamDatePickerState extends State<PoamDatePicker> {
           lastDate: DateTime(2101));
       if (picked != null)
         selectedDate = picked;
-      widget.dateController!.text = DateFormat.yMd(Localizations.localeOf(context).languageCode).format(selectedDate);
+        _pickedDate = true;
+        widget.dateController!.text = DateFormat.yMd(Localizations.localeOf(context).languageCode).format(selectedDate);
     }
 
     ///Opens TimePicker
@@ -67,7 +76,7 @@ class _PoamDatePickerState extends State<PoamDatePicker> {
       );
       if (picked != null)
         setState(() {
-          _picked = true;
+          _pickedTime = true;
           TimeOfDay timeOfDay = picked;
           selectedTime = DateTime(0,0,0, timeOfDay.hour, timeOfDay.minute);
           _hour = selectedTime.hour.toString();
