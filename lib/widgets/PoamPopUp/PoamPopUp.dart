@@ -45,7 +45,6 @@ class _PoamPopUpState extends State<PoamPopUp> {
   String personDropDownValue = "";
   String quantityTypeDropwDownValue = "";
 
-  //Color selectedColor = Colors.blueAccent;
   Color? selectedColor;
 
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -403,6 +402,7 @@ class _PoamPopUpState extends State<PoamPopUp> {
               ),
             ),
           );
-        });
+        }
+        );
   }
 }

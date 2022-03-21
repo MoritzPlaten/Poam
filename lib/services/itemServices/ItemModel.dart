@@ -91,12 +91,13 @@ class ItemModel extends ChangeNotifier {
       List<ChartService> chartList = chartBox.values.toList();
 
       if (model.fromDate.compareTo(DateTime(now.year, now.month, now.day)) != 0 && model.categories == Categories.tasks) {
-        DateTime _now = DateTime(now.year, now.month, now.day);
 
-        ///TODO: wenn zwei items verändert werden, dann wird nur 1 zum aktuellen chart hinzugefügt
-        Provider.of<ChartService>(context, listen: false).putNotChecked(_now, chartService.getNumberOfNotChecked(chartList, _now) + 1);
-        Provider.of<ChartService>(context, listen: false)
-            .putNotChecked(model.fromDate, chartService.getNumberOfNotChecked(chartList, model.fromDate) != 0 ? chartService.getNumberOfNotChecked(chartList, model.fromDate) - 1 : 0);
+        DateTime _now = DateTime(now.year, now.month, now.day);
+        int numberOfFromDate = chartBox.values.where((element) => element.dateTime.compareTo(model.fromDate) == 0).last.isNotChecked;
+        int numberOfToday = chartBox.values.where((element) => element.dateTime.compareTo(_now) == 0).last.isNotChecked;
+
+        Provider.of<ChartService>(context, listen: false).putNotChecked(_now, numberOfToday + numberOfFromDate);
+        Provider.of<ChartService>(context, listen: false).putNotChecked(model.fromDate, numberOfFromDate < 0 ? numberOfFromDate - 1 : 0);
       }
 
       model.fromDate = DateTime(now.year, now.month, now.day);

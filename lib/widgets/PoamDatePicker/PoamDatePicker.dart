@@ -22,7 +22,6 @@ class _PoamDatePickerState extends State<PoamDatePicker> {
 
   late Color primaryColor;
   late Size size;
-  late String _hour, _minute, _time;
   DateTime selectedDate = DateTime.now();
   DateTime selectedTime = DateTime(0,0,0, DateTime.now().hour, DateTime.now().minute + 1);
   late String dateTime;
@@ -103,8 +102,7 @@ class _PoamDatePickerState extends State<PoamDatePicker> {
           _pickedTime = true;
           TimeOfDay timeOfDay = picked;
           selectedTime = DateTime(0,0,0, timeOfDay.hour, timeOfDay.minute);
-          _time = DateFormat.Hm(Localizations.localeOf(context).languageCode).format(selectedTime);
-          widget.timeController!.text = _time;
+          widget.timeController!.text = DateFormat.Hm(Localizations.localeOf(context).languageCode).format(selectedTime);
         });
     }
 

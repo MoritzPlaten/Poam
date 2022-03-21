@@ -113,8 +113,6 @@ class ChartService extends ChangeNotifier {
 
   int getNumberOfNotChecked(List<ChartService> chartList, DateTime dateTime) {
 
-    DateService dateService = DateService();
-
     if (chartList.length == 0) {
       return 0;
     }
