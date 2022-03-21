@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
+import 'package:intl/intl.dart';
 import 'package:poam/services/chartServices/ChartService.dart';
 import 'package:poam/services/dateServices/Objects/Frequency.dart';
 import 'package:poam/services/itemServices/Objects/Category/Category.dart';
@@ -120,8 +121,8 @@ class _PoamItemState extends State<PoamItem> {
                           ///if fromTime != toTime, then display "fromTime - toTime Uhr"
                           if (widget.itemModel!.categories == Categories.tasks && widget.itemModel!.fromTime != widget.itemModel!.toTime)
                             Text(
-                              AppLocalizations.of(context)!.around + " " + widget.itemModel!.fromTime.hour.toString() + ":" + widget.itemModel!.fromTime.minute.toString() +
-                                  " - " + widget.itemModel!.toTime.hour.toString() + ":" + widget.itemModel!.toTime.minute.toString() + " " + AppLocalizations.of(context)!.clock,
+                              AppLocalizations.of(context)!.around + " " + DateFormat.Hm(Localizations.localeOf(context).languageCode).format(widget.itemModel!.fromTime) +
+                                  " - " + DateFormat.Hm(Localizations.localeOf(context).languageCode).format(widget.itemModel!.toTime) + " " + AppLocalizations.of(context)!.clock,
                               style: GoogleFonts.kreon(
                                   color: primaryColor,
                                   fontSize: 13,
@@ -132,7 +133,7 @@ class _PoamItemState extends State<PoamItem> {
                           ///if fromTime == toTime, then display "fromTime"
                           if (widget.itemModel!.categories == Categories.tasks && widget.itemModel!.fromTime == widget.itemModel!.toTime)
                             Text(
-                              AppLocalizations.of(context)!.around + " " + widget.itemModel!.fromTime.hour.toString() + ":" + widget.itemModel!.fromTime.minute.toString() + " " + AppLocalizations.of(context)!.clock,
+                              AppLocalizations.of(context)!.around + " " + DateFormat.Hm(Localizations.localeOf(context).languageCode).format(widget.itemModel!.fromTime) + " " + AppLocalizations.of(context)!.clock,
                               style: GoogleFonts.kreon(
                                   color: primaryColor,
                                   fontSize: 13,

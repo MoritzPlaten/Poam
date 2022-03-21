@@ -49,7 +49,6 @@ class ChartService extends ChangeNotifier {
         DateTime dates = listOfDates.elementAt(i);
         DateTime _dates = DateTime(dates.year, dates.month, dates.day);
 
-        print(itemModelBox.values.where((element) => element.fromDate == _dates));
         box.add(ChartService(0, itemModelBox.values.where((element) => element.fromDate == _dates).toList().length, _dates));
       }
     }

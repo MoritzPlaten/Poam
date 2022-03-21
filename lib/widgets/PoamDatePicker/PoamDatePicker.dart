@@ -10,8 +10,9 @@ class PoamDatePicker extends StatefulWidget {
   final TextEditingController? timeController;
   final DateTime? fromDate;
   final DateTime? fromTime;
+  final bool? EditMode;
 
-  const PoamDatePicker({ Key? key, this.title, this.timeController, this.dateController, this.fromDate, this.fromTime }) : super(key: key);
+  const PoamDatePicker({ Key? key, this.title, this.timeController, this.dateController, this.fromDate, this.fromTime, this.EditMode }) : super(key: key);
 
   @override
   _PoamDatePickerState createState() => _PoamDatePickerState();
@@ -40,18 +41,44 @@ class _PoamDatePickerState extends State<PoamDatePicker> {
     if (widget.timeController!.text == "") {
       widget.timeController!.text = selectedTime.hour.toString() + ":" + selectedTime.minute.toString();
     }
-    if (_pickedDate == false && selectedDate.compareTo(DateTime.now()) < 0) {
+    ///
+    if (widget.EditMode == false && _pickedDate == false && selectedDate.compareTo(DateTime.now()) < 0) {
       SchedulerBinding.instance?.addPostFrameCallback((_) {
         widget.dateController!.text = DateFormat.yMd(Localizations.localeOf(context).languageCode).format(DateTime.now());
       });
     }
-    if (_pickedTime == false && selectedTime.compareTo(DateTime.now()) < 0) {
+    if (widget.EditMode == false && _pickedTime == false && selectedTime.compareTo(DateTime.now()) < 0) {
       DateTime now = DateTime.now();
       DateTime _now = DateTime(0, 0, 0, now.hour, now.minute + 1);
 
       SchedulerBinding.instance?.addPostFrameCallback((_) {
         widget.timeController!.text = DateFormat.Hm(Localizations.localeOf(context).languageCode).format(_now);
       });
+    }
+    ///if the fromTime or the fromDate is change, then it will be set the toDate or the toTime equal the fromTime or the fromDate
+    ///TODO: Termine in der Zukunft passen irgendwie nicht: Wenn diese auf nächste Woche hinzugefügt wurden
+    ///TODO: Time Picker: toTime lässt sich nicht verändern wenn EditMode an ist: liegt vielleicht mit an DatePicker Change
+    if (widget.fromDate != null && widget.fromTime != null) {
+
+      DateTime toDate = selectedDate;
+      DateTime toTime = selectedTime;
+
+      /*if (toTime.compareTo(widget.fromTime!) < 0) {
+        selectedTime = widget.fromTime!;
+
+        SchedulerBinding.instance?.addPostFrameCallback((_) {
+          widget.timeController!.text = DateFormat.Hm(Localizations.localeOf(context).languageCode).format(widget.fromTime!);
+        });
+      }*/
+
+      /*if (toDate.compareTo(widget.fromDate!) < 0) {
+        selectedDate = widget.fromDate!;
+
+        SchedulerBinding.instance?.addPostFrameCallback((_) {
+          widget.dateController!.text = DateFormat.yMd(Localizations.localeOf(context).languageCode).format(widget.fromDate!);
+        });
+
+      }*/
     }
 
     ///Opens DatePicker
@@ -79,35 +106,9 @@ class _PoamDatePickerState extends State<PoamDatePicker> {
           _pickedTime = true;
           TimeOfDay timeOfDay = picked;
           selectedTime = DateTime(0,0,0, timeOfDay.hour, timeOfDay.minute);
-          _hour = selectedTime.hour.toString();
-          _minute = selectedTime.minute.toString();
-          _time = _hour + ':' + _minute;
+          _time = DateFormat.Hm(Localizations.localeOf(context).languageCode).format(selectedTime);
           widget.timeController!.text = _time;
         });
-    }
-
-    ///if the fromTime or the fromDate is change, then it will be set the toDate or the toTime equal the fromTime or the fromDate
-    ///TODO: Error message
-    if (widget.fromDate != null && widget.fromTime != null) {
-
-      DateTime toDate = selectedDate;
-      DateTime toTime = selectedTime;
-
-      if (toTime.compareTo(widget.fromTime!) < 0) {
-        selectedTime = widget.fromTime!;
-
-        SchedulerBinding.instance?.addPostFrameCallback((_) {
-          widget.timeController!.text = DateFormat.Hm(Localizations.localeOf(context).languageCode).format(widget.fromTime!);
-        });
-      }
-      if (toDate.compareTo(widget.fromDate!) < 0) {
-        selectedDate = widget.fromDate!;
-
-        SchedulerBinding.instance?.addPostFrameCallback((_) {
-          widget.dateController!.text = DateFormat.yMd(Localizations.localeOf(context).languageCode).format(widget.fromDate!);
-        });
-
-      }
     }
 
     return Row(

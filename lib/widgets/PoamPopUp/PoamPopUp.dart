@@ -114,10 +114,10 @@ class _PoamPopUpState extends State<PoamPopUp> {
                 ///if the From DateTime is not over, then set the item settings. Else set DateTime.now()
                 if (isFromDateTimeOver.compareTo(DateTime.now()) > 0) {
 
-                  _fromDateController.text = DateFormat.yMd(Localizations.localeOf(context).languageCode).format(widget.itemModel!.fromDate);
-                  _fromTimeController.text = widget.itemModel!.fromTime.hour.toString() + ":" + widget.itemModel!.fromTime.minute.toString();
-                  _toDateController.text = DateFormat.yMd(Localizations.localeOf(context).languageCode).format(widget.itemModel!.toDate); //.add(dateDuration)
-                  _toTimeController.text = widget.itemModel!.toTime.hour.toString() + ":" + widget.itemModel!.toTime.minute.toString();
+                  _fromDateController.text = DateFormat.yMd(Localizations.localeOf(context).languageCode).format(isFromDateTimeOver);
+                  _fromTimeController.text = DateFormat.Hm(Localizations.localeOf(context).languageCode).format(isFromDateTimeOver);
+                  _toDateController.text = DateFormat.yMd(Localizations.localeOf(context).languageCode).format(isToDateTimeOver);
+                  _toTimeController.text = DateFormat.Hm(Localizations.localeOf(context).languageCode).format(isToDateTimeOver);
 
                   ///if the to DateTime is not over and the fromDateTime is over, then set item settings
                 } else if (isToDateTimeOver.compareTo(DateTime.now()) > 0 && isFromDateTimeOver.compareTo(DateTime.now()) < 0) {
@@ -303,6 +303,7 @@ class _PoamPopUpState extends State<PoamPopUp> {
                                           ": ",
                                   dateController: _fromDateController,
                                   timeController: _fromTimeController,
+                                  EditMode: widget.isEditMode,
                                 ),
                               if (categoryDropDownValue ==
                                   displayTextCategory(
@@ -324,6 +325,7 @@ class _PoamPopUpState extends State<PoamPopUp> {
                                           .parse(_fromTimeController.text)
                                       : DateTime(0, 0, 0, DateTime.now().hour,
                                           DateTime.now().minute + 1),
+                                  EditMode: widget.isEditMode,
                                 ),
                             ],
                           ),
