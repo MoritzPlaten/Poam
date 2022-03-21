@@ -39,9 +39,9 @@ class _PoamDatePickerState extends State<PoamDatePicker> {
       widget.dateController!.text = DateFormat.yMd(Localizations.localeOf(context).languageCode).format(selectedDate);
     }
     if (widget.timeController!.text == "") {
-      widget.timeController!.text = selectedTime.hour.toString() + ":" + selectedTime.minute.toString();
+      widget.timeController!.text = DateFormat.Hm(Localizations.localeOf(context).languageCode).format(selectedTime);
     }
-    ///
+    ///if no date is pick, then update the time and the Date automatically
     if (widget.EditMode == false && _pickedDate == false && selectedDate.compareTo(DateTime.now()) < 0) {
       SchedulerBinding.instance?.addPostFrameCallback((_) {
         widget.dateController!.text = DateFormat.yMd(Localizations.localeOf(context).languageCode).format(DateTime.now());
@@ -56,29 +56,26 @@ class _PoamDatePickerState extends State<PoamDatePicker> {
       });
     }
     ///if the fromTime or the fromDate is change, then it will be set the toDate or the toTime equal the fromTime or the fromDate
-    ///TODO: Termine in der Zukunft passen irgendwie nicht: Wenn diese auf nächste Woche hinzugefügt wurden
-    ///TODO: Time Picker: toTime lässt sich nicht verändern wenn EditMode an ist: liegt vielleicht mit an DatePicker Change
     if (widget.fromDate != null && widget.fromTime != null) {
 
-      DateTime toDate = selectedDate;
-      DateTime toTime = selectedTime;
+      DateTime updatedToDate = DateFormat.yMd(Localizations.localeOf(context).languageCode).parse(widget.dateController!.text);
+      DateTime updatedToTime = DateFormat.Hm(Localizations.localeOf(context).languageCode).parse(widget.timeController!.text);
 
-      /*if (toTime.compareTo(widget.fromTime!) < 0) {
-        selectedTime = widget.fromTime!;
-
-        SchedulerBinding.instance?.addPostFrameCallback((_) {
-          widget.timeController!.text = DateFormat.Hm(Localizations.localeOf(context).languageCode).format(widget.fromTime!);
-        });
-      }*/
-
-      /*if (toDate.compareTo(widget.fromDate!) < 0) {
+      if (updatedToDate.isBefore(widget.fromDate!)) {
         selectedDate = widget.fromDate!;
 
         SchedulerBinding.instance?.addPostFrameCallback((_) {
           widget.dateController!.text = DateFormat.yMd(Localizations.localeOf(context).languageCode).format(widget.fromDate!);
         });
+      }
 
-      }*/
+      if (updatedToTime.compareTo(widget.fromTime!) < 0) {
+        selectedTime = widget.fromTime!;
+
+        SchedulerBinding.instance?.addPostFrameCallback((_) {
+          widget.timeController!.text = DateFormat.Hm(Localizations.localeOf(context).languageCode).format(widget.fromTime!);
+        });
+      }
     }
 
     ///Opens DatePicker

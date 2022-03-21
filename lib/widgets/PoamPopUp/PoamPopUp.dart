@@ -313,7 +313,6 @@ class _PoamPopUpState extends State<PoamPopUp> {
                                       ": ",
                                   dateController: _toDateController,
                                   timeController: _toTimeController,
-
                                   fromDate: _fromDateController.text != ""
                                       ? DateFormat.yMd(
                                               Localizations.localeOf(context)
