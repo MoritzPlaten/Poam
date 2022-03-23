@@ -96,10 +96,7 @@ class ChartService extends ChangeNotifier {
 
   int getNumberOfChecked(List<ChartService> chartList, DateTime dateTime) {
 
-    if (chartList.length == 0) {
-      return 0;
-    }
-
+    if (chartList.length == 0) { return 0; }
     if (chartList.where(
             (element) => element.dateTime.year == dateTime.year && element.dateTime.month == dateTime.month && element.dateTime.day == dateTime.day).length == 0) {
       return 0;
@@ -113,10 +110,7 @@ class ChartService extends ChangeNotifier {
 
   int getNumberOfNotChecked(List<ChartService> chartList, DateTime dateTime) {
 
-    if (chartList.length == 0) {
-      return 0;
-    }
-
+    if (chartList.length == 0) { return 0; }
     if (chartList.where(
             (element) => element.dateTime.year == dateTime.year && element.dateTime.month == dateTime.month && element.dateTime.day == dateTime.day).length == 0) {
       return 0;

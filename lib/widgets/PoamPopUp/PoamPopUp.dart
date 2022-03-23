@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:hive_flutter/adapters.dart';
@@ -55,6 +57,9 @@ class _PoamPopUpState extends State<PoamPopUp> {
   TextEditingController _titleController = TextEditingController();
   TextEditingController _numberController = TextEditingController();
   TextEditingController _descriptionController = TextEditingController();
+
+  bool? _fromDatePicked;
+  bool? _fromTimePicked;
 
   @override
   Widget build(BuildContext context) {
@@ -302,6 +307,8 @@ class _PoamPopUpState extends State<PoamPopUp> {
                                           ": ",
                                   dateController: _fromDateController,
                                   timeController: _fromTimeController,
+                                  fromDateListener: (value) => _fromDatePicked = value,
+                                  fromTimeListener: (value) => _fromTimePicked = value,
                                   EditMode: widget.isEditMode,
                                 ),
                               if (categoryDropDownValue ==
@@ -323,6 +330,8 @@ class _PoamPopUpState extends State<PoamPopUp> {
                                           .parse(_fromTimeController.text)
                                       : DateTime(0, 0, 0, DateTime.now().hour,
                                           DateTime.now().minute + 1),
+                                  fromDatePicked: _fromDatePicked,
+                                  fromTimePicked: _fromTimePicked,
                                   EditMode: widget.isEditMode,
                                 ),
                             ],
