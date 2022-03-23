@@ -12,6 +12,7 @@ import 'package:poam/services/itemServices/ItemModel.dart';
 import 'package:poam/services/itemServices/Objects/Person/Person.dart';
 import 'package:poam/widgets/PoamColorPicker/PoamColorPicker.dart';
 import 'package:poam/widgets/PoamDropDown/PoamDropDown.dart';
+import 'package:poam/widgets/PoamNotification/PoamNotification.dart';
 import 'package:poam/widgets/PoamPersonPicker/PoamPersonPicker.dart';
 import 'package:poam/widgets/PoamSnackbar/PoamSnackbar.dart';
 import 'package:poam/widgets/PoamTextField/PoamTextField.dart';
@@ -351,6 +352,11 @@ class _PoamPopUpState extends State<PoamPopUp> {
                             iconData: Icons.arrow_drop_down,
                             foregroundColor: Colors.black,
                           ),
+
+                        ///Displays the notification settings
+                        if (categoryDropDownValue ==
+                            displayTextCategory(context, Categories.tasks))
+                          PoamNotification(),
 
                         ///Displays the Color Picker
                         if (categoryDropDownValue ==
