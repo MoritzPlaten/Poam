@@ -96,9 +96,15 @@ class _MyAppState extends State<MyApp> {
 
       debugShowCheckedModeBanner: false,
       title: 'Poam',
+      ///TODO: optimize Dark Mode
       theme: ThemeData(
         primaryColor: _menuColor,
+        brightness: Brightness.light
       ),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+      ),
+      themeMode: ThemeMode.system,
       initialRoute: "/",
       routes: {
         '/': (context) => const App(),

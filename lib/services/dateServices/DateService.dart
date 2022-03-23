@@ -8,13 +8,18 @@ class DateService extends ChangeNotifier {
   DateTime getMondayDate() {
     var d = DateTime.now();
     var weekDay = d.weekday;
+    DateTime _monday = d.subtract(Duration(days: weekDay - 1));
+    //return DateTime(_monday.year, _monday.month, _monday.day);
     return d.subtract(Duration(days: weekDay - 1));
   }
 
   ///Gets the Date of the Sunday in this week
+  ///TODO: Mittwoch um 23:56Uhr auf mein Handy und Tablet gabs den Sonntag nicht, sehr wahrscheinlich wegen den Stunden und Minuten...? überprüfen
   DateTime getSundayDate() {
     var d = DateTime.now();
     var weekDay = d.weekday;
+    DateTime _sunday = d.subtract(Duration(days: weekDay - 7));
+    //return DateTime(_sunday.year, _sunday.month, _sunday.day);
     return d.subtract(Duration(days: weekDay - 7));
   }
 

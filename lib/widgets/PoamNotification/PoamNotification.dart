@@ -64,7 +64,11 @@ class _PoamNotificationState extends State<PoamNotification> {
               height: 40,
               width: 40,
               child: FloatingActionButton(
-                child: const Icon(Icons.add),
+                child: const Icon(
+                  Icons.add,
+                  color: Colors.white,
+                ),
+                backgroundColor: primaryColor,
                 onPressed: () {
 
                 },

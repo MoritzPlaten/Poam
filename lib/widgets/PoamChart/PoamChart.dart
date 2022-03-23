@@ -42,7 +42,7 @@ class _PoamChartState extends State<PoamChart> {
             width: size.width,
             height: size.height * 0.35,
             child: FutureBuilder(
-              future: Provider.of<ChartService>(context, listen: false).getSeries(context, box.values.toList(), primaryColor),
+              future: Provider.of<ChartService>(context, listen: false).getSeries(context, box.values.toList(), ThemeMode.system == ThemeData.light() ? primaryColor : Colors.white),
               builder: (BuildContext context, AsyncSnapshot<List<charts.Series<dynamic, String>>> snapshot) {
 
                 if (snapshot.hasData) {

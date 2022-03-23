@@ -65,7 +65,7 @@ class _PoamDateItemState extends State<PoamDateItem> {
                                   .description !=
                               "")
                             CostumListTile(
-                              color: primaryColor,
+                              color: ThemeMode.system == ThemeData.light() ? primaryColor : Colors.white,
                               size: size,
                               dates: dates,
                               Index: i,
@@ -119,7 +119,7 @@ class _PoamDateItemState extends State<PoamDateItem> {
                                       .format(dates[widget.dateIndex!]),
                               style: GoogleFonts.novaMono(
                                 fontSize: 11,
-                                color: primaryColor,
+                                color: ThemeMode.system == ThemeData.light() ? primaryColor : Colors.white,
                                 fontWeight: FontWeight.bold,
                               )),
                           const Flexible(
@@ -202,7 +202,7 @@ class _PoamDateItemState extends State<PoamDateItem> {
                                                     .frequency !=
                                                 "")
                                               CostumListTile(
-                                                color: primaryColor,
+                                                color: ThemeMode.system == ThemeData.light() ? primaryColor : Colors.white,
                                                 size: size,
                                                 dates: dates,
                                                 Index: i,
@@ -234,7 +234,7 @@ class _PoamDateItemState extends State<PoamDateItem> {
                                                     .description !=
                                                 "")
                                               CostumListTile(
-                                                color: primaryColor,
+                                                color: ThemeMode.system == ThemeData.light() ? primaryColor : Colors.white,
                                                 size: size,
                                                 dates: dates,
                                                 Index: i,

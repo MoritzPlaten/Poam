@@ -68,6 +68,7 @@ class _PoamFloatingButtonState extends State<PoamFloatingButton> {
         height: 60,
         child: const Icon(
           Icons.add,
+          color: Colors.white,
           size: 25,
         ),
         decoration: BoxDecoration(

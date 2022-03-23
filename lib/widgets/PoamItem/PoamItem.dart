@@ -49,7 +49,7 @@ class _PoamItemState extends State<PoamItem> {
       padding: const EdgeInsets.only(left: 10, right: 10, top: 6, bottom: 6),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        color: Colors.white
+        color: ThemeMode.system == ThemeData.light() ? primaryColor : Colors.grey.shade800,
       ),
       child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -124,7 +124,7 @@ class _PoamItemState extends State<PoamItem> {
                               AppLocalizations.of(context)!.around + " " + DateFormat.Hm(Localizations.localeOf(context).languageCode).format(widget.itemModel!.fromTime) +
                                   " - " + DateFormat.Hm(Localizations.localeOf(context).languageCode).format(widget.itemModel!.toTime) + " " + AppLocalizations.of(context)!.clock,
                               style: GoogleFonts.kreon(
-                                  color: primaryColor,
+                                  color: ThemeMode.system == ThemeData.light() ? primaryColor : Colors.white,
                                   fontSize: 13,
                                   fontWeight: FontWeight.bold
                               ),
@@ -135,7 +135,7 @@ class _PoamItemState extends State<PoamItem> {
                             Text(
                               AppLocalizations.of(context)!.around + " " + DateFormat.Hm(Localizations.localeOf(context).languageCode).format(widget.itemModel!.fromTime) + " " + AppLocalizations.of(context)!.clock,
                               style: GoogleFonts.kreon(
-                                  color: primaryColor,
+                                  color: ThemeMode.system == ThemeData.light() ? primaryColor : Colors.white,
                                   fontSize: 13,
                                   fontWeight: FontWeight.bold
                               ),
@@ -148,7 +148,7 @@ class _PoamItemState extends State<PoamItem> {
                                   widget.itemModel!.amounts.Number.toString() + " " +
                                   displayTextQuantityType(context, widget.itemModel!.amounts.quantityType!),
                               style: GoogleFonts.kreon(
-                                  color: primaryColor,
+                                  color: ThemeMode.system == ThemeData.light() ? primaryColor : Colors.white,
                                   fontSize: 12,
                                   fontWeight: FontWeight.bold
                               ),
@@ -161,7 +161,7 @@ class _PoamItemState extends State<PoamItem> {
                               child: Text(
                                 "Person: " + widget.itemModel!.person.name.toString(),
                                 style: GoogleFonts.kreon(
-                                    color: primaryColor,
+                                    color: ThemeMode.system == ThemeData.light() ? primaryColor : Colors.white,
                                     fontSize: 12,
                                     fontWeight: FontWeight.bold
                                 ),
@@ -183,7 +183,7 @@ class _PoamItemState extends State<PoamItem> {
                     builder: (BuildContext context, Box<ChartService> box, widgets) {
                   return Checkbox(
                     checkColor: primaryColor,
-                    fillColor: MaterialStateProperty.all(primaryColor),
+                    fillColor: MaterialStateProperty.all(ThemeMode.system == ThemeData.light() ? primaryColor : Colors.white),
                     value: widget.itemModel!.isChecked,
                     onChanged: (bool? value) async {
 

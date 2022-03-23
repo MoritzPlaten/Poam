@@ -81,7 +81,7 @@ class _PoamMenuState extends State<PoamMenu> {
         margin: const EdgeInsets.only(top: 4, right: 2, left: 2, bottom: 6),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          color: Colors.white,
+          color: ThemeMode.system == ThemeData.light() ? Colors.white : Colors.grey.shade800,
           boxShadow: [
             BoxShadow(
               color: Colors.grey.withOpacity(0.5),
