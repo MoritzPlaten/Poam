@@ -96,7 +96,7 @@ class _MyAppState extends State<MyApp> {
 
       debugShowCheckedModeBanner: false,
       title: 'Poam',
-      ///TODO: optimize Dark Mode
+      ///TODO: add Dark Mode
       theme: ThemeData(
         primaryColor: _menuColor,
         brightness: Brightness.light

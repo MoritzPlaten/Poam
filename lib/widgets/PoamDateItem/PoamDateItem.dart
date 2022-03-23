@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:intl/intl.dart';
 import 'package:poam/services/dateServices/DateService.dart';
@@ -32,11 +31,13 @@ class _PoamDateItemState extends State<PoamDateItem> {
   late Color primaryColor;
   late String languageCode;
   late Size size;
+  late Brightness brightness;
 
   @override
   Widget build(BuildContext context) {
     ///initialize
     dateService = DateService();
+    brightness = MediaQuery.of(context).platformBrightness;
     dates = dateService.getListOfAllDates(widget.allItems!
         .where((element) => element.categories == Categories.tasks));
     primaryColor = Theme.of(context).primaryColor;
@@ -65,7 +66,7 @@ class _PoamDateItemState extends State<PoamDateItem> {
                                   .description !=
                               "")
                             CostumListTile(
-                              color: ThemeMode.system == ThemeData.light() ? primaryColor : Colors.white,
+                              color: primaryColor,
                               size: size,
                               dates: dates,
                               Index: i,
@@ -119,7 +120,7 @@ class _PoamDateItemState extends State<PoamDateItem> {
                                       .format(dates[widget.dateIndex!]),
                               style: GoogleFonts.novaMono(
                                 fontSize: 11,
-                                color: ThemeMode.system == ThemeData.light() ? primaryColor : Colors.white,
+                                color: primaryColor,
                                 fontWeight: FontWeight.bold,
                               )),
                           const Flexible(
@@ -202,7 +203,7 @@ class _PoamDateItemState extends State<PoamDateItem> {
                                                     .frequency !=
                                                 "")
                                               CostumListTile(
-                                                color: ThemeMode.system == ThemeData.light() ? primaryColor : Colors.white,
+                                                color: primaryColor,
                                                 size: size,
                                                 dates: dates,
                                                 Index: i,
@@ -234,7 +235,7 @@ class _PoamDateItemState extends State<PoamDateItem> {
                                                     .description !=
                                                 "")
                                               CostumListTile(
-                                                color: ThemeMode.system == ThemeData.light() ? primaryColor : Colors.white,
+                                                color: primaryColor,
                                                 size: size,
                                                 dates: dates,
                                                 Index: i,

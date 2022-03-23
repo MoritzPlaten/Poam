@@ -75,7 +75,7 @@ class _AppState extends State<App> {
             BottomNavigationBarItem(
               icon: Icon(
                 Icons.calendar_view_month,
-                color: ThemeMode.system == ThemeData.light() ? primaryColor : Colors.white,
+                color: primaryColor,
               ),
               label: AppLocalizations.of(context)!.home,
             ),
@@ -83,14 +83,14 @@ class _AppState extends State<App> {
             BottomNavigationBarItem(
               icon: Icon(
                 Icons.settings_outlined,
-                color: ThemeMode.system == ThemeData.light() ? primaryColor : Colors.white,
+                color: primaryColor,
               ),
               label: AppLocalizations.of(context)!.settings,
             ),
           ],
           currentIndex: selectedIndex,
           onTap: _onItemTapped,
-          selectedItemColor: ThemeMode.system == ThemeData.light() ? primaryColor : Colors.white,
+          selectedItemColor: primaryColor,
         ),
       ),
     );
