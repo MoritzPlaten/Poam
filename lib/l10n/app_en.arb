@@ -39,5 +39,6 @@
     "language": "Language",
     "save": "Save",
     "menuColor": "Menu Color",
-    "pieces": "pieces"
+    "pieces": "pieces",
+    "notification": "Notifications"
 }

@@ -39,5 +39,6 @@
     "language": "Sprache",
     "save": "Speichern",
     "menuColor": "Menu Farbe",
-    "pieces": "Stücke"
+    "pieces": "Stücke",
+    "notification": "Benachrichtigungen"
 }

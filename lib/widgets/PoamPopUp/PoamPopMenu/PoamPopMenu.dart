@@ -188,7 +188,6 @@ class _PoamPopMenuState extends State<PoamPopMenu> {
                               widget.titleController!.text.trim(),
 
                               ///Set the number. if number == "", then set number to 0
-                              ///TODO: QuantityType anpassbar machen
                               widget.categoryDropDownValue == displayTextCategory(context, Categories.shopping) ? Amounts(int.parse(widget.numberController!.text.trim()), stringToQuantityType(context, widget.quantityTypeDropwDownValue!)) : Amounts(0, QuantityType.Pieces),
 
                               ///isChecked == false
