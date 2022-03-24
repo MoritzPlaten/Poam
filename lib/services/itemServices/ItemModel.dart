@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:poam/services/chartServices/ChartService.dart';
 import 'package:poam/services/itemServices/Objects/Category/Category.dart';
@@ -7,6 +6,7 @@ import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
 
 import '../dateServices/Objects/Frequency.dart';
+import 'Objects/Alarms/Alarms.dart';
 import 'Objects/Amounts/Amounts.dart';
 import 'Objects/Database.dart';
 
@@ -40,9 +40,11 @@ class ItemModel extends ChangeNotifier {
   @HiveField(11)
   String description;
   @HiveField(12)
+  Alarms alarms;
+  @HiveField(13)
   bool expanded;
 
-  ItemModel (this.title, this.amounts, this.isChecked, this.person, this.categories, this.hex, this.fromTime, this.fromDate, this.toTime, this.toDate,this.frequency, this.description, this.expanded);
+  ItemModel (this.title, this.amounts, this.isChecked, this.person, this.categories, this.hex, this.fromTime, this.fromDate, this.toTime, this.toDate,this.frequency, this.description, this.alarms, this.expanded);
 
   List<ItemModel> _itemModelList = <ItemModel>[];
   List<ItemModel> get itemModelList => _itemModelList;
@@ -87,9 +89,6 @@ class ItemModel extends ChangeNotifier {
       ItemModel model = element;
 
       ///ChartModel
-      ChartService chartService = ChartService(0, 0, DateTime(0));
-      List<ChartService> chartList = chartBox.values.toList();
-
       if (model.fromDate.compareTo(DateTime(now.year, now.month, now.day)) != 0 && model.categories == Categories.tasks) {
 
         DateTime _now = DateTime(now.year, now.month, now.day);

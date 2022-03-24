@@ -29,14 +29,15 @@ class ItemModelAdapter extends TypeAdapter<ItemModel> {
       fields[9] as DateTime,
       fields[10] as Frequency,
       fields[11] as String,
-      fields[12] as bool,
+      fields[12] as Alarms,
+      fields[13] as bool,
     );
   }
 
   @override
   void write(BinaryWriter writer, ItemModel obj) {
     writer
-      ..writeByte(13)
+      ..writeByte(14)
       ..writeByte(0)
       ..write(obj.title)
       ..writeByte(1)
@@ -62,6 +63,8 @@ class ItemModelAdapter extends TypeAdapter<ItemModel> {
       ..writeByte(11)
       ..write(obj.description)
       ..writeByte(12)
+      ..write(obj.alarms)
+      ..writeByte(13)
       ..write(obj.expanded);
   }
 

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:intl/intl.dart';
 import 'package:poam/services/chartServices/ChartService.dart';
@@ -14,6 +13,7 @@ import 'package:provider/provider.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../../services/itemServices/Objects/Alarms/Alarms.dart';
 import '../../services/itemServices/Objects/Amounts/Amounts.dart';
 import '../../services/itemServices/Objects/Amounts/QuantityType.dart';
 import '../../services/itemServices/Objects/Database.dart';
@@ -66,7 +66,7 @@ class _PoamItemState extends State<PoamItem> {
                         MaterialPageRoute(builder: (context) => MultiProvider(
                           providers: [
                             ChangeNotifierProvider(
-                              create: (_) => ItemModel("", Amounts(0, QuantityType.Pieces), false, Person(""), Categories.shopping, "", DateTime(0), DateTime(0), DateTime(0), DateTime(0), Frequency.single, "", false),
+                              create: (_) => ItemModel("", Amounts(0, QuantityType.Pieces), false, Person(""), Categories.shopping, "", DateTime(0), DateTime(0), DateTime(0), DateTime(0), Frequency.single, "", Alarms([]), false),
                             ),
                             ChangeNotifierProvider(
                               create: (_) => Person(""),
@@ -203,7 +203,7 @@ class _PoamItemState extends State<PoamItem> {
                               widget.itemModel!.fromDate, box.values.length != 0 ? chartService.getNumberOfNotChecked(box.values.toList(), widget.itemModel!.fromDate) - 1 : 0);
                         }
                       } else {
-                        
+
                         if (widget.itemModel!.categories == Categories.tasks) {
 
                           ///ChartModel
@@ -266,6 +266,8 @@ class _PoamItemState extends State<PoamItem> {
                                   _toDate!,
                                   widget.itemModel!.frequency,
                                   widget.itemModel!.description,
+                                  ///TODO: Hier das ändern
+                                  Alarms([]),
                                   widget.itemModel!.expanded
                               )
                           );

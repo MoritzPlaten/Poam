@@ -9,6 +9,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../services/dateServices/Objects/Frequency.dart';
 import '../../../services/itemServices/ItemModel.dart';
+import '../../../services/itemServices/Objects/Alarms/Alarms.dart';
 import '../../../services/itemServices/Objects/Amounts/Amounts.dart';
 import '../../../services/itemServices/Objects/Amounts/QuantityType.dart';
 import '../../../services/itemServices/Objects/Category/Category.dart';
@@ -220,6 +221,8 @@ class _PoamPopMenuState extends State<PoamPopMenu> {
                               getFrequency(context, widget.frequencyDropDownValue!),
                               ///Description
                               widget.descriptionController!.text.trim(),
+                              ///TODO: Das hier ändern
+                              Alarms([]),
                               ///Set Expanded
                               false
                           );

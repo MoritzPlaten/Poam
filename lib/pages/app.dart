@@ -11,6 +11,7 @@ import 'package:poam/widgets/PoamOptions/PoamOptions.dart';
 import 'package:provider/provider.dart';
 import '../services/dateServices/Objects/Frequency.dart';
 import '../services/itemServices/ItemModel.dart';
+import '../services/itemServices/Objects/Alarms/Alarms.dart';
 import '../services/itemServices/Objects/Amounts/QuantityType.dart';
 import '../services/itemServices/Objects/Category/Category.dart';
 import '../services/itemServices/Objects/Person/Person.dart';
@@ -47,7 +48,7 @@ class _AppState extends State<App> {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (_) => ItemModel("", Amounts(0, QuantityType.Pieces), false, Person(""), Categories.tasks, "0xFFFFFF", DateTime(0), DateTime(0), DateTime(0), DateTime(0), Frequency.single, "", false),
+          create: (_) => ItemModel("", Amounts(0, QuantityType.Pieces), false, Person(""), Categories.tasks, "0xFFFFFF", DateTime(0), DateTime(0), DateTime(0), DateTime(0), Frequency.single, "", Alarms([]), false),
         ),
         ChangeNotifierProvider(
             create: (_) => Locales(""),

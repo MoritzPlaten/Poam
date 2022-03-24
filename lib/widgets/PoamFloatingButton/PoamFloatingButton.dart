@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:poam/services/chartServices/ChartService.dart';
 import 'package:poam/services/dateServices/Objects/Frequency.dart';
+import 'package:poam/services/itemServices/Objects/Alarms/Alarms.dart';
 import 'package:poam/services/itemServices/Objects/Amounts/Amounts.dart';
 import 'package:poam/services/itemServices/Objects/Category/Category.dart';
 import 'package:poam/services/itemServices/ItemModel.dart';
@@ -48,6 +49,7 @@ class _PoamFloatingButtonState extends State<PoamFloatingButton> {
                       DateTime(0),
                       Frequency.single,
                       "",
+                      Alarms([]),
                       false
                   ),
                 ),
