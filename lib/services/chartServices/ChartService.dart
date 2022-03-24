@@ -16,8 +16,6 @@ class ChartService extends ChangeNotifier {
 
   DateService dateService = DateService();
 
-  ///TODO: ChartService: if a ItemModel is checked, then the right chart must be down and the left chart must be up
-
   @HiveField(0)
   final int isNotChecked;
   @HiveField(1)

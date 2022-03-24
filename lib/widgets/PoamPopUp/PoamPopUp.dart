@@ -43,7 +43,6 @@ class _PoamPopUpState extends State<PoamPopUp> {
   late Size size;
   late List<ItemModel> itemModel;
 
-  ///TODO: Frequency is not working
   String frequencyDropDownValue = "";
   String categoryDropDownValue = "";
   String personDropDownValue = "";

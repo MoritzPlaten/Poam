@@ -189,7 +189,6 @@ class _PoamItemState extends State<PoamItem> {
 
                       ChartService chartService = ChartService(0, 0, DateTime(0));
 
-                      ///TODO: if Frequency != Single then don't remove the Item from db, but remove only the surface and for this week
                       if (widget.itemModel!.frequency == Frequency.single) {
 
                         ///ItemModel
@@ -204,13 +203,76 @@ class _PoamItemState extends State<PoamItem> {
                               widget.itemModel!.fromDate, box.values.length != 0 ? chartService.getNumberOfNotChecked(box.values.toList(), widget.itemModel!.fromDate) - 1 : 0);
                         }
                       } else {
-                        ///TODO: Remove surface and for this day but not
+                        
+                        if (widget.itemModel!.categories == Categories.tasks) {
 
-                        Provider.of<ChartService>(context, listen: false).putChecked(widget.itemModel!.fromDate, chartService.getNumberOfChecked(box.values.toList(), widget.itemModel!.fromDate) + 1);
+                          ///ChartModel
+                          Provider.of<ChartService>(context, listen: false)
+                              .putChecked(
+                              widget.itemModel!.fromDate, chartService
+                              .getNumberOfChecked(
+                              box.values.toList(), widget.itemModel!.fromDate) +
+                              1);
+                          Provider.of<ChartService>(context, listen: false)
+                              .putNotChecked(
+                              widget.itemModel!.fromDate, box.values.length != 0
+                              ? chartService.getNumberOfNotChecked(
+                              box.values.toList(), widget.itemModel!.fromDate) -
+                              1
+                              : 0);
 
-                        poamSnackbar.showSnackBar(context,
-                            "Item soll nicht entfernt werden von der Datenbank, sondern nur die Oberfläche für den Tag!",
-                            primaryColor);
+                          DateTime fromDate = widget.itemModel!.fromDate;
+                          DateTime toDate = widget.itemModel!.toDate;
+                          DateTime? _fromDate;
+                          DateTime? _toDate;
+
+                          ///ItemModel
+                          ///Set the Date to a new Date
+                          switch(widget.itemModel!.frequency) {
+
+                            case Frequency.daily:
+                              _fromDate = DateTime(fromDate.year, fromDate.month, fromDate.day + 1);
+                              _toDate = DateTime(toDate.year, toDate.month, toDate.day + 1);
+                              break;
+
+                            case Frequency.weekly:
+                              _fromDate = DateTime(fromDate.year, fromDate.month, fromDate.day + 7);
+                              _toDate = DateTime(toDate.year, toDate.month, toDate.day + 7);
+                              break;
+
+                            case Frequency.monthly:
+                              _fromDate = DateTime(fromDate.year, fromDate.month, fromDate.day + 28);
+                              _toDate = DateTime(toDate.year, toDate.month, toDate.day + 28);
+                              break;
+
+                            case Frequency.yearly:
+                              _fromDate = DateTime(fromDate.year, fromDate.month, fromDate.day + 365);
+                              _toDate = DateTime(toDate.year, toDate.month, toDate.day + 365);
+                              break;
+                          }
+
+                          ///Create the new ItemModel
+                          Provider.of<ItemModel>(context, listen: false).addItem(
+                              new ItemModel(
+                                  widget.itemModel!.title,
+                                  widget.itemModel!.amounts,
+                                  widget.itemModel!.isChecked,
+                                  widget.itemModel!.person,
+                                  widget.itemModel!.categories,
+                                  widget.itemModel!.hex,
+                                  widget.itemModel!.fromTime,
+                                  _fromDate!,
+                                  widget.itemModel!.toTime,
+                                  _toDate!,
+                                  widget.itemModel!.frequency,
+                                  widget.itemModel!.description,
+                                  widget.itemModel!.expanded
+                              )
+                          );
+
+                          ///Remove the Old ItemModel
+                          Provider.of<ItemModel>(context, listen: false).removeItem(widget.itemModel!);
+                        }
                       }
                     },
                   );

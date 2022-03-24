@@ -104,7 +104,7 @@ class _MyAppState extends State<MyApp> {
       darkTheme: ThemeData(
         brightness: Brightness.dark,
       ),
-      themeMode: ThemeMode.system,
+      themeMode: ThemeMode.light,
       initialRoute: "/",
       routes: {
         '/': (context) => const App(),
