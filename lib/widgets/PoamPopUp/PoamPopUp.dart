@@ -6,6 +6,7 @@ import 'package:hive_flutter/adapters.dart';
 import 'package:intl/intl.dart';
 import 'package:poam/services/dateServices/DateService.dart';
 import 'package:poam/services/dateServices/Objects/Frequency.dart';
+import 'package:poam/services/itemServices/Objects/Alarms/Alarms.dart';
 import 'package:poam/services/itemServices/Objects/Amounts/Amounts.dart';
 import 'package:poam/services/itemServices/Objects/Amounts/QuantityType.dart';
 import 'package:poam/services/itemServices/Objects/Category/Category.dart';
@@ -48,6 +49,7 @@ class _PoamPopUpState extends State<PoamPopUp> {
   String personDropDownValue = "";
   String quantityTypeDropwDownValue = "";
 
+  List<DateTime> alarms = List.generate(0, (index) => DateTime(0));
   Color? selectedColor;
 
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -73,6 +75,8 @@ class _PoamPopUpState extends State<PoamPopUp> {
     primaryColor = Theme.of(context).primaryColor;
     poamSnackbar = PoamSnackbar();
     itemModel = Provider.of<ItemModel>(context, listen: false).itemModelList;
+
+    //print(alarms.length);
 
     return ValueListenableBuilder(
         valueListenable: Hive.box<Person>(Database.PersonName).listenable(),
@@ -356,7 +360,11 @@ class _PoamPopUpState extends State<PoamPopUp> {
                         ///Displays the notification settings
                         if (categoryDropDownValue ==
                             displayTextCategory(context, Categories.tasks))
-                          PoamNotification(),
+                          PoamNotification(
+                            addAlarms: (value) => alarms.add(value),
+                            removeAlarms: (value) => alarms.remove(value),
+                            listOfAlarms: alarms,
+                          ),
 
                         ///Displays the Color Picker
                         if (categoryDropDownValue ==
@@ -407,6 +415,7 @@ class _PoamPopUpState extends State<PoamPopUp> {
                       toDateController: _toDateController,
                       toTimeController: _toTimeController,
                       oldDateTime: widget.isEditMode == true ? widget.itemModel!.fromDate : DateTime(0),
+                      alarms: Alarms(alarms),
 
                       ///if EditMode is true then get the index of this itemModel, else set the itemIndex to 0
                       itemIndex: widget.isEditMode == true

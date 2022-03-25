@@ -272,8 +272,7 @@ class _PoamItemState extends State<PoamItem> {
                                       _toDate!,
                                       widget.itemModel!.frequency,
                                       widget.itemModel!.description,
-                                      ///TODO: Hier das ändern
-                                      Alarms([]),
+                                      widget.itemModel!.alarms,
                                       widget.itemModel!.expanded
                                   )
                               );
