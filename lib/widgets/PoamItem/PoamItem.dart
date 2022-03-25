@@ -181,105 +181,110 @@ class _PoamItemState extends State<PoamItem> {
                 child: ValueListenableBuilder(
                     valueListenable: Hive.box<ChartService>(Database.ChartName).listenable(),
                     builder: (BuildContext context, Box<ChartService> box, widgets) {
-                  return Checkbox(
-                    checkColor: primaryColor,
-                    fillColor: MaterialStateProperty.all(primaryColor),
-                    value: widget.itemModel!.isChecked,
-                    onChanged: (bool? value) async {
 
-                      ChartService chartService = ChartService(0, 0, DateTime(0));
 
-                      if (widget.itemModel!.frequency == Frequency.single) {
+                      return Checkbox(
+                        checkColor: primaryColor,
+                        fillColor: MaterialStateProperty.all(primaryColor),
+                        value: widget.itemModel!.isChecked,
+                        onChanged: (bool? value) async {
 
-                        ///ItemModel
-                        widget.itemModel!.isChecked = value!;
-                        Provider.of<ItemModel>(context, listen: false).removeItem(widget.itemModel!);
+                          ChartService chartService = ChartService(0, 0, DateTime(0));
 
-                        ///ChartModel
-                        if (widget.itemModel!.categories == Categories.tasks) {
+                          if (widget.itemModel!.frequency == Frequency.single) {
 
-                          Provider.of<ChartService>(context, listen: false).putChecked(widget.itemModel!.fromDate, chartService.getNumberOfChecked(box.values.toList(), widget.itemModel!.fromDate) + 1);
-                          Provider.of<ChartService>(context, listen: false).putNotChecked(
-                              widget.itemModel!.fromDate, box.values.length != 0 ? chartService.getNumberOfNotChecked(box.values.toList(), widget.itemModel!.fromDate) - 1 : 0);
-                        }
-                      } else {
+                            ///ItemModel
+                            widget.itemModel!.isChecked = value!;
+                            Provider.of<ItemModel>(context, listen: false).removeItem(widget.itemModel!);
 
-                        if (widget.itemModel!.categories == Categories.tasks) {
+                            ///ChartModel
+                            if (widget.itemModel!.categories == Categories.tasks) {
 
-                          ///ChartModel
-                          Provider.of<ChartService>(context, listen: false)
-                              .putChecked(
-                              widget.itemModel!.fromDate, chartService
-                              .getNumberOfChecked(
-                              box.values.toList(), widget.itemModel!.fromDate) +
-                              1);
-                          Provider.of<ChartService>(context, listen: false)
-                              .putNotChecked(
-                              widget.itemModel!.fromDate, box.values.length != 0
-                              ? chartService.getNumberOfNotChecked(
-                              box.values.toList(), widget.itemModel!.fromDate) -
-                              1
-                              : 0);
+                              Provider.of<ChartService>(context, listen: false).putChecked(widget.itemModel!.fromDate, chartService.getNumberOfChecked(box.values.toList(), widget.itemModel!.fromDate) + 1);
+                              Provider.of<ChartService>(context, listen: false).putNotChecked(
+                                  widget.itemModel!.fromDate, box.values.length != 0 ? chartService.getNumberOfNotChecked(box.values.toList(), widget.itemModel!.fromDate) - 1 : 0);
+                            }
+                          } else {
 
-                          DateTime fromDate = widget.itemModel!.fromDate;
-                          DateTime toDate = widget.itemModel!.toDate;
-                          DateTime? _fromDate;
-                          DateTime? _toDate;
+                            if (widget.itemModel!.categories == Categories.tasks) {
 
-                          ///ItemModel
-                          ///Set the Date to a new Date
-                          switch(widget.itemModel!.frequency) {
+                              ///ChartModel
+                              Provider.of<ChartService>(context, listen: false)
+                                  .putChecked(
+                                  widget.itemModel!.fromDate, chartService
+                                  .getNumberOfChecked(
+                                  box.values.toList(), widget.itemModel!.fromDate) +
+                                  1);
+                              Provider.of<ChartService>(context, listen: false)
+                                  .putNotChecked(
+                                  widget.itemModel!.fromDate, box.values.length != 0
+                                  ? chartService.getNumberOfNotChecked(
+                                  box.values.toList(), widget.itemModel!.fromDate) -
+                                  1
+                                  : 0);
 
-                            case Frequency.daily:
-                              _fromDate = DateTime(fromDate.year, fromDate.month, fromDate.day + 1);
-                              _toDate = DateTime(toDate.year, toDate.month, toDate.day + 1);
-                              break;
+                              DateTime fromDate = widget.itemModel!.fromDate;
+                              DateTime toDate = widget.itemModel!.toDate;
+                              DateTime? _fromDate;
+                              DateTime? _toDate;
 
-                            case Frequency.weekly:
-                              _fromDate = DateTime(fromDate.year, fromDate.month, fromDate.day + 7);
-                              _toDate = DateTime(toDate.year, toDate.month, toDate.day + 7);
-                              break;
+                              ///ItemModel
+                              ///Set the Date to a new Date
+                              switch(widget.itemModel!.frequency) {
 
-                            case Frequency.monthly:
-                              _fromDate = DateTime(fromDate.year, fromDate.month, fromDate.day + 28);
-                              _toDate = DateTime(toDate.year, toDate.month, toDate.day + 28);
-                              break;
+                                case Frequency.daily:
+                                  _fromDate = DateTime(fromDate.year, fromDate.month, fromDate.day + 1);
+                                  _toDate = DateTime(toDate.year, toDate.month, toDate.day + 1);
+                                  break;
 
-                            case Frequency.yearly:
-                              _fromDate = DateTime(fromDate.year, fromDate.month, fromDate.day + 365);
-                              _toDate = DateTime(toDate.year, toDate.month, toDate.day + 365);
-                              break;
+                                case Frequency.weekly:
+                                  _fromDate = DateTime(fromDate.year, fromDate.month, fromDate.day + 7);
+                                  _toDate = DateTime(toDate.year, toDate.month, toDate.day + 7);
+                                  break;
+
+                                case Frequency.monthly:
+                                  _fromDate = DateTime(fromDate.year, fromDate.month, fromDate.day + 28);
+                                  _toDate = DateTime(toDate.year, toDate.month, toDate.day + 28);
+                                  break;
+
+                                case Frequency.yearly:
+                                  _fromDate = DateTime(fromDate.year, fromDate.month, fromDate.day + 365);
+                                  _toDate = DateTime(toDate.year, toDate.month, toDate.day + 365);
+                                  break;
+                              }
+
+                              ///ChartModel add new DateTime
+                              Provider.of<ChartService>(context, listen: false)
+                                  .putNotChecked(_fromDate!, chartService.getNumberOfNotChecked(box.values.toList(), _fromDate) + 1);
+
+                              ///Create the new ItemModel
+                              Provider.of<ItemModel>(context, listen: false).addItem(
+                                  new ItemModel(
+                                      widget.itemModel!.title,
+                                      widget.itemModel!.amounts,
+                                      widget.itemModel!.isChecked,
+                                      widget.itemModel!.person,
+                                      widget.itemModel!.categories,
+                                      widget.itemModel!.hex,
+                                      widget.itemModel!.fromTime,
+                                      _fromDate,
+                                      widget.itemModel!.toTime,
+                                      _toDate!,
+                                      widget.itemModel!.frequency,
+                                      widget.itemModel!.description,
+                                      ///TODO: Hier das ändern
+                                      Alarms([]),
+                                      widget.itemModel!.expanded
+                                  )
+                              );
+
+                              ///Remove the Old ItemModel
+                              Provider.of<ItemModel>(context, listen: false).removeItem(widget.itemModel!);
+                            }
                           }
-
-                          ///Create the new ItemModel
-                          Provider.of<ItemModel>(context, listen: false).addItem(
-                              new ItemModel(
-                                  widget.itemModel!.title,
-                                  widget.itemModel!.amounts,
-                                  widget.itemModel!.isChecked,
-                                  widget.itemModel!.person,
-                                  widget.itemModel!.categories,
-                                  widget.itemModel!.hex,
-                                  widget.itemModel!.fromTime,
-                                  _fromDate!,
-                                  widget.itemModel!.toTime,
-                                  _toDate!,
-                                  widget.itemModel!.frequency,
-                                  widget.itemModel!.description,
-                                  ///TODO: Hier das ändern
-                                  Alarms([]),
-                                  widget.itemModel!.expanded
-                              )
-                          );
-
-                          ///Remove the Old ItemModel
-                          Provider.of<ItemModel>(context, listen: false).removeItem(widget.itemModel!);
-                        }
-                      }
-                    },
-                  );
-                }
-                ),
+                        },
+                      );
+                    }),
               ),
 
             ],
