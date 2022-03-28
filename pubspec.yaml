@@ -51,7 +51,7 @@ dependencies:
   flutter_colorpicker: ^1.0.3
   get: ^4.6.1
   speech_to_text: ^5.4.3
-  awesome_notifications: ^0.6.21
+  flutter_local_notifications: ^9.4.0
 
 dev_dependencies:
   flutter_test:

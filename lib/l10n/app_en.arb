@@ -40,5 +40,8 @@
     "save": "Save",
     "menuColor": "Menu Color",
     "pieces": "pieces",
-    "notification": "Notifications"
+    "notification": "Notifications",
+    "date": "Date",
+    "notChecked": "Not Checked",
+    "checked": "Checked"
 }

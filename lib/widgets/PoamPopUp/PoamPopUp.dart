@@ -101,6 +101,7 @@ class _PoamPopUpState extends State<PoamPopUp> {
                 quantityTypeDropwDownValue = displayTextQuantityType(context, widget.itemModel!.amounts.quantityType!);
                 _descriptionController.text = widget.itemModel!.description;
                 selectedColor = Color(HexColor(widget.itemModel!.hex).value);
+                alarms = widget.itemModel!.alarms.listOfAlarms;
 
                 ///DateTimes
                 DateTime isFromDateTimeOver = DateTime(

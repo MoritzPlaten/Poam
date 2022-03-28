@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:hive/hive.dart';
+import 'package:intl/intl.dart';
 import 'package:poam/services/chartServices/Objects/ChartSeries.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:poam/services/itemServices/ItemModel.dart';
@@ -35,7 +36,7 @@ class ChartService extends ChangeNotifier {
     notifyListeners();
   }
 
-  void initialize() async {
+  void initialize(BuildContext context) async {
 
     var box = await Hive.openBox<ChartService>(Database.ChartName);
     var itemModelBox = await Hive.openBox<ItemModel>(Database.Name);
@@ -47,11 +48,12 @@ class ChartService extends ChangeNotifier {
         DateTime dates = listOfDates.elementAt(i);
         DateTime _dates = DateTime(dates.year, dates.month, dates.day);
 
-        box.add(ChartService(0, itemModelBox.values.where((element) => element.fromDate == _dates).toList().length, _dates));
+        box.add(new ChartService(0, itemModelBox.values.where((element) => DateFormat.yMd(Localizations.localeOf(context).languageCode)
+            .format(element.fromDate) == DateFormat.yMd(Localizations.localeOf(context).languageCode)
+            .format(_dates)).toList().length, _dates));
       }
+      notifyListeners();
     }
-
-    notifyListeners();
   }
 
   void putNotChecked(DateTime dateTime, int numberOfNotChecked) async {
@@ -138,20 +140,24 @@ class ChartService extends ChangeNotifier {
     }
   }
 
-  Future<List<charts.Series<dynamic, String>>> getSeries(context, List<ChartService> items, Color primaryColor) async {
+  List<charts.Series<dynamic, String>> getSeries(BuildContext context, List<ChartService> items, Color primaryColor) {
 
-    DateService dateService = DateService();
+    ///TODO: Balken werden nicht mehr angezeigt
+
+    for (int i = 0;i < items.length; i++) {
+      //print(DateFormat.E(Localizations.localeOf(context).languageCode).format(items.elementAt(i).dateTime));
+    }
 
     ChartModel chartModel = ChartModel([
 
       for (int i = 0;i < items.length; i++)
       BarChartModel(
-          day: dateService.displayDate(context, items.elementAt(i).dateTime),
+          day: DateFormat.E(Localizations.localeOf(context).languageCode).format(items.elementAt(i).dateTime),
           tasks: items.elementAt(i).isNotChecked,
           finishedTasks: items.elementAt(i).isChecked,
         ),
     ]);
-
+    
     ChartSeries chartSeries = ChartSeries([
       charts.Series(
           id: "Tasks",

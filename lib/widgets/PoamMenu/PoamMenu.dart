@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:poam/pages/listpage.dart';
 import 'package:poam/services/chartServices/ChartService.dart';
 import 'package:poam/services/dateServices/Objects/Frequency.dart';
@@ -35,6 +36,7 @@ class _PoamMenuState extends State<PoamMenu> {
   late DateService dateService;
   late PoamSnackbar poamSnackbar;
   late int numberOfItemsOnStartScreen;
+  ChartService? selectedChart;
 
   @override
   Widget build(BuildContext context) {
@@ -129,7 +131,29 @@ class _PoamMenuState extends State<PoamMenu> {
                     create: (_) => ChartService(0, 0, DateTime(0)),
                   ),
                 ],
-                child: const PoamChart(),
+                child: Stack(
+                  alignment: Alignment.topRight,
+                  children: [
+
+                    PoamChart(
+                      updateSelectedChart: (val) => selectedChart = val,
+                    ),
+
+                    selectedChart != null ?
+                    Container(
+                      margin: EdgeInsets.only(top: size.height * 0.05, right: size.width * 0.04),
+                      child: Text(
+                        AppLocalizations.of(context)!.date + ": " + DateFormat.yMd(Localizations.localeOf(context).languageCode).format(selectedChart!.dateTime) +
+                            "\n" +AppLocalizations.of(context)!.notChecked + ": " + selectedChart!.isNotChecked.toString() +
+                            "\n" + AppLocalizations.of(context)!.checked + ": " + selectedChart!.isChecked.toString(),
+                        style: GoogleFonts.novaMono(
+                            fontSize: 13
+                        ),
+                      ),
+                    ) : Container(),
+
+                  ],
+                ),
               ),
 
             const SizedBox(

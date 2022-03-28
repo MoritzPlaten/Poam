@@ -16,8 +16,11 @@ import 'package:poam/services/itemServices/Objects/Person/Person.dart';
 import 'package:path_provider/path_provider.dart' as pathProvider;
 import 'package:poam/services/localeService/Locales.dart';
 import 'package:poam/services/localeService/Objects/Languages.dart';
+import 'package:poam/services/notificationServices/NotificationService.dart';
 import 'package:poam/services/settingService/Settings.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart' as notification;
+
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

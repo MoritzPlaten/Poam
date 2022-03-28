@@ -40,5 +40,8 @@
     "save": "Speichern",
     "menuColor": "Menu Farbe",
     "pieces": "Stücke",
-    "notification": "Benachrichtigungen"
+    "notification": "Benachrichtigungen",
+    "date": "Datum",
+    "notChecked": "Nicht Abgehakt",
+    "checked": "Abgehakt"
 }

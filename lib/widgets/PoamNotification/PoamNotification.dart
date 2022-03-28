@@ -59,8 +59,6 @@ class _PoamNotificationState extends State<PoamNotification> {
               });
           }
 
-
-
           return Card(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
@@ -81,53 +79,43 @@ class _PoamNotificationState extends State<PoamNotification> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
 
-                          Text(
-                            AppLocalizations.of(context)!.notification,
-                            textAlign: TextAlign.center,
-                            style: GoogleFonts.novaMono(),
-                          ),
-
-                          const SizedBox(
-                            height: 10,
+                          Container(
+                            child: Text(
+                              AppLocalizations.of(context)!.notification,
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.novaMono(),
+                            ),
+                            margin: EdgeInsets.only(top: 10),
                           ),
 
                           for (int i = 0;i < widget.listOfAlarms!.length;i++)
-                            Card(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.only(top: 5, bottom: 5, right: 10, left: 10),
+                            SizedBox(
 
-                                child: SizedBox(
+                              width: size.width * 0.4,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
 
-                                  width: size.width * 0.4,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-
-                                      Text(
-                                        DateFormat.Hm(Localizations.localeOf(context).languageCode).format(widget.listOfAlarms!.elementAt(i)),
-                                        style: GoogleFonts.novaMono(
-                                            fontWeight: FontWeight.bold
-                                        ),
-                                      ),
-
-                                      IconButton(onPressed: () {
-                                        widget.removeAlarms!(widget.listOfAlarms!.elementAt(i));
-                                      },
-                                        icon: const Icon(
-                                          Icons.delete,
-                                          color: Colors.red,
-                                        ),
-                                      )
-
-                                    ],
+                                  Text(
+                                    DateFormat.Hm(Localizations.localeOf(context).languageCode).format(widget.listOfAlarms!.elementAt(i)),
+                                    style: GoogleFonts.novaMono(
+                                        fontWeight: FontWeight.w600
+                                    ),
                                   ),
-                                ),
+
+                                  IconButton(
+                                    onPressed: () {
+                                      widget.removeAlarms!(widget.listOfAlarms!.elementAt(i));
+                                    },
+                                    icon: const Icon(
+                                      Icons.delete,
+                                      color: Colors.red,
+                                    ),
+                                  )
+
+                                ],
                               ),
                             ),
-
                         ],
                       ),
                     ),

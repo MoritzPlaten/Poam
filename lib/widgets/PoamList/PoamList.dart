@@ -45,11 +45,12 @@ class _PoamListState extends State<PoamList> {
     ///initialize Classes
     Provider.of<Locales>(context, listen: false).initializeLocale(new Locales(languagesAsString(context, Languages.values.first)));
     Provider.of<Settings>(context, listen: false).initializeSettings(new Settings(ColorToHex(Colors.blueAccent).value));
-    Provider.of<ChartService>(context, listen: false).initialize();
+    Provider.of<ChartService>(context, listen: false).initialize(context);
 
     return ValueListenableBuilder(
       valueListenable: Hive.box<ItemModel>(Database.Name).listenable(),
       builder: (context, Box<ItemModel> box, widgets) {
+
         return SizedBox(
 
           width: size.width,

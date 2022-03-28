@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:intl/intl.dart';
 import 'package:poam/services/chartServices/ChartService.dart';
-import 'package:poam/services/dateServices/DateService.dart';
+import 'package:poam/services/notificationServices/NotificationService.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -16,6 +15,7 @@ import '../../../services/itemServices/Objects/Category/Category.dart';
 import '../../../services/itemServices/Objects/Database.dart';
 import '../../../services/itemServices/Objects/Person/Person.dart';
 import '../../PoamSnackbar/PoamSnackbar.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart' as notification;
 
 class PoamPopMenu extends StatefulWidget {
 
@@ -222,7 +222,7 @@ class _PoamPopMenuState extends State<PoamPopMenu> {
                               getFrequency(context, widget.frequencyDropDownValue!),
                               ///Description
                               widget.descriptionController!.text.trim(),
-                              ///TODO: Das hier ändern
+                              ///Set Alarms
                               widget.alarms!,
                               ///Set Expanded
                               false
@@ -262,6 +262,9 @@ class _PoamPopMenuState extends State<PoamPopMenu> {
 
                                 Provider.of<ChartService>(context, listen: false).putNotChecked(itemModel.fromDate, chartService.getNumberOfNotChecked(chartList, itemModel.fromDate) + 1);
                               }
+
+                              //NotificationService notificationService = NotificationService();
+                              //notificationService.showNotification(itemModel.title, itemModel.description, DateTime(itemModel.fromDate.year, itemModel.fromDate.month, itemModel.fromDate.day, itemModel.fromTime.hour, itemModel.fromTime.minute));
                               break;
 
                           ///Error

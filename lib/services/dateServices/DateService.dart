@@ -9,8 +9,8 @@ class DateService extends ChangeNotifier {
     var d = DateTime.now();
     var weekDay = d.weekday;
     DateTime _monday = d.subtract(Duration(days: weekDay - 1));
-    //return DateTime(_monday.year, _monday.month, _monday.day);
-    return d.subtract(Duration(days: weekDay - 1));
+    return DateTime(_monday.year, _monday.month, _monday.day);
+    //return d.subtract(Duration(days: weekDay - 1));
   }
 
   ///Gets the Date of the Sunday in this week
@@ -19,8 +19,8 @@ class DateService extends ChangeNotifier {
     var d = DateTime.now();
     var weekDay = d.weekday;
     DateTime _sunday = d.subtract(Duration(days: weekDay - 7));
-    //return DateTime(_sunday.year, _sunday.month, _sunday.day);
-    return d.subtract(Duration(days: weekDay - 7));
+    return DateTime(_sunday.year, _sunday.month, _sunday.day);
+    //return d.subtract(Duration(days: weekDay - 7));
   }
 
   ///Get a List of all dates
