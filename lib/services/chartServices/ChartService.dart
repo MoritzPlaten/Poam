@@ -142,12 +142,6 @@ class ChartService extends ChangeNotifier {
 
   List<charts.Series<dynamic, String>> getSeries(BuildContext context, List<ChartService> items, Color primaryColor) {
 
-    ///TODO: Balken werden nicht mehr angezeigt
-
-    for (int i = 0;i < items.length; i++) {
-      //print(DateFormat.E(Localizations.localeOf(context).languageCode).format(items.elementAt(i).dateTime));
-    }
-
     ChartModel chartModel = ChartModel([
 
       for (int i = 0;i < items.length; i++)

@@ -32,8 +32,6 @@ class _PoamNotificationState extends State<PoamNotification> {
   @override
   Widget build(BuildContext context) {
 
-    ///TODO: Add surface for notifications
-
     ///initialize
     primaryColor = Theme.of(context).primaryColor;
     size = MediaQuery.of(context).size;

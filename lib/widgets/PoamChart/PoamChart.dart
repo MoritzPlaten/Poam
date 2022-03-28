@@ -30,8 +30,6 @@ class _PoamChartState extends State<PoamChart> {
   @override
   Widget build(BuildContext context) {
 
-    ///TODO: https://google.github.io/charts/flutter/example/behaviors/selection_callback_example.html => selectionModels => displays values of the BarModels
-
     ///initialize
     size = MediaQuery.of(context).size;
     dateService = DateService();
