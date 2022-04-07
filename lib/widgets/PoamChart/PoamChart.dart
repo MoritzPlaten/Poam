@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:poam/services/chartServices/ChartService.dart';
-import 'package:poam/services/chartServices/Objects/BartChartModel.dart';
 import 'package:poam/services/dateServices/DateService.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:poam/services/itemServices/Objects/Database.dart';
@@ -10,31 +9,18 @@ import 'package:provider/provider.dart';
 
 typedef void UpdateSelectedChart(ChartService? chartService);
 
-class PoamChart extends StatefulWidget {
+class PoamChart extends StatelessWidget {
 
   final UpdateSelectedChart? updateSelectedChart;
 
   const PoamChart({ Key? key, this.updateSelectedChart }) : super(key: key);
 
   @override
-  _PoamChartState createState() => _PoamChartState();
-}
-
-class _PoamChartState extends State<PoamChart> {
-
-  late Size size;
-  late Color primaryColor;
-  late DateService dateService;
-  late List<DateTime> datesBetween;
-
-  @override
   Widget build(BuildContext context) {
 
     ///initialize
-    size = MediaQuery.of(context).size;
-    dateService = DateService();
-    primaryColor = Theme.of(context).primaryColor;
-    datesBetween = dateService.getDaysInBetween(dateService.getMondayDate(), dateService.getSundayDate());
+    Size size = MediaQuery.of(context).size;
+    Color primaryColor = Theme.of(context).primaryColor;
 
     return ValueListenableBuilder(
         valueListenable: Hive.box<ChartService>(Database.ChartName).listenable(),
@@ -54,12 +40,12 @@ class _PoamChartState extends State<PoamChart> {
 
             if (charts.isNotEmpty) {
 
-              widget.updateSelectedChart!(charts.first);
+              this.updateSelectedChart!(charts.first);
 
               Future.delayed(const Duration(milliseconds: 2000), () {
 
                 ChartService? name;
-                widget.updateSelectedChart!(name);
+                this.updateSelectedChart!(name);
               });
             }
           }

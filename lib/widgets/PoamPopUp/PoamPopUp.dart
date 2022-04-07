@@ -298,6 +298,7 @@ class _PoamPopUpState extends State<PoamPopUp> {
                           ),
 
                         ///Displays the Date-Time-Picker
+                        ///TODO: PoamDatePicker soll man durch eine Checkbox austellen können, sodass dieses PoamItem nicht im PoamChart übernommen wird und keine Zeit Einschränkung hat. Es soll einfach ohne Datum angezeigt werden
                         Card(
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),

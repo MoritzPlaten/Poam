@@ -18,42 +18,31 @@ import '../../services/itemServices/Objects/Alarms/Alarms.dart';
 import '../../services/itemServices/Objects/Amounts/Amounts.dart';
 import '../../services/itemServices/Objects/Amounts/QuantityType.dart';
 
-class PoamMenu extends StatefulWidget {
+class PoamMenu extends StatelessWidget {
 
   final List<ItemModel>? allItems;
   final Categories? categories;
 
-  const PoamMenu({Key? key, this.allItems, this.categories }) : super(key: key);
+  PoamMenu({ Key? key, this.allItems, this.categories }) : super(key: key);
 
-  @override
-  _PoamMenuState createState() => _PoamMenuState();
-}
-
-class _PoamMenuState extends State<PoamMenu> {
-
-  late Size size;
-  late Color primaryColor;
-  late DateService dateService;
-  late PoamSnackbar poamSnackbar;
-  late int numberOfItemsOnStartScreen;
   ChartService? selectedChart;
 
   @override
   Widget build(BuildContext context) {
 
     ///initialize
-    dateService = DateService();
-    poamSnackbar = PoamSnackbar();
-    size = MediaQuery.of(context).size;
-    primaryColor = Theme.of(context).primaryColor;
-    numberOfItemsOnStartScreen = widget.categories == Categories.tasks ? 3 : 5;
+    DateService dateService = DateService();
+    PoamSnackbar poamSnackbar = PoamSnackbar();
+    Size size = MediaQuery.of(context).size;
+    Color primaryColor = Theme.of(context).primaryColor;
+    int numberOfItemsOnStartScreen = this.categories == Categories.tasks ? 3 : 5;
 
     ///You can click on the PoamMenu, if it is empty it will show you a snack bar
     return GestureDetector(
       onTap: () => {
 
-      ///It must exists Items
-      if (widget.allItems!.isEmpty == false) {
+        ///It must exists Items
+        if (this.allItems!.isEmpty == false) {
           ///Navigate
           Navigator.push(
             context,
@@ -65,7 +54,7 @@ class _PoamMenuState extends State<PoamMenu> {
                     ),
                   ],
                   child: ListPage(
-                    categories: widget.categories,
+                    categories: this.categories,
                   ),
                 ),
             ),
@@ -73,7 +62,7 @@ class _PoamMenuState extends State<PoamMenu> {
         } else {
 
           ///The Snackbar
-          poamSnackbar.showSnackBar(context, AppLocalizations.of(context)!.your + " " + displayTextCategory(context, widget.categories!) + " " + AppLocalizations.of(context)!.empty + "!", primaryColor),
+          poamSnackbar.showSnackBar(context, AppLocalizations.of(context)!.your + " " + displayTextCategory(context, this.categories!) + " " + AppLocalizations.of(context)!.empty + "!", primaryColor),
         }
 
       },
@@ -103,7 +92,7 @@ class _PoamMenuState extends State<PoamMenu> {
 
                 ///The title of the menu
                 Text(
-                  displayTextCategory(context, widget.categories!),
+                  displayTextCategory(context, this.categories!),
                   style: GoogleFonts.novaMono(
                       fontSize: 18
                   ),
@@ -113,7 +102,7 @@ class _PoamMenuState extends State<PoamMenu> {
                 ),
                 ///The icon of the menu
                 Icon(
-                  displayIconCategory(widget.categories!),
+                  displayIconCategory(this.categories!),
                   size: 18,
                 ),
 
@@ -121,7 +110,7 @@ class _PoamMenuState extends State<PoamMenu> {
             ),
 
             ///PoamChart
-            if (widget.categories! == Categories.tasks)
+            if (this.categories! == Categories.tasks)
               MultiProvider(
                 providers: [
                   ChangeNotifierProvider(
@@ -161,25 +150,25 @@ class _PoamMenuState extends State<PoamMenu> {
             ),
 
             ///All Items, which are sorted by date, will packed in a PoamDateItem, which display the Date
-            if (widget.allItems!.isEmpty != true)
+            if (this.allItems!.isEmpty != true)
               ListView.builder(
-              padding: const EdgeInsets.all(10),
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: widget.categories != Categories.shopping ? dateService.getListOfAllDates(widget.allItems!.where((element) => element.categories == widget.categories!).take(numberOfItemsOnStartScreen)).length : 1,
-              itemBuilder: (BuildContext context, int index) {
+                padding: const EdgeInsets.all(10),
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: this.categories != Categories.shopping ? dateService.getListOfAllDates(this.allItems!.where((element) => element.categories == this.categories!).take(numberOfItemsOnStartScreen)).length : 1,
+                itemBuilder: (BuildContext context, int index) {
 
-                ///All Items will packed in a PoamDateItem, which display the Date
-                return PoamDateItem(
-                  allItems: dateService.sortItemsByDate(widget.allItems!.where((element) => element.categories == widget.categories).toList()).take(numberOfItemsOnStartScreen),
-                  categories: widget.categories,
-                  dateIndex: index,
-                );
-              },
-            ),
+                  ///All Items will packed in a PoamDateItem, which display the Date
+                  return PoamDateItem(
+                    allItems: dateService.sortItemsByDate(this.allItems!.where((element) => element.categories == this.categories).toList()).take(numberOfItemsOnStartScreen),
+                    categories: this.categories,
+                    dateIndex: index,
+                  );
+                },
+              ),
 
             ///When it exists more than the Items, than this will shows
-            if ((widget.allItems!.length > numberOfItemsOnStartScreen) == true) Row(
+            if ((this.allItems!.length > numberOfItemsOnStartScreen) == true) Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
 
@@ -193,9 +182,9 @@ class _PoamMenuState extends State<PoamMenu> {
                 ),
 
                 Text(
-                  AppLocalizations.of(context)!.another + " " + (widget.allItems!.length - numberOfItemsOnStartScreen).toString() + " " + AppLocalizations.of(context)!.element,
+                  AppLocalizations.of(context)!.another + " " + (this.allItems!.length - numberOfItemsOnStartScreen).toString() + " " + AppLocalizations.of(context)!.element,
                   style: GoogleFonts.novaMono(
-                    fontSize: 12.5
+                      fontSize: 12.5
                   ),
                 ),
 
@@ -211,12 +200,12 @@ class _PoamMenuState extends State<PoamMenu> {
               ],
             ),
             ///if no items are there, this will be display
-            if (widget.allItems!.isEmpty == true) Container(
+            if (this.allItems!.isEmpty == true) Container(
               padding: const EdgeInsets.all(10),
               child: Text(
-                AppLocalizations.of(context)!.your + " " + displayTextCategory(context, widget.categories!) + " " + AppLocalizations.of(context)!.empty + "!",
+                AppLocalizations.of(context)!.your + " " + displayTextCategory(context, this.categories!) + " " + AppLocalizations.of(context)!.empty + "!",
                 style: GoogleFonts.novaMono(
-                  fontSize: 12.5
+                    fontSize: 12.5
                 ),
               ),
             ),

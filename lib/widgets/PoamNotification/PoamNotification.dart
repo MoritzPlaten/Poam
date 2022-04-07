@@ -3,39 +3,27 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:intl/intl.dart';
-import 'package:poam/services/itemServices/Objects/Alarms/Alarms.dart';
 
 import '../../services/itemServices/ItemModel.dart';
 import '../../services/itemServices/Objects/Database.dart';
 
 typedef void UpdateAlarms(DateTime alarm);
 
-class PoamNotification extends StatefulWidget {
+class PoamNotification extends StatelessWidget {
 
   final UpdateAlarms? addAlarms;
   final UpdateAlarms? removeAlarms;
   final List<DateTime>? listOfAlarms;
+  late TimeOfDay timeOfDay = TimeOfDay(hour: 0, minute: 0);
 
-  const PoamNotification({ Key? key, this.addAlarms, this.removeAlarms, this.listOfAlarms }) : super(key: key);
-
-  @override
-  State<PoamNotification> createState() => _PoamNotificationState();
-}
-
-class _PoamNotificationState extends State<PoamNotification> {
-
-  late Color primaryColor;
-  late Size size;
-  TimeOfDay timeOfDay = TimeOfDay(hour: 0, minute: 0);
-  late List<DateTime> alarms;
+  PoamNotification({ Key? key, this.addAlarms, this.removeAlarms, this.listOfAlarms }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
 
     ///initialize
-    primaryColor = Theme.of(context).primaryColor;
-    size = MediaQuery.of(context).size;
-    alarms = List.generate(0, (index) => DateTime(0));
+    Color primaryColor = Theme.of(context).primaryColor;
+    Size size = MediaQuery.of(context).size;
 
     return ValueListenableBuilder(
         valueListenable: Hive.box<ItemModel>(Database.Name).listenable(),
@@ -49,12 +37,9 @@ class _PoamNotificationState extends State<PoamNotification> {
               initialTime: TimeOfDay(hour: 0, minute: 0),
             );
             if (picked != null)
-              setState(() {
-
-                timeOfDay = picked;
-                DateTime pickedDateTime = DateTime(0,0,0,timeOfDay.hour, timeOfDay.minute);
-                widget.addAlarms!(pickedDateTime);
-              });
+              timeOfDay = picked;
+              DateTime pickedDateTime = DateTime(0,0,0,timeOfDay.hour, timeOfDay.minute);
+              this.addAlarms!(pickedDateTime);
           }
 
           return Card(
@@ -86,7 +71,7 @@ class _PoamNotificationState extends State<PoamNotification> {
                             margin: EdgeInsets.only(top: 10),
                           ),
 
-                          for (int i = 0;i < widget.listOfAlarms!.length;i++)
+                          for (int i = 0;i < this.listOfAlarms!.length;i++)
                             SizedBox(
 
                               width: size.width * 0.4,
@@ -95,7 +80,7 @@ class _PoamNotificationState extends State<PoamNotification> {
                                 children: [
 
                                   Text(
-                                    DateFormat.Hm(Localizations.localeOf(context).languageCode).format(widget.listOfAlarms!.elementAt(i)),
+                                    DateFormat.Hm(Localizations.localeOf(context).languageCode).format(this.listOfAlarms!.elementAt(i)),
                                     style: GoogleFonts.novaMono(
                                         fontWeight: FontWeight.w600
                                     ),
@@ -103,7 +88,7 @@ class _PoamNotificationState extends State<PoamNotification> {
 
                                   IconButton(
                                     onPressed: () {
-                                      widget.removeAlarms!(widget.listOfAlarms!.elementAt(i));
+                                      this.removeAlarms!(this.listOfAlarms!.elementAt(i));
                                     },
                                     icon: const Icon(
                                       Icons.delete,
@@ -143,3 +128,4 @@ class _PoamNotificationState extends State<PoamNotification> {
     );
   }
 }
+

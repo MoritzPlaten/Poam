@@ -12,23 +12,16 @@ import 'package:hive_flutter/hive_flutter.dart';
 import '../../services/itemServices/Objects/Database.dart';
 import '../../services/localeService/Locales.dart';
 
-class PoamList extends StatefulWidget {
-  const PoamList({ Key? key }) : super(key: key);
+class PoamList extends StatelessWidget {
+  const PoamList({Key? key}) : super(key: key);
 
-  @override
-  _PoamListState createState() => _PoamListState();
-}
-
-class _PoamListState extends State<PoamList> {
-
-  late Size size;
-  late List<Categories> categories = Categories.values;
+  final List<Categories> categories = Categories.values;
 
   @override
   Widget build(BuildContext context) {
 
     ///initialize
-    size = MediaQuery.of(context).size;
+    Size size = MediaQuery.of(context).size;
 
     ///Update Items
     context.watch<ItemModel>().getItems();

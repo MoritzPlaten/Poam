@@ -3,22 +3,15 @@ import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class PoamColorPicker extends StatefulWidget {
+class PoamColorPicker extends StatelessWidget {
 
   final Color? pickedColor;
   final Function(Color?)? onChangeColor;
 
-  const PoamColorPicker({ Key? key, this.pickedColor, this.onChangeColor }) : super(key: key);
-
-  @override
-  _PoamColorPickerState createState() => _PoamColorPickerState();
-}
-
-class _PoamColorPickerState extends State<PoamColorPicker> {
+  const PoamColorPicker({Key? key, this.pickedColor, this.onChangeColor}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
     return Container(
       margin: const EdgeInsets.only(top: 10),
       child: GestureDetector(
@@ -32,8 +25,8 @@ class _PoamColorPickerState extends State<PoamColorPicker> {
                   title: Text(AppLocalizations.of(context)!.colorField),
                   content: SingleChildScrollView(
                     child: MaterialPicker(
-                      pickerColor: widget.pickedColor!, //default color
-                      onColorChanged: widget.onChangeColor!,
+                      pickerColor: this.pickedColor!, //default color
+                      onColorChanged: this.onChangeColor!,
                     ),
                   ),
                   actions: <Widget>[
@@ -51,21 +44,22 @@ class _PoamColorPickerState extends State<PoamColorPicker> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
-          color: widget.pickedColor!,
+          color: this.pickedColor!,
           child: Container(
-            padding: const EdgeInsets.only(left: 10, right: 10, top: 15, bottom: 15),
-            child: Center(
-              child: Text(
-                AppLocalizations.of(context)!.colorField,
-                style: GoogleFonts.novaMono(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white
+              padding: const EdgeInsets.only(left: 10, right: 10, top: 15, bottom: 15),
+              child: Center(
+                child: Text(
+                  AppLocalizations.of(context)!.colorField,
+                  style: GoogleFonts.novaMono(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white
+                  ),
                 ),
-              ),
-            )
+              )
           ),
         ),
       ),
     );
   }
 }
+

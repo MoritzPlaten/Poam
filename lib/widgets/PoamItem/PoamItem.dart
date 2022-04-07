@@ -8,7 +8,6 @@ import 'package:poam/services/itemServices/Objects/Category/Category.dart';
 import 'package:poam/services/itemServices/ItemModel.dart';
 import 'package:poam/services/itemServices/Objects/Person/Person.dart';
 import 'package:poam/widgets/PoamPopUp/PoamPopUp.dart';
-import 'package:poam/widgets/PoamSnackbar/PoamSnackbar.dart';
 import 'package:provider/provider.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -18,7 +17,7 @@ import '../../services/itemServices/Objects/Amounts/Amounts.dart';
 import '../../services/itemServices/Objects/Amounts/QuantityType.dart';
 import '../../services/itemServices/Objects/Database.dart';
 
-class PoamItem extends StatefulWidget {
+class PoamItem extends StatelessWidget {
 
   final int? itemIndex;
   final ItemModel? itemModel;
@@ -26,22 +25,11 @@ class PoamItem extends StatefulWidget {
   const PoamItem({ Key? key, this.itemIndex, this.itemModel }) : super(key: key);
 
   @override
-  _PoamItemState createState() => _PoamItemState();
-}
-
-class _PoamItemState extends State<PoamItem> {
-
-  late Size size;
-  late Color primaryColor;
-  late PoamSnackbar poamSnackbar;
-  
-  @override
   Widget build(BuildContext context) {
 
     ///initialize
-    size = MediaQuery.of(context).size;
-    primaryColor = Theme.of(context).primaryColor;
-    poamSnackbar = PoamSnackbar();
+    Size size = MediaQuery.of(context).size;
+    Color primaryColor = Theme.of(context).primaryColor;
 
     return Container(
 
@@ -52,242 +40,241 @@ class _PoamItemState extends State<PoamItem> {
         color: Colors.white,
       ),
       child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
 
-              Flexible(
-                flex: 4,
-                child: GestureDetector(
-                  onLongPress: () {
-                    setState(() {
+          Flexible(
+            flex: 4,
+            child: GestureDetector(
+              onLongPress: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => MultiProvider(
+                    providers: [
+                      ChangeNotifierProvider(
+                        create: (_) => ItemModel("", Amounts(0, QuantityType.Pieces), false, Person(""), Categories.shopping, "", DateTime(0), DateTime(0), DateTime(0), DateTime(0), Frequency.single, "", Alarms([]), false),
+                      ),
+                      ChangeNotifierProvider(
+                        create: (_) => Person(""),
+                      ),
+                    ],
+                    ///EditMode true
+                    child: PoamPopUp(itemModel: this.itemModel,isEditMode: true,),
+                  )),
+                );
+              },
 
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => MultiProvider(
-                          providers: [
-                            ChangeNotifierProvider(
-                              create: (_) => ItemModel("", Amounts(0, QuantityType.Pieces), false, Person(""), Categories.shopping, "", DateTime(0), DateTime(0), DateTime(0), DateTime(0), Frequency.single, "", Alarms([]), false),
-                            ),
-                            ChangeNotifierProvider(
-                              create: (_) => Person(""),
-                            ),
-                          ],
-                          ///EditMode true
-                          child: PoamPopUp(itemModel: widget.itemModel,isEditMode: true,),
-                        )),
-                      );
+              child: Row(
+                children: [
 
-                    });
-                  },
+                  ///Displays if Categories == Tasks is. Displays the color
+                  if (this.itemModel!.categories == Categories.tasks) Container(
+                    width: 5,
+                    height: 25,
+                    decoration: BoxDecoration(
+                      color: HexColor(this.itemModel!.hex),
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    ),
+                  ),
 
-                  child: Row(
+                  const SizedBox(
+                    width: 10,
+                  ),
+
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
 
-                      ///Displays if Categories == Tasks is. Displays the color
-                      if (widget.itemModel!.categories == Categories.tasks) Container(
-                        width: 5,
-                        height: 25,
-                        decoration: BoxDecoration(
-                          color: HexColor(widget.itemModel!.hex),
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ///Display the Item Title
+                      SizedBox(
+                        width: size.width * 0.40,
+                        child: Text(
+                          this.itemModel!.title,
+                          style: GoogleFonts.ubuntu(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 16.5
+                          ),
+                          textAlign: TextAlign.left,
+                          softWrap: true,
+                          maxLines: 3,
                         ),
                       ),
+                      const SizedBox(height: 1,),
 
-                      const SizedBox(
-                        width: 10,
-                      ),
+                      ///if fromTime != toTime, then display "fromTime - toTime Uhr"
+                      if (this.itemModel!.categories == Categories.tasks && this.itemModel!.fromTime != this.itemModel!.toTime)
+                        Text(
+                          AppLocalizations.of(context)!.around + " " + DateFormat.Hm(Localizations.localeOf(context).languageCode).format(this.itemModel!.fromTime) +
+                              " - " + DateFormat.Hm(Localizations.localeOf(context).languageCode).format(this.itemModel!.toTime) + " " + AppLocalizations.of(context)!.clock,
+                          style: GoogleFonts.kreon(
+                              color: primaryColor,
+                              fontSize: 13,
+                              fontWeight: FontWeight.bold
+                          ),
+                        ),
 
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
+                      ///if fromTime == toTime, then display "fromTime"
+                      if (this.itemModel!.categories == Categories.tasks && this.itemModel!.fromTime == this.itemModel!.toTime)
+                        Text(
+                          AppLocalizations.of(context)!.around + " " + DateFormat.Hm(Localizations.localeOf(context).languageCode).format(this.itemModel!.fromTime) + " " + AppLocalizations.of(context)!.clock,
+                          style: GoogleFonts.kreon(
+                              color: primaryColor,
+                              fontSize: 13,
+                              fontWeight: FontWeight.bold
+                          ),
+                        ),
 
-                          ///Display the Item Title
-                          SizedBox(
-                            width: size.width * 0.40,
-                            child: Text(
-                              widget.itemModel!.title,
-                              style: GoogleFonts.ubuntu(
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 16.5
-                              ),
-                              textAlign: TextAlign.left,
-                              softWrap: true,
-                              maxLines: 3,
+                      ///Count should only displayed on the Category Shopping
+                      if (this.itemModel!.categories == Categories.shopping)
+                        Text(
+                          AppLocalizations.of(context)!.numberField + ": " +
+                              this.itemModel!.amounts.Number.toString() + " " +
+                              displayTextQuantityType(context, this.itemModel!.amounts.quantityType!),
+                          style: GoogleFonts.kreon(
+                              color: primaryColor,
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold
+                          ),
+                        ),
+
+                      ///Person should only displayed when the Category Tasks is active
+                      if (this.itemModel!.categories == Categories.tasks)
+                        SizedBox(
+                          width: size.width * 0.4,
+                          child: Text(
+                            "Person: " + this.itemModel!.person.name.toString(),
+                            style: GoogleFonts.kreon(
+                                color: primaryColor,
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold
                             ),
                           ),
-                          const SizedBox(height: 1,),
-
-                          ///if fromTime != toTime, then display "fromTime - toTime Uhr"
-                          if (widget.itemModel!.categories == Categories.tasks && widget.itemModel!.fromTime != widget.itemModel!.toTime)
-                            Text(
-                              AppLocalizations.of(context)!.around + " " + DateFormat.Hm(Localizations.localeOf(context).languageCode).format(widget.itemModel!.fromTime) +
-                                  " - " + DateFormat.Hm(Localizations.localeOf(context).languageCode).format(widget.itemModel!.toTime) + " " + AppLocalizations.of(context)!.clock,
-                              style: GoogleFonts.kreon(
-                                  color: primaryColor,
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.bold
-                              ),
-                            ),
-
-                          ///if fromTime == toTime, then display "fromTime"
-                          if (widget.itemModel!.categories == Categories.tasks && widget.itemModel!.fromTime == widget.itemModel!.toTime)
-                            Text(
-                              AppLocalizations.of(context)!.around + " " + DateFormat.Hm(Localizations.localeOf(context).languageCode).format(widget.itemModel!.fromTime) + " " + AppLocalizations.of(context)!.clock,
-                              style: GoogleFonts.kreon(
-                                  color: primaryColor,
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.bold
-                              ),
-                            ),
-
-                          ///Count should only displayed on the Category Shopping
-                          if (widget.itemModel!.categories == Categories.shopping)
-                            Text(
-                              AppLocalizations.of(context)!.numberField + ": " +
-                                  widget.itemModel!.amounts.Number.toString() + " " +
-                                  displayTextQuantityType(context, widget.itemModel!.amounts.quantityType!),
-                              style: GoogleFonts.kreon(
-                                  color: primaryColor,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.bold
-                              ),
-                            ),
-
-                          ///Person should only displayed when the Category Tasks is active
-                          if (widget.itemModel!.categories == Categories.tasks)
-                            SizedBox(
-                              width: size.width * 0.4,
-                              child: Text(
-                                "Person: " + widget.itemModel!.person.name.toString(),
-                                style: GoogleFonts.kreon(
-                                    color: primaryColor,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold
-                                ),
-                              ),
-                            ),
-                        ],
-                      ),
-
+                        ),
                     ],
                   ),
-                ),
+
+                ],
               ),
-
-              ///ShaderMask for the look
-              Flexible(
-                flex: 1,
-                child: ValueListenableBuilder(
-                    valueListenable: Hive.box<ChartService>(Database.ChartName).listenable(),
-                    builder: (BuildContext context, Box<ChartService> box, widgets) {
-
-
-                      return Checkbox(
-                        checkColor: primaryColor,
-                        fillColor: MaterialStateProperty.all(primaryColor),
-                        value: widget.itemModel!.isChecked,
-                        onChanged: (bool? value) async {
-
-                          ChartService chartService = ChartService(0, 0, DateTime(0));
-
-                          if (widget.itemModel!.frequency == Frequency.single) {
-
-                            ///ItemModel
-                            widget.itemModel!.isChecked = value!;
-                            Provider.of<ItemModel>(context, listen: false).removeItem(widget.itemModel!);
-
-                            ///ChartModel
-                            if (widget.itemModel!.categories == Categories.tasks) {
-
-                              Provider.of<ChartService>(context, listen: false).putChecked(widget.itemModel!.fromDate, chartService.getNumberOfChecked(box.values.toList(), widget.itemModel!.fromDate) + 1);
-                              Provider.of<ChartService>(context, listen: false).putNotChecked(
-                                  widget.itemModel!.fromDate, box.values.length != 0 ? chartService.getNumberOfNotChecked(box.values.toList(), widget.itemModel!.fromDate) - 1 : 0);
-                            }
-                          } else {
-
-                            if (widget.itemModel!.categories == Categories.tasks) {
-
-                              ///ChartModel
-                              Provider.of<ChartService>(context, listen: false)
-                                  .putChecked(
-                                  widget.itemModel!.fromDate, chartService
-                                  .getNumberOfChecked(
-                                  box.values.toList(), widget.itemModel!.fromDate) +
-                                  1);
-                              Provider.of<ChartService>(context, listen: false)
-                                  .putNotChecked(
-                                  widget.itemModel!.fromDate, box.values.length != 0
-                                  ? chartService.getNumberOfNotChecked(
-                                  box.values.toList(), widget.itemModel!.fromDate) -
-                                  1
-                                  : 0);
-
-                              DateTime fromDate = widget.itemModel!.fromDate;
-                              DateTime toDate = widget.itemModel!.toDate;
-                              DateTime? _fromDate;
-                              DateTime? _toDate;
-
-                              ///ItemModel
-                              ///Set the Date to a new Date
-                              switch(widget.itemModel!.frequency) {
-
-                                case Frequency.daily:
-                                  _fromDate = DateTime(fromDate.year, fromDate.month, fromDate.day + 1);
-                                  _toDate = DateTime(toDate.year, toDate.month, toDate.day + 1);
-                                  break;
-
-                                case Frequency.weekly:
-                                  _fromDate = DateTime(fromDate.year, fromDate.month, fromDate.day + 7);
-                                  _toDate = DateTime(toDate.year, toDate.month, toDate.day + 7);
-                                  break;
-
-                                case Frequency.monthly:
-                                  _fromDate = DateTime(fromDate.year, fromDate.month, fromDate.day + 28);
-                                  _toDate = DateTime(toDate.year, toDate.month, toDate.day + 28);
-                                  break;
-
-                                case Frequency.yearly:
-                                  _fromDate = DateTime(fromDate.year, fromDate.month, fromDate.day + 365);
-                                  _toDate = DateTime(toDate.year, toDate.month, toDate.day + 365);
-                                  break;
-                              }
-
-                              ///ChartModel add new DateTime
-                              Provider.of<ChartService>(context, listen: false)
-                                  .putNotChecked(_fromDate!, chartService.getNumberOfNotChecked(box.values.toList(), _fromDate) + 1);
-
-                              ///Create the new ItemModel
-                              Provider.of<ItemModel>(context, listen: false).addItem(
-                                  new ItemModel(
-                                      widget.itemModel!.title,
-                                      widget.itemModel!.amounts,
-                                      widget.itemModel!.isChecked,
-                                      widget.itemModel!.person,
-                                      widget.itemModel!.categories,
-                                      widget.itemModel!.hex,
-                                      widget.itemModel!.fromTime,
-                                      _fromDate,
-                                      widget.itemModel!.toTime,
-                                      _toDate!,
-                                      widget.itemModel!.frequency,
-                                      widget.itemModel!.description,
-                                      widget.itemModel!.alarms,
-                                      widget.itemModel!.expanded
-                                  )
-                              );
-
-                              ///Remove the Old ItemModel
-                              Provider.of<ItemModel>(context, listen: false).removeItem(widget.itemModel!);
-                            }
-                          }
-                        },
-                      );
-                    }),
-              ),
-
-            ],
+            ),
           ),
+
+          ///ShaderMask for the look
+          Flexible(
+            flex: 1,
+            child: ValueListenableBuilder(
+                valueListenable: Hive.box<ChartService>(Database.ChartName).listenable(),
+                builder: (BuildContext context, Box<ChartService> box, widgets) {
+
+
+                  return Checkbox(
+                    checkColor: primaryColor,
+                    fillColor: MaterialStateProperty.all(primaryColor),
+                    value: this.itemModel!.isChecked,
+                    onChanged: (bool? value) async {
+
+                      ChartService chartService = ChartService(0, 0, DateTime(0));
+
+                      if (this.itemModel!.frequency == Frequency.single) {
+
+                        ///ItemModel
+                        this.itemModel!.isChecked = value!;
+                        Provider.of<ItemModel>(context, listen: false).removeItem(this.itemModel!);
+
+                        ///ChartModel
+                        if (this.itemModel!.categories == Categories.tasks) {
+
+                          Provider.of<ChartService>(context, listen: false).putChecked(this.itemModel!.fromDate, chartService.getNumberOfChecked(box.values.toList(), this.itemModel!.fromDate) + 1);
+                          Provider.of<ChartService>(context, listen: false).putNotChecked(
+                              this.itemModel!.fromDate, box.values.length != 0 ? chartService.getNumberOfNotChecked(box.values.toList(), this.itemModel!.fromDate) - 1 : 0);
+                        }
+                      } else {
+
+                        if (this.itemModel!.categories == Categories.tasks) {
+
+                          ///ChartModel
+                          Provider.of<ChartService>(context, listen: false)
+                              .putChecked(
+                              this.itemModel!.fromDate, chartService
+                              .getNumberOfChecked(
+                              box.values.toList(), this.itemModel!.fromDate) +
+                              1);
+                          Provider.of<ChartService>(context, listen: false)
+                              .putNotChecked(
+                              this.itemModel!.fromDate, box.values.length != 0
+                              ? chartService.getNumberOfNotChecked(
+                              box.values.toList(), this.itemModel!.fromDate) -
+                              1
+                              : 0);
+
+                          DateTime fromDate = this.itemModel!.fromDate;
+                          DateTime toDate = this.itemModel!.toDate;
+                          DateTime? _fromDate;
+                          DateTime? _toDate;
+
+                          ///ItemModel
+                          ///Set the Date to a new Date
+                          switch(this.itemModel!.frequency) {
+
+                            case Frequency.daily:
+                              _fromDate = DateTime(fromDate.year, fromDate.month, fromDate.day + 1);
+                              _toDate = DateTime(toDate.year, toDate.month, toDate.day + 1);
+                              break;
+
+                            case Frequency.weekly:
+                              _fromDate = DateTime(fromDate.year, fromDate.month, fromDate.day + 7);
+                              _toDate = DateTime(toDate.year, toDate.month, toDate.day + 7);
+                              break;
+
+                            case Frequency.monthly:
+                              _fromDate = DateTime(fromDate.year, fromDate.month, fromDate.day + 28);
+                              _toDate = DateTime(toDate.year, toDate.month, toDate.day + 28);
+                              break;
+
+                            case Frequency.yearly:
+                              _fromDate = DateTime(fromDate.year, fromDate.month, fromDate.day + 365);
+                              _toDate = DateTime(toDate.year, toDate.month, toDate.day + 365);
+                              break;
+                            case Frequency.single:
+                              // TODO: Handle this case.
+                              break;
+                          }
+
+                          ///ChartModel add new DateTime
+                          Provider.of<ChartService>(context, listen: false)
+                              .putNotChecked(_fromDate!, chartService.getNumberOfNotChecked(box.values.toList(), _fromDate) + 1);
+
+                          ///Create the new ItemModel
+                          Provider.of<ItemModel>(context, listen: false).addItem(
+                              new ItemModel(
+                                  this.itemModel!.title,
+                                  this.itemModel!.amounts,
+                                  this.itemModel!.isChecked,
+                                  this.itemModel!.person,
+                                  this.itemModel!.categories,
+                                  this.itemModel!.hex,
+                                  this.itemModel!.fromTime,
+                                  _fromDate,
+                                  this.itemModel!.toTime,
+                                  _toDate!,
+                                  this.itemModel!.frequency,
+                                  this.itemModel!.description,
+                                  this.itemModel!.alarms,
+                                  this.itemModel!.expanded
+                              )
+                          );
+
+                          ///Remove the Old ItemModel
+                          Provider.of<ItemModel>(context, listen: false).removeItem(this.itemModel!);
+                        }
+                      }
+                    },
+                  );
+                }),
+          ),
+
+        ],
+      ),
 
     );
   }

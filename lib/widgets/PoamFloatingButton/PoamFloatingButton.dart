@@ -11,20 +11,14 @@ import 'package:provider/provider.dart';
 
 import '../../services/itemServices/Objects/Amounts/QuantityType.dart';
 
-class PoamFloatingButton extends StatefulWidget {
+class PoamFloatingButton extends StatelessWidget {
   const PoamFloatingButton({Key? key}) : super(key: key);
 
   @override
-  _PoamFloatingButtonState createState() => _PoamFloatingButtonState();
-}
-
-class _PoamFloatingButtonState extends State<PoamFloatingButton> {
-  late Color primaryColor;
-
-  @override
   Widget build(BuildContext context) {
+
     ///initialize
-    primaryColor = Theme.of(context).primaryColor;
+    Color primaryColor = Theme.of(context).primaryColor;
 
     return FloatingActionButton(
       onPressed: () => {
@@ -37,21 +31,21 @@ class _PoamFloatingButtonState extends State<PoamFloatingButton> {
                 ChangeNotifierProvider(
                   create: (_) =>
                       ItemModel(
-                      "",
-                      Amounts(0, QuantityType.Pieces),
-                      false,
-                      Person(""),
-                      Categories.tasks,
-                      "0xFFFFFF",
-                      DateTime(0),
-                      DateTime(0),
-                      DateTime(0),
-                      DateTime(0),
-                      Frequency.single,
-                      "",
-                      Alarms([]),
-                      false
-                  ),
+                          "",
+                          Amounts(0, QuantityType.Pieces),
+                          false,
+                          Person(""),
+                          Categories.tasks,
+                          "0xFFFFFF",
+                          DateTime(0),
+                          DateTime(0),
+                          DateTime(0),
+                          DateTime(0),
+                          Frequency.single,
+                          "",
+                          Alarms([]),
+                          false
+                      ),
                 ),
                 ChangeNotifierProvider(
                   create: (_) => ChartService(0, 0, DateTime(0)),
@@ -85,3 +79,4 @@ class _PoamFloatingButtonState extends State<PoamFloatingButton> {
     );
   }
 }
+
