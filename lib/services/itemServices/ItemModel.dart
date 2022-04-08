@@ -98,7 +98,7 @@ class ItemModel extends ChangeNotifier {
         Duration duration = model.fromDate.difference(model.toDate);
 
         _fromDate = DateTime(now.year, now.month, now.day);
-        _toDate = DateTime(now.year, now.month, now.day).add(duration);
+        _toDate = DateTime(now.year, now.month, now.day).add(duration.abs());
 
         ///ChartModel
         int numberOfFromDate = chartBox.values.where((element) => element.dateTime.compareTo(model.fromDate) == 0).last.isNotChecked;
