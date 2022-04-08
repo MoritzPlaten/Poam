@@ -14,7 +14,6 @@ class DateService extends ChangeNotifier {
   }
 
   ///Gets the Date of the Sunday in this week
-  ///TODO: Mittwoch um 23:56Uhr auf mein Handy und Tablet gabs den Sonntag nicht, sehr wahrscheinlich wegen den Stunden und Minuten...? überprüfen
   DateTime getSundayDate() {
     var d = DateTime.now();
     var weekDay = d.weekday;

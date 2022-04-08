@@ -236,7 +236,7 @@ class PoamItem extends StatelessWidget {
                               _toDate = DateTime(toDate.year, toDate.month, toDate.day + 365);
                               break;
                             case Frequency.single:
-                              // TODO: Handle this case.
+                              ///empty
                               break;
                           }
 

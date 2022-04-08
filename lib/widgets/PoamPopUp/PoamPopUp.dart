@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:intl/intl.dart';
-import 'package:poam/services/dateServices/DateService.dart';
 import 'package:poam/services/dateServices/Objects/Frequency.dart';
 import 'package:poam/services/itemServices/Objects/Alarms/Alarms.dart';
 import 'package:poam/services/itemServices/Objects/Amounts/Amounts.dart';
@@ -13,6 +12,7 @@ import 'package:poam/services/itemServices/Objects/Category/Category.dart';
 import 'package:poam/services/itemServices/ItemModel.dart';
 import 'package:poam/services/itemServices/Objects/Person/Person.dart';
 import 'package:poam/widgets/PoamColorPicker/PoamColorPicker.dart';
+import 'package:poam/widgets/PoamDatePicker/PoamDateCheck/PoamDateCheck.dart';
 import 'package:poam/widgets/PoamDropDown/PoamDropDown.dart';
 import 'package:poam/widgets/PoamNotification/PoamNotification.dart';
 import 'package:poam/widgets/PoamPersonPicker/PoamPersonPicker.dart';
@@ -63,6 +63,8 @@ class _PoamPopUpState extends State<PoamPopUp> {
 
   bool? _fromDatePicked;
   bool? _fromTimePicked;
+
+  bool isDateChecked = false;
 
   @override
   Widget build(BuildContext context) {
@@ -303,45 +305,58 @@ class _PoamPopUpState extends State<PoamPopUp> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          child: Column(
-                            children: [
-                              if (categoryDropDownValue ==
-                                  displayTextCategory(
-                                      context, Categories.tasks))
-                                PoamDatePicker(
-                                  title:
-                                      AppLocalizations.of(context)!.dateFrom +
-                                          ": ",
-                                  dateController: _fromDateController,
-                                  timeController: _fromTimeController,
-                                  fromDateListener: (value) => _fromDatePicked = value,
-                                  fromTimeListener: (value) => _fromTimePicked = value,
-                                  EditMode: widget.isEditMode,
-                                ),
-                              if (categoryDropDownValue ==
-                                  displayTextCategory(
-                                      context, Categories.tasks))
-                                PoamDatePicker(
-                                  title: AppLocalizations.of(context)!.dateTo +
-                                      ": ",
-                                  dateController: _toDateController,
-                                  timeController: _toTimeController,
-                                  fromDate: _fromDateController.text != ""
-                                      ? DateFormat.yMd(
-                                              Localizations.localeOf(context)
-                                                  .languageCode)
-                                          .parse(_fromDateController.text)
-                                      : DateTime.now(),
-                                  fromTime: _fromTimeController.text != ""
-                                      ? DateFormat.Hm()
-                                          .parse(_fromTimeController.text)
-                                      : DateTime(0, 0, 0, DateTime.now().hour,
-                                          DateTime.now().minute + 1),
-                                  fromDatePicked: _fromDatePicked,
-                                  fromTimePicked: _fromTimePicked,
-                                  EditMode: widget.isEditMode,
-                                ),
-                            ],
+                          child: Padding (
+                            padding: const EdgeInsets.all(10),
+                            child: Column(
+                              children: [
+
+                                ///Here can the user disable the DateTime
+                                if (categoryDropDownValue ==
+                                    displayTextCategory(
+                                        context, Categories.tasks))
+                                  PoamDateCheck(
+                                    value: isDateChecked,
+                                    onCheckListener: (bool value) => isDateChecked = value,
+                                  ),
+
+                                if (categoryDropDownValue ==
+                                    displayTextCategory(
+                                        context, Categories.tasks))
+                                  PoamDatePicker(
+                                    title:
+                                    AppLocalizations.of(context)!.dateFrom +
+                                        ": ",
+                                    dateController: _fromDateController,
+                                    timeController: _fromTimeController,
+                                    fromDateListener: (value) => _fromDatePicked = value,
+                                    fromTimeListener: (value) => _fromTimePicked = value,
+                                    EditMode: widget.isEditMode,
+                                  ),
+                                if (categoryDropDownValue ==
+                                    displayTextCategory(
+                                        context, Categories.tasks))
+                                  PoamDatePicker(
+                                    title: AppLocalizations.of(context)!.dateTo +
+                                        ": ",
+                                    dateController: _toDateController,
+                                    timeController: _toTimeController,
+                                    fromDate: _fromDateController.text != ""
+                                        ? DateFormat.yMd(
+                                        Localizations.localeOf(context)
+                                            .languageCode)
+                                        .parse(_fromDateController.text)
+                                        : DateTime.now(),
+                                    fromTime: _fromTimeController.text != ""
+                                        ? DateFormat.Hm()
+                                        .parse(_fromTimeController.text)
+                                        : DateTime(0, 0, 0, DateTime.now().hour,
+                                        DateTime.now().minute + 1),
+                                    fromDatePicked: _fromDatePicked,
+                                    fromTimePicked: _fromTimePicked,
+                                    EditMode: widget.isEditMode,
+                                  ),
+                              ],
+                            ),
                           ),
                         ),
 

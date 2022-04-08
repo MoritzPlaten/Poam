@@ -42,6 +42,9 @@
     "pieces": "pieces",
     "notification": "Notifications",
     "date": "Date",
+    "time": "Time",
     "notChecked": "Not Checked",
-    "checked": "Checked"
+    "checked": "Checked",
+    "hide": "hide",
+    "hideTime": "Hide the DateTime"
 }

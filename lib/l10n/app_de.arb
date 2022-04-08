@@ -42,6 +42,9 @@
     "pieces": "Stücke",
     "notification": "Benachrichtigungen",
     "date": "Datum",
+    "time": "Zeit",
     "notChecked": "Nicht Abgehakt",
-    "checked": "Abgehakt"
+    "checked": "Abgehakt",
+    "hide": "ausblenden",
+    "hideTime": "Zeit ausblenden"
 }
