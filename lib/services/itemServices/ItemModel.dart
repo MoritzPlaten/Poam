@@ -85,22 +85,52 @@ class ItemModel extends ChangeNotifier {
     var chartBox = await Hive.openBox<ChartService>(Database.ChartName);
     DateTime now = DateTime.now();
 
-    _itemModelList.where((element) => element.fromDate.compareTo(DateTime(now.year, now.month, now.day)) < 0).forEach((element) {
+    ///Gets all ItemModels which are passed
+    _itemModelList.where((element) => DateTime(element.fromDate.year, element.fromDate.month, element.fromDate.day, element.fromTime.hour, element.fromTime.minute).compareTo(DateTime(now.year, now.month, now.day, now.hour, now.minute)) < 0).forEach((element) {
       ItemModel model = element;
 
-      ///ChartModel
+      ///Date
+      DateTime? _fromDate;
+      DateTime? _toDate;
       if (model.fromDate.compareTo(DateTime(now.year, now.month, now.day)) != 0 && model.categories == Categories.tasks) {
 
-        DateTime _now = DateTime(now.year, now.month, now.day);
-        int numberOfFromDate = chartBox.values.where((element) => element.dateTime.compareTo(model.fromDate) == 0).last.isNotChecked;
-        int numberOfToday = chartBox.values.where((element) => element.dateTime.compareTo(_now) == 0).last.isNotChecked;
+        ///ItemModel
+        Duration duration = model.fromDate.difference(model.toDate);
 
-        Provider.of<ChartService>(context, listen: false).putNotChecked(_now, numberOfToday + numberOfFromDate);
+        _fromDate = DateTime(now.year, now.month, now.day);
+        _toDate = DateTime(now.year, now.month, now.day).add(duration);
+
+        ///ChartModel
+        int numberOfFromDate = chartBox.values.where((element) => element.dateTime.compareTo(model.fromDate) == 0).last.isNotChecked;
+        int numberOfToday = chartBox.values.where((element) => element.dateTime.compareTo(_fromDate!) == 0).last.isNotChecked;
+
+        Provider.of<ChartService>(context, listen: false).putNotChecked(_fromDate, numberOfToday + numberOfFromDate);
         Provider.of<ChartService>(context, listen: false).putNotChecked(model.fromDate, numberOfFromDate < 0 ? numberOfFromDate - 1 : 0);
       }
 
-      model.fromDate = DateTime(now.year, now.month, now.day);
-      box.putAt(_itemModelList.indexOf(element), model);
+      ///Time
+      DateTime? _fromTime;
+      DateTime? _toTime;
+      if (model.fromTime.compareTo(DateTime(0, 0, 0, now.hour, now.minute)) != 0 && model.categories == Categories.tasks) {
+        Duration duration = model.fromTime.difference(model.toTime);
+
+        _fromTime = DateTime(0, 0, 0, now.hour, now.minute);
+        _toTime = DateTime(0, 0, 0, now.hour, now.minute).add(duration);
+      }
+
+      ///Put the Data in the Database
+      if (model.categories == Categories.tasks && (model.fromDate.compareTo(DateTime(now.year, now.month, now.day)) != 0 || model.fromTime.compareTo(DateTime(0, 0, 0, now.hour, now.minute)) != 0)) {
+
+        if (_fromDate != null && _toDate != null) {
+          model.fromDate = _fromDate;
+          model.toDate = _toDate;
+        }
+        if (_fromTime != null && _toTime != null) {
+          model.fromTime = _fromTime;
+          model.toTime = _toTime;
+        }
+        box.putAt(_itemModelList.indexOf(element), model);
+      }
     });
 
   }

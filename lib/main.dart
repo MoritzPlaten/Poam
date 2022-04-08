@@ -24,6 +24,11 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart' as
 
 ///TODO: Widget erstellen für den Startbildschirm
 
+///https://docs.flutter.dev/perf/rendering/shader
+///flutter run --profile --cache-sksl
+///flutter build apk --bundle-sksl-path flutter_01.sksl.json
+///flutter build ios --bundle-sksl-path flutter_01.sksl.json
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Directory directory = await pathProvider.getApplicationDocumentsDirectory();

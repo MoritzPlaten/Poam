@@ -135,19 +135,29 @@ class _PoamMenuState extends State<PoamMenu> {
                   alignment: Alignment.topRight,
                   children: [
 
+                    ///PoamChart
                     PoamChart(
                       updateSelectedChart: (val) => selectedChart = val,
                     ),
 
+                    ///if a Bar in the BarChart is selected then this will pop up
                     selectedChart != null ?
                     Container(
-                      margin: EdgeInsets.only(top: size.height * 0.05, right: size.width * 0.04),
-                      child: Text(
-                        AppLocalizations.of(context)!.date + ": " + DateFormat.yMd(Localizations.localeOf(context).languageCode).format(selectedChart!.dateTime) +
-                            "\n" +AppLocalizations.of(context)!.notChecked + ": " + selectedChart!.isNotChecked.toString() +
-                            "\n" + AppLocalizations.of(context)!.checked + ": " + selectedChart!.isChecked.toString(),
-                        style: GoogleFonts.novaMono(
-                            fontSize: 13
+                      margin: EdgeInsets.only(top: size.height * 0.035, right: size.width * 0.04),
+                      child: Card(
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: Text(
+                            AppLocalizations.of(context)!.date + ": " + DateFormat.yMd(Localizations.localeOf(context).languageCode).format(selectedChart!.dateTime) +
+                                "\n" +AppLocalizations.of(context)!.notChecked + ": " + selectedChart!.isNotChecked.toString() +
+                                "\n" + AppLocalizations.of(context)!.checked + ": " + selectedChart!.isChecked.toString(),
+                            style: GoogleFonts.novaMono(
+                                fontSize: 13
+                            ),
+                          ),
                         ),
                       ),
                     ) : Container(),
