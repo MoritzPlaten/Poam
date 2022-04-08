@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:hive_flutter/adapters.dart';
@@ -68,6 +66,7 @@ class _PoamPopUpState extends State<PoamPopUp> {
 
   @override
   Widget build(BuildContext context) {
+
     ///Refresh Items
     context.watch<ItemModel>().getItems();
     context.watch<Person>().getPersons();
@@ -77,8 +76,6 @@ class _PoamPopUpState extends State<PoamPopUp> {
     primaryColor = Theme.of(context).primaryColor;
     poamSnackbar = PoamSnackbar();
     itemModel = Provider.of<ItemModel>(context, listen: false).itemModelList;
-
-    //print(alarms.length);
 
     return ValueListenableBuilder(
         valueListenable: Hive.box<Person>(Database.PersonName).listenable(),

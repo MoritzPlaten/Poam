@@ -53,6 +53,7 @@ class _PoamDatePickerState extends State<PoamDatePicker> {
       DateTime updatedToDate = DateFormat.yMd(Localizations.localeOf(context).languageCode).parse(widget.dateController!.text);
       DateTime updatedToTime = DateFormat.Hm(Localizations.localeOf(context).languageCode).parse(widget.timeController!.text);
 
+      ///Date
       if (updatedToDate.isBefore(widget.fromDate!)) {
         selectedDate = widget.fromDate!;
 
@@ -61,6 +62,7 @@ class _PoamDatePickerState extends State<PoamDatePicker> {
         });
       }
 
+      ///Time
       if (updatedToTime.compareTo(widget.fromTime!) < 0) {
         selectedTime = widget.fromTime!;
 
@@ -80,6 +82,7 @@ class _PoamDatePickerState extends State<PoamDatePicker> {
       widget.timeController!.text = DateFormat.Hm(Localizations.localeOf(context).languageCode).format(selectedTime);
     }
     ///if no date is pick, then update the time and the Date automatically
+    ///TODO: the second date can not use before the first date is not selected
     if (widget.EditMode == false && _pickedDate == false && selectedDate.compareTo(DateTime.now()) < 0) {
       SchedulerBinding.instance?.addPostFrameCallback((_) {
         widget.dateController!.text = DateFormat.yMd(Localizations.localeOf(context).languageCode).format(DateTime.now());

@@ -115,7 +115,7 @@ class ItemModel extends ChangeNotifier {
         Duration duration = model.fromTime.difference(model.toTime);
 
         _fromTime = DateTime(0, 0, 0, now.hour, now.minute);
-        _toTime = DateTime(0, 0, 0, now.hour, now.minute).add(duration);
+        _toTime = DateTime(0, 0, 0, now.hour, now.minute).add(duration.abs());
       }
 
       ///Put the Data in the Database
