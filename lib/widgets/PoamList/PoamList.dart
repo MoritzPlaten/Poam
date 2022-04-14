@@ -29,11 +29,11 @@ class PoamList extends StatelessWidget {
     context.watch<Settings>().getSettings();
     context.watch<ChartService>().getCharts();
 
-    ///Change ItemModels
-    Provider.of<ItemModel>(context, listen: false).changeItems(context);
-
     ///Clear the Last Week
-    Provider.of<ChartService>(context, listen: false).weekIsOver();
+    Future<Map<DateTime, int>> map = Provider.of<ChartService>(context, listen: false).weekIsOver();
+
+    ///Change ItemModels
+    Provider.of<ItemModel>(context, listen: false).changeItems(context, map);
 
     ///initialize Classes
     Provider.of<Locales>(context, listen: false).initializeLocale(new Locales(languagesAsString(context, Languages.values.first)));

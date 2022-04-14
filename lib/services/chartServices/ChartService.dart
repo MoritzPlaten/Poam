@@ -16,6 +16,8 @@ part 'ChartService.g.dart';
 class ChartService extends ChangeNotifier {
 
   DateService dateService = DateService();
+  ///Save the last week
+  Map<DateTime, int> map = Map<DateTime, int>();
 
   @HiveField(0)
   final int isNotChecked;
@@ -122,9 +124,9 @@ class ChartService extends ChangeNotifier {
     return chartService.isNotChecked;
   }
 
-  void weekIsOver() async {
+  Future<Map<DateTime, int>> weekIsOver() async {
 
-    final box = await Hive.openBox<ChartService>(Database.ChartName);
+    Box<ChartService> box = await Hive.openBox<ChartService>(Database.ChartName);
     DateService dateService = DateService();
 
     if (box.values.length != 0) {
@@ -134,10 +136,24 @@ class ChartService extends ChangeNotifier {
       DateTime _Sunday = DateTime(Sunday.year, Sunday.month, Sunday.day);
       DateTime _lastDateTime = DateTime(lastDateTime.year, lastDateTime.month, lastDateTime.day);
 
+      ///week is over
       if (_lastDateTime.compareTo(_Sunday) < 0) {
+
+        ///Clear the map to add new items
+        if (map.isNotEmpty) {
+          map.clear();
+        }
+
+        ///Add the last week to the map
+        for (int i = 0;i < box.values.length;i++) {
+          map.addEntries({ box.values.elementAt(i).dateTime: box.values.elementAt(i).isNotChecked }.entries);
+        }
+
         box.clear();
       }
     }
+
+    return map;
   }
 
   List<charts.Series<dynamic, String>> getSeries(BuildContext context, List<ChartService> items, Color primaryColor) {

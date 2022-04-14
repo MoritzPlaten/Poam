@@ -79,20 +79,28 @@ class ItemModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void changeItems(BuildContext context) async {
+  void changeItems(BuildContext context, Future<Map<DateTime, int>> map) async {
 
     var box = await Hive.openBox<ItemModel>(Database.Name);
     var chartBox = await Hive.openBox<ChartService>(Database.ChartName);
+    var newMap = await map;
     DateTime now = DateTime.now();
 
     ///Gets all ItemModels which are passed
-    _itemModelList.where((element) => DateTime(element.fromDate.year, element.fromDate.month, element.fromDate.day, element.fromTime.hour, element.fromTime.minute).compareTo(DateTime(now.year, now.month, now.day, now.hour, now.minute)) < 0).forEach((element) {
+    _itemModelList.where((element) =>
+    DateTime(
+        element.fromDate.year, element.fromDate.month, element.fromDate.day,
+        element.fromTime.hour, element.fromTime.minute).compareTo(
+        DateTime(now.year, now.month, now.day, now.hour, now.minute)) < 0)
+        .forEach((element) {
+
       ItemModel model = element;
 
       ///Date
       DateTime? _fromDate;
       DateTime? _toDate;
-      if (model.fromDate.compareTo(DateTime(now.year, now.month, now.day)) != 0 && model.categories == Categories.tasks) {
+      if (model.fromDate.compareTo(DateTime(now.year, now.month, now.day)) !=
+          0 && model.categories == Categories.tasks) {
 
         ///ItemModel
         Duration duration = model.fromDate.difference(model.toDate);
@@ -101,7 +109,19 @@ class ItemModel extends ChangeNotifier {
         _toDate = DateTime(now.year, now.month, now.day).add(duration.abs());
 
         ///ChartModel
-        int numberOfFromDate = chartBox.values.where((element) => element.dateTime.compareTo(model.fromDate) == 0).last.isNotChecked;
+        int numberOfFromDate;
+        ///Check the week is over, respectively if the map is current
+        if (newMap.isNotEmpty && newMap.entries.last.key.isAfter(model.fromDate)) {
+
+          ///Give the number of items last week which are unchecked
+          numberOfFromDate = newMap[model.fromDate]!;
+        } else {
+
+          ///Give the number of last day today which are unchecked
+          numberOfFromDate = chartBox.values.where((element) => element.dateTime.compareTo(model.fromDate) == 0).last.isNotChecked;
+        }
+
+        ///Give the number of items today which are unchecked
         int numberOfToday = chartBox.values.where((element) => element.dateTime.compareTo(_fromDate!) == 0).last.isNotChecked;
 
         Provider.of<ChartService>(context, listen: false).putNotChecked(_fromDate, numberOfToday + numberOfFromDate);
@@ -111,7 +131,8 @@ class ItemModel extends ChangeNotifier {
       ///Time
       DateTime? _fromTime;
       DateTime? _toTime;
-      if (model.fromTime.compareTo(DateTime(0, 0, 0, now.hour, now.minute)) != 0 && model.categories == Categories.tasks) {
+      if (model.fromTime.compareTo(DateTime(0, 0, 0, now.hour, now.minute)) !=
+          0 && model.categories == Categories.tasks) {
         Duration duration = model.fromTime.difference(model.toTime);
 
         _fromTime = DateTime(0, 0, 0, now.hour, now.minute);
@@ -119,8 +140,10 @@ class ItemModel extends ChangeNotifier {
       }
 
       ///Put the Data in the Database
-      if (model.categories == Categories.tasks && (model.fromDate.compareTo(DateTime(now.year, now.month, now.day)) != 0 || model.fromTime.compareTo(DateTime(0, 0, 0, now.hour, now.minute)) != 0)) {
-
+      if (model.categories == Categories.tasks &&
+          (model.fromDate.compareTo(DateTime(now.year, now.month, now.day)) !=
+              0 || model.fromTime.compareTo(
+              DateTime(0, 0, 0, now.hour, now.minute)) != 0)) {
         if (_fromDate != null && _toDate != null) {
           model.fromDate = _fromDate;
           model.toDate = _toDate;
