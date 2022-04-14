@@ -46,5 +46,6 @@
     "notChecked": "Not Checked",
     "checked": "Checked",
     "hide": "hide",
-    "hideTime": "Hide the DateTime"
+    "hideTime": "Hide the DateTime",
+    "hour": "Hour"
 }

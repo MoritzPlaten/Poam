@@ -44,7 +44,8 @@ class _PoamDropDownState extends State<PoamDropDown> {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     e,
-                    style: GoogleFonts.novaMono(
+                    style: TextStyle(
+                        fontFamily: "Mona",
                         fontWeight: FontWeight.w500
                     ),
                   ),
@@ -58,7 +59,8 @@ class _PoamDropDownState extends State<PoamDropDown> {
               Center(
                 child: Text(
                   e,
-                  style: GoogleFonts.novaMono(
+                  style: TextStyle(
+                      fontFamily: "Mona",
                       fontSize: 14,
                       color: widget.foregroundColor,
                       fontWeight: FontWeight.bold

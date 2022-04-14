@@ -430,6 +430,7 @@ class _PoamPopUpState extends State<PoamPopUp> {
                       toTimeController: _toTimeController,
                       oldDateTime: widget.isEditMode == true ? widget.itemModel!.fromDate : DateTime(0),
                       alarms: Alarms(alarms),
+                      allowDate: isDateChecked,
 
                       ///if EditMode is true then get the index of this itemModel, else set the itemIndex to 0
                       itemIndex: widget.isEditMode == true

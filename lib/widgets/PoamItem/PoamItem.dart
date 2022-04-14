@@ -52,7 +52,7 @@ class PoamItem extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => MultiProvider(
                     providers: [
                       ChangeNotifierProvider(
-                        create: (_) => ItemModel("", Amounts(0, QuantityType.Pieces), false, Person(""), Categories.shopping, "", DateTime(0), DateTime(0), DateTime(0), DateTime(0), Frequency.single, "", Alarms([]), false),
+                        create: (_) => ItemModel("", Amounts(0, QuantityType.Pieces), false, Person(""), Categories.shopping, "", DateTime(0), DateTime(0), DateTime(0), DateTime(0), Frequency.single, "", Alarms([]), false, false),
                       ),
                       ChangeNotifierProvider(
                         create: (_) => Person(""),
@@ -107,7 +107,7 @@ class PoamItem extends StatelessWidget {
                         Text(
                           AppLocalizations.of(context)!.around + " " + DateFormat.Hm(Localizations.localeOf(context).languageCode).format(this.itemModel!.fromTime) +
                               " - " + DateFormat.Hm(Localizations.localeOf(context).languageCode).format(this.itemModel!.toTime) + " " + AppLocalizations.of(context)!.clock,
-                          style: GoogleFonts.kreon(
+                          style: TextStyle(fontFamily: "Kreon",
                               color: primaryColor,
                               fontSize: 13,
                               fontWeight: FontWeight.bold
@@ -118,7 +118,7 @@ class PoamItem extends StatelessWidget {
                       if (this.itemModel!.categories == Categories.tasks && this.itemModel!.fromTime == this.itemModel!.toTime)
                         Text(
                           AppLocalizations.of(context)!.around + " " + DateFormat.Hm(Localizations.localeOf(context).languageCode).format(this.itemModel!.fromTime) + " " + AppLocalizations.of(context)!.clock,
-                          style: GoogleFonts.kreon(
+                          style: TextStyle(fontFamily: "Kreon",
                               color: primaryColor,
                               fontSize: 13,
                               fontWeight: FontWeight.bold
@@ -131,7 +131,7 @@ class PoamItem extends StatelessWidget {
                           AppLocalizations.of(context)!.numberField + ": " +
                               this.itemModel!.amounts.Number.toString() + " " +
                               displayTextQuantityType(context, this.itemModel!.amounts.quantityType!),
-                          style: GoogleFonts.kreon(
+                          style: TextStyle(fontFamily: "Kreon",
                               color: primaryColor,
                               fontSize: 12,
                               fontWeight: FontWeight.bold
@@ -144,7 +144,7 @@ class PoamItem extends StatelessWidget {
                           width: size.width * 0.4,
                           child: Text(
                             "Person: " + this.itemModel!.person.name.toString(),
-                            style: GoogleFonts.kreon(
+                            style: TextStyle(fontFamily: "Kreon",
                                 color: primaryColor,
                                 fontSize: 12,
                                 fontWeight: FontWeight.bold
@@ -260,6 +260,7 @@ class PoamItem extends StatelessWidget {
                                   this.itemModel!.frequency,
                                   this.itemModel!.description,
                                   this.itemModel!.alarms,
+                                  false,
                                   this.itemModel!.expanded
                               )
                           );

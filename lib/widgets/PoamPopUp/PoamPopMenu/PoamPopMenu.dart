@@ -36,10 +36,11 @@ class PoamPopMenu extends StatefulWidget {
   final int? itemIndex;
   final DateTime? oldDateTime;
   final Alarms? alarms;
+  final bool? allowDate;
 
   const PoamPopMenu({Key? key, this.formKey, this.isEditMode, this.categoryDropDownValue, this.quantityTypeDropwDownValue, this.numberController, this.titleController,
     this.personValue, this.selectedColor, this.frequencyDropDownValue, this.descriptionController, this.fromDateController,
-    this.fromTimeController, this.toDateController, this.toTimeController, this.itemIndex, this.oldDateTime, this.alarms }) : super(key: key);
+    this.fromTimeController, this.toDateController, this.toTimeController, this.itemIndex, this.oldDateTime, this.alarms, this.allowDate }) : super(key: key);
 
   @override
   _PoamPopMenuState createState() => _PoamPopMenuState();
@@ -224,6 +225,8 @@ class _PoamPopMenuState extends State<PoamPopMenu> {
                               widget.descriptionController!.text.trim(),
                               ///Set Alarms
                               widget.alarms!,
+                              ///Set if the date is allow
+                              widget.allowDate!,
                               ///Set Expanded
                               false
                           );

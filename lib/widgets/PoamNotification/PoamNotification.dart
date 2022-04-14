@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -66,7 +68,9 @@ class PoamNotification extends StatelessWidget {
                             child: Text(
                               AppLocalizations.of(context)!.notification,
                               textAlign: TextAlign.center,
-                              style: GoogleFonts.novaMono(),
+                              style: TextStyle(
+                                fontFamily: "Mona",
+                              ),
                             ),
                             margin: EdgeInsets.only(top: 10),
                           ),
@@ -80,10 +84,8 @@ class PoamNotification extends StatelessWidget {
                                 children: [
 
                                   Text(
-                                    DateFormat.Hm(Localizations.localeOf(context).languageCode).format(this.listOfAlarms!.elementAt(i)),
-                                    style: GoogleFonts.novaMono(
-                                        fontWeight: FontWeight.w600
-                                    ),
+                                    DateFormat.Hm(Localizations.localeOf(context).languageCode).format(this.listOfAlarms!.elementAt(i)) + " h",
+                                    style: TextStyle(fontFamily: "Mona")
                                   ),
 
                                   IconButton(

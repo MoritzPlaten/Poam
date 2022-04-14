@@ -50,7 +50,8 @@ class PoamColorPicker extends StatelessWidget {
               child: Center(
                 child: Text(
                   AppLocalizations.of(context)!.colorField,
-                  style: GoogleFonts.novaMono(
+                  style: TextStyle(
+                      fontFamily: "Mona",
                       fontWeight: FontWeight.bold,
                       color: Colors.white
                   ),

@@ -42,9 +42,11 @@ class ItemModel extends ChangeNotifier {
   @HiveField(12)
   Alarms alarms;
   @HiveField(13)
+  bool AllowDate;
+  @HiveField(14)
   bool expanded;
 
-  ItemModel (this.title, this.amounts, this.isChecked, this.person, this.categories, this.hex, this.fromTime, this.fromDate, this.toTime, this.toDate,this.frequency, this.description, this.alarms, this.expanded);
+  ItemModel (this.title, this.amounts, this.isChecked, this.person, this.categories, this.hex, this.fromTime, this.fromDate, this.toTime, this.toDate,this.frequency, this.description, this.alarms, this.AllowDate, this.expanded);
 
   List<ItemModel> _itemModelList = <ItemModel>[];
   List<ItemModel> get itemModelList => _itemModelList;

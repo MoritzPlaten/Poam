@@ -44,6 +44,7 @@ class PoamFloatingButton extends StatelessWidget {
                           Frequency.single,
                           "",
                           Alarms([]),
+                          false,
                           false
                       ),
                 ),

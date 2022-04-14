@@ -106,7 +106,8 @@ class PoamDateItem extends StatelessWidget {
                               DateFormat.yMd(Localizations.localeOf(context)
                                   .languageCode)
                                   .format(dates[this.dateIndex!]),
-                          style: GoogleFonts.novaMono(
+                          style: TextStyle(
+                            fontFamily: "Mona",
                             fontSize: 11,
                             color: primaryColor,
                             fontWeight: FontWeight.bold,
@@ -365,11 +366,11 @@ class CostumListTile extends StatelessWidget {
       children: [
         Text(
           this.title! + ": ",
-          style: GoogleFonts.kreon(color: this.color, fontSize: 13),
+          style: TextStyle(fontFamily: "Kreon", color: this.color, fontSize: 13),
         ),
         Text(
           this.body!,
-          style: GoogleFonts.kreon(fontSize: 13),
+          style: TextStyle(fontFamily: "Kreon", fontSize: 13),
         ),
       ],
     );

@@ -134,7 +134,9 @@ class _PoamDatePickerState extends State<PoamDatePicker> {
           flex: 1,
           child: Text(
             widget.title!,
-            style: GoogleFonts.novaMono(),
+            style: TextStyle(
+              fontFamily: "Mona",
+            ),
           ),
         ),
 
@@ -154,7 +156,8 @@ class _PoamDatePickerState extends State<PoamDatePicker> {
                   borderRadius: const BorderRadius.all(Radius.circular(20)),
                 ),
                 child: TextFormField(
-                  style: GoogleFonts.novaMono(
+                  style: TextStyle(
+                      fontFamily: "Mona",
                       fontSize: 13, color: Colors.white, fontWeight: FontWeight.bold
                   ),
                   textAlign: TextAlign.center,
@@ -191,7 +194,8 @@ class _PoamDatePickerState extends State<PoamDatePicker> {
                     borderRadius: const BorderRadius.all(Radius.circular(20)),
                   ),
                   child: TextFormField(
-                    style: GoogleFonts.novaMono(
+                    style: TextStyle(
+                      fontFamily: "Mona",
                       fontSize: 13, color: Colors.white, fontWeight: FontWeight.bold,
                     ),
                     textAlign: TextAlign.center,

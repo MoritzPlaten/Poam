@@ -23,7 +23,9 @@ class PoamDateCheck extends StatelessWidget {
 
         Text(
           AppLocalizations.of(context)!.hideTime + ":",
-          style: GoogleFonts.novaMono(),
+          style: TextStyle(
+            fontFamily: "Mona",
+          ),
         ),
 
         Checkbox(

@@ -61,7 +61,7 @@ class _PoamMenuState extends State<PoamMenu> {
                 MultiProvider(
                   providers: [
                     ChangeNotifierProvider(
-                      create: (_) => ItemModel("", Amounts(0, QuantityType.Pieces), false, Person(""), Categories.tasks, "#FFFFFF", DateTime(0), DateTime(0), DateTime(0), DateTime(0), Frequency.single, "", Alarms([]), false),
+                      create: (_) => ItemModel("", Amounts(0, QuantityType.Pieces), false, Person(""), Categories.tasks, "#FFFFFF", DateTime(0), DateTime(0), DateTime(0), DateTime(0), Frequency.single, "", Alarms([]), false, false),
                     ),
                   ],
                   child: ListPage(
@@ -104,7 +104,8 @@ class _PoamMenuState extends State<PoamMenu> {
                 ///The title of the menu
                 Text(
                   displayTextCategory(context, widget.categories!),
-                  style: GoogleFonts.novaMono(
+                  style: TextStyle(
+                      fontFamily: "Mona",
                       fontSize: 18
                   ),
                 ),
@@ -154,9 +155,7 @@ class _PoamMenuState extends State<PoamMenu> {
                             AppLocalizations.of(context)!.date + ": " + DateFormat.yMd(Localizations.localeOf(context).languageCode).format(selectedChart!.dateTime) +
                                 "\n" +AppLocalizations.of(context)!.notChecked + ": " + selectedChart!.isNotChecked.toString() +
                                 "\n" + AppLocalizations.of(context)!.checked + ": " + selectedChart!.isChecked.toString(),
-                            style: GoogleFonts.novaMono(
-                                fontSize: 13
-                            ),
+                            style: TextStyle(fontFamily: "Mona", fontSize: 13)
                           ),
                         ),
                       ),
@@ -204,8 +203,9 @@ class _PoamMenuState extends State<PoamMenu> {
 
                 Text(
                   AppLocalizations.of(context)!.another + " " + (widget.allItems!.length - numberOfItemsOnStartScreen).toString() + " " + AppLocalizations.of(context)!.element,
-                  style: GoogleFonts.novaMono(
-                    fontSize: 12.5
+                  style: TextStyle(
+                      fontFamily: "Mona",
+                      fontSize: 12.5
                   ),
                 ),
 
@@ -225,9 +225,7 @@ class _PoamMenuState extends State<PoamMenu> {
               padding: const EdgeInsets.all(10),
               child: Text(
                 AppLocalizations.of(context)!.your + " " + displayTextCategory(context, widget.categories!) + " " + AppLocalizations.of(context)!.empty + "!",
-                style: GoogleFonts.novaMono(
-                  fontSize: 12.5
-                ),
+                style: TextStyle(fontFamily: "Mona", fontSize: 12.5)
               ),
             ),
 

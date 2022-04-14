@@ -61,7 +61,9 @@ class _PoamPersonPickerState extends State<PoamPersonPicker> {
                 padding: EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
                 child: Text(
                   AppLocalizations.of(context)!.messageAddPerson,
-                  style: GoogleFonts.novaMono(),
+                  style: TextStyle(
+                    fontFamily: "Mona",
+                  ),
                 ),
               ),
             ),

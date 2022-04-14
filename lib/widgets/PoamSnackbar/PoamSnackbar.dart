@@ -8,7 +8,8 @@ class PoamSnackbar {
     final snackBar = SnackBar(
       content: Text(
         text,
-        style: GoogleFonts.novaMono(
+        style: TextStyle(
+            fontFamily: "Mona",
             fontSize: 12.5
         ),
       ),

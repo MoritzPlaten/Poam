@@ -43,7 +43,7 @@ class _PoamTextFieldState extends State<PoamTextField> {
               keyboardType: widget.keyboardType,
               maxLines: widget.maxLines,
               maxLength: widget.maxLength,
-              style: GoogleFonts.kreon(),
+              style: TextStyle(fontFamily: "Kreon"),
               validator: widget.validator,
               decoration: InputDecoration(
                 labelText: widget.label,

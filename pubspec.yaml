@@ -166,6 +166,14 @@ flutter_native_splash:
 # The following section is specific to Flutter.
 flutter:
 
+  fonts:
+    - family: Mona
+      fonts:
+        - asset: fonts/Mona.ttf
+    - family: Kreon
+      fonts:
+        - asset: fonts/Kreon.ttf
+
   generate: true
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
@@ -188,7 +196,7 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
+
   #   - family: Schyler
   #     fonts:
   #       - asset: fonts/Schyler-Regular.ttf

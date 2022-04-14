@@ -33,7 +33,8 @@ class PoamSaveButton extends StatelessWidget {
         },
         child: Text(
           AppLocalizations.of(context)!.save,
-          style: GoogleFonts.novaMono(
+          style: TextStyle(
+            fontFamily: "Mona",
             fontSize: 18,
           ),
         ),

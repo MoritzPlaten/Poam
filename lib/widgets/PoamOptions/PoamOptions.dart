@@ -58,7 +58,10 @@ class _PoamOptionsState extends State<PoamOptions> {
                 Center(
                   child: Text(
                     AppLocalizations.of(context)!.settings,
-                    style: GoogleFonts.novaMono(fontSize: 18),
+                    style: TextStyle(
+                        fontFamily: "Mona",
+                        fontSize: 18
+                    ),
                   ),
                 ),
 
@@ -74,7 +77,9 @@ class _PoamOptionsState extends State<PoamOptions> {
                       flex: 1,
                       child: Text(
                         AppLocalizations.of(context)!.language + ":",
-                        style: GoogleFonts.novaMono(),
+                        style: TextStyle(
+                          fontFamily: "Mona",
+                        ),
                       )),
                     Flexible(
                       flex: 3,
@@ -101,7 +106,9 @@ class _PoamOptionsState extends State<PoamOptions> {
                       flex: 1,
                       child: Text(
                         AppLocalizations.of(context)!.menuColor + ":",
-                        style: GoogleFonts.novaMono(),
+                        style: TextStyle(
+                          fontFamily: "Mona",
+                        ),
                       ),
                     ),
 
