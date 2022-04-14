@@ -102,6 +102,8 @@ class _PoamPopUpState extends State<PoamPopUp> {
                 selectedColor = Color(HexColor(widget.itemModel!.hex).value);
                 alarms = widget.itemModel!.alarms.listOfAlarms;
 
+                ///TODO: Add AllowDate
+
                 ///DateTimes
                 DateTime isFromDateTimeOver = DateTime(
                     widget.itemModel!.fromDate.year,
