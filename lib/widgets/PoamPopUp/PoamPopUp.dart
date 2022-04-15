@@ -103,8 +103,6 @@ class _PoamPopUpState extends State<PoamPopUp> {
                 alarms = widget.itemModel!.alarms.listOfAlarms;
                 isDateChecked = widget.itemModel!.AllowDate;
 
-                ///TODO: Add AllowDate
-
                 ///DateTimes
                 DateTime isFromDateTimeOver = DateTime(
                     widget.itemModel!.fromDate.year,
@@ -432,6 +430,7 @@ class _PoamPopUpState extends State<PoamPopUp> {
                       oldDateTime: widget.isEditMode == true ? widget.itemModel!.fromDate : DateTime(0),
                       alarms: Alarms(alarms),
                       allowDate: isDateChecked,
+                      oldAllowDate: widget.itemModel != null ? widget.itemModel!.AllowDate : null,
 
                       ///if EditMode is true then get the index of this itemModel, else set the itemIndex to 0
                       itemIndex: widget.isEditMode == true
