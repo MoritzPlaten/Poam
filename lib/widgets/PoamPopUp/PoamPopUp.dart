@@ -327,8 +327,8 @@ class _PoamPopUpState extends State<PoamPopUp> {
                                         ": ",
                                     dateController: _fromDateController,
                                     timeController: _fromTimeController,
-                                    fromDateListener: (value) => _fromDatePicked = value,
-                                    fromTimeListener: (value) => _fromTimePicked = value,
+                                    fromDatePicked: _fromDatePicked,
+                                    fromTimePicked: _fromTimePicked,
                                     EditMode: widget.isEditMode,
                                   ),
                                 if (categoryDropDownValue ==
@@ -349,8 +349,8 @@ class _PoamPopUpState extends State<PoamPopUp> {
                                         .parse(_fromTimeController.text)
                                         : DateTime(0, 0, 0, DateTime.now().hour,
                                         DateTime.now().minute + 1),
-                                    fromDatePicked: _fromDatePicked,
-                                    fromTimePicked: _fromTimePicked,
+                                    fromDateListener: (value) => _fromDatePicked = value,
+                                    fromTimeListener: (value) => _fromTimePicked = value,
                                     EditMode: widget.isEditMode,
                                   ),
                               ],

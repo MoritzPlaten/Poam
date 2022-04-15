@@ -82,19 +82,52 @@ class _PoamDatePickerState extends State<PoamDatePicker> {
       widget.timeController!.text = DateFormat.Hm(Localizations.localeOf(context).languageCode).format(selectedTime);
     }
     ///if no date is pick, then update the time and the Date automatically
-    ///TODO: the second date can not use before the first date is not selected
-    if (widget.EditMode == false && _pickedDate == false && selectedDate.compareTo(DateTime.now()) < 0) {
+
+    void setDateAutomatically() {
+
       SchedulerBinding.instance?.addPostFrameCallback((_) {
         widget.dateController!.text = DateFormat.yMd(Localizations.localeOf(context).languageCode).format(DateTime.now());
       });
     }
-    if (widget.EditMode == false && _pickedTime == false && selectedTime.compareTo(DateTime.now()) < 0) {
+
+    if (widget.EditMode == false && _pickedDate == false && selectedDate.compareTo(DateTime.now()) < 0) {
+
+      if (widget.fromDatePicked != null) {
+
+        if (widget.fromDatePicked == false) {
+
+          setDateAutomatically();
+        }
+      } else {
+
+        setDateAutomatically();
+      }
+    }
+
+    void setTimeAutomatically() {
+
       DateTime now = DateTime.now();
       DateTime _now = DateTime(0, 0, 0, now.hour, now.minute + 1);
 
       SchedulerBinding.instance?.addPostFrameCallback((_) {
-        widget.timeController!.text = DateFormat.Hm(Localizations.localeOf(context).languageCode).format(_now);
+        widget.timeController!.text = DateFormat.Hm(Localizations
+            .localeOf(context)
+            .languageCode).format(_now);
       });
+    }
+
+    if (widget.EditMode == false && _pickedTime == false && selectedTime.compareTo(DateTime.now()) < 0) {
+
+      if (widget.fromTimePicked != null) {
+
+        if (widget.fromTimePicked == false) {
+
+          setTimeAutomatically();
+        }
+      } else {
+
+        setTimeAutomatically();
+      }
     }
 
     ///Opens DatePicker
