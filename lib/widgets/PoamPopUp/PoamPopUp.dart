@@ -101,6 +101,7 @@ class _PoamPopUpState extends State<PoamPopUp> {
                 _descriptionController.text = widget.itemModel!.description;
                 selectedColor = Color(HexColor(widget.itemModel!.hex).value);
                 alarms = widget.itemModel!.alarms.listOfAlarms;
+                isDateChecked = widget.itemModel!.AllowDate;
 
                 ///TODO: Add AllowDate
 
@@ -314,13 +315,12 @@ class _PoamPopUpState extends State<PoamPopUp> {
                                     displayTextCategory(
                                         context, Categories.tasks))
                                   PoamDateCheck(
-                                    value: isDateChecked,
+                                    isChecked: isDateChecked,
                                     onCheckListener: (bool value) => isDateChecked = value,
                                   ),
 
                                 if (categoryDropDownValue ==
-                                    displayTextCategory(
-                                        context, Categories.tasks))
+                                    displayTextCategory(context, Categories.tasks) && isDateChecked != true)
                                   PoamDatePicker(
                                     title:
                                     AppLocalizations.of(context)!.dateFrom +
@@ -332,8 +332,7 @@ class _PoamPopUpState extends State<PoamPopUp> {
                                     EditMode: widget.isEditMode,
                                   ),
                                 if (categoryDropDownValue ==
-                                    displayTextCategory(
-                                        context, Categories.tasks))
+                                    displayTextCategory(context, Categories.tasks) && isDateChecked != true)
                                   PoamDatePicker(
                                     title: AppLocalizations.of(context)!.dateTo +
                                         ": ",

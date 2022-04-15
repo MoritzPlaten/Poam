@@ -173,6 +173,9 @@ flutter:
     - family: Kreon
       fonts:
         - asset: fonts/Kreon.ttf
+    - family: Ubuntu
+      fonts:
+        - asset: fonts/Ubuntu.ttf
 
   generate: true
   # The following line ensures that the Material Icons font is

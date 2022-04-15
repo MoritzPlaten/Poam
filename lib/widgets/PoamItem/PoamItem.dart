@@ -91,7 +91,8 @@ class PoamItem extends StatelessWidget {
                         width: size.width * 0.40,
                         child: Text(
                           this.itemModel!.title,
-                          style: GoogleFonts.ubuntu(
+                          style: TextStyle(
+                              fontFamily: "Ubuntu",
                               fontWeight: FontWeight.w400,
                               fontSize: 16.5
                           ),
@@ -103,7 +104,7 @@ class PoamItem extends StatelessWidget {
                       const SizedBox(height: 1,),
 
                       ///if fromTime != toTime, then display "fromTime - toTime Uhr"
-                      if (this.itemModel!.categories == Categories.tasks && this.itemModel!.fromTime != this.itemModel!.toTime)
+                      if (this.itemModel!.categories == Categories.tasks && this.itemModel!.AllowDate == false && this.itemModel!.fromTime != this.itemModel!.toTime)
                         Text(
                           AppLocalizations.of(context)!.around + " " + DateFormat.Hm(Localizations.localeOf(context).languageCode).format(this.itemModel!.fromTime) +
                               " - " + DateFormat.Hm(Localizations.localeOf(context).languageCode).format(this.itemModel!.toTime) + " " + AppLocalizations.of(context)!.clock,
@@ -115,7 +116,7 @@ class PoamItem extends StatelessWidget {
                         ),
 
                       ///if fromTime == toTime, then display "fromTime"
-                      if (this.itemModel!.categories == Categories.tasks && this.itemModel!.fromTime == this.itemModel!.toTime)
+                      if (this.itemModel!.categories == Categories.tasks && this.itemModel!.AllowDate == false && this.itemModel!.fromTime == this.itemModel!.toTime)
                         Text(
                           AppLocalizations.of(context)!.around + " " + DateFormat.Hm(Localizations.localeOf(context).languageCode).format(this.itemModel!.fromTime) + " " + AppLocalizations.of(context)!.clock,
                           style: TextStyle(fontFamily: "Kreon",
@@ -260,7 +261,7 @@ class PoamItem extends StatelessWidget {
                                   this.itemModel!.frequency,
                                   this.itemModel!.description,
                                   this.itemModel!.alarms,
-                                  false,
+                                  this.itemModel!.AllowDate,
                                   this.itemModel!.expanded
                               )
                           );

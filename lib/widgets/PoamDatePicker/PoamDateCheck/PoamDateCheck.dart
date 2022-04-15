@@ -6,12 +6,10 @@ typedef OnCheckListener(bool value);
 
 class PoamDateCheck extends StatelessWidget {
 
-  final bool? value;
+  final bool? isChecked;
   final OnCheckListener? onCheckListener;
 
-  PoamDateCheck({ Key? key, this.value, this.onCheckListener }) : super(key: key);
-
-  bool isChecked = false;
+  const PoamDateCheck({ Key? key, this.isChecked, this.onCheckListener }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +27,7 @@ class PoamDateCheck extends StatelessWidget {
         ),
 
         Checkbox(
-            value: isChecked,
+            value: this.isChecked,
             onChanged: (bool? value) {
               this.onCheckListener!(value!);
             }
