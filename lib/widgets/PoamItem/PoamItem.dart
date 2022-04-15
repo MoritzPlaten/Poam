@@ -183,7 +183,7 @@ class PoamItem extends StatelessWidget {
                         Provider.of<ItemModel>(context, listen: false).removeItem(this.itemModel!);
 
                         ///ChartModel
-                        if (this.itemModel!.categories == Categories.tasks) {
+                        if (this.itemModel!.categories == Categories.tasks && this.itemModel!.AllowDate == false) {
 
                           Provider.of<ChartService>(context, listen: false).putChecked(this.itemModel!.fromDate, chartService.getNumberOfChecked(box.values.toList(), this.itemModel!.fromDate) + 1);
                           Provider.of<ChartService>(context, listen: false).putNotChecked(
