@@ -61,6 +61,8 @@ class _PoamPopUpState extends State<PoamPopUp> {
 
   bool? _fromDatePicked;
   bool? _fromTimePicked;
+  bool? _fromDatePickedCopy;
+  bool? _fromTimePickedCopy;
 
   bool isDateChecked = false;
 
@@ -298,7 +300,6 @@ class _PoamPopUpState extends State<PoamPopUp> {
                           ),
 
                         ///Displays the Date-Time-Picker
-                        ///TODO: PoamDatePicker soll man durch eine Checkbox austellen können, sodass dieses PoamItem nicht im PoamChart übernommen wird und keine Zeit Einschränkung hat. Es soll einfach ohne Datum angezeigt werden
                         Card(
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
@@ -325,8 +326,11 @@ class _PoamPopUpState extends State<PoamPopUp> {
                                         ": ",
                                     dateController: _fromDateController,
                                     timeController: _fromTimeController,
+                                    ///Klappt nicht weil ich diese beiden gewechselt habe
                                     fromDatePicked: _fromDatePicked,
                                     fromTimePicked: _fromTimePicked,
+                                    fromDateListenerCopy: (value) => _fromDatePickedCopy = value,
+                                    fromTimeListenerCopy: (value) => _fromTimePickedCopy = value,
                                     EditMode: widget.isEditMode,
                                   ),
                                 if (categoryDropDownValue ==
@@ -349,6 +353,8 @@ class _PoamPopUpState extends State<PoamPopUp> {
                                         DateTime.now().minute + 1),
                                     fromDateListener: (value) => _fromDatePicked = value,
                                     fromTimeListener: (value) => _fromTimePicked = value,
+                                    fromDatePickedCopy: _fromDatePickedCopy,
+                                    fromTimePickedCopy: _fromTimePickedCopy,
                                     EditMode: widget.isEditMode,
                                   ),
                               ],
@@ -358,7 +364,7 @@ class _PoamPopUpState extends State<PoamPopUp> {
 
                         ///Displays the Frequency DropDownMenu
                         if (categoryDropDownValue ==
-                            displayTextCategory(context, Categories.tasks))
+                            displayTextCategory(context, Categories.tasks) && isDateChecked != true)
                           PoamDropDown(
                             dropdownValue: frequencyDropDownValue,
                             onChanged: (value) {

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 typedef void onFromDateListener(bool val);
@@ -15,11 +14,15 @@ class PoamDatePicker extends StatefulWidget {
   final DateTime? fromTime;
   final onFromDateListener? fromDateListener;
   final onFromTimeListener? fromTimeListener;
+  final onFromDateListener? fromDateListenerCopy;
+  final onFromTimeListener? fromTimeListenerCopy;
   final bool? fromDatePicked;
   final bool? fromTimePicked;
+  final bool? fromDatePickedCopy;
+  final bool? fromTimePickedCopy;
   final bool? EditMode;
 
-  const PoamDatePicker({ Key? key, this.title, this.timeController, this.dateController, this.fromDate, this.fromTime, this.fromDateListener, this.fromTimeListener, this.fromDatePicked, this.fromTimePicked, this.EditMode }) : super(key: key);
+  const PoamDatePicker({ Key? key, this.title, this.timeController, this.dateController, this.fromDate, this.fromTime, this.fromDateListener, this.fromTimeListener, this.fromDateListenerCopy, this.fromTimeListenerCopy, this.fromDatePicked, this.fromTimePicked, this.fromDatePickedCopy, this.fromTimePickedCopy, this.EditMode }) : super(key: key);
 
   @override
   _PoamDatePickerState createState() => _PoamDatePickerState();
@@ -47,8 +50,17 @@ class _PoamDatePickerState extends State<PoamDatePicker> {
       widget.fromTimeListener!(_pickedTime);
     }
 
+    ///Update the State if the fromDate or the fromTime is picked
+    ///TODO: I added, so its a copy
+    if (widget.fromDateListenerCopy != null && widget.fromDateListenerCopy != null) {
+      widget.fromDateListenerCopy!(_pickedDate);
+      widget.fromDateListenerCopy!(_pickedTime);
+    }
+
     ///if the fromTime or the fromDate is change, then it will be set the toDate or the toTime equal the fromTime or the fromDate
-    if (widget.fromDate != null && widget.fromTime != null && widget.fromDatePicked != null && widget.fromTimePicked != null) {
+    ///TODO: Not working
+    print(_pickedTime);
+    if (widget.fromDate != null && widget.fromTime != null && widget.fromDatePickedCopy != null && widget.fromTimePickedCopy != null) {
 
       DateTime updatedToDate = DateFormat.yMd(Localizations.localeOf(context).languageCode).parse(widget.dateController!.text);
       DateTime updatedToTime = DateFormat.Hm(Localizations.localeOf(context).languageCode).parse(widget.timeController!.text);
@@ -71,8 +83,9 @@ class _PoamDatePickerState extends State<PoamDatePicker> {
         });
       }
 
-      _pickedDate = widget.fromDatePicked!;
-      _pickedTime = widget.fromTimePicked!;
+      _pickedDate = widget.fromDatePickedCopy!;
+      _pickedTime = widget.fromTimePickedCopy!;
+      print(_pickedTime);
     }
 
     if (widget.dateController!.text == "") {
