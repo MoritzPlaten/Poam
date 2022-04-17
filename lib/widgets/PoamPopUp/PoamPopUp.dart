@@ -300,6 +300,9 @@ class _PoamPopUpState extends State<PoamPopUp> {
                           ),
 
                         ///Displays the Date-Time-Picker
+                        if (categoryDropDownValue ==
+                            displayTextCategory(
+                                context, Categories.tasks))
                         Card(
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
@@ -310,16 +313,12 @@ class _PoamPopUpState extends State<PoamPopUp> {
                               children: [
 
                                 ///Here can the user disable the DateTime
-                                if (categoryDropDownValue ==
-                                    displayTextCategory(
-                                        context, Categories.tasks))
                                   PoamDateCheck(
                                     isChecked: isDateChecked,
                                     onCheckListener: (bool value) => isDateChecked = value,
                                   ),
 
-                                if (categoryDropDownValue ==
-                                    displayTextCategory(context, Categories.tasks) && isDateChecked != true)
+                                if (isDateChecked != true)
                                   PoamDatePicker(
                                     title:
                                     AppLocalizations.of(context)!.dateFrom +
@@ -332,8 +331,8 @@ class _PoamPopUpState extends State<PoamPopUp> {
                                     secondFromTimeListener: (value) => _secondFromTimePicked = value,
                                     EditMode: widget.isEditMode,
                                   ),
-                                if (categoryDropDownValue ==
-                                    displayTextCategory(context, Categories.tasks) && isDateChecked != true)
+
+                                if (isDateChecked != true)
                                   PoamDatePicker(
                                     title: AppLocalizations.of(context)!.dateTo +
                                         ": ",

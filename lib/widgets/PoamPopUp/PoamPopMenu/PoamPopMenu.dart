@@ -147,7 +147,7 @@ class _PoamPopMenuState extends State<PoamPopMenu> {
                             DateTime.now().second) : DateTime.now();
 
                         ///if select Category task, then you can add only tasks for the future
-                        if (widget.categoryDropDownValue == displayTextCategory(context, Categories.tasks) ? fromDateTime.compareTo(DateTime.now()) /*>=*/ < 0 : false) {
+                        if (widget.categoryDropDownValue == displayTextCategory(context, Categories.tasks) ? fromDateTime.compareTo(DateTime.now()) < 0 && widget.allowDate == false : false) {
                           poamSnackbar.showSnackBar(context,
                               AppLocalizations.of(context)!.messagePast,
                               primaryColor);
