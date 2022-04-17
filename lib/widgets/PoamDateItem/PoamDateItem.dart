@@ -183,14 +183,7 @@ class PoamDateItem extends StatelessWidget {
                                     child: Column(
                                       children: [
                                         ///Displays the frequency
-                                        if (this.allItems!
-                                            .where((element) =>
-                                        element.fromDate ==
-                                            dates[
-                                            this.dateIndex!])
-                                            .elementAt(i)
-                                            .frequency !=
-                                            "")
+                                        if (this.allItems!.where((element) => element.fromDate == dates[this.dateIndex!]).elementAt(i).frequency != "" && this.allItems!.where((element) => element.fromDate == dates[this.dateIndex!]).elementAt(i).AllowDate == false)
                                           CostumListTile(
                                             color: primaryColor,
                                             size: size,

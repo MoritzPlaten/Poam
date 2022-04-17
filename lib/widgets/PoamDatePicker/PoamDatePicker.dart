@@ -12,17 +12,19 @@ class PoamDatePicker extends StatefulWidget {
   final TextEditingController? timeController;
   final DateTime? fromDate;
   final DateTime? fromTime;
-  final onFromDateListener? fromDateListener;
-  final onFromTimeListener? fromTimeListener;
-  final onFromDateListener? fromDateListenerCopy;
-  final onFromTimeListener? fromTimeListenerCopy;
-  final bool? fromDatePicked;
-  final bool? fromTimePicked;
-  final bool? fromDatePickedCopy;
-  final bool? fromTimePickedCopy;
+  ///These vars come from the second TimePicker
+  final onFromDateListener? firstFromDateListener;
+  final onFromTimeListener? firstFromTimeListener;
+  final bool? firstFromDatePicked;
+  final bool? firstFromTimePicked;
+  ///These vars come from the first TimePicker
+  final onFromDateListener? secondFromDateListener;
+  final onFromTimeListener? secondFromTimeListener;
+  final bool? secondFromDatePicked;
+  final bool? secondFromTimePicked;
   final bool? EditMode;
 
-  const PoamDatePicker({ Key? key, this.title, this.timeController, this.dateController, this.fromDate, this.fromTime, this.fromDateListener, this.fromTimeListener, this.fromDateListenerCopy, this.fromTimeListenerCopy, this.fromDatePicked, this.fromTimePicked, this.fromDatePickedCopy, this.fromTimePickedCopy, this.EditMode }) : super(key: key);
+  const PoamDatePicker({ Key? key, this.title, this.timeController, this.dateController, this.fromDate, this.fromTime, this.firstFromDateListener, this.firstFromTimeListener, this.secondFromDateListener, this.secondFromTimeListener, this.firstFromDatePicked, this.firstFromTimePicked, this.secondFromDatePicked, this.secondFromTimePicked, this.EditMode }) : super(key: key);
 
   @override
   _PoamDatePickerState createState() => _PoamDatePickerState();
@@ -35,7 +37,7 @@ class _PoamDatePickerState extends State<PoamDatePicker> {
   DateTime selectedDate = DateTime.now();
   DateTime selectedTime = DateTime(0,0,0, DateTime.now().hour, DateTime.now().minute + 1);
   late String dateTime;
-  bool _pickedTime = false, _pickedDate = false;
+  bool _firstPickedTime = false, _firstPickedDate = false, _secondPickedTime = false, _secondPickedDate = false;
 
   @override
   Widget build(BuildContext context) {
@@ -45,22 +47,21 @@ class _PoamDatePickerState extends State<PoamDatePicker> {
     size = MediaQuery.of(context).size;
 
     ///Update the State if the fromDate or the fromTime is picked
-    if (widget.fromDateListener != null && widget.fromTimeListener != null) {
-      widget.fromDateListener!(_pickedDate);
-      widget.fromTimeListener!(_pickedTime);
+    if (widget.firstFromDateListener != null && widget.firstFromTimeListener != null) {
+
+      widget.firstFromDateListener!(_firstPickedDate);
+      widget.firstFromTimeListener!(_firstPickedTime);
     }
 
     ///Update the State if the fromDate or the fromTime is picked
-    ///TODO: I added, so its a copy
-    if (widget.fromDateListenerCopy != null && widget.fromDateListenerCopy != null) {
-      widget.fromDateListenerCopy!(_pickedDate);
-      widget.fromDateListenerCopy!(_pickedTime);
+    if (widget.secondFromDateListener != null && widget.secondFromTimeListener != null) {
+
+      widget.secondFromDateListener!(_secondPickedDate);
+      widget.secondFromTimeListener!(_secondPickedTime);
     }
 
     ///if the fromTime or the fromDate is change, then it will be set the toDate or the toTime equal the fromTime or the fromDate
-    ///TODO: Not working
-    print(_pickedTime);
-    if (widget.fromDate != null && widget.fromTime != null && widget.fromDatePickedCopy != null && widget.fromTimePickedCopy != null) {
+    if (widget.fromDate != null && widget.fromTime != null && widget.secondFromDatePicked != null && widget.secondFromTimePicked != null) {
 
       DateTime updatedToDate = DateFormat.yMd(Localizations.localeOf(context).languageCode).parse(widget.dateController!.text);
       DateTime updatedToTime = DateFormat.Hm(Localizations.localeOf(context).languageCode).parse(widget.timeController!.text);
@@ -75,7 +76,7 @@ class _PoamDatePickerState extends State<PoamDatePicker> {
       }
 
       ///Time
-      if (updatedToTime.compareTo(widget.fromTime!) < 0) {
+      if (updatedToTime.isBefore(widget.fromTime!)) {
         selectedTime = widget.fromTime!;
 
         SchedulerBinding.instance?.addPostFrameCallback((_) {
@@ -83,9 +84,15 @@ class _PoamDatePickerState extends State<PoamDatePicker> {
         });
       }
 
-      _pickedDate = widget.fromDatePickedCopy!;
-      _pickedTime = widget.fromTimePickedCopy!;
-      print(_pickedTime);
+      ///Gets the Time- and DatePicked from the first Date- and TimePicker
+      _secondPickedDate = widget.secondFromDatePicked!;
+      _secondPickedTime = widget.secondFromTimePicked!;
+    }
+
+    ///Gets the Time- and DatePicked from the second Date- and TimePicker
+    if (widget.firstFromDatePicked != null && widget.firstFromTimePicked != null) {
+      _firstPickedDate = widget.firstFromDatePicked!;
+      _firstPickedTime = widget.firstFromTimePicked!;
     }
 
     if (widget.dateController!.text == "") {
@@ -94,8 +101,8 @@ class _PoamDatePickerState extends State<PoamDatePicker> {
     if (widget.timeController!.text == "") {
       widget.timeController!.text = DateFormat.Hm(Localizations.localeOf(context).languageCode).format(selectedTime);
     }
-    ///if no date is pick, then update the time and the Date automatically
 
+    ///If the first or the second Date Picker is not clicked then set the Date automatically
     void setDateAutomatically() {
 
       SchedulerBinding.instance?.addPostFrameCallback((_) {
@@ -103,11 +110,11 @@ class _PoamDatePickerState extends State<PoamDatePicker> {
       });
     }
 
-    if (widget.EditMode == false && _pickedDate == false && selectedDate.compareTo(DateTime.now()) < 0) {
+    if (widget.EditMode == false && selectedDate.isBefore(DateTime.now()) && (_secondPickedDate == false && _firstPickedDate == false)) {
 
-      if (widget.fromDatePicked != null) {
+      if (widget.firstFromDatePicked != null) {
 
-        if (widget.fromDatePicked == false) {
+        if (widget.firstFromDatePicked == false) {
 
           setDateAutomatically();
         }
@@ -129,16 +136,16 @@ class _PoamDatePickerState extends State<PoamDatePicker> {
       });
     }
 
-    if (widget.EditMode == false && _pickedTime == false && selectedTime.compareTo(DateTime.now()) < 0) {
+    ///If the first or the second Time Picker is not clicked then set the Time automatically
+    if (widget.EditMode == false && selectedTime.isBefore(DateTime.now()) && (_secondPickedTime == false && _firstPickedTime == false)) {
 
-      if (widget.fromTimePicked != null) {
+      if (widget.firstFromTimePicked != null) {
 
-        if (widget.fromTimePicked == false) {
+        if (widget.firstFromTimePicked == false) {
 
           setTimeAutomatically();
         }
       } else {
-
         setTimeAutomatically();
       }
     }
@@ -153,7 +160,12 @@ class _PoamDatePickerState extends State<PoamDatePicker> {
           lastDate: DateTime(2101));
       if (picked != null)
         selectedDate = picked;
-        _pickedDate = true;
+
+        if (widget.secondFromDateListener == null) {
+          _firstPickedDate = true;
+        } else {
+          _secondPickedDate = true;
+        }
         widget.dateController!.text = DateFormat.yMd(Localizations.localeOf(context).languageCode).format(selectedDate);
     }
 
@@ -165,7 +177,13 @@ class _PoamDatePickerState extends State<PoamDatePicker> {
       );
       if (picked != null)
         setState(() {
-          _pickedTime = true;
+
+          if (widget.secondFromTimeListener == null) {
+            _firstPickedTime = true;
+          } else {
+            _secondPickedTime = true;
+          }
+
           TimeOfDay timeOfDay = picked;
           selectedTime = DateTime(0,0,0, timeOfDay.hour, timeOfDay.minute);
           widget.timeController!.text = DateFormat.Hm(Localizations.localeOf(context).languageCode).format(selectedTime);

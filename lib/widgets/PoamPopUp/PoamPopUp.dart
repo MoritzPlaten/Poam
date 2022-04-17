@@ -59,10 +59,10 @@ class _PoamPopUpState extends State<PoamPopUp> {
   TextEditingController _numberController = TextEditingController();
   TextEditingController _descriptionController = TextEditingController();
 
-  bool? _fromDatePicked;
-  bool? _fromTimePicked;
-  bool? _fromDatePickedCopy;
-  bool? _fromTimePickedCopy;
+  bool? _firstFromDatePicked;
+  bool? _firstFromTimePicked;
+  bool? _secondFromDatePicked;
+  bool? _secondFromTimePicked;
 
   bool isDateChecked = false;
 
@@ -326,11 +326,10 @@ class _PoamPopUpState extends State<PoamPopUp> {
                                         ": ",
                                     dateController: _fromDateController,
                                     timeController: _fromTimeController,
-                                    ///Klappt nicht weil ich diese beiden gewechselt habe
-                                    fromDatePicked: _fromDatePicked,
-                                    fromTimePicked: _fromTimePicked,
-                                    fromDateListenerCopy: (value) => _fromDatePickedCopy = value,
-                                    fromTimeListenerCopy: (value) => _fromTimePickedCopy = value,
+                                    firstFromDatePicked: _firstFromDatePicked,
+                                    firstFromTimePicked: _firstFromTimePicked,
+                                    secondFromDateListener: (value) => _secondFromDatePicked = value,
+                                    secondFromTimeListener: (value) => _secondFromTimePicked = value,
                                     EditMode: widget.isEditMode,
                                   ),
                                 if (categoryDropDownValue ==
@@ -351,10 +350,10 @@ class _PoamPopUpState extends State<PoamPopUp> {
                                         .parse(_fromTimeController.text)
                                         : DateTime(0, 0, 0, DateTime.now().hour,
                                         DateTime.now().minute + 1),
-                                    fromDateListener: (value) => _fromDatePicked = value,
-                                    fromTimeListener: (value) => _fromTimePicked = value,
-                                    fromDatePickedCopy: _fromDatePickedCopy,
-                                    fromTimePickedCopy: _fromTimePickedCopy,
+                                    firstFromDateListener: (value) => _firstFromDatePicked = value,
+                                    firstFromTimeListener: (value) => _firstFromTimePicked = value,
+                                    secondFromDatePicked: _secondFromDatePicked,
+                                    secondFromTimePicked: _secondFromTimePicked,
                                     EditMode: widget.isEditMode,
                                   ),
                               ],

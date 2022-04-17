@@ -14,6 +14,8 @@ class PoamDateCheck extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    ///initialize
+    Color primaryColor = Theme.of(context).primaryColor;
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -28,6 +30,7 @@ class PoamDateCheck extends StatelessWidget {
 
         Checkbox(
             value: this.isChecked,
+            fillColor: MaterialStateProperty.all<Color>(primaryColor),
             onChanged: (bool? value) {
               this.onCheckListener!(value!);
             }

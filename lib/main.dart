@@ -46,6 +46,7 @@ Future<void> main() async {
   Hive.registerAdapter(AlarmsAdapter());
 
   ///Open our Box(DB)
+  ///TODO: encrypt Database
   await Hive.openBox<ItemModel>(Database.Name);
   await Hive.openBox<Person>(Database.PersonName);
   await Hive.openBox<Locales>(Database.LocaleName);
