@@ -139,7 +139,7 @@ class ChartService extends ChangeNotifier {
       DateTime _lastDateTime = DateTime(lastDateTime.year, lastDateTime.month, lastDateTime.day);
 
       ///week is over
-      if (_lastDateTime.compareTo(_Sunday) < 0) {
+      if (_lastDateTime.isBefore(_Sunday)) {
 
         ///Clear the map to add new items
         if (map.isNotEmpty) {

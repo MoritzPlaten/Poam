@@ -112,21 +112,27 @@ class ItemModel extends ChangeNotifier {
 
         ///ChartModel
         int numberOfFromDate;
+
         ///Check the week is over, respectively if the map is current
         if (newMap.isNotEmpty && newMap.entries.last.key.isAfter(model.fromDate)) {
 
           ///Give the number of items last week which are unchecked
-          numberOfFromDate = newMap[model.fromDate]!;
+          numberOfFromDate = newMap.entries.firstWhere((element) => element.key.isAtSameMomentAs(model.fromDate)).value;
         } else {
 
           ///Give the number of last day today which are unchecked
-          numberOfFromDate = chartBox.values.where((element) => element.dateTime.compareTo(model.fromDate) == 0).last.isNotChecked;
+          ///TODO: hier ist ein fehler
+          numberOfFromDate = chartBox.values.where((element) => element.dateTime.isAtSameMomentAs(model.fromDate)).last.isNotChecked;
         }
 
-        ///Give the number of items today which are unchecked
-        int numberOfToday = chartBox.values.where((element) => element.dateTime.compareTo(_fromDate!) == 0).last.isNotChecked;
+        Iterable<ChartService> listOfCharts = chartBox.values.where((element) => element.dateTime.compareTo(_fromDate!) == 0);
 
-        Provider.of<ChartService>(context, listen: false).putNotChecked(_fromDate, numberOfToday + numberOfFromDate);
+        ///Give the number of items today which are unchecked
+        if (listOfCharts.isNotEmpty) {
+
+          int numberOfToday = chartBox.values.where((element) => element.dateTime.compareTo(_fromDate!) == 0).last.isNotChecked;
+          Provider.of<ChartService>(context, listen: false).putNotChecked(_fromDate, numberOfToday + numberOfFromDate);
+        }
         Provider.of<ChartService>(context, listen: false).putNotChecked(model.fromDate, numberOfFromDate < 0 ? numberOfFromDate - 1 : 0);
       }
 
