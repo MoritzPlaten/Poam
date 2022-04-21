@@ -121,7 +121,6 @@ class ItemModel extends ChangeNotifier {
         } else {
 
           ///Give the number of last day today which are unchecked
-          ///TODO: hier ist ein fehler
           numberOfFromDate = chartBox.values.where((element) => element.dateTime.isAtSameMomentAs(model.fromDate)).last.isNotChecked;
         }
 
