@@ -160,6 +160,26 @@ class ChartService extends ChangeNotifier {
 
   List<charts.Series<dynamic, String>> getSeries(BuildContext context, List<ChartService> items, Color primaryColor) {
 
+    ///Set the Color of the Tasks Done Bar
+    Color? newColor;
+
+    ///If red is dominant
+    if (primaryColor.red > primaryColor.blue && primaryColor.red > primaryColor.green) {
+
+      newColor = primaryColor.withBlue(200);
+    }
+    ///If blue is dominant
+    else if (primaryColor.blue > primaryColor.red && primaryColor.blue > primaryColor.green) {
+
+      newColor = primaryColor.withGreen(200);
+    }
+    ///If green is dominant
+    else if (primaryColor.green > primaryColor.red && primaryColor.green > primaryColor.blue) {
+
+      newColor = primaryColor.withRed(200);
+    }
+
+    ///ChartModel
     ChartModel chartModel = ChartModel([
 
       for (int i = 0;i < items.length; i++)
@@ -169,7 +189,8 @@ class ChartService extends ChangeNotifier {
           finishedTasks: items.elementAt(i).isChecked,
         ),
     ]);
-    
+
+    ///ChartSeries
     ChartSeries chartSeries = ChartSeries([
       charts.Series(
           id: "Tasks",
@@ -182,7 +203,7 @@ class ChartService extends ChangeNotifier {
           data: chartModel.barChartModels,
           domainFn: (BarChartModel series, _) => series.day!,
           measureFn: (BarChartModel series, _) => series.finishedTasks,
-          colorFn: (BarChartModel series, _) => charts.ColorUtil.fromDartColor(primaryColor.withGreen(240))),
+          colorFn: (BarChartModel series, _) => charts.ColorUtil.fromDartColor(newColor!)),
     ]);
     return chartSeries.series;
   }

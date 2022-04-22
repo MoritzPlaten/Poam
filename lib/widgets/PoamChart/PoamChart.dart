@@ -28,6 +28,7 @@ class PoamChart extends StatelessWidget {
 
           List<charts.Series<dynamic, String>> series = Provider.of<ChartService>(context, listen: false).getSeries(context, box.values.toList(), primaryColor);
 
+          ///If you tap on one of the Bars in the Chart, then this will happen
           _onSelectionChanged(charts.SelectionModel model) {
             DateService dateService = DateService();
             List<DateTime> listOfDates = dateService.getDaysInBetween(dateService.getMondayDate(), dateService.getSundayDate());

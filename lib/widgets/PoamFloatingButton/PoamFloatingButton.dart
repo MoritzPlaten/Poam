@@ -20,6 +20,25 @@ class PoamFloatingButton extends StatelessWidget {
     ///initialize
     Color primaryColor = Theme.of(context).primaryColor;
 
+    ///Set the Color of the Tasks Done Bar
+    Color? newColor;
+
+    ///If red is dominant
+    if (primaryColor.red > primaryColor.blue && primaryColor.red > primaryColor.green) {
+
+      newColor = primaryColor.withBlue(200).withGreen(100);
+    }
+    ///If blue is dominant
+    else if (primaryColor.blue > primaryColor.red && primaryColor.blue > primaryColor.green) {
+
+      newColor = primaryColor.withGreen(200).withRed(100);
+    }
+    ///If green is dominant
+    else if (primaryColor.green > primaryColor.red && primaryColor.green > primaryColor.blue) {
+
+      newColor = primaryColor.withRed(200).withBlue(100);
+    }
+
     return FloatingActionButton(
       onPressed: () => {
         ///Navigate to PoamPopUp and add a Provider
@@ -73,7 +92,7 @@ class PoamFloatingButton extends StatelessWidget {
           gradient: RadialGradient(
               radius: 0.9,
               center: const Alignment(0.7, -0.6),
-              colors: [primaryColor, primaryColor.withRed(180).withBlue(140)],
+              colors: [primaryColor, newColor!],
               stops: const [0.1, 0.8]),
         ),
       ),
