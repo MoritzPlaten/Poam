@@ -4,6 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:poam/services/localeService/Objects/Languages.dart';
 import 'package:poam/services/settingService/Settings.dart';
 import 'package:poam/widgets/PoamOptions/PoamSave/PoamSaveButton.dart';
+import 'package:poam/widgets/PoamSnackbar/PoamSnackbar.dart';
 import 'package:provider/provider.dart';
 
 import '../../services/localeService/Locales.dart';
@@ -21,6 +22,7 @@ class _PoamOptionsState extends State<PoamOptions> {
 
   late double padding;
   late Size size;
+  late Color primaryColor;
   String? languageValue;
   Color? selectedColor;
 
@@ -34,6 +36,7 @@ class _PoamOptionsState extends State<PoamOptions> {
     ///initialize
     size = MediaQuery.of(context).size;
     padding = MediaQuery.of(context).padding.top;
+    primaryColor = Theme.of(context).primaryColor;
 
     ///if values == null then set these
     if (languageValue == null && Provider.of<Locales>(context, listen: false).locales.length != 0) {
@@ -117,7 +120,13 @@ class _PoamOptionsState extends State<PoamOptions> {
                       child: PoamColorPicker(
                         pickedColor: selectedColor != null ? selectedColor : Colors.blueAccent,
                         onChangeColor: (Color? value) {
-                          selectedColor = value!;
+                          PoamSnackbar poamSnackbar = PoamSnackbar();
+
+                          if (value! != Colors.white) {
+                            selectedColor = value;
+                          } else {
+                            poamSnackbar.showSnackBar(context, AppLocalizations.of(context)!.messageWhite, primaryColor);
+                          }
                         },
                       ),
                     ),
