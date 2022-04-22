@@ -3,6 +3,7 @@ import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
 import 'package:poam/services/chartServices/Objects/ChartSeries.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:poam/services/colorServices/ColorService.dart';
 import 'package:poam/services/itemServices/ItemModel.dart';
 import 'package:provider/provider.dart';
 import '../dateServices/DateService.dart';
@@ -160,24 +161,11 @@ class ChartService extends ChangeNotifier {
 
   List<charts.Series<dynamic, String>> getSeries(BuildContext context, List<ChartService> items, Color primaryColor) {
 
-    ///Set the Color of the Tasks Done Bar
-    Color? newColor;
+    ///initialize
+    ColorService colorService = ColorService();
 
-    ///If red is dominant
-    if (primaryColor.red > primaryColor.blue && primaryColor.red > primaryColor.green) {
-
-      newColor = primaryColor.withBlue(200);
-    }
-    ///If blue is dominant
-    else if (primaryColor.blue > primaryColor.red && primaryColor.blue > primaryColor.green) {
-
-      newColor = primaryColor.withGreen(200);
-    }
-    ///If green is dominant
-    else if (primaryColor.green > primaryColor.red && primaryColor.green > primaryColor.blue) {
-
-      newColor = primaryColor.withRed(200);
-    }
+    ///Create the Second Color
+    Color newColor = colorService.createColor(primaryColor);
 
     ///ChartModel
     ChartModel chartModel = ChartModel([
@@ -203,7 +191,7 @@ class ChartService extends ChangeNotifier {
           data: chartModel.barChartModels,
           domainFn: (BarChartModel series, _) => series.day!,
           measureFn: (BarChartModel series, _) => series.finishedTasks,
-          colorFn: (BarChartModel series, _) => charts.ColorUtil.fromDartColor(newColor!)),
+          colorFn: (BarChartModel series, _) => charts.ColorUtil.fromDartColor(newColor)),
     ]);
     return chartSeries.series;
   }

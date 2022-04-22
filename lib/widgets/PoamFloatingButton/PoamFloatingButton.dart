@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:poam/services/chartServices/ChartService.dart';
+import 'package:poam/services/colorServices/ColorService.dart';
 import 'package:poam/services/dateServices/Objects/Frequency.dart';
 import 'package:poam/services/itemServices/Objects/Alarms/Alarms.dart';
 import 'package:poam/services/itemServices/Objects/Amounts/Amounts.dart';
@@ -19,25 +20,9 @@ class PoamFloatingButton extends StatelessWidget {
 
     ///initialize
     Color primaryColor = Theme.of(context).primaryColor;
+    ColorService colorService = ColorService();
 
-    ///Set the Color of the Tasks Done Bar
-    Color? newColor;
-
-    ///If red is dominant
-    if (primaryColor.red > primaryColor.blue && primaryColor.red > primaryColor.green) {
-
-      newColor = primaryColor.withBlue(200).withGreen(100);
-    }
-    ///If blue is dominant
-    else if (primaryColor.blue > primaryColor.red && primaryColor.blue > primaryColor.green) {
-
-      newColor = primaryColor.withGreen(200).withRed(100);
-    }
-    ///If green is dominant
-    else if (primaryColor.green > primaryColor.red && primaryColor.green > primaryColor.blue) {
-
-      newColor = primaryColor.withRed(200).withBlue(100);
-    }
+    Color newColor = colorService.createColor(primaryColor);
 
     return FloatingActionButton(
       onPressed: () => {
@@ -92,7 +77,7 @@ class PoamFloatingButton extends StatelessWidget {
           gradient: RadialGradient(
               radius: 0.9,
               center: const Alignment(0.7, -0.6),
-              colors: [primaryColor, newColor!],
+              colors: [primaryColor, newColor],
               stops: const [0.1, 0.8]),
         ),
       ),
