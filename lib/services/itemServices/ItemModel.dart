@@ -81,6 +81,7 @@ class ItemModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  ///TODO: Es dürfen nicht die Daten verändert werden für die Zukunft wenn Wöchentlich ausgewählt wurde. Es darf sich nur der Aktuelle Wert verändern, nicht für die nächste Woche
   void changeItems(BuildContext context, Future<Map<DateTime, int>> map) async {
 
     var box = await Hive.openBox<ItemModel>(Database.Name);
@@ -90,10 +91,8 @@ class ItemModel extends ChangeNotifier {
 
     ///Gets all ItemModels which are passed
     _itemModelList.where((element) =>
-    DateTime(
-        element.fromDate.year, element.fromDate.month, element.fromDate.day,
-        element.fromTime.hour, element.fromTime.minute).compareTo(
-        DateTime(now.year, now.month, now.day, now.hour, now.minute)) < 0)
+    DateTime(element.fromDate.year, element.fromDate.month, element.fromDate.day, element.fromTime.hour, element.fromTime.minute)
+        .compareTo(DateTime(now.year, now.month, now.day, now.hour, now.minute)) < 0 && (element.frequency == Frequency.single || element.frequency == Frequency.daily))
         .forEach((element) {
 
       ItemModel model = element;
@@ -117,16 +116,19 @@ class ItemModel extends ChangeNotifier {
         if (newMap.isNotEmpty && newMap.entries.last.key.isAfter(model.fromDate)) {
 
           ///Give the number of items last week which are unchecked
-          numberOfFromDate = newMap.entries.firstWhere((element) => element.key.isAtSameMomentAs(model.fromDate)).value;
+          numberOfFromDate = newMap.entries.firstWhere((e) => e.key.isAtSameMomentAs(model.fromDate)).value;
+          print(numberOfFromDate);
         } else {
 
           ///Give the number of last day today which are unchecked
-          numberOfFromDate = chartBox.values.where((element) => element.dateTime.isAtSameMomentAs(model.fromDate)).last.isNotChecked;
+          numberOfFromDate = chartBox.values.where((e) => e.dateTime.isAtSameMomentAs(model.fromDate)).last.isNotChecked;
+          print(numberOfFromDate);
         }
 
         Iterable<ChartService> listOfCharts = chartBox.values.where((element) => element.dateTime.compareTo(_fromDate!) == 0);
 
         ///Give the number of items today which are unchecked
+        ///TODO: Das Komplette Chart wird genommen, nicht ein einzelner Wert
         if (listOfCharts.isNotEmpty) {
 
           int numberOfToday = chartBox.values.where((element) => element.dateTime.compareTo(_fromDate!) == 0).last.isNotChecked;
@@ -138,8 +140,7 @@ class ItemModel extends ChangeNotifier {
       ///Time
       DateTime? _fromTime;
       DateTime? _toTime;
-      if (model.fromTime.compareTo(DateTime(0, 0, 0, now.hour, now.minute)) !=
-          0 && model.categories == Categories.tasks) {
+      if (model.fromTime.compareTo(DateTime(0, 0, 0, now.hour, now.minute)) != 0 && model.frequency == Frequency.single && model.categories == Categories.tasks) {
         Duration duration = model.fromTime.difference(model.toTime);
 
         _fromTime = DateTime(0, 0, 0, now.hour, now.minute);

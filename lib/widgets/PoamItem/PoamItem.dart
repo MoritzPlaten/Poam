@@ -218,23 +218,23 @@ class PoamItem extends StatelessWidget {
                           switch(this.itemModel!.frequency) {
 
                             case Frequency.daily:
-                              _fromDate = DateTime(fromDate.year, fromDate.month, fromDate.day + 1);
-                              _toDate = DateTime(toDate.year, toDate.month, toDate.day + 1);
+                              _fromDate = DateTime(fromDate.year, fromDate.month, fromDate.day).add(Duration(days: 1));
+                              _toDate = DateTime(toDate.year, toDate.month, toDate.day).add(Duration(days: 1));
                               break;
 
                             case Frequency.weekly:
-                              _fromDate = DateTime(fromDate.year, fromDate.month, fromDate.day + 7);
-                              _toDate = DateTime(toDate.year, toDate.month, toDate.day + 7);
+                              _fromDate = DateTime(fromDate.year, fromDate.month, fromDate.day).add(Duration(days: 7));
+                              _toDate = DateTime(toDate.year, toDate.month, toDate.day).add(Duration(days: 7));
                               break;
 
                             case Frequency.monthly:
-                              _fromDate = DateTime(fromDate.year, fromDate.month, fromDate.day + 28);
-                              _toDate = DateTime(toDate.year, toDate.month, toDate.day + 28);
+                              _fromDate = DateTime(fromDate.year, fromDate.month + 1, fromDate.day);
+                              _toDate = DateTime(toDate.year, toDate.month + 1, toDate.day);
                               break;
 
                             case Frequency.yearly:
-                              _fromDate = DateTime(fromDate.year, fromDate.month, fromDate.day + 365);
-                              _toDate = DateTime(toDate.year, toDate.month, toDate.day + 365);
+                              _fromDate = DateTime(fromDate.year + 1, fromDate.month, fromDate.day);
+                              _toDate = DateTime(toDate.year + 1, toDate.month, toDate.day);
                               break;
                             case Frequency.single:
                               ///empty
