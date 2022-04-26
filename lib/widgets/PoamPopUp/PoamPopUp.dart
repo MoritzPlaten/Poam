@@ -26,10 +26,12 @@ import '../PoamDatePicker/PoamDatePicker.dart';
 import 'PoamPopMenu/PoamPopMenu.dart';
 
 class PoamPopUp extends StatefulWidget {
+
   final ItemModel? itemModel;
   final bool? isEditMode;
+  final Categories? categories;
 
-  const PoamPopUp({Key? key, this.itemModel, this.isEditMode})
+  const PoamPopUp({ Key? key, this.itemModel, this.isEditMode, this.categories })
       : super(key: key);
 
   @override
@@ -163,12 +165,12 @@ class _PoamPopUpState extends State<PoamPopUp> {
           ///EditMode is false
             case false:
 
-              if (categoryDropDownValue == "")
-                categoryDropDownValue =
-                    displayTextCategory(context, Categories.values.first);
+              if (categoryDropDownValue == "" && widget.categories == null)
+                categoryDropDownValue = displayTextCategory(context, Categories.values.first);
+              if(categoryDropDownValue == "" && widget.categories != null)
+                categoryDropDownValue = displayTextCategory(context, widget.categories!);
               if (frequencyDropDownValue == "")
-                frequencyDropDownValue =
-                    displayFrequency(context, Frequency.values.first);
+                frequencyDropDownValue = displayFrequency(context, Frequency.values.first);
               if (quantityTypeDropwDownValue == "") {
                 quantityTypeDropwDownValue = displayTextQuantityType(context, QuantityType.values.first);
               }

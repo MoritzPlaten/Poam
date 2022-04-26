@@ -13,7 +13,10 @@ import 'package:provider/provider.dart';
 import '../../services/itemServices/Objects/Amounts/QuantityType.dart';
 
 class PoamFloatingButton extends StatelessWidget {
-  const PoamFloatingButton({Key? key}) : super(key: key);
+
+  final Categories? categories;
+
+  const PoamFloatingButton({ Key? key, this.categories }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,46 +27,52 @@ class PoamFloatingButton extends StatelessWidget {
 
     Color newColor = colorService.createColor(primaryColor);
 
-    return FloatingActionButton(
-      onPressed: () => {
-        ///Navigate to PoamPopUp and add a Provider
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => MultiProvider(
-              providers: [
-                ChangeNotifierProvider(
-                  create: (_) =>
-                      ItemModel(
-                          "",
-                          Amounts(0, QuantityType.Pieces),
-                          false,
-                          Person(""),
-                          Categories.tasks,
-                          "0xFFFFFF",
-                          DateTime(0),
-                          DateTime(0),
-                          DateTime(0),
-                          DateTime(0),
-                          Frequency.single,
-                          "",
-                          Alarms([]),
-                          false,
-                          false
-                      ),
-                ),
-                ChangeNotifierProvider(
-                  create: (_) => ChartService(0, 0, DateTime(0)),
-                ),
-                ChangeNotifierProvider(
-                  create: (_) => Person(""),
-                ),
-              ],
-              child: const PoamPopUp(isEditMode: false,),
+    void addItemModel() {
+
+      ///Navigate to PoamPopUp and add a Provider
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => MultiProvider(
+            providers: [
+              ChangeNotifierProvider(
+                create: (_) =>
+                    ItemModel(
+                        "",
+                        Amounts(0, QuantityType.Pieces),
+                        false,
+                        Person(""),
+                        Categories.tasks,
+                        "0xFFFFFF",
+                        DateTime(0),
+                        DateTime(0),
+                        DateTime(0),
+                        DateTime(0),
+                        Frequency.single,
+                        "",
+                        Alarms([]),
+                        false,
+                        false
+                    ),
+              ),
+              ChangeNotifierProvider(
+                create: (_) => ChartService(0, 0, DateTime(0)),
+              ),
+              ChangeNotifierProvider(
+                create: (_) => Person(""),
+              ),
+            ],
+            child: PoamPopUp(
+              isEditMode: false,
+              categories: this.categories,
             ),
           ),
         ),
-      },
+      );
+    }
+
+    return FloatingActionButton(
+      onPressed: () => addItemModel(),
       child: Container(
         width: 60,
         height: 60,

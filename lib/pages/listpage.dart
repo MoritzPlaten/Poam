@@ -86,7 +86,9 @@ class _ListPageState extends State<ListPage> {
             );
           }
       ),
-      floatingActionButton: const PoamFloatingButton(),
+      floatingActionButton: PoamFloatingButton(
+        categories: widget.categories,
+      ),
     );
   }
 }
