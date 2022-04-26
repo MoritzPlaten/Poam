@@ -31,6 +31,10 @@ class PoamDateCheck extends StatelessWidget {
         Checkbox(
             value: this.isChecked,
             fillColor: MaterialStateProperty.all<Color>(primaryColor),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(5)),
+            ),
+            side: BorderSide(width: 2.5, style: BorderStyle.solid, color: primaryColor),
             onChanged: (bool? value) {
               this.onCheckListener!(value!);
             }

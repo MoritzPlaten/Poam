@@ -43,7 +43,7 @@ class PoamChart extends StatelessWidget {
 
               this.updateSelectedChart!(charts.first);
 
-              Future.delayed(const Duration(milliseconds: 2000), () {
+              Future.delayed(const Duration(milliseconds: 10000), () {
 
                 ChartService? name;
                 this.updateSelectedChart!(name);

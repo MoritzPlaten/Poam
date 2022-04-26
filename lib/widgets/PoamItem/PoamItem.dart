@@ -172,6 +172,10 @@ class PoamItem extends StatelessWidget {
                     checkColor: primaryColor,
                     fillColor: MaterialStateProperty.all(primaryColor),
                     value: this.itemModel!.isChecked,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(5)),
+                    ),
+                    side: BorderSide(width: 2.5, style: BorderStyle.solid, color: primaryColor),
                     onChanged: (bool? value) async {
 
                       ChartService chartService = ChartService(0, 0, DateTime(0));
