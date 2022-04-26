@@ -53,7 +53,6 @@ class ChartService extends ChangeNotifier {
 
         box.add(new ChartService(0, itemModelBox.values.where((element) => DateFormat.yMd(Localizations.localeOf(context).languageCode)
             .format(element.fromDate) == DateFormat.yMd(Localizations.localeOf(context).languageCode).format(_dates))
-        ///TODO: look here
             .where((element) => element.AllowDate == false)
             .toList().length, _dates));
       }

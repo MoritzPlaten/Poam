@@ -81,7 +81,6 @@ class ItemModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  ///TODO: Es dürfen nicht die Daten verändert werden für die Zukunft wenn Wöchentlich ausgewählt wurde. Es darf sich nur der Aktuelle Wert verändern, nicht für die nächste Woche
   void changeItems(BuildContext context, Future<Map<DateTime, int>> map) async {
 
     var box = await Hive.openBox<ItemModel>(Database.Name);
@@ -128,7 +127,6 @@ class ItemModel extends ChangeNotifier {
         Iterable<ChartService> listOfCharts = chartBox.values.where((element) => element.dateTime.compareTo(_fromDate!) == 0);
 
         ///Give the number of items today which are unchecked
-        ///TODO: Das Komplette Chart wird genommen, nicht ein einzelner Wert
         if (listOfCharts.isNotEmpty) {
 
           int numberOfToday = chartBox.values.where((element) => element.dateTime.compareTo(_fromDate!) == 0).last.isNotChecked;

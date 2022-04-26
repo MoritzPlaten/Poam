@@ -93,7 +93,7 @@ class _PoamPopUpState extends State<PoamPopUp> {
 
           ///Set Values of the itemModel in the Textformfields
             case true:
-            ///TODO: Daten sollen immer aktualisiert werden. Zum Beispiel: PoamPersonPicker remove Person => abhacken => Person wird immer noch angezeigt, soweit man nicht eine neue Person angetippt hat
+            ///TODO: PoamPersonPicker remove Person => abhacken => Person wird immer noch angezeigt, soweit man nicht eine neue Person angetippt hat
               if (personDropDownValue == "" && categoryDropDownValue == "" && frequencyDropDownValue == "") {
 
                 frequencyDropDownValue = displayFrequency(context, widget.itemModel!.frequency);
@@ -378,7 +378,7 @@ class _PoamPopUpState extends State<PoamPopUp> {
 
                         ///Displays the notification settings
                         if (categoryDropDownValue ==
-                            displayTextCategory(context, Categories.tasks))
+                            displayTextCategory(context, Categories.tasks) && isDateChecked != true)
                           PoamNotification(
                             addAlarms: (value) => alarms.add(value),
                             removeAlarms: (value) => alarms.remove(value),
