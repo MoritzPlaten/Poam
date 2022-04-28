@@ -75,8 +75,11 @@ class _PoamDatePickerState extends State<PoamDatePicker> {
         });
       }
 
+      DateTime updatedToDateTime = DateTime(updatedToDate.year, updatedToDate.month, updatedToDate.day, updatedToTime.hour, updatedToTime.minute);
+      DateTime fromDateTime = DateTime(widget.fromDate!.year, widget.fromDate!.month, widget.fromDate!.day, widget.fromTime!.hour, widget.fromTime!.minute);
+
       ///Time
-      if (updatedToTime.isBefore(widget.fromTime!)) {
+      if (updatedToDateTime.isBefore(fromDateTime)) {
         selectedTime = widget.fromTime!;
 
         SchedulerBinding.instance?.addPostFrameCallback((_) {
@@ -135,7 +138,6 @@ class _PoamDatePickerState extends State<PoamDatePicker> {
             .languageCode).format(_now);
       });
     }
-
     ///If the first or the second Time Picker is not clicked then set the Time automatically
     if (widget.EditMode == false && selectedTime.isBefore(DateTime.now()) && (_secondPickedTime == false && _firstPickedTime == false)) {
 

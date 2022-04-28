@@ -28,6 +28,7 @@
     "messageWriteNumber": "Pls set the number value!",
     "messageWriteTitle": "Pls set the title!",
     "messageWhite": "Pls select not the Color white!",
+    "messageWriteText": "Pls write in all fields!",
     "settings": "Settings",
     "home": "Home",
     "addPerson": "Add a Person",
