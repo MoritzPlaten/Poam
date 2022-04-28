@@ -286,7 +286,7 @@ class _PoamPopMenuState extends State<PoamPopMenu> {
                       decoration: BoxDecoration(
                         color: primaryColor,
                         shape: BoxShape.circle,
-                        boxShadow: const [BoxShadow(blurRadius: 10, color: Colors.white, spreadRadius: 1)],
+                        border: Border.all(color: Colors.white, style: BorderStyle.solid, width: 2)
                       ),
                     ),
                   ),
@@ -312,7 +312,7 @@ class _PoamPopMenuState extends State<PoamPopMenu> {
                       decoration: BoxDecoration(
                         color: primaryColor,
                         shape: BoxShape.circle,
-                        boxShadow: const [BoxShadow(blurRadius: 10, color: Colors.white, spreadRadius: 1)],
+                          border: Border.all(color: Colors.white, style: BorderStyle.solid, width: 2)
                       ),
                     ),
                   ),
