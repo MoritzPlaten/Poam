@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:poam/services/chartServices/ChartService.dart';
 import 'package:poam/services/itemServices/Objects/Category/Category.dart';
 import 'package:poam/services/itemServices/Objects/Person/Person.dart';
@@ -6,6 +9,7 @@ import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
 
 import '../dateServices/Objects/Frequency.dart';
+import '../keyServices/KeyService.dart';
 import 'Objects/Alarms/Alarms.dart';
 import 'Objects/Amounts/Amounts.dart';
 import 'Objects/Database.dart';
@@ -51,8 +55,25 @@ class ItemModel extends ChangeNotifier {
   List<ItemModel> _itemModelList = <ItemModel>[];
   List<ItemModel> get itemModelList => _itemModelList;
 
+  Future<List<int>> getKey() async {
+
+    final FlutterSecureStorage secureStorage = const FlutterSecureStorage();
+    var containsEncryptionKey = await secureStorage.containsKey(key: KeyService.ItemModelKey);
+    if (!containsEncryptionKey) {
+      var key = Hive.generateSecureKey();
+      await secureStorage.write(key: KeyService.ItemModelKey, value: base64UrlEncode(key));
+    }
+
+    String? read = await secureStorage.read(key: KeyService.ItemModelKey);
+
+    var encryptionKey = base64Url.decode(read!);
+    return encryptionKey;
+  }
+
   void getItems() async {
-    final box = await Hive.openBox<ItemModel>(Database.Name);
+
+    var s = await getKey();
+    final box = await Hive.openBox<ItemModel>(Database.Name, encryptionCipher: HiveAesCipher(s));
 
     _itemModelList = box.values.toList();
     notifyListeners();
@@ -60,14 +81,18 @@ class ItemModel extends ChangeNotifier {
 
   ///Remove the ItemModel from our db
   void removeItem(ItemModel item) async {
-    var box = await Hive.openBox<ItemModel>(Database.Name);
+
+    var s = await getKey();
+    final box = await Hive.openBox<ItemModel>(Database.Name, encryptionCipher: HiveAesCipher(s));
     box.deleteAt(itemModelList.indexOf(item));
     notifyListeners();
   }
 
   ///Add the ItemModel to our db
   void addItem(ItemModel item) async {
-    var box = await Hive.openBox<ItemModel>(Database.Name);
+
+    var s = await getKey();
+    final box = await Hive.openBox<ItemModel>(Database.Name, encryptionCipher: HiveAesCipher(s));
 
     box.add(item);
     notifyListeners();
@@ -75,7 +100,9 @@ class ItemModel extends ChangeNotifier {
 
   ///Change the ItemModel to our db
   void putItem(int index, ItemModel item) async {
-    var box = await Hive.openBox<ItemModel>(Database.Name);
+
+    var s = await getKey();
+    final box = await Hive.openBox<ItemModel>(Database.Name, encryptionCipher: HiveAesCipher(s));
 
     box.putAt(index, item);
     notifyListeners();
@@ -83,7 +110,8 @@ class ItemModel extends ChangeNotifier {
 
   void changeItems(BuildContext context, Future<Map<DateTime, int>> map) async {
 
-    var box = await Hive.openBox<ItemModel>(Database.Name);
+    var s = await getKey();
+    final box = await Hive.openBox<ItemModel>(Database.Name, encryptionCipher: HiveAesCipher(s));
     var chartBox = await Hive.openBox<ChartService>(Database.ChartName);
     var newMap = await map;
     DateTime now = DateTime.now();

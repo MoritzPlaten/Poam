@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
 import 'package:poam/services/chartServices/Objects/ChartSeries.dart';
@@ -8,6 +11,7 @@ import 'package:poam/services/itemServices/ItemModel.dart';
 import 'package:provider/provider.dart';
 import '../dateServices/DateService.dart';
 import '../itemServices/Objects/Database.dart';
+import '../keyServices/KeyService.dart';
 import 'Objects/BartChartModel.dart';
 import 'Objects/ChartModel.dart';
 
@@ -32,8 +36,24 @@ class ChartService extends ChangeNotifier {
   List<ChartService> _chartItemList = <ChartService>[];
   List<ChartService> get chartItemList => _chartItemList;
 
+  Future<List<int>> getChartServiceKey() async {
+
+    final FlutterSecureStorage secureStorage = const FlutterSecureStorage();
+    var containsEncryptionKey = await secureStorage.containsKey(key: KeyService.ChartServiceKey);
+    if (!containsEncryptionKey) {
+      var key = Hive.generateSecureKey();
+      await secureStorage.write(key: KeyService.ChartServiceKey, value: base64UrlEncode(key));
+    }
+
+    String? read = await secureStorage.read(key: KeyService.ChartServiceKey);
+
+    var encryptionKey = base64Url.decode(read!);
+    return encryptionKey;
+  }
+
   void getCharts() async {
-    final box = await Hive.openBox<ChartService>(Database.ChartName);
+    var chartServiceKey = await getChartServiceKey();
+    final box = await Hive.openBox<ChartService>(Database.ChartName, encryptionCipher: HiveAesCipher(chartServiceKey));
 
     _chartItemList = box.values.toList();
     notifyListeners();
@@ -41,7 +61,8 @@ class ChartService extends ChangeNotifier {
 
   void initialize(BuildContext context) async {
 
-    var box = await Hive.openBox<ChartService>(Database.ChartName);
+    var chartServiceKey = await getChartServiceKey();
+    final box = await Hive.openBox<ChartService>(Database.ChartName, encryptionCipher: HiveAesCipher(chartServiceKey));
     var itemModelBox = await Hive.openBox<ItemModel>(Database.Name);
 
     if (box.values.length == 0) {
@@ -62,7 +83,8 @@ class ChartService extends ChangeNotifier {
 
   void putNotChecked(DateTime dateTime, int numberOfNotChecked) async {
 
-    final box = await Hive.openBox<ChartService>(Database.ChartName);
+    var chartServiceKey = await getChartServiceKey();
+    final box = await Hive.openBox<ChartService>(Database.ChartName, encryptionCipher: HiveAesCipher(chartServiceKey));
 
     if (box.values.where((element) => element.dateTime.year == dateTime.year && element.dateTime.month == dateTime.month && element.dateTime.day == dateTime.day).length != 0) {
 
@@ -81,7 +103,8 @@ class ChartService extends ChangeNotifier {
 
   void putChecked(DateTime dateTime, int numberOfChecked) async {
 
-    final box = await Hive.openBox<ChartService>(Database.ChartName);
+    var chartServiceKey = await getChartServiceKey();
+    final box = await Hive.openBox<ChartService>(Database.ChartName, encryptionCipher: HiveAesCipher(chartServiceKey));
 
     if (box.values.where((element) => element.dateTime.year == dateTime.year && element.dateTime.month == dateTime.month && element.dateTime.day == dateTime.day).length != 0) {
 
@@ -128,7 +151,8 @@ class ChartService extends ChangeNotifier {
 
   Future<Map<DateTime, int>> weekIsOver() async {
 
-    Box<ChartService> box = await Hive.openBox<ChartService>(Database.ChartName);
+    var chartServiceKey = await getChartServiceKey();
+    final box = await Hive.openBox<ChartService>(Database.ChartName, encryptionCipher: HiveAesCipher(chartServiceKey));
     DateService dateService = DateService();
 
     if (box.values.length != 0) {

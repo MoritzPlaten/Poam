@@ -1,6 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hive/hive.dart';
 
+import '../../../keyServices/KeyService.dart';
 import '../Database.dart';
 
 part 'Person.g.dart';
@@ -17,8 +21,24 @@ class Person extends ChangeNotifier {
   List<Person> _personList = <Person>[];
   List<Person> get PersonList => _personList;
 
+  Future<List<int>> getPersonKey() async {
+
+    final FlutterSecureStorage secureStorage = const FlutterSecureStorage();
+    var containsEncryptionKey = await secureStorage.containsKey(key: KeyService.PersonKey);
+    if (!containsEncryptionKey) {
+      var key = Hive.generateSecureKey();
+      await secureStorage.write(key: KeyService.PersonKey, value: base64UrlEncode(key));
+    }
+
+    String? read = await secureStorage.read(key: KeyService.PersonKey);
+
+    var encryptionKey = base64Url.decode(read!);
+    return encryptionKey;
+  }
+
   void getPersons() async {
-    final box = await Hive.openBox<Person>(Database.PersonName);
+    var personKey = await getPersonKey();
+    final box = await Hive.openBox<Person>(Database.PersonName, encryptionCipher: HiveAesCipher(personKey));
 
     _personList = box.values.toList();
     notifyListeners();
@@ -26,7 +46,8 @@ class Person extends ChangeNotifier {
 
   void addPerson(Person person) async {
 
-    final box = await Hive.openBox<Person>(Database.PersonName);
+    var personKey = await getPersonKey();
+    final box = await Hive.openBox<Person>(Database.PersonName, encryptionCipher: HiveAesCipher(personKey));
     box.add(person);
     notifyListeners();
   }
@@ -34,7 +55,8 @@ class Person extends ChangeNotifier {
   Future<bool> isExists(Person person) async {
     bool isExists = false;
 
-    final box = await Hive.openBox<Person>(Database.PersonName);
+    var personKey = await getPersonKey();
+    final box = await Hive.openBox<Person>(Database.PersonName, encryptionCipher: HiveAesCipher(personKey));
     List<Person> items = box.values.where((element) => element.name == person.name).toList();
 
     if (items.length != 0) {
@@ -46,7 +68,8 @@ class Person extends ChangeNotifier {
 
   void removePerson(int Index) async {
 
-    final box = await Hive.openBox<Person>(Database.PersonName);
+    var personKey = await getPersonKey();
+    final box = await Hive.openBox<Person>(Database.PersonName, encryptionCipher: HiveAesCipher(personKey));
     box.deleteAt(Index);
     notifyListeners();
   }

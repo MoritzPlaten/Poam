@@ -248,8 +248,8 @@ class _PoamPopMenuState extends State<PoamPopMenu> {
                         Provider.of<ChartService>(context, listen: false).putNotChecked(itemModel.fromDate, chartService.getNumberOfNotChecked(chartList, itemModel.fromDate) + 1);
                       }
 
-                      //NotificationService notificationService = NotificationService();
-                      //notificationService.showNotification(itemModel.title, itemModel.description, DateTime(itemModel.fromDate.year, itemModel.fromDate.month, itemModel.fromDate.day, itemModel.fromTime.hour, itemModel.fromTime.minute));
+                      NotificationService notificationService = NotificationService();
+                      notificationService.showNotification(itemModel.title, itemModel.description, DateTime(itemModel.fromDate.year, itemModel.fromDate.month, itemModel.fromDate.day, itemModel.fromTime.hour, itemModel.fromTime.minute));
                       break;
 
                   ///Error

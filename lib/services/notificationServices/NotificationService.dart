@@ -1,10 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart' as notification;
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
 class NotificationService {
 
-  late notification.FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+  final notification.FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = notification.FlutterLocalNotificationsPlugin();
 
   Future<void> init() async {
     final notification.AndroidInitializationSettings initializationSettingsAndroid =
@@ -12,10 +13,10 @@ class NotificationService {
 
     final notification.IOSInitializationSettings initializationSettingsIOS =
     notification.IOSInitializationSettings(
-      requestSoundPermission: false,
-      requestBadgePermission: false,
-      requestAlertPermission: false,
-      //onDidReceiveLocalNotification: onDidReceiveLocalNotification,
+      requestSoundPermission: true,
+      requestBadgePermission: true,
+      requestAlertPermission: true,
+      onDidReceiveLocalNotification: (int id, String? title, String? body, String? payload) async {},
     );
 
     final notification.InitializationSettings initializationSettings =
@@ -31,14 +32,14 @@ class NotificationService {
 
   void selectNotification(String? payload) async {
     //Handle notification tapped logic here
+    if (payload != null) {
+      debugPrint("notification payload" + payload);
+    }
   }
 
-  void showNotification(String title, String body, DateTime dateTime) {
+  void showNotification(String title, String body, DateTime dateTime) async {
 
     tz.initializeTimeZones();
-    tz.setLocalLocation(tz.getLocation("Europe/Warsaw"));
-
-    var scheduleDateTime = tz.TZDateTime.from(dateTime, tz.getLocation("Europe/Warsaw"));
 
     notification.AndroidInitializationSettings androidInitializationSettings = new notification.AndroidInitializationSettings("background");
     notification.IOSInitializationSettings iosInitializationSettings = notification.IOSInitializationSettings(
@@ -47,7 +48,7 @@ class NotificationService {
       requestSoundPermission: true
     );
     notification.InitializationSettings initializationSettings = new notification.InitializationSettings(android: androidInitializationSettings, iOS: iosInitializationSettings);
-    flutterLocalNotificationsPlugin = new notification.FlutterLocalNotificationsPlugin();
+
     flutterLocalNotificationsPlugin.initialize(
         initializationSettings,
         onSelectNotification: selectNotification
@@ -59,9 +60,16 @@ class NotificationService {
     notification.NotificationDetails notificationDetails = new notification.NotificationDetails(android: androidNotificationDetails, iOS: iosNotificationDetails);
 
     //flutterLocalNotificationsPlugin.show(1, title, body, notificationDetails);
-    flutterLocalNotificationsPlugin.zonedSchedule(1, title, body, scheduleDateTime, notificationDetails, androidAllowWhileIdle: true, uiLocalNotificationDateInterpretation: notification.UILocalNotificationDateInterpretation.absoluteTime);
+
+    Duration getTimeBetween = dateTime.difference(DateTime.now());
+    await flutterLocalNotificationsPlugin.zonedSchedule(1, title, body, tz.TZDateTime.now(tz.local).add(getTimeBetween), notificationDetails, androidAllowWhileIdle: true, uiLocalNotificationDateInterpretation: notification.UILocalNotificationDateInterpretation.absoluteTime);
   }
 
+  void showNotification2(String title, String body, DateTime dateTime) async {
+
+
+
+  }
 
   _requestIOSPermission() {
     flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<
