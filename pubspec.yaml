@@ -53,6 +53,7 @@ dependencies:
   speech_to_text: ^5.4.3
   flutter_local_notifications: ^9.4.0
   flutter_secure_storage: ^5.0.2
+  flutter_background: ^1.1.0
 
 dev_dependencies:
   flutter_test:

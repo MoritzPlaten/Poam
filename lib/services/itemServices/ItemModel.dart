@@ -76,7 +76,7 @@ class ItemModel extends ChangeNotifier {
     final box = await Hive.openBox<ItemModel>(Database.Name, encryptionCipher: HiveAesCipher(s));
 
     _itemModelList = box.values.toList();
-    notifyListeners();
+    //notifyListeners();
   }
 
   ///Remove the ItemModel from our db

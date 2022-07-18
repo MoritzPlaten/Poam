@@ -23,6 +23,7 @@ import 'package:poam/services/notificationServices/NotificationService.dart';
 import 'package:poam/services/settingService/Settings.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart' as notification;
+import 'package:flutter_background/flutter_background.dart';
 
 
 ///TODO: Widget erstellen für den Startbildschirm
@@ -122,6 +123,23 @@ Future<void> main() async {
 
   var settingsKey = await getSettingsKey();
   await Hive.openBox<Settings>(Database.SettingsName, encryptionCipher: HiveAesCipher(settingsKey));
+
+  final androidConfig = FlutterBackgroundAndroidConfig(
+    notificationTitle: "Poam",
+    notificationText: "Background System",
+    notificationImportance: AndroidNotificationImportance.Default,
+    notificationIcon: AndroidResource(name: 'background_icon', defType: 'drawable'), // Default is ic_launcher from folder mipmap
+  );
+
+  bool backgroundInitializeSuccess = await FlutterBackground.initialize(androidConfig: androidConfig);
+  if (!backgroundInitializeSuccess) {
+    print("Initialize go wrong");
+  }
+
+  bool enableBackgroundSuccess = await FlutterBackground.enableBackgroundExecution();
+  if (!enableBackgroundSuccess) {
+    print("Enable Background go wrong");
+  }
 
   NotificationService notificationService = NotificationService();
   notificationService.init();

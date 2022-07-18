@@ -41,7 +41,7 @@ class Person extends ChangeNotifier {
     final box = await Hive.openBox<Person>(Database.PersonName, encryptionCipher: HiveAesCipher(personKey));
 
     _personList = box.values.toList();
-    notifyListeners();
+    //notifyListeners();
   }
 
   void addPerson(Person person) async {
